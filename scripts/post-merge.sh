@@ -1,4 +1,5 @@
 #!/bin/bash
 set -e
 pnpm install --frozen-lockfile
-pnpm --filter db push
+uv sync --frozen
+uv run alembic -c artifacts/api-server/alembic.ini upgrade head

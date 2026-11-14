@@ -1,6 +1,6 @@
-# [Project name]
+# Field Shift
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+Worldwide farm profiling and evidence-aware crop rotation planning. See README.md for setup, scope, data limitations, and privacy.
 
 ## Run & Operate
 
@@ -8,21 +8,21 @@ _Replace the heading above with the project's name, and this line with one sente
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
+- `uv run alembic -c artifacts/api-server/alembic.ini upgrade head` — apply development migrations
 - Required env: `DATABASE_URL` — Postgres connection string
 
 ## Stack
 
 - pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
-- DB: PostgreSQL + Drizzle ORM
-- Validation: Zod (`zod/v4`), `drizzle-zod`
+- API: Python FastAPI, launched through the managed Node service bootstrap
+- DB: PostgreSQL + SQLAlchemy, Alembic migrations
+- Validation: Python Pydantic on the server, OpenAPI-generated types in the client
 - API codegen: Orval (from OpenAPI spec)
 - Build: esbuild (CJS bundle)
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+See README.md for the project map. SQLAlchemy models and Alembic history own schema; do not use the unused Drizzle scaffold to push an empty schema.
 
 ## Architecture decisions
 
@@ -34,7 +34,7 @@ _Describe the high-level user-facing capabilities of this app once they exist._
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+Never invent NASA measurements, crop recommendations or suitability percentages. No model training at this stage. Missing observations must be explicit, not fabricated.
 
 ## Gotchas
 
