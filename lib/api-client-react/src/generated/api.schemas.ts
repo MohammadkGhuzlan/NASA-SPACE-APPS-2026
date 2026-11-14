@@ -5,6 +5,229 @@
  * Field Shift farm intelligence foundation
  * OpenAPI spec version: 0.1.0
  */
+export interface JsonRecord { [key: string]: unknown }
+
+export interface EnvironmentLocation {
+  key: string;
+  name: string;
+  latitude: number;
+  longitude: number;
+  /** @nullable */
+  studyId?: string | null;
+  matchingPolicy: string;
+}
+
+export type ClimateAggregateValidDays = {[key: string]: number};
+
+export interface ClimateAggregate {
+  period: string;
+  expectedDays: number;
+  validDays: ClimateAggregateValidDays;
+  /** @nullable */
+  T2M: number | null;
+  /** @nullable */
+  T2M_MAX: number | null;
+  /** @nullable */
+  T2M_MIN: number | null;
+  /** @nullable */
+  PRECTOTCORR: number | null;
+  /** @nullable */
+  RH2M: number | null;
+  /** @nullable */
+  GWETTOP: number | null;
+  /** @nullable */
+  GWETROOT: number | null;
+  /** @nullable */
+  hotDays: number | null;
+  /** @nullable */
+  hotDays30: number | null;
+  /** @nullable */
+  hotDays35: number | null;
+  /** @nullable */
+  maximumTemperature: number | null;
+  /** @nullable */
+  minimumTemperature: number | null;
+  /** @nullable */
+  longestDrySpell?: number | null;
+  /** @nullable */
+  PRECTOTCORRAnomaly?: number | null;
+  PRECTOTCORRReferenceYears?: number;
+  /** @nullable */
+  GWETTOPAnomaly?: number | null;
+  /** @nullable */
+  GWETROOTAnomaly?: number | null;
+  GWETTOPReferenceYears?: number;
+  GWETROOTReferenceYears?: number;
+}
+
+export interface EnvironmentProvenance {
+  parameter: string;
+  unit: string;
+  source: string;
+  product: string;
+  classification: string;
+  sourceUrl: string;
+  retrievedAt: string;
+  metadata: JsonRecord;
+}
+
+export interface EnvironmentalSummary {
+  location: EnvironmentLocation;
+  status: string;
+  monthly: ClimateAggregate[];
+  annual: ClimateAggregate[];
+  seasonal: ClimateAggregate[];
+  hotThreshold: number;
+  dryThreshold: number;
+  referencePeriod: string;
+  warnings: string[];
+  provenance: EnvironmentProvenance[];
+  availableParameters: string[];
+  drySpellDefinition: string;
+}
+
+export interface DailyEnvironment {
+  date: string;
+  /** @nullable */
+  T2M: number | null;
+  /** @nullable */
+  T2M_MAX: number | null;
+  /** @nullable */
+  T2M_MIN: number | null;
+  /** @nullable */
+  PRECTOTCORR: number | null;
+  /** @nullable */
+  RH2M: number | null;
+  /** @nullable */
+  GWETTOP: number | null;
+  /** @nullable */
+  GWETROOT: number | null;
+}
+
+export type EnvironmentalHistoryUnits = {[key: string]: string};
+
+export interface EnvironmentalHistory {
+  location: EnvironmentLocation;
+  year: number;
+  daily: DailyEnvironment[];
+  units: EnvironmentalHistoryUnits;
+  warning: string;
+}
+
+export interface SoilValue {
+  /** @nullable */
+  value: number | null;
+  unit: string;
+  quality: string;
+}
+
+export type SoilEstimateProperties = {[key: string]: SoilValue};
+
+export interface SoilEstimate {
+  originalLatitude: number;
+  originalLongitude: number;
+  sampleLatitude: number;
+  sampleLongitude: number;
+  offsetKm: number;
+  depthCm: string;
+  classification: string;
+  properties: SoilEstimateProperties;
+  provenance: JsonRecord;
+  retrievedAt: string;
+}
+
+export interface SoilProperties {
+  status: string;
+  notice: string;
+  warnings: string[];
+  estimate?: SoilEstimate | null;
+}
+
+export interface WetnessHistory {
+  location: EnvironmentLocation;
+  monthly: ClimateAggregate[];
+  seasonal: ClimateAggregate[];
+  classification: string;
+  unit: string;
+  warnings: string[];
+}
+
+export interface RegionalComparison {
+  studyId: string;
+  name: string;
+  latitude: number;
+  longitude: number;
+  summary?: EnvironmentalSummary | null;
+}
+
+export interface IngestionAudit {
+  id: number;
+  source: string;
+  status: string;
+  startedAt: string;
+  /** @nullable */
+  completedAt?: string | null;
+  report: JsonRecord;
+}
+
+export interface DataStatus {
+  environmentalValues: number;
+  soilEstimates: number;
+  importPolicy: string;
+  reports: IngestionAudit[];
+}
+
+export type MeasurementInputParameter = typeof MeasurementInputParameter[keyof typeof MeasurementInputParameter];
+
+
+export const MeasurementInputParameter = {
+  clay_pct: 'clay_pct',
+  sand_pct: 'sand_pct',
+  silt_pct: 'silt_pct',
+  ph: 'ph',
+  soc_g_kg: 'soc_g_kg',
+  soil_moisture: 'soil_moisture',
+} as const;
+
+export type MeasurementInputUnit = typeof MeasurementInputUnit[keyof typeof MeasurementInputUnit];
+
+
+export const MeasurementInputUnit = {
+  '%': '%',
+  pH: 'pH',
+  'g/kg': 'g/kg',
+  'm3/m3': 'm3/m3',
+  'g/100g': 'g/100g',
+} as const;
+
+export type MeasurementInputSource = typeof MeasurementInputSource[keyof typeof MeasurementInputSource];
+
+
+export const MeasurementInputSource = {
+  farmer_reported: 'farmer_reported',
+  laboratory_confirmed: 'laboratory_confirmed',
+} as const;
+
+export interface MeasurementInput {
+  parameter: MeasurementInputParameter;
+  value: number;
+  unit: MeasurementInputUnit;
+  /** @nullable */
+  depthTopCm?: number | null;
+  /** @nullable */
+  depthBottomCm?: number | null;
+  measuredOn: string;
+  source: MeasurementInputSource;
+  notes?: string;
+}
+
+export type FarmerMeasurement = MeasurementInput & {
+  id: number;
+  farmId: number;
+  createdAt: string;
+  verification: string;
+};
+
 export interface HealthStatus {
   status: string;
 }
@@ -91,6 +314,10 @@ export interface FarmInput {
   farmSize?: number | null;
   /** @maxLength 1000 */
   waterConstraints?: string;
+  /** @maxLength 1000 */
+  waterResources?: string;
+  /** @maxLength 1000 */
+  agriculturalConstraints?: string;
   goal: FarmInputGoal;
 }
 
@@ -181,6 +408,65 @@ export interface Source {
   status: string;
   description: string;
 }
+
+export type LatitudeParameter = number;
+
+export type LongitudeParameter = number;
+
+export type GetEnvironmentalSummaryParams = {
+/**
+ * @minimum -90
+ * @maximum 90
+ */
+latitude: LatitudeParameter;
+/**
+ * @minimum -180
+ * @maximum 180
+ */
+longitude: LongitudeParameter;
+hot_threshold?: number;
+dry_threshold?: number;
+};
+
+export type GetEnvironmentalHistoryParams = {
+/**
+ * @minimum -90
+ * @maximum 90
+ */
+latitude: LatitudeParameter;
+/**
+ * @minimum -180
+ * @maximum 180
+ */
+longitude: LongitudeParameter;
+year?: number;
+};
+
+export type GetSoilPropertiesParams = {
+/**
+ * @minimum -90
+ * @maximum 90
+ */
+latitude: LatitudeParameter;
+/**
+ * @minimum -180
+ * @maximum 180
+ */
+longitude: LongitudeParameter;
+};
+
+export type GetSoilWetnessParams = {
+/**
+ * @minimum -90
+ * @maximum 90
+ */
+latitude: LatitudeParameter;
+/**
+ * @minimum -180
+ * @maximum 180
+ */
+longitude: LongitudeParameter;
+};
 
 export type SearchLocationsParams = {
 /**

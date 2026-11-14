@@ -43,7 +43,11 @@ async def protect_requests(request: Request, call_next):
     if request.method in {"POST", "PUT", "PATCH", "DELETE"}:
         if request.headers.get("sec-fetch-site") == "cross-site":
             return JSONResponse({"error": "Cross-site writes are not permitted."}, status_code=403)
-        if int(request.headers.get("content-length", "0")) > 100_000:
+        try:
+            size = int(request.headers.get("content-length", "0"))
+        except ValueError:
+            return JSONResponse({"error": "Invalid request length."}, status_code=400)
+        if size > 100_000:
             return JSONResponse({"error": "Request too large."}, status_code=413)
     try:
         return await call_next(request)
@@ -109,9 +113,9 @@ def update_farm(id: int, data: FarmInput, request: Request, db: Session = Depend
 
 
 CASE_STUDIES = [
-    {"name": "Irbid, Jordan", "latitude": 32.5556, "longitude": 35.85, "country": "Jordan", "description": "Explore a northern Jordan location. Select your own field before saving."},
-    {"name": "Al Ain, Abu Dhabi, UAE", "latitude": 24.1302, "longitude": 55.8023, "country": "United Arab Emirates", "description": "Explore an inland UAE location. No farm measurements are preloaded."},
-    {"name": "Colusa, California, USA", "latitude": 39.2143, "longitude": -122.0094, "country": "United States", "description": "Explore California's Sacramento Valley. A geographic starting point only."},
+    {"name": "Irbid, Jordan", "latitude": 32.55696, "longitude": 35.84790, "country": "Jordan", "description": "Regional reference, not a validated farm center."},
+    {"name": "Al Ain, Abu Dhabi, UAE", "latitude": 24.2249, "longitude": 55.7452, "country": "United Arab Emirates", "description": "Regional reference, not a validated farm center."},
+    {"name": "Colusa, California, USA", "latitude": 39.2146, "longitude": -122.0094, "country": "United States", "description": "Regional reference, not a validated farm center."},
     {"name": "Stuttgart, Arkansas, USA", "latitude": 34.5004, "longitude": -91.5526, "country": "United States", "description": "Explore the Arkansas Grand Prairie. A geographic starting point only."},
 ]
 
@@ -156,15 +160,17 @@ def geocode(q: str = Query(min_length=2, max_length=150)):
 @app.get("/api/farms/{id}/environment")
 def environment(id: int, request: Request, db: Session = Depends(get_db)):
     farm = find_farm(id, owner(request), db)
-    cached = db.scalar(select(Observation).where(Observation.farm_id == id).order_by(Observation.fetched_at.desc()))
-    if cached:
-        ttl = timedelta(days=7) if cached.payload["status"] != "unavailable" else timedelta(minutes=2)
-        if cached.fetched_at > datetime.now(timezone.utc) - ttl:
-            return cached.payload
-    payload = fetch_environment(farm.profile["latitude"], farm.profile["longitude"])
-    db.add(Observation(farm_id=id, source_id="nasa_power", date_range=payload["dateRange"], payload=payload))
-    db.commit()
-    return payload
+    from .environment.power_client import ensure_environment
+    from .environment.service import summary_for
+    location = ensure_environment(db, farm.profile["latitude"], farm.profile["longitude"])
+    result = summary_for(db, location)
+    months = [m for m in result["monthly"] if m["period"].startswith("2025")]
+    import calendar
+    return {"status": result["status"], "source": "NASA POWER", "sourceUrl": "https://power.larc.nasa.gov/",
+        "dateRange": "2025-01-01 to 2025-12-31",
+        "monthly": [{"month": calendar.month_abbr[int(m["period"][-2:])], "temperature": m["T2M"], "rainfall": m["PRECTOTCORR"]} for m in months],
+        "heatDays": result["annual"][-1]["hotDays35"], "soilMoisture": None, "vegetationIndex": None,
+        "fetchedAt": result["provenance"][0]["retrievedAt"] if result["provenance"] else None, "warnings": result["warnings"]}
 
 
 def strategy_json(s):
@@ -197,3 +203,7 @@ def save_strategy(id: int, data: StrategyInput, request: Request, db: Session = 
 @app.get("/api/sources")
 def sources(db: Session = Depends(get_db)):
     return [{"id": s.id, "name": s.name, "url": s.url, "status": s.status, "description": s.description} for s in db.scalars(select(DataSource).order_by(DataSource.id)).all()]
+
+
+from .environment.routes import router as environmental_router
+app.include_router(environmental_router)

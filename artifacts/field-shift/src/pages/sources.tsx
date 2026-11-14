@@ -1,13 +1,16 @@
 import { ExternalLink } from "lucide-react";
 import { useListSources } from "@workspace/api-client-react";
+import { ImportStatus } from "@/components/import-status";
 import { PageHead, Shell } from "@/components/shell";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 
 const limits = [
-  "Climate values are NASA POWER daily data aggregated to months for calendar year 2025. They describe a grid cell, not your specific field.",
+  "Climate values are NASA POWER daily data aggregated to months, seasons and years for 2019 to 2025. They describe a grid cell, not your specific field.",
   "Heat days count days with daily maximum temperature at or above 35 °C. Thresholds that matter differ by crop.",
-  "Satellite soil moisture and vegetation indices are not connected. They show as unavailable rather than estimated.",
+  "Soil wetness is the NASA POWER modeled GWETTOP/GWETROOT fraction, not a field reading. SMAP soil moisture and MODIS vegetation indices are not connected and show as unavailable.",
+  "Soil properties are SoilGrids 0-5 cm proxies sampled near study regions only. They are demonstration proxies, never substituted across regions.",
+  "Climate CSV time standard is unknown while wetness is UTC, so daily comparisons between them may be offset by a day.",
   "Soil moisture, pH and crop history are farmer reported and are not verified.",
   "Rotation alternatives are farmer drafts. No crop requirement database or assessment engine is in use.",
   "No AI model has been trained or deployed in this prototype.",
@@ -43,6 +46,7 @@ export default function Sources() {
             </div>
           ))}
         </div>
+        <ImportStatus />
         <section className="mt-12 rounded-[2rem] bg-primary text-primary-foreground p-8 md:p-10 furrows">
           <h2 className="font-display text-3xl">Known limitations</h2>
           <ol className="mt-6 space-y-4">

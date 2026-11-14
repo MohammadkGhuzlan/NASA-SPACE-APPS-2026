@@ -47,7 +47,7 @@ export default function Landing() {
           <h2 className="font-display text-4xl md:text-5xl leading-tight">Three kinds of knowledge, kept apart.</h2>
           <div className="space-y-8">
             {[
-              { icon: Satellite, t: "Observed", d: "Monthly rainfall and temperature aggregated from NASA POWER daily records for 2025. If the request fails, you see that, not a guess." },
+              { icon: Satellite, t: "Observed", d: "Monthly rainfall and temperature aggregated from NASA POWER daily records, 2019 to 2025, with modeled soil wetness. If the request fails, you see that, not a guess." },
               { icon: NotebookPen, t: "Farmer reported", d: "Soil moisture, pH, crop history and water limits come from you, stored as you entered them. Blank stays blank." },
               { icon: Sprout, t: "Draft ideas", d: "Two rotation alternatives you write yourself. Field Shift never ranks or recommends them; suitability is explicitly unassessed." },
             ].map((x, i) => (

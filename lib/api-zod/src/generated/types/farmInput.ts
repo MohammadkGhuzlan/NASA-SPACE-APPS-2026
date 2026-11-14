@@ -60,5 +60,9 @@ export interface FarmInput {
   farmSize?: number | null;
   /** @maxLength 1000 */
   waterConstraints?: string;
+  /** @maxLength 1000 */
+  waterResources?: string;
+  /** @maxLength 1000 */
+  agriculturalConstraints?: string;
   goal: FarmInputGoal;
 }

@@ -1,5 +1,5 @@
-from datetime import datetime, timezone
-from sqlalchemy import String, Integer, Float, DateTime, ForeignKey, Text, UniqueConstraint
+from datetime import datetime, timezone, date
+from sqlalchemy import String, Integer, Float, Date, DateTime, ForeignKey, Text, UniqueConstraint
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 from .database import Base
@@ -82,3 +82,74 @@ class RecommendationResult(Base):
     strategy_id: Mapped[int | None] = mapped_column(ForeignKey("crop_rotation_strategies.id"))
     result: Mapped[dict] = mapped_column(JSONB)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
+class EnvironmentalLocation(Base):
+    __tablename__ = "environment_locations"
+    key: Mapped[str] = mapped_column(String(60), primary_key=True)
+    latitude: Mapped[float] = mapped_column(Float)
+    longitude: Mapped[float] = mapped_column(Float)
+    study_id: Mapped[str | None] = mapped_column(String(30), unique=True)
+    name: Mapped[str] = mapped_column(String(200))
+    metadata_json: Mapped[dict] = mapped_column(JSONB, default=dict)
+    last_attempt: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    last_error: Mapped[str | None] = mapped_column(Text)
+
+
+class EnvironmentalValue(Base):
+    __tablename__ = "environment_values"
+    __table_args__ = (UniqueConstraint("location_key", "date", "parameter", "product"),)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    location_key: Mapped[str] = mapped_column(ForeignKey("environment_locations.key"), index=True)
+    date: Mapped[date] = mapped_column(Date, index=True)
+    parameter: Mapped[str] = mapped_column(String(30))
+    value: Mapped[float | None] = mapped_column(Float)
+    unit: Mapped[str] = mapped_column(String(30))
+    source: Mapped[str] = mapped_column(String(100))
+    product: Mapped[str] = mapped_column(String(100))
+    source_url: Mapped[str] = mapped_column(Text)
+    classification: Mapped[str] = mapped_column(String(100))
+    quality: Mapped[str] = mapped_column(String(50))
+    retrieved_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    metadata_json: Mapped[dict] = mapped_column(JSONB, default=dict)
+
+
+class SoilEstimate(Base):
+    __tablename__ = "soil_property_estimates"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    location_key: Mapped[str] = mapped_column(ForeignKey("environment_locations.key"), unique=True)
+    original_latitude: Mapped[float] = mapped_column(Float)
+    original_longitude: Mapped[float] = mapped_column(Float)
+    sample_latitude: Mapped[float] = mapped_column(Float)
+    sample_longitude: Mapped[float] = mapped_column(Float)
+    offset_km: Mapped[float] = mapped_column(Float)
+    depth_cm: Mapped[str] = mapped_column(String(30))
+    classification: Mapped[str] = mapped_column(String(100))
+    properties: Mapped[dict] = mapped_column(JSONB)
+    provenance: Mapped[dict] = mapped_column(JSONB)
+    retrieved_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
+class FarmerMeasurement(Base):
+    __tablename__ = "farmer_measurements"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    farm_id: Mapped[int] = mapped_column(ForeignKey("farms.id"), index=True)
+    parameter: Mapped[str] = mapped_column(String(40))
+    value: Mapped[float] = mapped_column(Float)
+    unit: Mapped[str] = mapped_column(String(30))
+    depth_top_cm: Mapped[float | None] = mapped_column(Float)
+    depth_bottom_cm: Mapped[float | None] = mapped_column(Float)
+    measured_on: Mapped[date] = mapped_column(Date)
+    source: Mapped[str] = mapped_column(String(40))
+    notes: Mapped[str] = mapped_column(Text)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
+class IngestionReport(Base):
+    __tablename__ = "ingestion_reports"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    source: Mapped[str] = mapped_column(String(300))
+    started_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    status: Mapped[str] = mapped_column(String(30))
+    report: Mapped[dict] = mapped_column(JSONB)

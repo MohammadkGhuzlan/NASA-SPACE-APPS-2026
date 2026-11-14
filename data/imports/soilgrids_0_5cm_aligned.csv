@@ -1,0 +1,5 @@
+location_id,original_latitude,original_longitude,sample_latitude,sample_longitude,offset_km,sample_status,status,depth_cm,source,classification,clay_pct,sand_pct,silt_pct,ph,soc_g_kg,texture_sum_pct,texture_quality,error
+irbid,32.55696,35.8479,32.5513455,35.830216,1.741,NEARBY_PROXY_NOT_FARM_VALIDATED,PROXY_DEMO_ONLY,0-5,ISRIC SoilGrids 250m mean WCS,modeled_250m_soil_prediction_not_field_test,42.4,10.3,47.3,7.9,13.4,100.0,WITHIN_TOLERANCE,
+al_ain,24.2249,55.7452,24.2709387,55.7064806,7.073,NEARBY_PROXY_NOT_FARM_VALIDATED,PROXY_DEMO_ONLY,0-5,ISRIC SoilGrids 250m mean WCS,modeled_250m_soil_prediction_not_field_test,18.7,55.6,25.7,8.1,2.5,100.0,WITHIN_TOLERANCE,
+colusa,39.2146,-122.0094,39.2179687,-122.0119054,0.395,NEARBY_PROXY_NOT_FARM_VALIDATED,PROXY_DEMO_ONLY,0-5,ISRIC SoilGrids 250m mean WCS,modeled_250m_soil_prediction_not_field_test,24.2,30.2,45.6,6.7,44.7,100.0,WITHIN_TOLERANCE,
+stuttgart,34.5004,-91.5526,34.5037687,-91.5590716,0.729,NEARBY_PROXY_NOT_FARM_VALIDATED,PROXY_DEMO_ONLY,0-5,ISRIC SoilGrids 250m mean WCS,modeled_250m_soil_prediction_not_field_test,20.2,5.5,74.3,6.0,28.7,100.0,WITHIN_TOLERANCE,

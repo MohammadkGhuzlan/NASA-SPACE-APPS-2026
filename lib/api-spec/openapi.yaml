@@ -6,6 +6,120 @@ info:
 servers:
   - url: /api
 paths:
+  /environment/summary:
+    get:
+      operationId: getEnvironmentalSummary
+      parameters:
+        - { $ref: "#/components/parameters/Latitude" }
+        - { $ref: "#/components/parameters/Longitude" }
+        - { name: hot_threshold, in: query, schema: { type: number, default: 35 } }
+        - { name: dry_threshold, in: query, schema: { type: number, default: 1 } }
+      responses:
+        "200":
+          description: Calendar-complete daily-derived climate and wetness statistics
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EnvironmentalSummary" }
+  /environment/history:
+    get:
+      operationId: getEnvironmentalHistory
+      parameters:
+        - { $ref: "#/components/parameters/Latitude" }
+        - { $ref: "#/components/parameters/Longitude" }
+        - { name: year, in: query, schema: { type: integer, default: 2025 } }
+      responses:
+        "200":
+          description: Unsampled daily history for the requested year
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EnvironmentalHistory" }
+  /environment/soil-properties:
+    get:
+      operationId: getSoilProperties
+      parameters:
+        - { $ref: "#/components/parameters/Latitude" }
+        - { $ref: "#/components/parameters/Longitude" }
+      responses:
+        "200":
+          description: Exact-reference proxy only, never field ground truth
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SoilProperties" }
+  /environment/soil-wetness:
+    get:
+      operationId: getSoilWetness
+      parameters:
+        - { $ref: "#/components/parameters/Latitude" }
+        - { $ref: "#/components/parameters/Longitude" }
+      responses:
+        "200":
+          description: Modeled wetness fraction, not SMAP
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/WetnessHistory" }
+  /environment/compare:
+    get:
+      operationId: compareRegions
+      responses:
+        "200":
+          description: Four stored reference locations without live API substitution
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: "#/components/schemas/RegionalComparison" } }
+  /data/status:
+    get:
+      operationId: getDataStatus
+      responses:
+        "200":
+          description: Import audit reports and stored value counts
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DataStatus" }
+  /data/import:
+    post:
+      operationId: importEnvironmentalData
+      responses:
+        "200":
+          description: Fixed dataset bundle import, operator allowlist required
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/JsonRecord" }
+        "403": { description: Public sessions may not import data }
+  /farms/{id}/measurements:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: integer } }
+    get:
+      operationId: listMeasurements
+      responses:
+        "200":
+          description: Separate farmer-reported measurements
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: "#/components/schemas/FarmerMeasurement" } }
+    post:
+      operationId: saveMeasurement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/MeasurementInput" }
+      responses:
+        "201":
+          description: Saved with original depth, units and self-reported source
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FarmerMeasurement" }
+  /farms/{id}/features:
+    get:
+      operationId: getFarmFeatures
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200":
+          description: Input features with provenance, no labels or trained model
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/JsonRecord" }
   /healthz:
     get:
       operationId: healthCheck
@@ -126,7 +240,192 @@ paths:
             application/json:
               schema: { type: array, items: { $ref: "#/components/schemas/Source" } }
 components:
+  parameters:
+    Latitude: { name: latitude, in: query, required: true, schema: { type: number, minimum: -90, maximum: 90 } }
+    Longitude: { name: longitude, in: query, required: true, schema: { type: number, minimum: -180, maximum: 180 } }
   schemas:
+    JsonRecord:
+      type: object
+      additionalProperties: true
+    EnvironmentLocation:
+      type: object
+      required: [key, name, latitude, longitude, matchingPolicy]
+      properties:
+        key: { type: string }
+        name: { type: string }
+        latitude: { type: number }
+        longitude: { type: number }
+        studyId: { type: [string, "null"] }
+        matchingPolicy: { type: string }
+    ClimateAggregate:
+      type: object
+      required: [period, expectedDays, validDays, T2M, T2M_MAX, T2M_MIN, PRECTOTCORR, RH2M, GWETTOP, GWETROOT, hotDays, hotDays30, hotDays35, maximumTemperature, minimumTemperature]
+      properties:
+        period: { type: string }
+        expectedDays: { type: integer }
+        validDays: { type: object, additionalProperties: { type: integer } }
+        T2M: { type: [number, "null"] }
+        T2M_MAX: { type: [number, "null"] }
+        T2M_MIN: { type: [number, "null"] }
+        PRECTOTCORR: { type: [number, "null"] }
+        RH2M: { type: [number, "null"] }
+        GWETTOP: { type: [number, "null"] }
+        GWETROOT: { type: [number, "null"] }
+        hotDays: { type: [integer, "null"] }
+        hotDays30: { type: [integer, "null"] }
+        hotDays35: { type: [integer, "null"] }
+        maximumTemperature: { type: [number, "null"] }
+        minimumTemperature: { type: [number, "null"] }
+        longestDrySpell: { type: [integer, "null"] }
+        PRECTOTCORRAnomaly: { type: [number, "null"] }
+        PRECTOTCORRReferenceYears: { type: integer }
+        GWETTOPAnomaly: { type: [number, "null"] }
+        GWETROOTAnomaly: { type: [number, "null"] }
+        GWETTOPReferenceYears: { type: integer }
+        GWETROOTReferenceYears: { type: integer }
+    EnvironmentProvenance:
+      type: object
+      required: [parameter, unit, source, product, classification, sourceUrl, retrievedAt, metadata]
+      properties:
+        parameter: { type: string }
+        unit: { type: string }
+        source: { type: string }
+        product: { type: string }
+        classification: { type: string }
+        sourceUrl: { type: string }
+        retrievedAt: { type: string }
+        metadata: { $ref: "#/components/schemas/JsonRecord" }
+    EnvironmentalSummary:
+      type: object
+      required: [location, status, monthly, annual, seasonal, hotThreshold, dryThreshold, referencePeriod, warnings, provenance, availableParameters, drySpellDefinition]
+      properties:
+        location: { $ref: "#/components/schemas/EnvironmentLocation" }
+        status: { type: string }
+        monthly: { type: array, items: { $ref: "#/components/schemas/ClimateAggregate" } }
+        annual: { type: array, items: { $ref: "#/components/schemas/ClimateAggregate" } }
+        seasonal: { type: array, items: { $ref: "#/components/schemas/ClimateAggregate" } }
+        hotThreshold: { type: number }
+        dryThreshold: { type: number }
+        referencePeriod: { type: string }
+        warnings: { type: array, items: { type: string } }
+        provenance: { type: array, items: { $ref: "#/components/schemas/EnvironmentProvenance" } }
+        availableParameters: { type: array, items: { type: string } }
+        drySpellDefinition: { type: string }
+    DailyEnvironment:
+      type: object
+      required: [date, T2M, T2M_MAX, T2M_MIN, PRECTOTCORR, RH2M, GWETTOP, GWETROOT]
+      properties:
+        date: { type: string }
+        T2M: { type: [number, "null"] }
+        T2M_MAX: { type: [number, "null"] }
+        T2M_MIN: { type: [number, "null"] }
+        PRECTOTCORR: { type: [number, "null"] }
+        RH2M: { type: [number, "null"] }
+        GWETTOP: { type: [number, "null"] }
+        GWETROOT: { type: [number, "null"] }
+    EnvironmentalHistory:
+      type: object
+      required: [location, year, daily, units, warning]
+      properties:
+        location: { $ref: "#/components/schemas/EnvironmentLocation" }
+        year: { type: integer }
+        daily: { type: array, items: { $ref: "#/components/schemas/DailyEnvironment" } }
+        units: { type: object, additionalProperties: { type: string } }
+        warning: { type: string }
+    SoilValue:
+      type: object
+      required: [value, unit, quality]
+      properties:
+        value: { type: [number, "null"] }
+        unit: { type: string }
+        quality: { type: string }
+    SoilEstimate:
+      type: object
+      required: [originalLatitude, originalLongitude, sampleLatitude, sampleLongitude, offsetKm, depthCm, classification, properties, provenance, retrievedAt]
+      properties:
+        originalLatitude: { type: number }
+        originalLongitude: { type: number }
+        sampleLatitude: { type: number }
+        sampleLongitude: { type: number }
+        offsetKm: { type: number }
+        depthCm: { type: string }
+        classification: { type: string }
+        properties: { type: object, additionalProperties: { $ref: "#/components/schemas/SoilValue" } }
+        provenance: { $ref: "#/components/schemas/JsonRecord" }
+        retrievedAt: { type: string }
+    SoilProperties:
+      type: object
+      required: [status, notice, warnings]
+      properties:
+        status: { type: string }
+        notice: { type: string }
+        warnings: { type: array, items: { type: string } }
+        estimate:
+          anyOf:
+            - { $ref: "#/components/schemas/SoilEstimate" }
+            - { type: "null" }
+    WetnessHistory:
+      type: object
+      required: [location, monthly, seasonal, classification, unit, warnings]
+      properties:
+        location: { $ref: "#/components/schemas/EnvironmentLocation" }
+        monthly: { type: array, items: { $ref: "#/components/schemas/ClimateAggregate" } }
+        seasonal: { type: array, items: { $ref: "#/components/schemas/ClimateAggregate" } }
+        classification: { type: string }
+        unit: { type: string }
+        warnings: { type: array, items: { type: string } }
+    RegionalComparison:
+      type: object
+      required: [studyId, name, latitude, longitude]
+      properties:
+        studyId: { type: string }
+        name: { type: string }
+        latitude: { type: number }
+        longitude: { type: number }
+        summary:
+          anyOf:
+            - { $ref: "#/components/schemas/EnvironmentalSummary" }
+            - { type: "null" }
+    IngestionAudit:
+      type: object
+      required: [id, source, status, startedAt, report]
+      properties:
+        id: { type: integer }
+        source: { type: string }
+        status: { type: string }
+        startedAt: { type: string }
+        completedAt: { type: [string, "null"] }
+        report: { $ref: "#/components/schemas/JsonRecord" }
+    DataStatus:
+      type: object
+      required: [environmentalValues, soilEstimates, importPolicy, reports]
+      properties:
+        environmentalValues: { type: integer }
+        soilEstimates: { type: integer }
+        importPolicy: { type: string }
+        reports: { type: array, items: { $ref: "#/components/schemas/IngestionAudit" } }
+    MeasurementInput:
+      type: object
+      required: [parameter, value, unit, measuredOn, source]
+      properties:
+        parameter: { type: string, enum: [clay_pct, sand_pct, silt_pct, ph, soc_g_kg, soil_moisture] }
+        value: { type: number }
+        unit: { type: string, enum: ["%", pH, g/kg, m3/m3, g/100g] }
+        depthTopCm: { type: [number, "null"] }
+        depthBottomCm: { type: [number, "null"] }
+        measuredOn: { type: string }
+        source: { type: string, enum: [farmer_reported, laboratory_confirmed] }
+        notes: { type: string }
+    FarmerMeasurement:
+      allOf:
+        - { $ref: "#/components/schemas/MeasurementInput" }
+        - type: object
+          required: [id, farmId, createdAt, verification]
+          properties:
+            id: { type: integer }
+            farmId: { type: integer }
+            createdAt: { type: string }
+            verification: { type: string }
     HealthStatus:
       type: object
       required: [status]
@@ -161,6 +460,8 @@ components:
         soilPh: { type: ["number", "null"], minimum: 0, maximum: 14 }
         farmSize: { type: ["number", "null"], exclusiveMinimum: 0 }
         waterConstraints: { type: string, maxLength: 1000 }
+        waterResources: { type: string, maxLength: 1000 }
+        agriculturalConstraints: { type: string, maxLength: 1000 }
         goal: { type: string, enum: [conserve_water, soil_health, productivity, reduce_risk] }
     Farm:
       allOf:

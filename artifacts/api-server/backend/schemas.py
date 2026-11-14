@@ -1,5 +1,6 @@
 from typing import Literal
-from pydantic import BaseModel, Field, ConfigDict, field_validator
+from datetime import date
+from pydantic import BaseModel, Field, ConfigDict, field_validator, model_validator
 
 
 class Polygon(BaseModel):
@@ -37,6 +38,8 @@ class FarmInput(BaseModel):
     soilPh: float | None = Field(default=None, ge=0, le=14)
     farmSize: float | None = Field(default=None, gt=0)
     waterConstraints: str = Field(default="", max_length=1000)
+    waterResources: str = Field(default="", max_length=1000)
+    agriculturalConstraints: str = Field(default="", max_length=1000)
     goal: Literal["conserve_water", "soil_health", "productivity", "reduce_risk"]
 
 
@@ -54,3 +57,35 @@ class StrategyInput(BaseModel):
         if any(not c or len(c) > 100 for c in result):
             raise ValueError("Each crop must contain 1–100 characters.")
         return result
+
+
+class MeasurementInput(BaseModel):
+    model_config = ConfigDict(str_strip_whitespace=True, allow_inf_nan=False, extra="forbid")
+    parameter: Literal["clay_pct", "sand_pct", "silt_pct", "ph", "soc_g_kg", "soil_moisture"]
+    value: float
+    unit: Literal["%", "pH", "g/kg", "m3/m3", "g/100g"]
+    depthTopCm: float | None = Field(default=None, ge=0, le=1000)
+    depthBottomCm: float | None = Field(default=None, gt=0, le=1000)
+    measuredOn: date
+    source: Literal["farmer_reported", "laboratory_confirmed"]
+    notes: str = Field(default="", max_length=1000)
+
+    @model_validator(mode="after")
+    def validate_measurement(self):
+        bounds = {
+            "clay_pct": {"%": (0, 100)}, "sand_pct": {"%": (0, 100)}, "silt_pct": {"%": (0, 100)},
+            "ph": {"pH": (0, 14)}, "soc_g_kg": {"g/kg": (0, 1000), "g/100g": (0, 100)},
+            "soil_moisture": {"%": (0, 100), "m3/m3": (0, 1)},
+        }
+        limits = bounds[self.parameter].get(self.unit)
+        if limits is None or not limits[0] <= self.value <= limits[1]:
+            raise ValueError("Measurement unit or physical range is invalid for this variable")
+        if (self.depthTopCm is None) != (self.depthBottomCm is None):
+            raise ValueError("Provide both measurement depth limits or neither")
+        if self.depthTopCm is not None and self.depthBottomCm <= self.depthTopCm:
+            raise ValueError("Bottom depth must exceed top depth")
+        if self.parameter == "soil_moisture" and self.depthTopCm is None:
+            raise ValueError("Measured soil moisture requires a depth interval")
+        if self.measuredOn > date.today():
+            raise ValueError("Measurement date cannot be in the future")
+        return self

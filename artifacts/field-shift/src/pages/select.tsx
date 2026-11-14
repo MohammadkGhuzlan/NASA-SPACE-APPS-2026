@@ -154,6 +154,9 @@ export default function SelectLocation() {
                   <p className="text-muted-foreground">No location chosen yet. Click anywhere on the map.</p>
                 )}
               </div>
+              <Button size="lg" variant="outline" className="rounded-full px-6" disabled={!point} onClick={() => point && navigate(`/environment?latitude=${point[0].toFixed(5)}&longitude=${point[1].toFixed(5)}&name=${encodeURIComponent(name)}`)} data-testid="button-explore-environment">
+                Explore environment
+              </Button>
               <Button size="lg" className="rounded-full px-7" disabled={!point || drawing} onClick={confirm} data-testid="button-confirm-location">
                 Confirm location <ArrowRight className="h-4 w-4" />
               </Button>

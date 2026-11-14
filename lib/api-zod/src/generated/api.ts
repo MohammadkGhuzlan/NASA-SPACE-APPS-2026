@@ -8,6 +8,461 @@
 import * as zod from 'zod';
 
 
+export const getEnvironmentalSummaryQueryLatitudeMin = -90;
+export const getEnvironmentalSummaryQueryLatitudeMax = 90;
+
+export const getEnvironmentalSummaryQueryLongitudeMin = -180;
+export const getEnvironmentalSummaryQueryLongitudeMax = 180;
+
+export const getEnvironmentalSummaryQueryHotThresholdDefault = 35;
+export const getEnvironmentalSummaryQueryDryThresholdDefault = 1;
+
+export const GetEnvironmentalSummaryQueryParams = zod.object({
+  "latitude": zod.coerce.number().min(getEnvironmentalSummaryQueryLatitudeMin).max(getEnvironmentalSummaryQueryLatitudeMax),
+  "longitude": zod.coerce.number().min(getEnvironmentalSummaryQueryLongitudeMin).max(getEnvironmentalSummaryQueryLongitudeMax),
+  "hot_threshold": zod.coerce.number().default(getEnvironmentalSummaryQueryHotThresholdDefault),
+  "dry_threshold": zod.coerce.number().default(getEnvironmentalSummaryQueryDryThresholdDefault)
+})
+
+export const GetEnvironmentalSummaryResponse = zod.object({
+  "location": zod.object({
+  "key": zod.string(),
+  "name": zod.string(),
+  "latitude": zod.number(),
+  "longitude": zod.number(),
+  "studyId": zod.string().nullish(),
+  "matchingPolicy": zod.string()
+}),
+  "status": zod.string(),
+  "monthly": zod.array(zod.object({
+  "period": zod.string(),
+  "expectedDays": zod.number().int(),
+  "validDays": zod.record(zod.string(), zod.number().int()),
+  "T2M": zod.number().nullable(),
+  "T2M_MAX": zod.number().nullable(),
+  "T2M_MIN": zod.number().nullable(),
+  "PRECTOTCORR": zod.number().nullable(),
+  "RH2M": zod.number().nullable(),
+  "GWETTOP": zod.number().nullable(),
+  "GWETROOT": zod.number().nullable(),
+  "hotDays": zod.number().int().nullable(),
+  "hotDays30": zod.number().int().nullable(),
+  "hotDays35": zod.number().int().nullable(),
+  "maximumTemperature": zod.number().nullable(),
+  "minimumTemperature": zod.number().nullable(),
+  "longestDrySpell": zod.number().int().nullish(),
+  "PRECTOTCORRAnomaly": zod.number().nullish(),
+  "PRECTOTCORRReferenceYears": zod.number().int().optional(),
+  "GWETTOPAnomaly": zod.number().nullish(),
+  "GWETROOTAnomaly": zod.number().nullish(),
+  "GWETTOPReferenceYears": zod.number().int().optional(),
+  "GWETROOTReferenceYears": zod.number().int().optional()
+})),
+  "annual": zod.array(zod.object({
+  "period": zod.string(),
+  "expectedDays": zod.number().int(),
+  "validDays": zod.record(zod.string(), zod.number().int()),
+  "T2M": zod.number().nullable(),
+  "T2M_MAX": zod.number().nullable(),
+  "T2M_MIN": zod.number().nullable(),
+  "PRECTOTCORR": zod.number().nullable(),
+  "RH2M": zod.number().nullable(),
+  "GWETTOP": zod.number().nullable(),
+  "GWETROOT": zod.number().nullable(),
+  "hotDays": zod.number().int().nullable(),
+  "hotDays30": zod.number().int().nullable(),
+  "hotDays35": zod.number().int().nullable(),
+  "maximumTemperature": zod.number().nullable(),
+  "minimumTemperature": zod.number().nullable(),
+  "longestDrySpell": zod.number().int().nullish(),
+  "PRECTOTCORRAnomaly": zod.number().nullish(),
+  "PRECTOTCORRReferenceYears": zod.number().int().optional(),
+  "GWETTOPAnomaly": zod.number().nullish(),
+  "GWETROOTAnomaly": zod.number().nullish(),
+  "GWETTOPReferenceYears": zod.number().int().optional(),
+  "GWETROOTReferenceYears": zod.number().int().optional()
+})),
+  "seasonal": zod.array(zod.object({
+  "period": zod.string(),
+  "expectedDays": zod.number().int(),
+  "validDays": zod.record(zod.string(), zod.number().int()),
+  "T2M": zod.number().nullable(),
+  "T2M_MAX": zod.number().nullable(),
+  "T2M_MIN": zod.number().nullable(),
+  "PRECTOTCORR": zod.number().nullable(),
+  "RH2M": zod.number().nullable(),
+  "GWETTOP": zod.number().nullable(),
+  "GWETROOT": zod.number().nullable(),
+  "hotDays": zod.number().int().nullable(),
+  "hotDays30": zod.number().int().nullable(),
+  "hotDays35": zod.number().int().nullable(),
+  "maximumTemperature": zod.number().nullable(),
+  "minimumTemperature": zod.number().nullable(),
+  "longestDrySpell": zod.number().int().nullish(),
+  "PRECTOTCORRAnomaly": zod.number().nullish(),
+  "PRECTOTCORRReferenceYears": zod.number().int().optional(),
+  "GWETTOPAnomaly": zod.number().nullish(),
+  "GWETROOTAnomaly": zod.number().nullish(),
+  "GWETTOPReferenceYears": zod.number().int().optional(),
+  "GWETROOTReferenceYears": zod.number().int().optional()
+})),
+  "hotThreshold": zod.number(),
+  "dryThreshold": zod.number(),
+  "referencePeriod": zod.string(),
+  "warnings": zod.array(zod.string()),
+  "provenance": zod.array(zod.object({
+  "parameter": zod.string(),
+  "unit": zod.string(),
+  "source": zod.string(),
+  "product": zod.string(),
+  "classification": zod.string(),
+  "sourceUrl": zod.string(),
+  "retrievedAt": zod.string(),
+  "metadata": zod.record(zod.string(), zod.unknown())
+})),
+  "availableParameters": zod.array(zod.string()),
+  "drySpellDefinition": zod.string()
+})
+
+
+export const getEnvironmentalHistoryQueryLatitudeMin = -90;
+export const getEnvironmentalHistoryQueryLatitudeMax = 90;
+
+export const getEnvironmentalHistoryQueryLongitudeMin = -180;
+export const getEnvironmentalHistoryQueryLongitudeMax = 180;
+
+export const getEnvironmentalHistoryQueryYearDefault = 2025;
+
+export const GetEnvironmentalHistoryQueryParams = zod.object({
+  "latitude": zod.coerce.number().min(getEnvironmentalHistoryQueryLatitudeMin).max(getEnvironmentalHistoryQueryLatitudeMax),
+  "longitude": zod.coerce.number().min(getEnvironmentalHistoryQueryLongitudeMin).max(getEnvironmentalHistoryQueryLongitudeMax),
+  "year": zod.coerce.number().int().default(getEnvironmentalHistoryQueryYearDefault)
+})
+
+export const GetEnvironmentalHistoryResponse = zod.object({
+  "location": zod.object({
+  "key": zod.string(),
+  "name": zod.string(),
+  "latitude": zod.number(),
+  "longitude": zod.number(),
+  "studyId": zod.string().nullish(),
+  "matchingPolicy": zod.string()
+}),
+  "year": zod.number().int(),
+  "daily": zod.array(zod.object({
+  "date": zod.string(),
+  "T2M": zod.number().nullable(),
+  "T2M_MAX": zod.number().nullable(),
+  "T2M_MIN": zod.number().nullable(),
+  "PRECTOTCORR": zod.number().nullable(),
+  "RH2M": zod.number().nullable(),
+  "GWETTOP": zod.number().nullable(),
+  "GWETROOT": zod.number().nullable()
+})),
+  "units": zod.record(zod.string(), zod.string()),
+  "warning": zod.string()
+})
+
+
+export const getSoilPropertiesQueryLatitudeMin = -90;
+export const getSoilPropertiesQueryLatitudeMax = 90;
+
+export const getSoilPropertiesQueryLongitudeMin = -180;
+export const getSoilPropertiesQueryLongitudeMax = 180;
+
+
+
+export const GetSoilPropertiesQueryParams = zod.object({
+  "latitude": zod.coerce.number().min(getSoilPropertiesQueryLatitudeMin).max(getSoilPropertiesQueryLatitudeMax),
+  "longitude": zod.coerce.number().min(getSoilPropertiesQueryLongitudeMin).max(getSoilPropertiesQueryLongitudeMax)
+})
+
+export const GetSoilPropertiesResponse = zod.object({
+  "status": zod.string(),
+  "notice": zod.string(),
+  "warnings": zod.array(zod.string()),
+  "estimate": zod.union([zod.object({
+  "originalLatitude": zod.number(),
+  "originalLongitude": zod.number(),
+  "sampleLatitude": zod.number(),
+  "sampleLongitude": zod.number(),
+  "offsetKm": zod.number(),
+  "depthCm": zod.string(),
+  "classification": zod.string(),
+  "properties": zod.record(zod.string(), zod.object({
+  "value": zod.number().nullable(),
+  "unit": zod.string(),
+  "quality": zod.string()
+})),
+  "provenance": zod.record(zod.string(), zod.unknown()),
+  "retrievedAt": zod.string()
+}),zod.null()]).optional()
+})
+
+
+export const getSoilWetnessQueryLatitudeMin = -90;
+export const getSoilWetnessQueryLatitudeMax = 90;
+
+export const getSoilWetnessQueryLongitudeMin = -180;
+export const getSoilWetnessQueryLongitudeMax = 180;
+
+
+
+export const GetSoilWetnessQueryParams = zod.object({
+  "latitude": zod.coerce.number().min(getSoilWetnessQueryLatitudeMin).max(getSoilWetnessQueryLatitudeMax),
+  "longitude": zod.coerce.number().min(getSoilWetnessQueryLongitudeMin).max(getSoilWetnessQueryLongitudeMax)
+})
+
+export const GetSoilWetnessResponse = zod.object({
+  "location": zod.object({
+  "key": zod.string(),
+  "name": zod.string(),
+  "latitude": zod.number(),
+  "longitude": zod.number(),
+  "studyId": zod.string().nullish(),
+  "matchingPolicy": zod.string()
+}),
+  "monthly": zod.array(zod.object({
+  "period": zod.string(),
+  "expectedDays": zod.number().int(),
+  "validDays": zod.record(zod.string(), zod.number().int()),
+  "T2M": zod.number().nullable(),
+  "T2M_MAX": zod.number().nullable(),
+  "T2M_MIN": zod.number().nullable(),
+  "PRECTOTCORR": zod.number().nullable(),
+  "RH2M": zod.number().nullable(),
+  "GWETTOP": zod.number().nullable(),
+  "GWETROOT": zod.number().nullable(),
+  "hotDays": zod.number().int().nullable(),
+  "hotDays30": zod.number().int().nullable(),
+  "hotDays35": zod.number().int().nullable(),
+  "maximumTemperature": zod.number().nullable(),
+  "minimumTemperature": zod.number().nullable(),
+  "longestDrySpell": zod.number().int().nullish(),
+  "PRECTOTCORRAnomaly": zod.number().nullish(),
+  "PRECTOTCORRReferenceYears": zod.number().int().optional(),
+  "GWETTOPAnomaly": zod.number().nullish(),
+  "GWETROOTAnomaly": zod.number().nullish(),
+  "GWETTOPReferenceYears": zod.number().int().optional(),
+  "GWETROOTReferenceYears": zod.number().int().optional()
+})),
+  "seasonal": zod.array(zod.object({
+  "period": zod.string(),
+  "expectedDays": zod.number().int(),
+  "validDays": zod.record(zod.string(), zod.number().int()),
+  "T2M": zod.number().nullable(),
+  "T2M_MAX": zod.number().nullable(),
+  "T2M_MIN": zod.number().nullable(),
+  "PRECTOTCORR": zod.number().nullable(),
+  "RH2M": zod.number().nullable(),
+  "GWETTOP": zod.number().nullable(),
+  "GWETROOT": zod.number().nullable(),
+  "hotDays": zod.number().int().nullable(),
+  "hotDays30": zod.number().int().nullable(),
+  "hotDays35": zod.number().int().nullable(),
+  "maximumTemperature": zod.number().nullable(),
+  "minimumTemperature": zod.number().nullable(),
+  "longestDrySpell": zod.number().int().nullish(),
+  "PRECTOTCORRAnomaly": zod.number().nullish(),
+  "PRECTOTCORRReferenceYears": zod.number().int().optional(),
+  "GWETTOPAnomaly": zod.number().nullish(),
+  "GWETROOTAnomaly": zod.number().nullish(),
+  "GWETTOPReferenceYears": zod.number().int().optional(),
+  "GWETROOTReferenceYears": zod.number().int().optional()
+})),
+  "classification": zod.string(),
+  "unit": zod.string(),
+  "warnings": zod.array(zod.string())
+})
+
+
+export const CompareRegionsResponseItem = zod.object({
+  "studyId": zod.string(),
+  "name": zod.string(),
+  "latitude": zod.number(),
+  "longitude": zod.number(),
+  "summary": zod.union([zod.object({
+  "location": zod.object({
+  "key": zod.string(),
+  "name": zod.string(),
+  "latitude": zod.number(),
+  "longitude": zod.number(),
+  "studyId": zod.string().nullish(),
+  "matchingPolicy": zod.string()
+}),
+  "status": zod.string(),
+  "monthly": zod.array(zod.object({
+  "period": zod.string(),
+  "expectedDays": zod.number().int(),
+  "validDays": zod.record(zod.string(), zod.number().int()),
+  "T2M": zod.number().nullable(),
+  "T2M_MAX": zod.number().nullable(),
+  "T2M_MIN": zod.number().nullable(),
+  "PRECTOTCORR": zod.number().nullable(),
+  "RH2M": zod.number().nullable(),
+  "GWETTOP": zod.number().nullable(),
+  "GWETROOT": zod.number().nullable(),
+  "hotDays": zod.number().int().nullable(),
+  "hotDays30": zod.number().int().nullable(),
+  "hotDays35": zod.number().int().nullable(),
+  "maximumTemperature": zod.number().nullable(),
+  "minimumTemperature": zod.number().nullable(),
+  "longestDrySpell": zod.number().int().nullish(),
+  "PRECTOTCORRAnomaly": zod.number().nullish(),
+  "PRECTOTCORRReferenceYears": zod.number().int().optional(),
+  "GWETTOPAnomaly": zod.number().nullish(),
+  "GWETROOTAnomaly": zod.number().nullish(),
+  "GWETTOPReferenceYears": zod.number().int().optional(),
+  "GWETROOTReferenceYears": zod.number().int().optional()
+})),
+  "annual": zod.array(zod.object({
+  "period": zod.string(),
+  "expectedDays": zod.number().int(),
+  "validDays": zod.record(zod.string(), zod.number().int()),
+  "T2M": zod.number().nullable(),
+  "T2M_MAX": zod.number().nullable(),
+  "T2M_MIN": zod.number().nullable(),
+  "PRECTOTCORR": zod.number().nullable(),
+  "RH2M": zod.number().nullable(),
+  "GWETTOP": zod.number().nullable(),
+  "GWETROOT": zod.number().nullable(),
+  "hotDays": zod.number().int().nullable(),
+  "hotDays30": zod.number().int().nullable(),
+  "hotDays35": zod.number().int().nullable(),
+  "maximumTemperature": zod.number().nullable(),
+  "minimumTemperature": zod.number().nullable(),
+  "longestDrySpell": zod.number().int().nullish(),
+  "PRECTOTCORRAnomaly": zod.number().nullish(),
+  "PRECTOTCORRReferenceYears": zod.number().int().optional(),
+  "GWETTOPAnomaly": zod.number().nullish(),
+  "GWETROOTAnomaly": zod.number().nullish(),
+  "GWETTOPReferenceYears": zod.number().int().optional(),
+  "GWETROOTReferenceYears": zod.number().int().optional()
+})),
+  "seasonal": zod.array(zod.object({
+  "period": zod.string(),
+  "expectedDays": zod.number().int(),
+  "validDays": zod.record(zod.string(), zod.number().int()),
+  "T2M": zod.number().nullable(),
+  "T2M_MAX": zod.number().nullable(),
+  "T2M_MIN": zod.number().nullable(),
+  "PRECTOTCORR": zod.number().nullable(),
+  "RH2M": zod.number().nullable(),
+  "GWETTOP": zod.number().nullable(),
+  "GWETROOT": zod.number().nullable(),
+  "hotDays": zod.number().int().nullable(),
+  "hotDays30": zod.number().int().nullable(),
+  "hotDays35": zod.number().int().nullable(),
+  "maximumTemperature": zod.number().nullable(),
+  "minimumTemperature": zod.number().nullable(),
+  "longestDrySpell": zod.number().int().nullish(),
+  "PRECTOTCORRAnomaly": zod.number().nullish(),
+  "PRECTOTCORRReferenceYears": zod.number().int().optional(),
+  "GWETTOPAnomaly": zod.number().nullish(),
+  "GWETROOTAnomaly": zod.number().nullish(),
+  "GWETTOPReferenceYears": zod.number().int().optional(),
+  "GWETROOTReferenceYears": zod.number().int().optional()
+})),
+  "hotThreshold": zod.number(),
+  "dryThreshold": zod.number(),
+  "referencePeriod": zod.string(),
+  "warnings": zod.array(zod.string()),
+  "provenance": zod.array(zod.object({
+  "parameter": zod.string(),
+  "unit": zod.string(),
+  "source": zod.string(),
+  "product": zod.string(),
+  "classification": zod.string(),
+  "sourceUrl": zod.string(),
+  "retrievedAt": zod.string(),
+  "metadata": zod.record(zod.string(), zod.unknown())
+})),
+  "availableParameters": zod.array(zod.string()),
+  "drySpellDefinition": zod.string()
+}),zod.null()]).optional()
+})
+export const CompareRegionsResponse = zod.array(CompareRegionsResponseItem)
+
+
+export const GetDataStatusResponse = zod.object({
+  "environmentalValues": zod.number().int(),
+  "soilEstimates": zod.number().int(),
+  "importPolicy": zod.string(),
+  "reports": zod.array(zod.object({
+  "id": zod.number().int(),
+  "source": zod.string(),
+  "status": zod.string(),
+  "startedAt": zod.string(),
+  "completedAt": zod.string().nullish(),
+  "report": zod.record(zod.string(), zod.unknown())
+}))
+})
+
+
+export const ImportEnvironmentalDataResponse = zod.record(zod.string(), zod.unknown())
+
+
+export const ListMeasurementsParams = zod.object({
+  "id": zod.coerce.number().int()
+})
+
+export const ListMeasurementsResponseItem = zod.object({
+  "parameter": zod.enum(['clay_pct', 'sand_pct', 'silt_pct', 'ph', 'soc_g_kg', 'soil_moisture']),
+  "value": zod.number(),
+  "unit": zod.enum(['%', 'pH', 'g/kg', 'm3/m3', 'g/100g']),
+  "depthTopCm": zod.number().nullish(),
+  "depthBottomCm": zod.number().nullish(),
+  "measuredOn": zod.string(),
+  "source": zod.enum(['farmer_reported', 'laboratory_confirmed']),
+  "notes": zod.string().optional()
+}).and(zod.object({
+  "id": zod.number().int(),
+  "farmId": zod.number().int(),
+  "createdAt": zod.string(),
+  "verification": zod.string()
+}))
+export const ListMeasurementsResponse = zod.array(ListMeasurementsResponseItem)
+
+
+export const SaveMeasurementParams = zod.object({
+  "id": zod.coerce.number().int()
+})
+
+export const SaveMeasurementBody = zod.object({
+  "parameter": zod.enum(['clay_pct', 'sand_pct', 'silt_pct', 'ph', 'soc_g_kg', 'soil_moisture']),
+  "value": zod.number(),
+  "unit": zod.enum(['%', 'pH', 'g/kg', 'm3/m3', 'g/100g']),
+  "depthTopCm": zod.number().nullish(),
+  "depthBottomCm": zod.number().nullish(),
+  "measuredOn": zod.string(),
+  "source": zod.enum(['farmer_reported', 'laboratory_confirmed']),
+  "notes": zod.string().optional()
+})
+
+export const SaveMeasurementResponse = zod.object({
+  "parameter": zod.enum(['clay_pct', 'sand_pct', 'silt_pct', 'ph', 'soc_g_kg', 'soil_moisture']),
+  "value": zod.number(),
+  "unit": zod.enum(['%', 'pH', 'g/kg', 'm3/m3', 'g/100g']),
+  "depthTopCm": zod.number().nullish(),
+  "depthBottomCm": zod.number().nullish(),
+  "measuredOn": zod.string(),
+  "source": zod.enum(['farmer_reported', 'laboratory_confirmed']),
+  "notes": zod.string().optional()
+}).and(zod.object({
+  "id": zod.number().int(),
+  "farmId": zod.number().int(),
+  "createdAt": zod.string(),
+  "verification": zod.string()
+}))
+
+
+export const GetFarmFeaturesParams = zod.object({
+  "id": zod.coerce.number().int()
+})
+
+export const GetFarmFeaturesResponse = zod.record(zod.string(), zod.unknown())
+
+
 export const HealthCheckResponse = zod.object({
   "status": zod.string()
 })
@@ -39,6 +494,10 @@ export const listFarmsResponseOneFarmSizeExclusiveMin = 0;
 
 export const listFarmsResponseOneWaterConstraintsMax = 1000;
 
+export const listFarmsResponseOneWaterResourcesMax = 1000;
+
+export const listFarmsResponseOneAgriculturalConstraintsMax = 1000;
+
 
 
 export const ListFarmsResponseItem = zod.object({
@@ -58,6 +517,8 @@ export const ListFarmsResponseItem = zod.object({
   "soilPh": zod.number().min(listFarmsResponseOneSoilPhMin).max(listFarmsResponseOneSoilPhMax).nullish(),
   "farmSize": zod.number().gt(listFarmsResponseOneFarmSizeExclusiveMin).nullish(),
   "waterConstraints": zod.string().max(listFarmsResponseOneWaterConstraintsMax).optional(),
+  "waterResources": zod.string().max(listFarmsResponseOneWaterResourcesMax).optional(),
+  "agriculturalConstraints": zod.string().max(listFarmsResponseOneAgriculturalConstraintsMax).optional(),
   "goal": zod.enum(['conserve_water', 'soil_health', 'productivity', 'reduce_risk'])
 }).and(zod.object({
   "id": zod.number().int(),
@@ -93,6 +554,10 @@ export const createFarmBodyFarmSizeExclusiveMin = 0;
 
 export const createFarmBodyWaterConstraintsMax = 1000;
 
+export const createFarmBodyWaterResourcesMax = 1000;
+
+export const createFarmBodyAgriculturalConstraintsMax = 1000;
+
 
 
 export const CreateFarmBody = zod.object({
@@ -112,6 +577,8 @@ export const CreateFarmBody = zod.object({
   "soilPh": zod.number().min(createFarmBodySoilPhMin).max(createFarmBodySoilPhMax).nullish(),
   "farmSize": zod.number().gt(createFarmBodyFarmSizeExclusiveMin).nullish(),
   "waterConstraints": zod.string().max(createFarmBodyWaterConstraintsMax).optional(),
+  "waterResources": zod.string().max(createFarmBodyWaterResourcesMax).optional(),
+  "agriculturalConstraints": zod.string().max(createFarmBodyAgriculturalConstraintsMax).optional(),
   "goal": zod.enum(['conserve_water', 'soil_health', 'productivity', 'reduce_risk'])
 })
 
@@ -141,6 +608,10 @@ export const createFarmResponseOneFarmSizeExclusiveMin = 0;
 
 export const createFarmResponseOneWaterConstraintsMax = 1000;
 
+export const createFarmResponseOneWaterResourcesMax = 1000;
+
+export const createFarmResponseOneAgriculturalConstraintsMax = 1000;
+
 
 
 export const CreateFarmResponse = zod.object({
@@ -160,6 +631,8 @@ export const CreateFarmResponse = zod.object({
   "soilPh": zod.number().min(createFarmResponseOneSoilPhMin).max(createFarmResponseOneSoilPhMax).nullish(),
   "farmSize": zod.number().gt(createFarmResponseOneFarmSizeExclusiveMin).nullish(),
   "waterConstraints": zod.string().max(createFarmResponseOneWaterConstraintsMax).optional(),
+  "waterResources": zod.string().max(createFarmResponseOneWaterResourcesMax).optional(),
+  "agriculturalConstraints": zod.string().max(createFarmResponseOneAgriculturalConstraintsMax).optional(),
   "goal": zod.enum(['conserve_water', 'soil_health', 'productivity', 'reduce_risk'])
 }).and(zod.object({
   "id": zod.number().int(),
@@ -198,6 +671,10 @@ export const getFarmResponseOneFarmSizeExclusiveMin = 0;
 
 export const getFarmResponseOneWaterConstraintsMax = 1000;
 
+export const getFarmResponseOneWaterResourcesMax = 1000;
+
+export const getFarmResponseOneAgriculturalConstraintsMax = 1000;
+
 
 
 export const GetFarmResponse = zod.object({
@@ -217,6 +694,8 @@ export const GetFarmResponse = zod.object({
   "soilPh": zod.number().min(getFarmResponseOneSoilPhMin).max(getFarmResponseOneSoilPhMax).nullish(),
   "farmSize": zod.number().gt(getFarmResponseOneFarmSizeExclusiveMin).nullish(),
   "waterConstraints": zod.string().max(getFarmResponseOneWaterConstraintsMax).optional(),
+  "waterResources": zod.string().max(getFarmResponseOneWaterResourcesMax).optional(),
+  "agriculturalConstraints": zod.string().max(getFarmResponseOneAgriculturalConstraintsMax).optional(),
   "goal": zod.enum(['conserve_water', 'soil_health', 'productivity', 'reduce_risk'])
 }).and(zod.object({
   "id": zod.number().int(),
@@ -255,6 +734,10 @@ export const updateFarmBodyFarmSizeExclusiveMin = 0;
 
 export const updateFarmBodyWaterConstraintsMax = 1000;
 
+export const updateFarmBodyWaterResourcesMax = 1000;
+
+export const updateFarmBodyAgriculturalConstraintsMax = 1000;
+
 
 
 export const UpdateFarmBody = zod.object({
@@ -274,6 +757,8 @@ export const UpdateFarmBody = zod.object({
   "soilPh": zod.number().min(updateFarmBodySoilPhMin).max(updateFarmBodySoilPhMax).nullish(),
   "farmSize": zod.number().gt(updateFarmBodyFarmSizeExclusiveMin).nullish(),
   "waterConstraints": zod.string().max(updateFarmBodyWaterConstraintsMax).optional(),
+  "waterResources": zod.string().max(updateFarmBodyWaterResourcesMax).optional(),
+  "agriculturalConstraints": zod.string().max(updateFarmBodyAgriculturalConstraintsMax).optional(),
   "goal": zod.enum(['conserve_water', 'soil_health', 'productivity', 'reduce_risk'])
 })
 
@@ -303,6 +788,10 @@ export const updateFarmResponseOneFarmSizeExclusiveMin = 0;
 
 export const updateFarmResponseOneWaterConstraintsMax = 1000;
 
+export const updateFarmResponseOneWaterResourcesMax = 1000;
+
+export const updateFarmResponseOneAgriculturalConstraintsMax = 1000;
+
 
 
 export const UpdateFarmResponse = zod.object({
@@ -322,6 +811,8 @@ export const UpdateFarmResponse = zod.object({
   "soilPh": zod.number().min(updateFarmResponseOneSoilPhMin).max(updateFarmResponseOneSoilPhMax).nullish(),
   "farmSize": zod.number().gt(updateFarmResponseOneFarmSizeExclusiveMin).nullish(),
   "waterConstraints": zod.string().max(updateFarmResponseOneWaterConstraintsMax).optional(),
+  "waterResources": zod.string().max(updateFarmResponseOneWaterResourcesMax).optional(),
+  "agriculturalConstraints": zod.string().max(updateFarmResponseOneAgriculturalConstraintsMax).optional(),
   "goal": zod.enum(['conserve_water', 'soil_health', 'productivity', 'reduce_risk'])
 }).and(zod.object({
   "id": zod.number().int(),

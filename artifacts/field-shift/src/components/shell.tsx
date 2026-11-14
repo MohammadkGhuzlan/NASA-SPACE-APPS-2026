@@ -8,6 +8,8 @@ import { cn } from "@/lib/utils";
 const nav = [
   { href: "/farms", label: "My farms" },
   { href: "/select", label: "Analyze a location" },
+  { href: "/environment", label: "Explore" },
+  { href: "/compare", label: "Compare regions" },
   { href: "/sources", label: "Sources & limits" },
 ];
 

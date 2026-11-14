@@ -54,6 +54,8 @@ export function FarmForm({ initial, submitLabel, pending, onSubmit, locationActi
   const [soilPh, setSoilPh] = useState(numStr(initial.soilPh));
   const [farmSize, setFarmSize] = useState(numStr(initial.farmSize));
   const [waterConstraints, setWaterConstraints] = useState(initial.waterConstraints ?? "");
+  const [waterResources, setWaterResources] = useState(initial.waterResources ?? "");
+  const [agriculturalConstraints, setAgriculturalConstraints] = useState(initial.agriculturalConstraints ?? "");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   function submit(e: FormEvent) {
@@ -82,6 +84,8 @@ export function FarmForm({ initial, submitLabel, pending, onSubmit, locationActi
     if (cropHistory.trim()) data.cropHistory = cropHistory.trim();
     if (soilType.trim()) data.soilType = soilType.trim();
     if (waterConstraints.trim()) data.waterConstraints = waterConstraints.trim();
+    data.waterResources = waterResources.trim();
+    data.agriculturalConstraints = agriculturalConstraints.trim();
     onSubmit(data);
   }
 
@@ -148,6 +152,12 @@ export function FarmForm({ initial, submitLabel, pending, onSubmit, locationActi
         </Field>
         <Field id="waterConstraints" label="Water constraints" hint="Optional. Quotas, well depth, salinity, shared canals.">
           <Textarea id="waterConstraints" value={waterConstraints} maxLength={1000} onChange={(e) => setWaterConstraints(e.target.value)} rows={2} data-testid="input-water-constraints" />
+        </Field>
+        <Field id="waterResources" label="Available water resources" hint="Optional. Describe wells, rainwater storage, canals or other supplies.">
+          <Textarea id="waterResources" value={waterResources} maxLength={1000} onChange={(e) => setWaterResources(e.target.value)} rows={2} data-testid="input-water-resources" />
+        </Field>
+        <Field id="agriculturalConstraints" label="Agricultural constraints" hint="Optional. For example, salinity, drainage, equipment or access limitations.">
+          <Textarea id="agriculturalConstraints" value={agriculturalConstraints} maxLength={1000} onChange={(e) => setAgriculturalConstraints(e.target.value)} rows={2} data-testid="input-agricultural-constraints" />
         </Field>
       </section>
 

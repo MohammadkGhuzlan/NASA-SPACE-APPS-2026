@@ -26,14 +26,27 @@ import type {
 
 import type {
   CaseStudy,
+  DataStatus,
   Environment,
+  EnvironmentalHistory,
+  EnvironmentalSummary,
   Farm,
   FarmInput,
+  FarmerMeasurement,
+  GetEnvironmentalHistoryParams,
+  GetEnvironmentalSummaryParams,
+  GetSoilPropertiesParams,
+  GetSoilWetnessParams,
   HealthStatus,
+  JsonRecord,
+  MeasurementInput,
+  RegionalComparison,
   SearchLocationsParams,
+  SoilProperties,
   Source,
   Strategy,
-  StrategyInput
+  StrategyInput,
+  WetnessHistory
 } from './api.schemas';
 
 import { customFetch } from '../custom-fetch';
@@ -62,6 +75,945 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
   }
   return result;
 };
+
+export const getGetEnvironmentalSummaryUrl = (params: GetEnvironmentalSummaryParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/environment/summary?${stringifiedParams}` : `/api/environment/summary`
+}
+
+export const getEnvironmentalSummary = async (params: GetEnvironmentalSummaryParams, options?: Parameters<typeof customFetch>[1]): Promise<EnvironmentalSummary> => {
+
+  return customFetch<EnvironmentalSummary>(getGetEnvironmentalSummaryUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetEnvironmentalSummaryQueryKey = (params?: GetEnvironmentalSummaryParams,) => {
+    return [
+    `/api/environment/summary`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getGetEnvironmentalSummaryQueryOptions = <TData = Awaited<ReturnType<typeof getEnvironmentalSummary>>, TError = ErrorType<unknown>>(params: GetEnvironmentalSummaryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEnvironmentalSummary>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetEnvironmentalSummaryQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getEnvironmentalSummary>>> = ({ signal }) => getEnvironmentalSummary(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getEnvironmentalSummary>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetEnvironmentalSummaryQueryResult = NonNullable<Awaited<ReturnType<typeof getEnvironmentalSummary>>>
+export type GetEnvironmentalSummaryQueryError = ErrorType<unknown>
+
+
+export function useGetEnvironmentalSummary<TData = Awaited<ReturnType<typeof getEnvironmentalSummary>>, TError = ErrorType<unknown>>(
+ params: GetEnvironmentalSummaryParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEnvironmentalSummary>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getEnvironmentalSummary>>,
+          TError,
+          Awaited<ReturnType<typeof getEnvironmentalSummary>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetEnvironmentalSummary<TData = Awaited<ReturnType<typeof getEnvironmentalSummary>>, TError = ErrorType<unknown>>(
+ params: GetEnvironmentalSummaryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEnvironmentalSummary>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getEnvironmentalSummary>>,
+          TError,
+          Awaited<ReturnType<typeof getEnvironmentalSummary>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetEnvironmentalSummary<TData = Awaited<ReturnType<typeof getEnvironmentalSummary>>, TError = ErrorType<unknown>>(
+ params: GetEnvironmentalSummaryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEnvironmentalSummary>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetEnvironmentalSummary<TData = Awaited<ReturnType<typeof getEnvironmentalSummary>>, TError = ErrorType<unknown>>(
+ params: GetEnvironmentalSummaryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEnvironmentalSummary>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetEnvironmentalSummaryQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getGetEnvironmentalHistoryUrl = (params: GetEnvironmentalHistoryParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/environment/history?${stringifiedParams}` : `/api/environment/history`
+}
+
+export const getEnvironmentalHistory = async (params: GetEnvironmentalHistoryParams, options?: Parameters<typeof customFetch>[1]): Promise<EnvironmentalHistory> => {
+
+  return customFetch<EnvironmentalHistory>(getGetEnvironmentalHistoryUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetEnvironmentalHistoryQueryKey = (params?: GetEnvironmentalHistoryParams,) => {
+    return [
+    `/api/environment/history`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getGetEnvironmentalHistoryQueryOptions = <TData = Awaited<ReturnType<typeof getEnvironmentalHistory>>, TError = ErrorType<unknown>>(params: GetEnvironmentalHistoryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEnvironmentalHistory>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetEnvironmentalHistoryQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getEnvironmentalHistory>>> = ({ signal }) => getEnvironmentalHistory(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getEnvironmentalHistory>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetEnvironmentalHistoryQueryResult = NonNullable<Awaited<ReturnType<typeof getEnvironmentalHistory>>>
+export type GetEnvironmentalHistoryQueryError = ErrorType<unknown>
+
+
+export function useGetEnvironmentalHistory<TData = Awaited<ReturnType<typeof getEnvironmentalHistory>>, TError = ErrorType<unknown>>(
+ params: GetEnvironmentalHistoryParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEnvironmentalHistory>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getEnvironmentalHistory>>,
+          TError,
+          Awaited<ReturnType<typeof getEnvironmentalHistory>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetEnvironmentalHistory<TData = Awaited<ReturnType<typeof getEnvironmentalHistory>>, TError = ErrorType<unknown>>(
+ params: GetEnvironmentalHistoryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEnvironmentalHistory>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getEnvironmentalHistory>>,
+          TError,
+          Awaited<ReturnType<typeof getEnvironmentalHistory>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetEnvironmentalHistory<TData = Awaited<ReturnType<typeof getEnvironmentalHistory>>, TError = ErrorType<unknown>>(
+ params: GetEnvironmentalHistoryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEnvironmentalHistory>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetEnvironmentalHistory<TData = Awaited<ReturnType<typeof getEnvironmentalHistory>>, TError = ErrorType<unknown>>(
+ params: GetEnvironmentalHistoryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEnvironmentalHistory>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetEnvironmentalHistoryQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getGetSoilPropertiesUrl = (params: GetSoilPropertiesParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/environment/soil-properties?${stringifiedParams}` : `/api/environment/soil-properties`
+}
+
+export const getSoilProperties = async (params: GetSoilPropertiesParams, options?: Parameters<typeof customFetch>[1]): Promise<SoilProperties> => {
+
+  return customFetch<SoilProperties>(getGetSoilPropertiesUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetSoilPropertiesQueryKey = (params?: GetSoilPropertiesParams,) => {
+    return [
+    `/api/environment/soil-properties`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getGetSoilPropertiesQueryOptions = <TData = Awaited<ReturnType<typeof getSoilProperties>>, TError = ErrorType<unknown>>(params: GetSoilPropertiesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSoilProperties>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetSoilPropertiesQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getSoilProperties>>> = ({ signal }) => getSoilProperties(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getSoilProperties>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetSoilPropertiesQueryResult = NonNullable<Awaited<ReturnType<typeof getSoilProperties>>>
+export type GetSoilPropertiesQueryError = ErrorType<unknown>
+
+
+export function useGetSoilProperties<TData = Awaited<ReturnType<typeof getSoilProperties>>, TError = ErrorType<unknown>>(
+ params: GetSoilPropertiesParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSoilProperties>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getSoilProperties>>,
+          TError,
+          Awaited<ReturnType<typeof getSoilProperties>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetSoilProperties<TData = Awaited<ReturnType<typeof getSoilProperties>>, TError = ErrorType<unknown>>(
+ params: GetSoilPropertiesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSoilProperties>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getSoilProperties>>,
+          TError,
+          Awaited<ReturnType<typeof getSoilProperties>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetSoilProperties<TData = Awaited<ReturnType<typeof getSoilProperties>>, TError = ErrorType<unknown>>(
+ params: GetSoilPropertiesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSoilProperties>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetSoilProperties<TData = Awaited<ReturnType<typeof getSoilProperties>>, TError = ErrorType<unknown>>(
+ params: GetSoilPropertiesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSoilProperties>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetSoilPropertiesQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getGetSoilWetnessUrl = (params: GetSoilWetnessParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/environment/soil-wetness?${stringifiedParams}` : `/api/environment/soil-wetness`
+}
+
+export const getSoilWetness = async (params: GetSoilWetnessParams, options?: Parameters<typeof customFetch>[1]): Promise<WetnessHistory> => {
+
+  return customFetch<WetnessHistory>(getGetSoilWetnessUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetSoilWetnessQueryKey = (params?: GetSoilWetnessParams,) => {
+    return [
+    `/api/environment/soil-wetness`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getGetSoilWetnessQueryOptions = <TData = Awaited<ReturnType<typeof getSoilWetness>>, TError = ErrorType<unknown>>(params: GetSoilWetnessParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSoilWetness>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetSoilWetnessQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getSoilWetness>>> = ({ signal }) => getSoilWetness(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getSoilWetness>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetSoilWetnessQueryResult = NonNullable<Awaited<ReturnType<typeof getSoilWetness>>>
+export type GetSoilWetnessQueryError = ErrorType<unknown>
+
+
+export function useGetSoilWetness<TData = Awaited<ReturnType<typeof getSoilWetness>>, TError = ErrorType<unknown>>(
+ params: GetSoilWetnessParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSoilWetness>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getSoilWetness>>,
+          TError,
+          Awaited<ReturnType<typeof getSoilWetness>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetSoilWetness<TData = Awaited<ReturnType<typeof getSoilWetness>>, TError = ErrorType<unknown>>(
+ params: GetSoilWetnessParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSoilWetness>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getSoilWetness>>,
+          TError,
+          Awaited<ReturnType<typeof getSoilWetness>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetSoilWetness<TData = Awaited<ReturnType<typeof getSoilWetness>>, TError = ErrorType<unknown>>(
+ params: GetSoilWetnessParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSoilWetness>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetSoilWetness<TData = Awaited<ReturnType<typeof getSoilWetness>>, TError = ErrorType<unknown>>(
+ params: GetSoilWetnessParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSoilWetness>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetSoilWetnessQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getCompareRegionsUrl = () => {
+
+
+
+
+  return `/api/environment/compare`
+}
+
+export const compareRegions = async ( options?: Parameters<typeof customFetch>[1]): Promise<RegionalComparison[]> => {
+
+  return customFetch<RegionalComparison[]>(getCompareRegionsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getCompareRegionsQueryKey = () => {
+    return [
+    `/api/environment/compare`
+    ] as const;
+    }
+
+
+export const getCompareRegionsQueryOptions = <TData = Awaited<ReturnType<typeof compareRegions>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof compareRegions>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getCompareRegionsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof compareRegions>>> = ({ signal }) => compareRegions({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof compareRegions>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type CompareRegionsQueryResult = NonNullable<Awaited<ReturnType<typeof compareRegions>>>
+export type CompareRegionsQueryError = ErrorType<unknown>
+
+
+export function useCompareRegions<TData = Awaited<ReturnType<typeof compareRegions>>, TError = ErrorType<unknown>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof compareRegions>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof compareRegions>>,
+          TError,
+          Awaited<ReturnType<typeof compareRegions>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useCompareRegions<TData = Awaited<ReturnType<typeof compareRegions>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof compareRegions>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof compareRegions>>,
+          TError,
+          Awaited<ReturnType<typeof compareRegions>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useCompareRegions<TData = Awaited<ReturnType<typeof compareRegions>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof compareRegions>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useCompareRegions<TData = Awaited<ReturnType<typeof compareRegions>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof compareRegions>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getCompareRegionsQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getGetDataStatusUrl = () => {
+
+
+
+
+  return `/api/data/status`
+}
+
+export const getDataStatus = async ( options?: Parameters<typeof customFetch>[1]): Promise<DataStatus> => {
+
+  return customFetch<DataStatus>(getGetDataStatusUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetDataStatusQueryKey = () => {
+    return [
+    `/api/data/status`
+    ] as const;
+    }
+
+
+export const getGetDataStatusQueryOptions = <TData = Awaited<ReturnType<typeof getDataStatus>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDataStatus>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetDataStatusQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getDataStatus>>> = ({ signal }) => getDataStatus({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getDataStatus>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetDataStatusQueryResult = NonNullable<Awaited<ReturnType<typeof getDataStatus>>>
+export type GetDataStatusQueryError = ErrorType<unknown>
+
+
+export function useGetDataStatus<TData = Awaited<ReturnType<typeof getDataStatus>>, TError = ErrorType<unknown>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDataStatus>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getDataStatus>>,
+          TError,
+          Awaited<ReturnType<typeof getDataStatus>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetDataStatus<TData = Awaited<ReturnType<typeof getDataStatus>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDataStatus>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getDataStatus>>,
+          TError,
+          Awaited<ReturnType<typeof getDataStatus>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetDataStatus<TData = Awaited<ReturnType<typeof getDataStatus>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDataStatus>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetDataStatus<TData = Awaited<ReturnType<typeof getDataStatus>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDataStatus>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetDataStatusQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getImportEnvironmentalDataUrl = () => {
+
+
+
+
+  return `/api/data/import`
+}
+
+export const importEnvironmentalData = async ( options?: Parameters<typeof customFetch>[1]): Promise<JsonRecord> => {
+
+  return customFetch<JsonRecord>(getImportEnvironmentalDataUrl(),
+  {
+    ...options,
+    method: 'POST'
+
+
+  }
+);}
+
+
+
+
+
+export const getImportEnvironmentalDataMutationKey = () => ['importEnvironmentalData'] as const;
+
+export const getImportEnvironmentalDataMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof importEnvironmentalData>>, TError,void, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof importEnvironmentalData>>, TError,void, TContext> => {
+
+const mutationKey = getImportEnvironmentalDataMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof importEnvironmentalData>>, void> = () => {
+
+
+          return  importEnvironmentalData(requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ImportEnvironmentalDataMutationResult = NonNullable<Awaited<ReturnType<typeof importEnvironmentalData>>>
+
+    export type ImportEnvironmentalDataMutationError = ErrorType<void>
+
+
+    export const useImportEnvironmentalData = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof importEnvironmentalData>>, TError,void, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof importEnvironmentalData>>,
+        TError,
+        void,
+        TContext
+      > => {
+      return useMutation(getImportEnvironmentalDataMutationOptions(options), queryClient);
+    }
+
+export const getListMeasurementsUrl = (id: number,) => {
+
+
+
+
+  return `/api/farms/${id}/measurements`
+}
+
+export const listMeasurements = async (id: number, options?: Parameters<typeof customFetch>[1]): Promise<FarmerMeasurement[]> => {
+
+  return customFetch<FarmerMeasurement[]>(getListMeasurementsUrl(id),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListMeasurementsQueryKey = (id: number,) => {
+    return [
+    `/api/farms/${id}/measurements`
+    ] as const;
+    }
+
+
+export const getListMeasurementsQueryOptions = <TData = Awaited<ReturnType<typeof listMeasurements>>, TError = ErrorType<unknown>>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listMeasurements>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListMeasurementsQueryKey(id);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listMeasurements>>> = ({ signal }) => listMeasurements(id, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listMeasurements>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListMeasurementsQueryResult = NonNullable<Awaited<ReturnType<typeof listMeasurements>>>
+export type ListMeasurementsQueryError = ErrorType<unknown>
+
+
+export function useListMeasurements<TData = Awaited<ReturnType<typeof listMeasurements>>, TError = ErrorType<unknown>>(
+ id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listMeasurements>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listMeasurements>>,
+          TError,
+          Awaited<ReturnType<typeof listMeasurements>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListMeasurements<TData = Awaited<ReturnType<typeof listMeasurements>>, TError = ErrorType<unknown>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listMeasurements>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listMeasurements>>,
+          TError,
+          Awaited<ReturnType<typeof listMeasurements>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListMeasurements<TData = Awaited<ReturnType<typeof listMeasurements>>, TError = ErrorType<unknown>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listMeasurements>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useListMeasurements<TData = Awaited<ReturnType<typeof listMeasurements>>, TError = ErrorType<unknown>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listMeasurements>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListMeasurementsQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getSaveMeasurementUrl = (id: number,) => {
+
+
+
+
+  return `/api/farms/${id}/measurements`
+}
+
+export const saveMeasurement = async (id: number,
+    measurementInput: MeasurementInput, options?: Parameters<typeof customFetch>[1]): Promise<FarmerMeasurement> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<FarmerMeasurement>(getSaveMeasurementUrl(id),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(measurementInput)
+  }
+);}
+
+
+
+
+
+export const getSaveMeasurementMutationKey = () => ['saveMeasurement'] as const;
+
+export const getSaveMeasurementMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof saveMeasurement>>, TError,SaveMeasurementMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof saveMeasurement>>, TError,SaveMeasurementMutationVariables, TContext> => {
+
+const mutationKey = getSaveMeasurementMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof saveMeasurement>>, SaveMeasurementMutationVariables> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  saveMeasurement(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type SaveMeasurementMutationResult = NonNullable<Awaited<ReturnType<typeof saveMeasurement>>>
+    export type SaveMeasurementMutationBody = BodyType<MeasurementInput>
+    export type SaveMeasurementMutationError = ErrorType<unknown>
+    export type SaveMeasurementMutationVariables = {id: number;data: BodyType<MeasurementInput>}
+
+    export const useSaveMeasurement = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof saveMeasurement>>, TError,SaveMeasurementMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof saveMeasurement>>,
+        TError,
+        SaveMeasurementMutationVariables,
+        TContext
+      > => {
+      return useMutation(getSaveMeasurementMutationOptions(options), queryClient);
+    }
+
+export const getGetFarmFeaturesUrl = (id: number,) => {
+
+
+
+
+  return `/api/farms/${id}/features`
+}
+
+export const getFarmFeatures = async (id: number, options?: Parameters<typeof customFetch>[1]): Promise<JsonRecord> => {
+
+  return customFetch<JsonRecord>(getGetFarmFeaturesUrl(id),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetFarmFeaturesQueryKey = (id: number,) => {
+    return [
+    `/api/farms/${id}/features`
+    ] as const;
+    }
+
+
+export const getGetFarmFeaturesQueryOptions = <TData = Awaited<ReturnType<typeof getFarmFeatures>>, TError = ErrorType<unknown>>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFarmFeatures>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetFarmFeaturesQueryKey(id);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getFarmFeatures>>> = ({ signal }) => getFarmFeatures(id, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getFarmFeatures>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetFarmFeaturesQueryResult = NonNullable<Awaited<ReturnType<typeof getFarmFeatures>>>
+export type GetFarmFeaturesQueryError = ErrorType<unknown>
+
+
+export function useGetFarmFeatures<TData = Awaited<ReturnType<typeof getFarmFeatures>>, TError = ErrorType<unknown>>(
+ id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFarmFeatures>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getFarmFeatures>>,
+          TError,
+          Awaited<ReturnType<typeof getFarmFeatures>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetFarmFeatures<TData = Awaited<ReturnType<typeof getFarmFeatures>>, TError = ErrorType<unknown>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFarmFeatures>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getFarmFeatures>>,
+          TError,
+          Awaited<ReturnType<typeof getFarmFeatures>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetFarmFeatures<TData = Awaited<ReturnType<typeof getFarmFeatures>>, TError = ErrorType<unknown>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFarmFeatures>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetFarmFeatures<TData = Awaited<ReturnType<typeof getFarmFeatures>>, TError = ErrorType<unknown>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFarmFeatures>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetFarmFeaturesQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
 
 export const getHealthCheckUrl = () => {
 
