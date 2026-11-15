@@ -58,7 +58,7 @@ def generate(id: int, data: FarmingPlanInput, request: Request, db: Session = De
     if unknown:
         raise HTTPException(422, "Excluded crops must match library crops: " + ", ".join(unknown))
     from ..main import owner
-    check_analysis_rate(owner(request))
+    check_analysis_rate(owner(request), db)
     location = ensure_environment(db, farm.profile["latitude"], farm.profile["longitude"])
     summary = summary_for(db, location)
     features = build_features(db, farm, location)

@@ -2,6 +2,7 @@
 import copy
 import json
 from pathlib import Path
+from datetime import datetime, timezone, timedelta
 from types import SimpleNamespace
 import tempfile
 import unittest
@@ -16,10 +17,14 @@ from backend.database import engine, get_db
 from backend.analysis.model import readiness, model_status, _status
 from backend.analysis.features import prepare_features, cached_features, aligned_climate_features
 from backend.analysis.service import integrate_report, coverage_diagnostics
-from backend.analysis.limits import check_analysis_rate, _windows
+from backend.analysis.limits import check_analysis_rate
 from backend.environment.constants import LOCATIONS, PARAMETERS, START, END
-from backend.environment.power_client import missing_parameters, ensure_environment
+from backend.environment.power_client import missing_parameters, ensure_environment, parameter_coverage
 from backend.environment.power_client import parse_response
+from backend.environment.storage import ensure_location
+from backend.environment.service import summary_for
+from backend.models import EnvironmentalValue, IngestionReport
+from backend.admission import admit, PREFIX
 from backend.recommendation.schemas import FarmingPlanInput
 from backend.recommendation.engine import build_report
 
@@ -169,16 +174,6 @@ class AnalysisUnitTests(unittest.TestCase):
         self.assertEqual(p["planningInputs"]["previousCrops"], [])
         self.assertEqual(p["farmerProfile"]["agriculturalConstraints"], "previously barley")
 
-    def test_report_rate_limit(self):
-        _windows.clear()
-        for _ in range(6):
-            check_analysis_rate("synthetic-test-user", clock=lambda: 100)
-        with self.assertRaises(HTTPException) as caught:
-            check_analysis_rate("synthetic-test-user", clock=lambda: 100)
-        self.assertEqual(caught.exception.status_code, 429)
-        check_analysis_rate("synthetic-test-user", clock=lambda: 161)
-        _windows.clear()
-
     def test_coverage_requires_every_parameter_and_day(self):
         days = (END - START).days + 1
         self.assertEqual(missing_parameters({p: days for p in PARAMETERS}), [])
@@ -209,7 +204,6 @@ class AnalysisApiTests(unittest.TestCase):
         self.db = Session(bind=self.connection, join_transaction_mode="create_savepoint")
         app.dependency_overrides[get_db] = lambda: self.db
         self.client = TestClient(app)
-        _windows.clear()
 
     def tearDown(self):
         self.client.close()
@@ -217,7 +211,6 @@ class AnalysisApiTests(unittest.TestCase):
         self.db.close()
         self.transaction.rollback()
         self.connection.close()
-        _windows.clear()
 
     def farm(self, **overrides):
         r = self.client.post("/api/farms", json={
@@ -232,6 +225,81 @@ class AnalysisApiTests(unittest.TestCase):
         self.assertEqual(r.status_code, 200)
         self.assertFalse(r.json()["predictionsEnabled"])
         self.assertNotIn("directory", r.json())
+
+    def test_shared_report_limit_survives_owner_rotation(self):
+        # A second session facade is not a second process-local counter: every
+        # permit is read from the shared database, under an advisory lock.
+        for n in range(24):
+            check_analysis_rate(f"synthetic-owner-{n}", self.db)
+        with self.assertRaises(HTTPException) as caught:
+            check_analysis_rate("another-new-browser-owner", self.db)
+        self.assertEqual(caught.exception.status_code, 429)
+
+    def test_shared_owner_and_nasa_budgets(self):
+        for _ in range(6):
+            check_analysis_rate("synthetic-one-owner", self.db)
+        with self.assertRaises(HTTPException):
+            check_analysis_rate("synthetic-one-owner", self.db)
+        check_analysis_rate("different-owner", self.db)
+        for _ in range(12):
+            admit(self.db, "nasa", 12)
+        with self.assertRaises(HTTPException):
+            admit(self.db, "nasa", 12)
+
+    def test_admission_rows_are_private_and_only_technical_rows_expire(self):
+        old = datetime.now(timezone.utc) - timedelta(days=2)
+        audit = IngestionReport(source="Synthetic preserved import audit", status="completed",
+                                started_at=old, report={"nonSensitiveFixture": True})
+        self.db.add_all([audit, IngestionReport(source=PREFIX+"analysis", status="internal_admission",
+                        started_at=old, report={"scope": "old-synthetic-scope"})])
+        self.db.commit()
+        kept_id = audit.id
+        check_analysis_rate("synthetic-owner", self.db)
+        self.assertIsNotNone(self.db.get(IngestionReport, kept_id))
+        response = self.client.get("/api/data/status")
+        self.assertNotIn(PREFIX, response.text)
+        self.assertNotIn("synthetic-owner", response.text)
+
+    def test_other_products_cannot_hide_missing_nasa_dates(self):
+        loc = ensure_location(self.db, 38.12345, -4.54321)
+        count = (END-START).days+1
+        # More than the required number of rows, but only one date and no
+        # expected NASA POWER product. This must still be incomplete.
+        self.db.add_all([EnvironmentalValue(
+            location_key=loc.key, date=START, parameter="T2M", value=None, unit="C",
+            source="Synthetic software fixture", product=f"OTHER_{n}", source_url="https://example.org/test",
+            classification="software_fixture", quality="missing", metadata_json={}) for n in range(count)])
+        self.db.flush()
+        self.assertEqual(parameter_coverage(self.db, loc.key).get("T2M", 0), 0)
+        self.db.add(EnvironmentalValue(
+            location_key=loc.key, date=START, parameter="T2M", value=None, unit="C",
+            source="NASA POWER", product="POWER_DAILY", source_url="https://power.larc.nasa.gov/",
+            classification="software_fixture", quality="missing_fill", metadata_json={}))
+        self.db.flush()
+        self.assertEqual(parameter_coverage(self.db, loc.key)["T2M"], 1)
+        self.assertIn("T2M", missing_parameters(parameter_coverage(self.db, loc.key)))
+
+    def test_partial_utc_retrieval_does_not_relabel_imported_cache(self):
+        loc = ensure_location(self.db, 38.12346, -4.54322)
+        self.db.add(EnvironmentalValue(
+            location_key=loc.key, date=START, parameter="T2M", value=15, unit="C",
+            source="NASA POWER", product="POWER_DAILY", source_url="https://power.larc.nasa.gov/",
+            classification="software_fixture", quality="valid",
+            metadata_json={"timeStandard": "unspecified_in_uploaded_file"}))
+        self.db.commit()
+        def request(client, lat, lon, group):
+            params = {p: {"20190101": 0.5 if p.startswith("GWET") else 15} for p in group}
+            return {"header": {"time_standard": "UTC"}, "parameters": {
+                p: {"units": PARAMETERS[p][0]} for p in group},
+                "properties": {"parameter": params}}, "https://power.larc.nasa.gov/"
+        with patch("backend.environment.power_client.request_group", side_effect=request):
+            loc = ensure_environment(self.db, loc.latitude, loc.longitude)
+        self.assertNotIn("timeStandard", loc.metadata_json)
+        self.assertEqual(loc.metadata_json["requestTimeStandard"], "UTC")
+        summary = summary_for(self.db, loc)
+        self.assertTrue(any("time standard" in w for w in summary["warnings"]))
+        self.assertIn("unspecified_in_uploaded_file", [
+            p["metadata"]["timeStandard"] for p in summary["provenance"]])
 
     def test_saved_snapshot_and_owner_enforcement(self):
         farm_id = self.farm()

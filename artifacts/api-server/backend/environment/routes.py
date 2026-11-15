@@ -13,6 +13,7 @@ from .constants import LOCATIONS, location_key
 from .importer import import_bundle
 from .features import build_features
 from .storage import ensure_location
+from ..admission import PREFIX as ADMISSION_PREFIX
 
 router = APIRouter(prefix="/api")
 
@@ -63,7 +64,8 @@ def compare(db: Session = Depends(get_db)):
 
 @router.get("/data/status")
 def status(db: Session = Depends(get_db)):
-    audits = db.scalars(select(IngestionReport).order_by(IngestionReport.id.desc()).limit(15)).all()
+    audits = db.scalars(select(IngestionReport).where(
+        ~IngestionReport.source.startswith(ADMISSION_PREFIX)).order_by(IngestionReport.id.desc()).limit(15)).all()
     return {"environmentalValues": db.scalar(select(func.count()).select_from(EnvironmentalValue)),
         "soilEstimates": db.scalar(select(func.count()).select_from(SoilEstimate)),
         "importPolicy": "Only operator-allowlisted browser sessions may run the fixed-bundle import. Server CLI is available; arbitrary uploads/paths are not accepted.",

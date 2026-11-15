@@ -11,6 +11,7 @@ from ..models import EnvironmentalValue, EnvironmentalLocation, IngestionReport
 from .constants import PARAMETERS, POWER_URL, CLIMATE, WETNESS, START, END
 from .validation import numeric, parse_date, coords
 from .storage import ensure_location, store_values
+from ..admission import admit
 
 logger = logging.getLogger(__name__)
 requests_lock = threading.Lock()
@@ -84,8 +85,9 @@ def parameter_coverage(db, key):
     A cached fill remains missing evidence; repeatedly fetching an immutable
     historical fill would not make it a measurement.
     """
-    return dict(db.execute(select(EnvironmentalValue.parameter, func.count())
+    return dict(db.execute(select(EnvironmentalValue.parameter, func.count(func.distinct(EnvironmentalValue.date)))
         .where(EnvironmentalValue.location_key == key,
+               EnvironmentalValue.product == "POWER_DAILY", EnvironmentalValue.source == "NASA POWER",
                EnvironmentalValue.date >= START, EnvironmentalValue.date <= END)
         .group_by(EnvironmentalValue.parameter)).all())
 
@@ -108,6 +110,9 @@ def ensure_environment(db, lat, lon):
         location._retrieval = {"mode": "cached", "requestMade": False,
                                "coverageComplete": not missing_parameters(coverage)}
         return location
+    # Shared across browser sessions and API workers. Must precede the exact-
+    # point transaction lock, which stays held throughout the NASA retrieval.
+    admit(db, "nasa", limit=12)
     # DB advisory lock works across API workers; exact point cache, never nearest city.
     lock = int(hashlib.sha256(location.key.encode()).hexdigest()[:15], 16)
     from fastapi import HTTPException
@@ -160,7 +165,7 @@ def ensure_environment(db, lat, lon):
     if remaining:
         warnings.append("Historical date coverage is incomplete for: " + ", ".join(remaining))
     location.metadata_json = {"warnings": warnings, "cachePolicy": "exact coordinates to 5 decimals; no inferred grid reuse",
-                              "requestedPeriod": [START.isoformat(), END.isoformat()], "timeStandard": "UTC",
+                              "requestedPeriod": [START.isoformat(), END.isoformat()], "requestTimeStandard": "UTC",
                               "incompleteParameters": remaining}
     audit.status = "partial" if (errors or remaining) and inserted else "failed" if errors else "partial" if remaining else "completed"
     audit.report = {"insertedValues": inserted, "errors": errors, "warnings": warnings, "latitude": lat, "longitude": lon}
