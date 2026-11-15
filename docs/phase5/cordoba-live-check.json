@@ -1,0 +1,63 @@
+{
+  "checkedAt": "2026-11-15T12:33:57.730272+00:00",
+  "testPoint": "C\u00f3rdoba city reference, not a farm",
+  "latitude": 37.8882,
+  "longitude": -4.7794,
+  "synthetic": false,
+  "persistedToDatabase": false,
+  "groups": [
+    {
+      "status": "available",
+      "parameters": [
+        "T2M",
+        "T2M_MAX",
+        "T2M_MIN",
+        "PRECTOTCORR",
+        "RH2M"
+      ],
+      "sourceUrl": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CT2M_MAX%2CT2M_MIN%2CPRECTOTCORR%2CRH2M&community=AG&latitude=37.8882&longitude=-4.7794&start=20190101&end=20251231&format=JSON&time-standard=UTC",
+      "timeStandard": "UTC",
+      "returnedGeometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.779,
+          37.888,
+          409.24
+        ]
+      },
+      "values": 12785,
+      "validValues": 12785,
+      "dates": [
+        "2019-01-01",
+        "2025-12-31"
+      ],
+      "payloadSha256": "7c5a355a9b29f781e35fec478be808db4dc2475717ae32e639a4b0fd8b7cb7ad",
+      "warnings": []
+    },
+    {
+      "status": "available",
+      "parameters": [
+        "GWETTOP",
+        "GWETROOT"
+      ],
+      "sourceUrl": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=GWETTOP%2CGWETROOT&community=AG&latitude=37.8882&longitude=-4.7794&start=20190101&end=20251231&format=JSON&time-standard=UTC",
+      "timeStandard": "UTC",
+      "returnedGeometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.779,
+          37.888,
+          409.24
+        ]
+      },
+      "values": 5114,
+      "validValues": 5114,
+      "dates": [
+        "2019-01-01",
+        "2025-12-31"
+      ],
+      "payloadSha256": "856686733275b9693505acb7ed4a6ac2534296c6864b4a60a96171516c22c205",
+      "warnings": []
+    }
+  ]
+}

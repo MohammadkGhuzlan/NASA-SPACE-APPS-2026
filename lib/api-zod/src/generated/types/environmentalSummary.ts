@@ -8,8 +8,10 @@
 import type { ClimateAggregate } from './climateAggregate';
 import type { EnvironmentLocation } from './environmentLocation';
 import type { EnvironmentProvenance } from './environmentProvenance';
+import type { JsonRecord } from './jsonRecord';
 
 export interface EnvironmentalSummary {
+  retrieval?: JsonRecord;
   location: EnvironmentLocation;
   status: string;
   monthly: ClimateAggregate[];

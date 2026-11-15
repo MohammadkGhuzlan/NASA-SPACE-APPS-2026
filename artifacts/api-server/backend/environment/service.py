@@ -20,6 +20,7 @@ def summary_for(db, location, hot=35, dry=1):
                 "product": v.product, "classification": v.classification, "sourceUrl": v.source_url,
                 "retrievedAt": v.retrieved_at.isoformat(), "metadata": v.metadata_json}
     result.update(location=location_json(location), status="available" if values else "unavailable",
+        retrieval=getattr(location, "_retrieval", {"mode": "stored", "requestMade": False}),
         provenance=list(provenance.values()), availableParameters=sorted({v.parameter for v in values if v.value is not None}))
     if any(v.value is None for v in values) or (values and any(m[p] is None for m in result["monthly"] for p in PARAMETERS)):
         result["status"] = "partial"

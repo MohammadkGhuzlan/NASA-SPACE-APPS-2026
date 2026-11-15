@@ -8,6 +8,18 @@
 import * as zod from 'zod';
 
 
+export const GetAnalysisModelStatusResponse = zod.object({
+  "adapterVersion": zod.string(),
+  "stage": zod.enum(['stage_a']),
+  "state": zod.enum(['not_installed', 'incompatible', 'insufficiently_validated', 'validated_ready', 'temporarily_unavailable']),
+  "predictionsEnabled": zod.boolean(),
+  "message": zod.string(),
+  "reasons": zod.array(zod.string()),
+  "contract": zod.record(zod.string(), zod.unknown()),
+  "target": zod.record(zod.string(), zod.unknown())
+})
+
+
 export const GetAgriculturalKnowledgeResponse = zod.object({
   "version": zod.string(),
   "crops": zod.array(zod.object({
@@ -150,7 +162,32 @@ export const GenerateFarmingPlanResponse = zod.object({
   "scope": zod.string(),
   "checkedOn": zod.string()
 })),
-  "environmentalEvidence": zod.record(zod.string(), zod.unknown())
+  "environmentalEvidence": zod.record(zod.string(), zod.unknown()),
+  "aiIntegration": zod.object({
+  "adapterVersion": zod.string(),
+  "stage": zod.enum(['stage_a']),
+  "generatedAt": zod.string(),
+  "model": zod.object({
+  "adapterVersion": zod.string(),
+  "stage": zod.enum(['stage_a']),
+  "state": zod.enum(['not_installed', 'incompatible', 'insufficiently_validated', 'validated_ready', 'temporarily_unavailable']),
+  "predictionsEnabled": zod.boolean(),
+  "message": zod.string(),
+  "reasons": zod.array(zod.string()),
+  "contract": zod.record(zod.string(), zod.unknown()),
+  "target": zod.record(zod.string(), zod.unknown())
+}),
+  "featurePreparation": zod.record(zod.string(), zod.unknown()),
+  "coverage": zod.array(zod.object({
+  "crop": zod.string(),
+  "modelCrop": zod.string().nullable(),
+  "status": zod.enum(['insufficient_evidence']),
+  "available": zod.boolean(),
+  "reasons": zod.array(zod.string())
+})),
+  "plannerUse": zod.string(),
+  "warnings": zod.array(zod.string())
+}).optional()
 })
 
 
@@ -229,7 +266,32 @@ export const GetFarmingPlanResponse = zod.object({
   "scope": zod.string(),
   "checkedOn": zod.string()
 })),
-  "environmentalEvidence": zod.record(zod.string(), zod.unknown())
+  "environmentalEvidence": zod.record(zod.string(), zod.unknown()),
+  "aiIntegration": zod.object({
+  "adapterVersion": zod.string(),
+  "stage": zod.enum(['stage_a']),
+  "generatedAt": zod.string(),
+  "model": zod.object({
+  "adapterVersion": zod.string(),
+  "stage": zod.enum(['stage_a']),
+  "state": zod.enum(['not_installed', 'incompatible', 'insufficiently_validated', 'validated_ready', 'temporarily_unavailable']),
+  "predictionsEnabled": zod.boolean(),
+  "message": zod.string(),
+  "reasons": zod.array(zod.string()),
+  "contract": zod.record(zod.string(), zod.unknown()),
+  "target": zod.record(zod.string(), zod.unknown())
+}),
+  "featurePreparation": zod.record(zod.string(), zod.unknown()),
+  "coverage": zod.array(zod.object({
+  "crop": zod.string(),
+  "modelCrop": zod.string().nullable(),
+  "status": zod.enum(['insufficient_evidence']),
+  "available": zod.boolean(),
+  "reasons": zod.array(zod.string())
+})),
+  "plannerUse": zod.string(),
+  "warnings": zod.array(zod.string())
+}).optional()
 })
 
 
@@ -250,6 +312,7 @@ export const GetEnvironmentalSummaryQueryParams = zod.object({
 })
 
 export const GetEnvironmentalSummaryResponse = zod.object({
+  "retrieval": zod.record(zod.string(), zod.unknown()).optional(),
   "location": zod.object({
   "key": zod.string(),
   "name": zod.string(),
@@ -507,6 +570,7 @@ export const CompareRegionsResponseItem = zod.object({
   "latitude": zod.number(),
   "longitude": zod.number(),
   "summary": zod.union([zod.object({
+  "retrieval": zod.record(zod.string(), zod.unknown()).optional(),
   "location": zod.object({
   "key": zod.string(),
   "name": zod.string(),
