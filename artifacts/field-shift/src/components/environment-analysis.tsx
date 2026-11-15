@@ -10,10 +10,11 @@ import { Tag } from "@/components/shell";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { retryEnvironment, environmentRetryDelay } from "@/lib/environment-retry";
 import { axisTick, errMessage, fmtNum, Note, Section, SectionSkeleton, tooltipStyle, Unavailable, Warnings } from "@/components/env-kit";
 
 const YEARS = [2019, 2020, 2021, 2022, 2023, 2024, 2025];
-const LONG = { staleTime: 30 * 60 * 1000, retry: 1 };
+const LONG = { staleTime: 30 * 60 * 1000, retry: retryEnvironment, retryDelay: environmentRetryDelay };
 
 const unitFor = (name: string) => {
   const n = name.toLowerCase();

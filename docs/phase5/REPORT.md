@@ -1,5 +1,12 @@
 # Phase 5 Stage A — implementation and review report
 
+> **Historical report from the isolated implementation.** Stage A has since
+> been independently reviewed, corrected and integrated into development
+> `main`. The statements below about isolation and process-local admission
+> describe the earlier snapshot, not the current implementation. See
+> [Engineering verification](ENGINEERING_VERIFICATION.md) for current behavior,
+> fresh test results, real database persistence and browser evidence.
+
 ## A. Status and isolation
 
 **Stage A is implemented for review. Stage B was not executed. Full Phase 5

@@ -204,8 +204,14 @@ class AnalysisApiTests(unittest.TestCase):
         self.db = Session(bind=self.connection, join_transaction_mode="create_savepoint")
         app.dependency_overrides[get_db] = lambda: self.db
         self.client = TestClient(app)
+        # Admission tests must not assume the development app has no other
+        # users. Isolate the ledger's time window inside this rollback.
+        self.admission_clock = patch("backend.admission.datetime")
+        self.mock_clock = self.admission_clock.start()
+        self.mock_clock.now.return_value = datetime(2099, 1, 1, tzinfo=timezone.utc)
 
     def tearDown(self):
+        self.admission_clock.stop()
         self.client.close()
         app.dependency_overrides.clear()
         self.db.close()
@@ -331,20 +337,22 @@ class AnalysisApiTests(unittest.TestCase):
                 self.assertAlmostEqual(location.latitude, lat)
                 self.assertAlmostEqual(location.longitude, lon)
 
-    def test_unseen_cordoba_failure_never_substitutes_study(self):
-        farm_id = self.farm(latitude=37.8882, longitude=-4.7794, locationName="Córdoba test point")
+    def test_unseen_point_failure_never_substitutes_study(self):
+        # The actual Córdoba coordinate is intentionally cached by the browser
+        # verification. Use a distinct exact point for a synthetic outage.
+        farm_id = self.farm(latitude=37.88821, longitude=-4.77941, locationName="Synthetic outage point")
         with patch("backend.environment.power_client.request_group", side_effect=ValueError("simulated NASA outage")):
             r = self.client.post(f"/api/farms/{farm_id}/plans", json={})
         self.assertEqual(r.status_code, 201, r.text)
         p = r.json()["aiIntegration"]["featurePreparation"]
-        self.assertEqual(p["environmentLocation"]["latitude"], 37.8882)
-        self.assertEqual(p["environmentLocation"]["longitude"], -4.7794)
+        self.assertEqual(p["environmentLocation"]["latitude"], 37.88821)
+        self.assertEqual(p["environmentLocation"]["longitude"], -4.77941)
         self.assertEqual(p["environmentStatus"], "unavailable")
         self.assertIsNone(p["modelFeatures"])
         public = self.client.get("/api/data/status").json()
         api_reports = [r for r in public["reports"] if r["source"].startswith("NASA POWER API")]
         self.assertTrue(api_reports)
-        self.assertNotIn("37.88820", json.dumps(api_reports))
+        self.assertNotIn("37.88821", json.dumps(api_reports))
         self.assertTrue(all("latitude" not in r["report"] and "longitude" not in r["report"]
                             for r in api_reports))
 

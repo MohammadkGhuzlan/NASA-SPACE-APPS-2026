@@ -26,7 +26,7 @@ export function AnalysisStatus({ evidence }: { evidence?: AnalysisIntegration })
         <p className="text-sm text-muted-foreground">
           Stage A only. {status.state === "insufficiently_validated"
             ? "Research candidates were trained but did not pass validation."
-            : "No reviewed, accepted model is active."}
+            : "No reviewed, accepted model is active."}{" "}
           Historical NASA data and agricultural reference rules remain available.
           No suitability value, confidence percentage, or similar-region estimate is being supplied.
         </p>
