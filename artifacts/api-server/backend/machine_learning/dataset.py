@@ -12,7 +12,7 @@ from .environment import acquire_power, acquire_soil
 from .labels import import_labels, cell_at, validate_samples
 
 
-def prepare(samples_path, cache, output):
+def prepare(samples_path, cache, output, *, budget=None):
     samples = read_json(samples_path)
     # Verify immutable scientific sources again before any environmental requests.
     manifest = samples["source_manifest"]
@@ -25,6 +25,8 @@ def prepare(samples_path, cache, output):
         cells.setdefault(row["cell_id"], []).append(row)
 
     def process(group):
+        if budget is not None:
+            budget.check()
         row = group[0]
         try:
             # Soil masks exclude many all-land cells. Check them before fetching
@@ -52,6 +54,8 @@ def prepare(samples_path, cache, output):
             # Incremental reports make interrupted runs inspectable; cache makes restart cheap.
             write_json(Path(output) / "progress.json", {"processed_cells": index,
                        "total_cells": len(cells), "valid_rows": len(rows), "excluded": exclusions})
+            if budget is not None:
+                budget.check()
     bundle = {"contract": CONTRACT, "target": TARGET, "source_manifest": manifest,
               "samples_sha256": sha256(samples_path), "sampling": {
                   k: samples[k] for k in ("seed", "requested_cells", "sampling")},

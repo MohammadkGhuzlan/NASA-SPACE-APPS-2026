@@ -1,0 +1,10 @@
+{
+  "cache_bytes": 732606087,
+  "completed": true,
+  "cpu_seconds": 688.229441,
+  "elapsed_seconds": 2377.722275737,
+  "ended_at": "2026-11-15T14:42:42.442551+00:00",
+  "peak_rss_kib": 587600,
+  "protocol_sha256": "ea86956bf677da1ac2320f700089bd2096c0f1e19a5a55b65e4d5861e854f1bc",
+  "started_at": "2026-11-15T14:03:04.720333+00:00"
+}

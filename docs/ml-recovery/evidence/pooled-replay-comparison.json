@@ -1,0 +1,52 @@
+{
+  "final_test_evaluated": false,
+  "metric_deltas": {
+    "forest_leaf_3": {
+      "mae": 0.0,
+      "r2": -1.1102230246251565e-16,
+      "rmse": 4.547473508864641e-13
+    },
+    "forest_leaf_8": {
+      "mae": 2.2737367544323206e-13,
+      "r2": 0.0,
+      "rmse": 0.0
+    },
+    "ridge_1.0": {
+      "mae": 0.0,
+      "r2": 0.0,
+      "rmse": 0.0
+    },
+    "ridge_10.0": {
+      "mae": 0.0,
+      "r2": 0.0,
+      "rmse": 0.0
+    }
+  },
+  "model_saved": false,
+  "reasons": [
+    "validation_aggregate_mae",
+    "validation_aggregate_r2",
+    "validation_no_meaningful_dummy_improvement",
+    "validation_no_meaningful_crop_mean_improvement",
+    "validation_crop_error:BRL",
+    "validation_crop_worse_than_baseline:RCW",
+    "validation_crop_error:WHE",
+    "validation_insufficient_test_region_support:lat1_lon3",
+    "validation_insufficient_test_region_support:lat1_lon4",
+    "validation_insufficient_test_region_support:lat1_lon5",
+    "validation_insufficient_test_region_support:lat2_lon1",
+    "validation_insufficient_test_region_support:lat2_lon2",
+    "validation_insufficient_test_region_support:lat2_lon3",
+    "validation_insufficient_test_region_support:lat2_lon5",
+    "validation_insufficient_test_region_support:lat3_lon1",
+    "validation_insufficient_test_region_support:lat3_lon3",
+    "validation_insufficient_test_region_support:lat4_lon1",
+    "validation_insufficient_test_region_support:lat4_lon3",
+    "validation_insufficient_test_region_support:lat4_lon4",
+    "validation_insufficient_test_region_support:lat4_lon5",
+    "validation_insufficient_test_region_support:lat5_lon1",
+    "validation_insufficient_test_region_support:lat5_lon2",
+    "validation_insufficient_test_region_support:lat5_lon4"
+  ],
+  "status": "rejected_on_validation"
+}

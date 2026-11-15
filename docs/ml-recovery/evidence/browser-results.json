@@ -1,0 +1,32 @@
+{
+  "pass": "farm-suitability-availability-and-saved-reference-report",
+  "result": "pass_with_notes",
+  "browserContexts": { "primary": "fresh context (seeded farms, generated reports, reopen checks)", "isolation": "second independent fresh context" },
+  "createdTestFarms": [
+    { "id": 227, "name": "MLRECOVERY-BROWSER-mwhy9zxj-irbid", "location": "Irbid", "reportId": 118 },
+    { "id": 228, "name": "MLRECOVERY-BROWSER-mwhy9zxj-al_ain", "location": "Al Ain", "reportId": 119 },
+    { "id": 229, "name": "MLRECOVERY-BROWSER-mwhy9zxj-colusa", "location": "Colusa", "reportId": 120 },
+    { "id": 230, "name": "MLRECOVERY-BROWSER-mwhy9zxj-stuttgart", "location": "Stuttgart, Arkansas", "reportId": 121 },
+    { "id": 231, "name": "MLRECOVERY-BROWSER-mwhy9zxj-cordoba", "location": "Cordoba", "reportId": 122 }
+  ],
+  "perLocation": {
+    "irbid": { "planner": "/farms/227/planner", "liveLane": "AI crop-suitability predictions are not yet available", "reportSaved": true, "postStatus": 201, "reportStatus": "reference_based_plan", "modelStatus": "not_trained", "withheldDisclosureVerified": true, "reopenVerified": true },
+    "al_ain": { "planner": "/farms/228/planner", "liveLane": "AI crop-suitability predictions are not yet available", "reportSaved": true, "postStatus": 201, "reportStatus": "reference_based_plan", "modelStatus": "not_trained", "withheldDisclosureVerified": true, "reopenVerified": true },
+    "colusa": { "planner": "/farms/229/planner", "liveLane": "AI crop-suitability predictions are not yet available", "reportSaved": true, "postStatus": 201, "reportStatus": "reference_based_plan", "modelStatus": "not_trained", "withheldDisclosureVerified": true, "reopenVerified": true },
+    "stuttgart": { "planner": "/farms/230/planner", "liveLane": "AI crop-suitability predictions are not yet available", "reportSaved": true, "postStatus": 201, "reportStatus": "reference_based_plan", "modelStatus": "not_trained", "withheldDisclosureVerified": true, "reopenVerified": true },
+    "cordoba": { "planner": "/farms/231/planner", "liveLane": "AI crop-suitability predictions are not yet available", "reportSaved": true, "postStatus": 201, "reportStatus": "reference_based_plan", "modelStatus": "not_trained", "withheldDisclosureVerified": true, "reopenVerified": true, "note": "withheld list also includes 'soil features missing'" }
+  },
+  "isolation": {
+    "secondContext": { "GET /api/farms/227": 404, "GET /api/farms/227/plans": 404, "GET /api/farms/227/plans/118": 404, "body": "Farm not found in this browser workspace." },
+    "originalContext": { "GET /api/farms/227": 200, "GET /api/farms/227/plans": 200, "GET /api/farms/227/plans/118": 200 }
+  },
+  "errors": { "consoleErrorsOrWarnings": [], "apiErrorResponses": [] },
+  "notes": [
+    "Saved reports read 'Reference rules only' and 'No Field Shift model predictions'; no numeric model prediction, confidence, or yield forecast appeared.",
+    "Published FAO GAEZ lookup remained a separate labeled lane (gaez-evidence); its lookup was not clicked.",
+    "Dashboard 2019-2025 inputs were not relabeled as 2001-2020 research inputs (disclosure text confirms).",
+    "Withheld reasons include phase4 validation not passed, missing accepted model, reference period mismatch, daily time standard unverified or mixed.",
+    "Per-location checks were text-presence checks on the snapshot; the planner's FAO lookup and unrelated editing were not exercised."
+  ],
+  "cleanup": "Test-only farms 227-231 (names prefixed MLRECOVERY-BROWSER-mwhy9zxj-) and their reports 118-122 were created by this pass; no other farms were touched."
+}

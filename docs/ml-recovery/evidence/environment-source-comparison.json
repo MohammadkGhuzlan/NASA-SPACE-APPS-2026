@@ -1,0 +1,15 @@
+{
+  "climate_byte_hashes_equal_to_original": 0,
+  "climate_objects_compared": 124,
+  "native_tile_byte_hashes_equal_to_original": 705,
+  "native_tiles_compared": 705,
+  "original_example_features_replayed": true,
+  "original_example_max_absolute_numeric_difference": 0.0,
+  "soil_vrt_hashes_match_original": {
+    "clay": true,
+    "phh2o": true,
+    "sand": true,
+    "silt": true,
+    "soc": true
+  }
+}

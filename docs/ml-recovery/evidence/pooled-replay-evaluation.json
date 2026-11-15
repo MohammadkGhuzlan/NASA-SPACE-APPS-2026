@@ -1,0 +1,6114 @@
+{
+  "config": {
+    "buffer_km": 150,
+    "forest_min_samples_leaf": [
+      3,
+      8
+    ],
+    "forest_trees": 150,
+    "maximum_crop_mae": 1800,
+    "maximum_mae": 1500,
+    "maximum_region_mae": 2000,
+    "minimum_blocks_per_partition": 6,
+    "minimum_cells": 120,
+    "minimum_label_span": 3000,
+    "minimum_r2": 0.2,
+    "minimum_relative_mae_gain": 0.1,
+    "minimum_test_cells": 20,
+    "minimum_test_cells_per_crop": 20,
+    "minimum_test_cells_per_region": 5,
+    "minimum_train_cells": 60,
+    "minimum_validation_cells": 20,
+    "ridge_alpha": [
+      1.0,
+      10.0
+    ],
+    "seed": 42,
+    "validation_distance_quantile": 0.95,
+    "version": "preregistered-1"
+  },
+  "config_hash": "079a763bb37b8587e0a961fabe7df8ddb373971cf4bc0ece0a1bca7de87c2be6",
+  "contract": {
+    "categorical": [
+      "crop",
+      "scenario"
+    ],
+    "climate_source": "NASA POWER",
+    "coordinates_as_features": false,
+    "missing_policy": "reject",
+    "numeric": [
+      "tmean_m01",
+      "tmean_m02",
+      "tmean_m03",
+      "tmean_m04",
+      "tmean_m05",
+      "tmean_m06",
+      "tmean_m07",
+      "tmean_m08",
+      "tmean_m09",
+      "tmean_m10",
+      "tmean_m11",
+      "tmean_m12",
+      "rain_m01",
+      "rain_m02",
+      "rain_m03",
+      "rain_m04",
+      "rain_m05",
+      "rain_m06",
+      "rain_m07",
+      "rain_m08",
+      "rain_m09",
+      "rain_m10",
+      "rain_m11",
+      "rain_m12",
+      "clay_pct",
+      "sand_pct",
+      "silt_pct",
+      "ph",
+      "soc_g_kg"
+    ],
+    "period": [
+      2001,
+      2020
+    ],
+    "soil_depth_cm": [
+      0,
+      5
+    ],
+    "soil_source": "ISRIC SoilGrids",
+    "soil_statistic": "mean",
+    "spatial_rule": "GAEZ cell-center POWER point; area-mean SoilGrids over label cell",
+    "time_standard": "UTC",
+    "units": {
+      "clay_pct": "%",
+      "ph": "pH",
+      "rain_m01": "mm/month",
+      "rain_m02": "mm/month",
+      "rain_m03": "mm/month",
+      "rain_m04": "mm/month",
+      "rain_m05": "mm/month",
+      "rain_m06": "mm/month",
+      "rain_m07": "mm/month",
+      "rain_m08": "mm/month",
+      "rain_m09": "mm/month",
+      "rain_m10": "mm/month",
+      "rain_m11": "mm/month",
+      "rain_m12": "mm/month",
+      "sand_pct": "%",
+      "silt_pct": "%",
+      "soc_g_kg": "g/kg",
+      "tmean_m01": "C",
+      "tmean_m02": "C",
+      "tmean_m03": "C",
+      "tmean_m04": "C",
+      "tmean_m05": "C",
+      "tmean_m06": "C",
+      "tmean_m07": "C",
+      "tmean_m08": "C",
+      "tmean_m09": "C",
+      "tmean_m10": "C",
+      "tmean_m11": "C",
+      "tmean_m12": "C"
+    },
+    "version": "gaez-approximation-1"
+  },
+  "data_source_versions": {
+    "climate": [
+      {
+        "api": {
+          "name": "POWER Daily API",
+          "version": "v2.10.3"
+        },
+        "sources": [
+          "MERRA2"
+        ]
+      }
+    ],
+    "labels": {
+      "mapset": "RES05-SXX",
+      "publisher": "FAO/IIASA",
+      "version": "GAEZ v5"
+    },
+    "soil": {
+      "clay": {
+        "depth_cm": [
+          0,
+          5
+        ],
+        "product": "clay_0-5cm_mean",
+        "vrt_sha256": "ad1a77d56090bf543e3600bc48d4cd6fa80f8e1a9eb37177044de65a64848ede"
+      },
+      "phh2o": {
+        "depth_cm": [
+          0,
+          5
+        ],
+        "product": "phh2o_0-5cm_mean",
+        "vrt_sha256": "28bf9ceef0ee29a2d29926929b1760eddb6749b4f31ed212e8d536a226892f0d"
+      },
+      "sand": {
+        "depth_cm": [
+          0,
+          5
+        ],
+        "product": "sand_0-5cm_mean",
+        "vrt_sha256": "a3367c212d59c4f482282b0df789348db3b48bf0301582d71a73540b2da118e4"
+      },
+      "silt": {
+        "depth_cm": [
+          0,
+          5
+        ],
+        "product": "silt_0-5cm_mean",
+        "vrt_sha256": "62fe5feb4e89c864a6f510fc467652304721e8c19f424cf26742f187fb34cc6b"
+      },
+      "soc": {
+        "depth_cm": [
+          0,
+          5
+        ],
+        "product": "soc_0-5cm_mean",
+        "vrt_sha256": "5be0b42c0eb913f81eb55cda503dd5742d0d9195375adafea84c8d618aef4f5b"
+      }
+    }
+  },
+  "dataset_hash": "c65011185d4b5f79cbec3e2f069912731cad3df15d6c8ffb0c3af9e98f7d0734",
+  "environmental_manifest_notice": "Full environmental object manifest retained with local complete evaluation and authentic restored dataset; this review snapshot omits that repeated list.",
+  "full_evaluation_path": "generated-artifacts/ml-recovery/pooled-replay/evaluation.json",
+  "full_evaluation_sha256": "b9bafeecc926c3783c3522d7cda6f2706536819ce9df972ce6a36aced507bb57",
+  "limitations": [
+    "Approximates a modeled GAEZ assessment, not observed farm success.",
+    "POWER and GAEZ AgERA5 are different climate products despite aligned years.",
+    "Coarse regional climate and ~10 km labels do not establish field precision.",
+    "0\u20135 cm modeled soil is not a laboratory test or a full root-zone profile.",
+    "Coverage screening is conservative and is not a complete Phase 5 reliability system.",
+    "No confidence percentage, yield, management benefit or rotation advice is provided."
+  ],
+  "model_saved": false,
+  "reasons": [
+    "validation_aggregate_mae",
+    "validation_aggregate_r2",
+    "validation_no_meaningful_dummy_improvement",
+    "validation_no_meaningful_crop_mean_improvement",
+    "validation_crop_error:BRL",
+    "validation_crop_worse_than_baseline:RCW",
+    "validation_crop_error:WHE",
+    "validation_insufficient_test_region_support:lat1_lon3",
+    "validation_insufficient_test_region_support:lat1_lon4",
+    "validation_insufficient_test_region_support:lat1_lon5",
+    "validation_insufficient_test_region_support:lat2_lon1",
+    "validation_insufficient_test_region_support:lat2_lon2",
+    "validation_insufficient_test_region_support:lat2_lon3",
+    "validation_insufficient_test_region_support:lat2_lon5",
+    "validation_insufficient_test_region_support:lat3_lon1",
+    "validation_insufficient_test_region_support:lat3_lon3",
+    "validation_insufficient_test_region_support:lat4_lon1",
+    "validation_insufficient_test_region_support:lat4_lon3",
+    "validation_insufficient_test_region_support:lat4_lon4",
+    "validation_insufficient_test_region_support:lat4_lon5",
+    "validation_insufficient_test_region_support:lat5_lon1",
+    "validation_insufficient_test_region_support:lat5_lon2",
+    "validation_insufficient_test_region_support:lat5_lon4"
+  ],
+  "selected": "forest_leaf_3",
+  "source_manifest": {
+    "attribution": "FAO and IIASA (2025), GAEZ v5 suitability index; subset/processing by Field Shift",
+    "catalog": {
+      "bytes": 4046932,
+      "etag": "\"1772115279.52-4046932\"",
+      "retrieved_at": "2026-11-15T13:59:51.353682+00:00",
+      "sha256": "8e9bb91f901724bbc7aadcf7e65154d3b9b4b34b0ae081c90a729c4766757b22",
+      "url": "https://data.apps.fao.org/catalog/dataset/514c92d5-9e01-4c70-814a-80ea1ca9fe6a/resource/768b08ad-be9c-427a-84be-3a3d6dd7835a/download/_readme_res05.xlsx"
+    },
+    "license": "CC-BY-4.0",
+    "mapset": "RES05-SXX",
+    "metadata": {
+      "bytes": 19542,
+      "etag": null,
+      "retrieved_at": "2026-11-15T13:59:53.540030+00:00",
+      "sha256": "5fb912a04c7d96d58e22b7169c87734abfca697471d72a8be660eef06187cd7e",
+      "url": "https://data.apps.fao.org/catalog/api/3/action/package_show?id=d666d360-0e3c-467c-beb0-29ad55df5855"
+    },
+    "period": [
+      2001,
+      2020
+    ],
+    "publisher": "FAO / IIASA",
+    "rasters": [
+      {
+        "bytes": 3131682,
+        "catalog_row": {
+          "CLIMATE_DATA_SOURCE": "AGERA5",
+          "CROP": "BRL",
+          "FILE_NAME": "GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.BRL.LRLM",
+          "INPUT": "LRLM",
+          "MAPSET_CODE": "RES05-SXX",
+          "PERIOD": "HP0120",
+          "SSP": "HIST"
+        },
+        "crop": "BRL",
+        "crs": "EPSG:4326",
+        "etag": "\"42322be5ede32736a00e16a7f9d877ac\"",
+        "nodata": -9.0,
+        "path": "generated-artifacts/ml-recovery/labels/GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.BRL.LRLM.tif",
+        "resolution_degrees": [
+          0.08333333333333333,
+          0.08333333333333333
+        ],
+        "retrieved_at": "2026-11-15T14:00:08.442695+00:00",
+        "sha256": "7253476c84bccdb271ed3bbca1525fa7ef5d6cb56782382da2b02645a60eaff9",
+        "shape": [
+          2160,
+          4320
+        ],
+        "transform": [
+          0.08333333333333333,
+          0.0,
+          -180.0,
+          0.0,
+          -0.08333333333333333,
+          90.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "url": "https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SXX/GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.BRL.LRLM.tif",
+        "valid_cells": 3259820
+      },
+      {
+        "bytes": 3047341,
+        "catalog_row": {
+          "CLIMATE_DATA_SOURCE": "AGERA5",
+          "CROP": "MZE",
+          "FILE_NAME": "GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.MZE.LRLM",
+          "INPUT": "LRLM",
+          "MAPSET_CODE": "RES05-SXX",
+          "PERIOD": "HP0120",
+          "SSP": "HIST"
+        },
+        "crop": "MZE",
+        "crs": "EPSG:4326",
+        "etag": "\"9f2b15ab60fae5b2022a47eda66ebf85\"",
+        "nodata": -9.0,
+        "path": "generated-artifacts/ml-recovery/labels/GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.MZE.LRLM.tif",
+        "resolution_degrees": [
+          0.08333333333333333,
+          0.08333333333333333
+        ],
+        "retrieved_at": "2026-11-15T14:00:14.154450+00:00",
+        "sha256": "6e2acc7d7d0bebb2d11405fe76c3526fafd747da9850408e9c68cc270edd577c",
+        "shape": [
+          2160,
+          4320
+        ],
+        "transform": [
+          0.08333333333333333,
+          0.0,
+          -180.0,
+          0.0,
+          -0.08333333333333333,
+          90.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "url": "https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SXX/GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.MZE.LRLM.tif",
+        "valid_cells": 3259820
+      },
+      {
+        "bytes": 1800936,
+        "catalog_row": {
+          "CLIMATE_DATA_SOURCE": "AGERA5",
+          "CROP": "RCD",
+          "FILE_NAME": "GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.RCD.LRLM",
+          "INPUT": "LRLM",
+          "MAPSET_CODE": "RES05-SXX",
+          "PERIOD": "HP0120",
+          "SSP": "HIST"
+        },
+        "crop": "RCD",
+        "crs": "EPSG:4326",
+        "etag": "\"722e18eafde5e6d5f79817892b2065b2\"",
+        "nodata": -9.0,
+        "path": "generated-artifacts/ml-recovery/labels/GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.RCD.LRLM.tif",
+        "resolution_degrees": [
+          0.08333333333333333,
+          0.08333333333333333
+        ],
+        "retrieved_at": "2026-11-15T14:00:19.509421+00:00",
+        "sha256": "c60c08ae1470ee6d3746247267bd6df6ae94302b56ae4e211f8446b1561b1a73",
+        "shape": [
+          2160,
+          4320
+        ],
+        "transform": [
+          0.08333333333333333,
+          0.0,
+          -180.0,
+          0.0,
+          -0.08333333333333333,
+          90.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "url": "https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SXX/GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.RCD.LRLM.tif",
+        "valid_cells": 3259820
+      },
+      {
+        "bytes": 1906274,
+        "catalog_row": {
+          "CLIMATE_DATA_SOURCE": "AGERA5",
+          "CROP": "RCW",
+          "FILE_NAME": "GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.RCW.LRLM",
+          "INPUT": "LRLM",
+          "MAPSET_CODE": "RES05-SXX",
+          "PERIOD": "HP0120",
+          "SSP": "HIST"
+        },
+        "crop": "RCW",
+        "crs": "EPSG:4326",
+        "etag": "\"986b31ab8d0c2436b205fd0adbd3b9b0\"",
+        "nodata": -9.0,
+        "path": "generated-artifacts/ml-recovery/labels/GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.RCW.LRLM.tif",
+        "resolution_degrees": [
+          0.08333333333333333,
+          0.08333333333333333
+        ],
+        "retrieved_at": "2026-11-15T14:00:25.055691+00:00",
+        "sha256": "28f68bce2567e20a1dd80823168d19ec5163119c4bf438e2890dbc2920000187",
+        "shape": [
+          2160,
+          4320
+        ],
+        "transform": [
+          0.08333333333333333,
+          0.0,
+          -180.0,
+          0.0,
+          -0.08333333333333333,
+          90.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "url": "https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SXX/GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.RCW.LRLM.tif",
+        "valid_cells": 3259820
+      },
+      {
+        "bytes": 3171669,
+        "catalog_row": {
+          "CLIMATE_DATA_SOURCE": "AGERA5",
+          "CROP": "WHE",
+          "FILE_NAME": "GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.WHE.LRLM",
+          "INPUT": "LRLM",
+          "MAPSET_CODE": "RES05-SXX",
+          "PERIOD": "HP0120",
+          "SSP": "HIST"
+        },
+        "crop": "WHE",
+        "crs": "EPSG:4326",
+        "etag": "\"f41f59f1372ef671851517c115cd4997\"",
+        "nodata": -9.0,
+        "path": "generated-artifacts/ml-recovery/labels/GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.WHE.LRLM.tif",
+        "resolution_degrees": [
+          0.08333333333333333,
+          0.08333333333333333
+        ],
+        "retrieved_at": "2026-11-15T14:00:30.897791+00:00",
+        "sha256": "6624b23a90a27c694e9cc621305e0330ba5f656f7787e03413cd177f9c253427",
+        "shape": [
+          2160,
+          4320
+        ],
+        "transform": [
+          0.08333333333333333,
+          0.0,
+          -180.0,
+          0.0,
+          -0.08333333333333333,
+          90.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "url": "https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SXX/GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.WHE.LRLM.tif",
+        "valid_cells": 3259820
+      }
+    ],
+    "scenario": "LRLM",
+    "version": "GAEZ v5"
+  },
+  "split_cells": {
+    "test": 26,
+    "train": 74,
+    "validation": 24
+  },
+  "split_counts": {
+    "test": 130,
+    "train": 370,
+    "validation": 120
+  },
+  "splits": [
+    {
+      "block": "14:28",
+      "cell_id": "RES05-SXX:445:3472",
+      "crop": "BRL",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "14:28",
+      "cell_id": "RES05-SXX:445:3472",
+      "crop": "MZE",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "14:28",
+      "cell_id": "RES05-SXX:445:3472",
+      "crop": "RCD",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "14:28",
+      "cell_id": "RES05-SXX:445:3472",
+      "crop": "RCW",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "14:28",
+      "cell_id": "RES05-SXX:445:3472",
+      "crop": "WHE",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "11:29",
+      "cell_id": "RES05-SXX:777:3494",
+      "crop": "BRL",
+      "region": "lat3_lon4",
+      "split": "train"
+    },
+    {
+      "block": "11:29",
+      "cell_id": "RES05-SXX:777:3494",
+      "crop": "MZE",
+      "region": "lat3_lon4",
+      "split": "train"
+    },
+    {
+      "block": "11:29",
+      "cell_id": "RES05-SXX:777:3494",
+      "crop": "RCD",
+      "region": "lat3_lon4",
+      "split": "train"
+    },
+    {
+      "block": "11:29",
+      "cell_id": "RES05-SXX:777:3494",
+      "crop": "RCW",
+      "region": "lat3_lon4",
+      "split": "train"
+    },
+    {
+      "block": "11:29",
+      "cell_id": "RES05-SXX:777:3494",
+      "crop": "WHE",
+      "region": "lat3_lon4",
+      "split": "train"
+    },
+    {
+      "block": "10:16",
+      "cell_id": "RES05-SXX:898:1998",
+      "crop": "BRL",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "10:16",
+      "cell_id": "RES05-SXX:898:1998",
+      "crop": "MZE",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "10:16",
+      "cell_id": "RES05-SXX:898:1998",
+      "crop": "RCD",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "10:16",
+      "cell_id": "RES05-SXX:898:1998",
+      "crop": "RCW",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "10:16",
+      "cell_id": "RES05-SXX:898:1998",
+      "crop": "WHE",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "5:30",
+      "cell_id": "RES05-SXX:1467:3659",
+      "crop": "BRL",
+      "region": "lat1_lon5",
+      "split": "train"
+    },
+    {
+      "block": "5:30",
+      "cell_id": "RES05-SXX:1467:3659",
+      "crop": "MZE",
+      "region": "lat1_lon5",
+      "split": "train"
+    },
+    {
+      "block": "5:30",
+      "cell_id": "RES05-SXX:1467:3659",
+      "crop": "RCD",
+      "region": "lat1_lon5",
+      "split": "train"
+    },
+    {
+      "block": "5:30",
+      "cell_id": "RES05-SXX:1467:3659",
+      "crop": "RCW",
+      "region": "lat1_lon5",
+      "split": "train"
+    },
+    {
+      "block": "5:30",
+      "cell_id": "RES05-SXX:1467:3659",
+      "crop": "WHE",
+      "region": "lat1_lon5",
+      "split": "train"
+    },
+    {
+      "block": "14:25",
+      "cell_id": "RES05-SXX:415:3103",
+      "crop": "BRL",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "14:25",
+      "cell_id": "RES05-SXX:415:3103",
+      "crop": "MZE",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "14:25",
+      "cell_id": "RES05-SXX:415:3103",
+      "crop": "RCD",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "14:25",
+      "cell_id": "RES05-SXX:415:3103",
+      "crop": "RCW",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "14:25",
+      "cell_id": "RES05-SXX:415:3103",
+      "crop": "WHE",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "5:29",
+      "cell_id": "RES05-SXX:1480:3583",
+      "crop": "BRL",
+      "region": "lat1_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "5:29",
+      "cell_id": "RES05-SXX:1480:3583",
+      "crop": "MZE",
+      "region": "lat1_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "5:29",
+      "cell_id": "RES05-SXX:1480:3583",
+      "crop": "RCD",
+      "region": "lat1_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "5:29",
+      "cell_id": "RES05-SXX:1480:3583",
+      "crop": "RCW",
+      "region": "lat1_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "5:29",
+      "cell_id": "RES05-SXX:1480:3583",
+      "crop": "WHE",
+      "region": "lat1_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "13:32",
+      "cell_id": "RES05-SXX:560:3880",
+      "crop": "BRL",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "13:32",
+      "cell_id": "RES05-SXX:560:3880",
+      "crop": "MZE",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "13:32",
+      "cell_id": "RES05-SXX:560:3880",
+      "crop": "RCD",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "13:32",
+      "cell_id": "RES05-SXX:560:3880",
+      "crop": "RCW",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "13:32",
+      "cell_id": "RES05-SXX:560:3880",
+      "crop": "WHE",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "16:28",
+      "cell_id": "RES05-SXX:187:3424",
+      "crop": "BRL",
+      "region": "lat5_lon4",
+      "split": "train"
+    },
+    {
+      "block": "16:28",
+      "cell_id": "RES05-SXX:187:3424",
+      "crop": "MZE",
+      "region": "lat5_lon4",
+      "split": "train"
+    },
+    {
+      "block": "16:28",
+      "cell_id": "RES05-SXX:187:3424",
+      "crop": "RCD",
+      "region": "lat5_lon4",
+      "split": "train"
+    },
+    {
+      "block": "16:28",
+      "cell_id": "RES05-SXX:187:3424",
+      "crop": "RCW",
+      "region": "lat5_lon4",
+      "split": "train"
+    },
+    {
+      "block": "16:28",
+      "cell_id": "RES05-SXX:187:3424",
+      "crop": "WHE",
+      "region": "lat5_lon4",
+      "split": "train"
+    },
+    {
+      "block": "12:20",
+      "cell_id": "RES05-SXX:603:2409",
+      "crop": "BRL",
+      "region": "lat4_lon3",
+      "split": "test"
+    },
+    {
+      "block": "12:20",
+      "cell_id": "RES05-SXX:603:2409",
+      "crop": "MZE",
+      "region": "lat4_lon3",
+      "split": "test"
+    },
+    {
+      "block": "12:20",
+      "cell_id": "RES05-SXX:603:2409",
+      "crop": "RCD",
+      "region": "lat4_lon3",
+      "split": "test"
+    },
+    {
+      "block": "12:20",
+      "cell_id": "RES05-SXX:603:2409",
+      "crop": "RCW",
+      "region": "lat4_lon3",
+      "split": "test"
+    },
+    {
+      "block": "12:20",
+      "cell_id": "RES05-SXX:603:2409",
+      "crop": "WHE",
+      "region": "lat4_lon3",
+      "split": "test"
+    },
+    {
+      "block": "9:12",
+      "cell_id": "RES05-SXX:1024:1467",
+      "crop": "BRL",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "9:12",
+      "cell_id": "RES05-SXX:1024:1467",
+      "crop": "MZE",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "9:12",
+      "cell_id": "RES05-SXX:1024:1467",
+      "crop": "RCD",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "9:12",
+      "cell_id": "RES05-SXX:1024:1467",
+      "crop": "RCW",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "9:12",
+      "cell_id": "RES05-SXX:1024:1467",
+      "crop": "WHE",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "7:13",
+      "cell_id": "RES05-SXX:1294:1608",
+      "crop": "BRL",
+      "region": "lat2_lon2",
+      "split": "train"
+    },
+    {
+      "block": "7:13",
+      "cell_id": "RES05-SXX:1294:1608",
+      "crop": "MZE",
+      "region": "lat2_lon2",
+      "split": "train"
+    },
+    {
+      "block": "7:13",
+      "cell_id": "RES05-SXX:1294:1608",
+      "crop": "RCD",
+      "region": "lat2_lon2",
+      "split": "train"
+    },
+    {
+      "block": "7:13",
+      "cell_id": "RES05-SXX:1294:1608",
+      "crop": "RCW",
+      "region": "lat2_lon2",
+      "split": "train"
+    },
+    {
+      "block": "7:13",
+      "cell_id": "RES05-SXX:1294:1608",
+      "crop": "WHE",
+      "region": "lat2_lon2",
+      "split": "train"
+    },
+    {
+      "block": "16:30",
+      "cell_id": "RES05-SXX:236:3618",
+      "crop": "BRL",
+      "region": "lat5_lon5",
+      "split": "train"
+    },
+    {
+      "block": "16:30",
+      "cell_id": "RES05-SXX:236:3618",
+      "crop": "MZE",
+      "region": "lat5_lon5",
+      "split": "train"
+    },
+    {
+      "block": "16:30",
+      "cell_id": "RES05-SXX:236:3618",
+      "crop": "RCD",
+      "region": "lat5_lon5",
+      "split": "train"
+    },
+    {
+      "block": "16:30",
+      "cell_id": "RES05-SXX:236:3618",
+      "crop": "RCW",
+      "region": "lat5_lon5",
+      "split": "train"
+    },
+    {
+      "block": "16:30",
+      "cell_id": "RES05-SXX:236:3618",
+      "crop": "WHE",
+      "region": "lat5_lon5",
+      "split": "train"
+    },
+    {
+      "block": "15:22",
+      "cell_id": "RES05-SXX:268:2643",
+      "crop": "BRL",
+      "region": "lat5_lon3",
+      "split": "train"
+    },
+    {
+      "block": "15:22",
+      "cell_id": "RES05-SXX:268:2643",
+      "crop": "MZE",
+      "region": "lat5_lon3",
+      "split": "train"
+    },
+    {
+      "block": "15:22",
+      "cell_id": "RES05-SXX:268:2643",
+      "crop": "RCD",
+      "region": "lat5_lon3",
+      "split": "train"
+    },
+    {
+      "block": "15:22",
+      "cell_id": "RES05-SXX:268:2643",
+      "crop": "RCW",
+      "region": "lat5_lon3",
+      "split": "train"
+    },
+    {
+      "block": "15:22",
+      "cell_id": "RES05-SXX:268:2643",
+      "crop": "WHE",
+      "region": "lat5_lon3",
+      "split": "train"
+    },
+    {
+      "block": "15:10",
+      "cell_id": "RES05-SXX:334:1273",
+      "crop": "BRL",
+      "region": "lat5_lon1",
+      "split": "test"
+    },
+    {
+      "block": "15:10",
+      "cell_id": "RES05-SXX:334:1273",
+      "crop": "MZE",
+      "region": "lat5_lon1",
+      "split": "test"
+    },
+    {
+      "block": "15:10",
+      "cell_id": "RES05-SXX:334:1273",
+      "crop": "RCD",
+      "region": "lat5_lon1",
+      "split": "test"
+    },
+    {
+      "block": "15:10",
+      "cell_id": "RES05-SXX:334:1273",
+      "crop": "RCW",
+      "region": "lat5_lon1",
+      "split": "test"
+    },
+    {
+      "block": "15:10",
+      "cell_id": "RES05-SXX:334:1273",
+      "crop": "WHE",
+      "region": "lat5_lon1",
+      "split": "test"
+    },
+    {
+      "block": "14:32",
+      "cell_id": "RES05-SXX:361:3921",
+      "crop": "BRL",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "14:32",
+      "cell_id": "RES05-SXX:361:3921",
+      "crop": "MZE",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "14:32",
+      "cell_id": "RES05-SXX:361:3921",
+      "crop": "RCD",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "14:32",
+      "cell_id": "RES05-SXX:361:3921",
+      "crop": "RCW",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "14:32",
+      "cell_id": "RES05-SXX:361:3921",
+      "crop": "WHE",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "9:17",
+      "cell_id": "RES05-SXX:969:2107",
+      "crop": "BRL",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "9:17",
+      "cell_id": "RES05-SXX:969:2107",
+      "crop": "MZE",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "9:17",
+      "cell_id": "RES05-SXX:969:2107",
+      "crop": "RCD",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "9:17",
+      "cell_id": "RES05-SXX:969:2107",
+      "crop": "RCW",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "9:17",
+      "cell_id": "RES05-SXX:969:2107",
+      "crop": "WHE",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "9:19",
+      "cell_id": "RES05-SXX:1053:2280",
+      "crop": "BRL",
+      "region": "lat3_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "9:19",
+      "cell_id": "RES05-SXX:1053:2280",
+      "crop": "MZE",
+      "region": "lat3_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "9:19",
+      "cell_id": "RES05-SXX:1053:2280",
+      "crop": "RCD",
+      "region": "lat3_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "9:19",
+      "cell_id": "RES05-SXX:1053:2280",
+      "crop": "RCW",
+      "region": "lat3_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "9:19",
+      "cell_id": "RES05-SXX:1053:2280",
+      "crop": "WHE",
+      "region": "lat3_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "16:6",
+      "cell_id": "RES05-SXX:195:752",
+      "crop": "BRL",
+      "region": "lat5_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "16:6",
+      "cell_id": "RES05-SXX:195:752",
+      "crop": "MZE",
+      "region": "lat5_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "16:6",
+      "cell_id": "RES05-SXX:195:752",
+      "crop": "RCD",
+      "region": "lat5_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "16:6",
+      "cell_id": "RES05-SXX:195:752",
+      "crop": "RCW",
+      "region": "lat5_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "16:6",
+      "cell_id": "RES05-SXX:195:752",
+      "crop": "WHE",
+      "region": "lat5_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "16:5",
+      "cell_id": "RES05-SXX:216:711",
+      "crop": "BRL",
+      "region": "lat5_lon0",
+      "split": "train"
+    },
+    {
+      "block": "16:5",
+      "cell_id": "RES05-SXX:216:711",
+      "crop": "MZE",
+      "region": "lat5_lon0",
+      "split": "train"
+    },
+    {
+      "block": "16:5",
+      "cell_id": "RES05-SXX:216:711",
+      "crop": "RCD",
+      "region": "lat5_lon0",
+      "split": "train"
+    },
+    {
+      "block": "16:5",
+      "cell_id": "RES05-SXX:216:711",
+      "crop": "RCW",
+      "region": "lat5_lon0",
+      "split": "train"
+    },
+    {
+      "block": "16:5",
+      "cell_id": "RES05-SXX:216:711",
+      "crop": "WHE",
+      "region": "lat5_lon0",
+      "split": "train"
+    },
+    {
+      "block": "12:10",
+      "cell_id": "RES05-SXX:666:1222",
+      "crop": "BRL",
+      "region": "lat4_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "12:10",
+      "cell_id": "RES05-SXX:666:1222",
+      "crop": "MZE",
+      "region": "lat4_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "12:10",
+      "cell_id": "RES05-SXX:666:1222",
+      "crop": "RCD",
+      "region": "lat4_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "12:10",
+      "cell_id": "RES05-SXX:666:1222",
+      "crop": "RCW",
+      "region": "lat4_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "12:10",
+      "cell_id": "RES05-SXX:666:1222",
+      "crop": "WHE",
+      "region": "lat4_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "12:28",
+      "cell_id": "RES05-SXX:642:3379",
+      "crop": "BRL",
+      "region": "lat4_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "12:28",
+      "cell_id": "RES05-SXX:642:3379",
+      "crop": "MZE",
+      "region": "lat4_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "12:28",
+      "cell_id": "RES05-SXX:642:3379",
+      "crop": "RCD",
+      "region": "lat4_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "12:28",
+      "cell_id": "RES05-SXX:642:3379",
+      "crop": "RCW",
+      "region": "lat4_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "12:28",
+      "cell_id": "RES05-SXX:642:3379",
+      "crop": "WHE",
+      "region": "lat4_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "13:25",
+      "cell_id": "RES05-SXX:591:3110",
+      "crop": "BRL",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "13:25",
+      "cell_id": "RES05-SXX:591:3110",
+      "crop": "MZE",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "13:25",
+      "cell_id": "RES05-SXX:591:3110",
+      "crop": "RCD",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "13:25",
+      "cell_id": "RES05-SXX:591:3110",
+      "crop": "RCW",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "13:25",
+      "cell_id": "RES05-SXX:591:3110",
+      "crop": "WHE",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "14:6",
+      "cell_id": "RES05-SXX:465:739",
+      "crop": "BRL",
+      "region": "lat4_lon1",
+      "split": "train"
+    },
+    {
+      "block": "14:6",
+      "cell_id": "RES05-SXX:465:739",
+      "crop": "MZE",
+      "region": "lat4_lon1",
+      "split": "train"
+    },
+    {
+      "block": "14:6",
+      "cell_id": "RES05-SXX:465:739",
+      "crop": "RCD",
+      "region": "lat4_lon1",
+      "split": "train"
+    },
+    {
+      "block": "14:6",
+      "cell_id": "RES05-SXX:465:739",
+      "crop": "RCW",
+      "region": "lat4_lon1",
+      "split": "train"
+    },
+    {
+      "block": "14:6",
+      "cell_id": "RES05-SXX:465:739",
+      "crop": "WHE",
+      "region": "lat4_lon1",
+      "split": "train"
+    },
+    {
+      "block": "6:30",
+      "cell_id": "RES05-SXX:1376:3637",
+      "crop": "BRL",
+      "region": "lat2_lon5",
+      "split": "train"
+    },
+    {
+      "block": "6:30",
+      "cell_id": "RES05-SXX:1376:3637",
+      "crop": "MZE",
+      "region": "lat2_lon5",
+      "split": "train"
+    },
+    {
+      "block": "6:30",
+      "cell_id": "RES05-SXX:1376:3637",
+      "crop": "RCD",
+      "region": "lat2_lon5",
+      "split": "train"
+    },
+    {
+      "block": "6:30",
+      "cell_id": "RES05-SXX:1376:3637",
+      "crop": "RCW",
+      "region": "lat2_lon5",
+      "split": "train"
+    },
+    {
+      "block": "6:30",
+      "cell_id": "RES05-SXX:1376:3637",
+      "crop": "WHE",
+      "region": "lat2_lon5",
+      "split": "train"
+    },
+    {
+      "block": "14:31",
+      "cell_id": "RES05-SXX:460:3807",
+      "crop": "BRL",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "14:31",
+      "cell_id": "RES05-SXX:460:3807",
+      "crop": "MZE",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "14:31",
+      "cell_id": "RES05-SXX:460:3807",
+      "crop": "RCD",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "14:31",
+      "cell_id": "RES05-SXX:460:3807",
+      "crop": "RCW",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "14:31",
+      "cell_id": "RES05-SXX:460:3807",
+      "crop": "WHE",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "10:20",
+      "cell_id": "RES05-SXX:886:2446",
+      "crop": "BRL",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "10:20",
+      "cell_id": "RES05-SXX:886:2446",
+      "crop": "MZE",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "10:20",
+      "cell_id": "RES05-SXX:886:2446",
+      "crop": "RCD",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "10:20",
+      "cell_id": "RES05-SXX:886:2446",
+      "crop": "RCW",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "10:20",
+      "cell_id": "RES05-SXX:886:2446",
+      "crop": "WHE",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "7:22",
+      "cell_id": "RES05-SXX:1319:2742",
+      "crop": "BRL",
+      "region": "lat2_lon3",
+      "split": "train"
+    },
+    {
+      "block": "7:22",
+      "cell_id": "RES05-SXX:1319:2742",
+      "crop": "MZE",
+      "region": "lat2_lon3",
+      "split": "train"
+    },
+    {
+      "block": "7:22",
+      "cell_id": "RES05-SXX:1319:2742",
+      "crop": "RCD",
+      "region": "lat2_lon3",
+      "split": "train"
+    },
+    {
+      "block": "7:22",
+      "cell_id": "RES05-SXX:1319:2742",
+      "crop": "RCW",
+      "region": "lat2_lon3",
+      "split": "train"
+    },
+    {
+      "block": "7:22",
+      "cell_id": "RES05-SXX:1319:2742",
+      "crop": "WHE",
+      "region": "lat2_lon3",
+      "split": "train"
+    },
+    {
+      "block": "9:20",
+      "cell_id": "RES05-SXX:998:2517",
+      "crop": "BRL",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "9:20",
+      "cell_id": "RES05-SXX:998:2517",
+      "crop": "MZE",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "9:20",
+      "cell_id": "RES05-SXX:998:2517",
+      "crop": "RCD",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "9:20",
+      "cell_id": "RES05-SXX:998:2517",
+      "crop": "RCW",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "9:20",
+      "cell_id": "RES05-SXX:998:2517",
+      "crop": "WHE",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "14:18",
+      "cell_id": "RES05-SXX:414:2266",
+      "crop": "BRL",
+      "region": "lat4_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "14:18",
+      "cell_id": "RES05-SXX:414:2266",
+      "crop": "MZE",
+      "region": "lat4_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "14:18",
+      "cell_id": "RES05-SXX:414:2266",
+      "crop": "RCD",
+      "region": "lat4_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "14:18",
+      "cell_id": "RES05-SXX:414:2266",
+      "crop": "RCW",
+      "region": "lat4_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "14:18",
+      "cell_id": "RES05-SXX:414:2266",
+      "crop": "WHE",
+      "region": "lat4_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "6:32",
+      "cell_id": "RES05-SXX:1412:3862",
+      "crop": "BRL",
+      "region": "lat2_lon5",
+      "split": "validation"
+    },
+    {
+      "block": "6:32",
+      "cell_id": "RES05-SXX:1412:3862",
+      "crop": "MZE",
+      "region": "lat2_lon5",
+      "split": "validation"
+    },
+    {
+      "block": "6:32",
+      "cell_id": "RES05-SXX:1412:3862",
+      "crop": "RCD",
+      "region": "lat2_lon5",
+      "split": "validation"
+    },
+    {
+      "block": "6:32",
+      "cell_id": "RES05-SXX:1412:3862",
+      "crop": "RCW",
+      "region": "lat2_lon5",
+      "split": "validation"
+    },
+    {
+      "block": "6:32",
+      "cell_id": "RES05-SXX:1412:3862",
+      "crop": "WHE",
+      "region": "lat2_lon5",
+      "split": "validation"
+    },
+    {
+      "block": "10:30",
+      "cell_id": "RES05-SXX:951:3637",
+      "crop": "BRL",
+      "region": "lat3_lon5",
+      "split": "train"
+    },
+    {
+      "block": "10:30",
+      "cell_id": "RES05-SXX:951:3637",
+      "crop": "MZE",
+      "region": "lat3_lon5",
+      "split": "train"
+    },
+    {
+      "block": "10:30",
+      "cell_id": "RES05-SXX:951:3637",
+      "crop": "RCD",
+      "region": "lat3_lon5",
+      "split": "train"
+    },
+    {
+      "block": "10:30",
+      "cell_id": "RES05-SXX:951:3637",
+      "crop": "RCW",
+      "region": "lat3_lon5",
+      "split": "train"
+    },
+    {
+      "block": "10:30",
+      "cell_id": "RES05-SXX:951:3637",
+      "crop": "WHE",
+      "region": "lat3_lon5",
+      "split": "train"
+    },
+    {
+      "block": "7:21",
+      "cell_id": "RES05-SXX:1284:2615",
+      "crop": "BRL",
+      "region": "lat2_lon3",
+      "split": "train"
+    },
+    {
+      "block": "7:21",
+      "cell_id": "RES05-SXX:1284:2615",
+      "crop": "MZE",
+      "region": "lat2_lon3",
+      "split": "train"
+    },
+    {
+      "block": "7:21",
+      "cell_id": "RES05-SXX:1284:2615",
+      "crop": "RCD",
+      "region": "lat2_lon3",
+      "split": "train"
+    },
+    {
+      "block": "7:21",
+      "cell_id": "RES05-SXX:1284:2615",
+      "crop": "RCW",
+      "region": "lat2_lon3",
+      "split": "train"
+    },
+    {
+      "block": "7:21",
+      "cell_id": "RES05-SXX:1284:2615",
+      "crop": "WHE",
+      "region": "lat2_lon3",
+      "split": "train"
+    },
+    {
+      "block": "13:5",
+      "cell_id": "RES05-SXX:547:671",
+      "crop": "BRL",
+      "region": "lat4_lon0",
+      "split": "train"
+    },
+    {
+      "block": "13:5",
+      "cell_id": "RES05-SXX:547:671",
+      "crop": "MZE",
+      "region": "lat4_lon0",
+      "split": "train"
+    },
+    {
+      "block": "13:5",
+      "cell_id": "RES05-SXX:547:671",
+      "crop": "RCD",
+      "region": "lat4_lon0",
+      "split": "train"
+    },
+    {
+      "block": "13:5",
+      "cell_id": "RES05-SXX:547:671",
+      "crop": "RCW",
+      "region": "lat4_lon0",
+      "split": "train"
+    },
+    {
+      "block": "13:5",
+      "cell_id": "RES05-SXX:547:671",
+      "crop": "WHE",
+      "region": "lat4_lon0",
+      "split": "train"
+    },
+    {
+      "block": "15:2",
+      "cell_id": "RES05-SXX:286:341",
+      "crop": "BRL",
+      "region": "lat5_lon0",
+      "split": "test"
+    },
+    {
+      "block": "15:2",
+      "cell_id": "RES05-SXX:286:341",
+      "crop": "MZE",
+      "region": "lat5_lon0",
+      "split": "test"
+    },
+    {
+      "block": "15:2",
+      "cell_id": "RES05-SXX:286:341",
+      "crop": "RCD",
+      "region": "lat5_lon0",
+      "split": "test"
+    },
+    {
+      "block": "15:2",
+      "cell_id": "RES05-SXX:286:341",
+      "crop": "RCW",
+      "region": "lat5_lon0",
+      "split": "test"
+    },
+    {
+      "block": "15:2",
+      "cell_id": "RES05-SXX:286:341",
+      "crop": "WHE",
+      "region": "lat5_lon0",
+      "split": "test"
+    },
+    {
+      "block": "13:12",
+      "cell_id": "RES05-SXX:505:1453",
+      "crop": "BRL",
+      "region": "lat4_lon2",
+      "split": "train"
+    },
+    {
+      "block": "13:12",
+      "cell_id": "RES05-SXX:505:1453",
+      "crop": "MZE",
+      "region": "lat4_lon2",
+      "split": "train"
+    },
+    {
+      "block": "13:12",
+      "cell_id": "RES05-SXX:505:1453",
+      "crop": "RCD",
+      "region": "lat4_lon2",
+      "split": "train"
+    },
+    {
+      "block": "13:12",
+      "cell_id": "RES05-SXX:505:1453",
+      "crop": "RCW",
+      "region": "lat4_lon2",
+      "split": "train"
+    },
+    {
+      "block": "13:12",
+      "cell_id": "RES05-SXX:505:1453",
+      "crop": "WHE",
+      "region": "lat4_lon2",
+      "split": "train"
+    },
+    {
+      "block": "13:27",
+      "cell_id": "RES05-SXX:583:3252",
+      "crop": "BRL",
+      "region": "lat4_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "13:27",
+      "cell_id": "RES05-SXX:583:3252",
+      "crop": "MZE",
+      "region": "lat4_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "13:27",
+      "cell_id": "RES05-SXX:583:3252",
+      "crop": "RCD",
+      "region": "lat4_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "13:27",
+      "cell_id": "RES05-SXX:583:3252",
+      "crop": "RCW",
+      "region": "lat4_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "13:27",
+      "cell_id": "RES05-SXX:583:3252",
+      "crop": "WHE",
+      "region": "lat4_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "14:17",
+      "cell_id": "RES05-SXX:468:2122",
+      "crop": "BRL",
+      "region": "lat4_lon2",
+      "split": "train"
+    },
+    {
+      "block": "14:17",
+      "cell_id": "RES05-SXX:468:2122",
+      "crop": "MZE",
+      "region": "lat4_lon2",
+      "split": "train"
+    },
+    {
+      "block": "14:17",
+      "cell_id": "RES05-SXX:468:2122",
+      "crop": "RCD",
+      "region": "lat4_lon2",
+      "split": "train"
+    },
+    {
+      "block": "14:17",
+      "cell_id": "RES05-SXX:468:2122",
+      "crop": "RCW",
+      "region": "lat4_lon2",
+      "split": "train"
+    },
+    {
+      "block": "14:17",
+      "cell_id": "RES05-SXX:468:2122",
+      "crop": "WHE",
+      "region": "lat4_lon2",
+      "split": "train"
+    },
+    {
+      "block": "5:19",
+      "cell_id": "RES05-SXX:1473:2387",
+      "crop": "BRL",
+      "region": "lat1_lon3",
+      "split": "train"
+    },
+    {
+      "block": "5:19",
+      "cell_id": "RES05-SXX:1473:2387",
+      "crop": "MZE",
+      "region": "lat1_lon3",
+      "split": "train"
+    },
+    {
+      "block": "5:19",
+      "cell_id": "RES05-SXX:1473:2387",
+      "crop": "RCD",
+      "region": "lat1_lon3",
+      "split": "train"
+    },
+    {
+      "block": "5:19",
+      "cell_id": "RES05-SXX:1473:2387",
+      "crop": "RCW",
+      "region": "lat1_lon3",
+      "split": "train"
+    },
+    {
+      "block": "5:19",
+      "cell_id": "RES05-SXX:1473:2387",
+      "crop": "WHE",
+      "region": "lat1_lon3",
+      "split": "train"
+    },
+    {
+      "block": "10:27",
+      "cell_id": "RES05-SXX:888:3305",
+      "crop": "BRL",
+      "region": "lat3_lon4",
+      "split": "train"
+    },
+    {
+      "block": "10:27",
+      "cell_id": "RES05-SXX:888:3305",
+      "crop": "MZE",
+      "region": "lat3_lon4",
+      "split": "train"
+    },
+    {
+      "block": "10:27",
+      "cell_id": "RES05-SXX:888:3305",
+      "crop": "RCD",
+      "region": "lat3_lon4",
+      "split": "train"
+    },
+    {
+      "block": "10:27",
+      "cell_id": "RES05-SXX:888:3305",
+      "crop": "RCW",
+      "region": "lat3_lon4",
+      "split": "train"
+    },
+    {
+      "block": "10:27",
+      "cell_id": "RES05-SXX:888:3305",
+      "crop": "WHE",
+      "region": "lat3_lon4",
+      "split": "train"
+    },
+    {
+      "block": "5:20",
+      "cell_id": "RES05-SXX:1453:2501",
+      "crop": "BRL",
+      "region": "lat1_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "5:20",
+      "cell_id": "RES05-SXX:1453:2501",
+      "crop": "MZE",
+      "region": "lat1_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "5:20",
+      "cell_id": "RES05-SXX:1453:2501",
+      "crop": "RCD",
+      "region": "lat1_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "5:20",
+      "cell_id": "RES05-SXX:1453:2501",
+      "crop": "RCW",
+      "region": "lat1_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "5:20",
+      "cell_id": "RES05-SXX:1453:2501",
+      "crop": "WHE",
+      "region": "lat1_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "15:26",
+      "cell_id": "RES05-SXX:323:3192",
+      "crop": "BRL",
+      "region": "lat5_lon4",
+      "split": "test"
+    },
+    {
+      "block": "15:26",
+      "cell_id": "RES05-SXX:323:3192",
+      "crop": "MZE",
+      "region": "lat5_lon4",
+      "split": "test"
+    },
+    {
+      "block": "15:26",
+      "cell_id": "RES05-SXX:323:3192",
+      "crop": "RCD",
+      "region": "lat5_lon4",
+      "split": "test"
+    },
+    {
+      "block": "15:26",
+      "cell_id": "RES05-SXX:323:3192",
+      "crop": "RCW",
+      "region": "lat5_lon4",
+      "split": "test"
+    },
+    {
+      "block": "15:26",
+      "cell_id": "RES05-SXX:323:3192",
+      "crop": "WHE",
+      "region": "lat5_lon4",
+      "split": "test"
+    },
+    {
+      "block": "7:10",
+      "cell_id": "RES05-SXX:1244:1279",
+      "crop": "BRL",
+      "region": "lat2_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "7:10",
+      "cell_id": "RES05-SXX:1244:1279",
+      "crop": "MZE",
+      "region": "lat2_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "7:10",
+      "cell_id": "RES05-SXX:1244:1279",
+      "crop": "RCD",
+      "region": "lat2_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "7:10",
+      "cell_id": "RES05-SXX:1244:1279",
+      "crop": "RCW",
+      "region": "lat2_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "7:10",
+      "cell_id": "RES05-SXX:1244:1279",
+      "crop": "WHE",
+      "region": "lat2_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "12:8",
+      "cell_id": "RES05-SXX:679:967",
+      "crop": "BRL",
+      "region": "lat4_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "12:8",
+      "cell_id": "RES05-SXX:679:967",
+      "crop": "MZE",
+      "region": "lat4_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "12:8",
+      "cell_id": "RES05-SXX:679:967",
+      "crop": "RCD",
+      "region": "lat4_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "12:8",
+      "cell_id": "RES05-SXX:679:967",
+      "crop": "RCW",
+      "region": "lat4_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "12:8",
+      "cell_id": "RES05-SXX:679:967",
+      "crop": "WHE",
+      "region": "lat4_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "11:24",
+      "cell_id": "RES05-SXX:739:2947",
+      "crop": "BRL",
+      "region": "lat3_lon4",
+      "split": "test"
+    },
+    {
+      "block": "11:24",
+      "cell_id": "RES05-SXX:739:2947",
+      "crop": "MZE",
+      "region": "lat3_lon4",
+      "split": "test"
+    },
+    {
+      "block": "11:24",
+      "cell_id": "RES05-SXX:739:2947",
+      "crop": "RCD",
+      "region": "lat3_lon4",
+      "split": "test"
+    },
+    {
+      "block": "11:24",
+      "cell_id": "RES05-SXX:739:2947",
+      "crop": "RCW",
+      "region": "lat3_lon4",
+      "split": "test"
+    },
+    {
+      "block": "11:24",
+      "cell_id": "RES05-SXX:739:2947",
+      "crop": "WHE",
+      "region": "lat3_lon4",
+      "split": "test"
+    },
+    {
+      "block": "8:9",
+      "cell_id": "RES05-SXX:1135:1187",
+      "crop": "BRL",
+      "region": "lat2_lon1",
+      "split": "train"
+    },
+    {
+      "block": "8:9",
+      "cell_id": "RES05-SXX:1135:1187",
+      "crop": "MZE",
+      "region": "lat2_lon1",
+      "split": "train"
+    },
+    {
+      "block": "8:9",
+      "cell_id": "RES05-SXX:1135:1187",
+      "crop": "RCD",
+      "region": "lat2_lon1",
+      "split": "train"
+    },
+    {
+      "block": "8:9",
+      "cell_id": "RES05-SXX:1135:1187",
+      "crop": "RCW",
+      "region": "lat2_lon1",
+      "split": "train"
+    },
+    {
+      "block": "8:9",
+      "cell_id": "RES05-SXX:1135:1187",
+      "crop": "WHE",
+      "region": "lat2_lon1",
+      "split": "train"
+    },
+    {
+      "block": "10:22",
+      "cell_id": "RES05-SXX:952:2664",
+      "crop": "BRL",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "10:22",
+      "cell_id": "RES05-SXX:952:2664",
+      "crop": "MZE",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "10:22",
+      "cell_id": "RES05-SXX:952:2664",
+      "crop": "RCD",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "10:22",
+      "cell_id": "RES05-SXX:952:2664",
+      "crop": "RCW",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "10:22",
+      "cell_id": "RES05-SXX:952:2664",
+      "crop": "WHE",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "9:29",
+      "cell_id": "RES05-SXX:1048:3568",
+      "crop": "BRL",
+      "region": "lat3_lon4",
+      "split": "test"
+    },
+    {
+      "block": "9:29",
+      "cell_id": "RES05-SXX:1048:3568",
+      "crop": "MZE",
+      "region": "lat3_lon4",
+      "split": "test"
+    },
+    {
+      "block": "9:29",
+      "cell_id": "RES05-SXX:1048:3568",
+      "crop": "RCD",
+      "region": "lat3_lon4",
+      "split": "test"
+    },
+    {
+      "block": "9:29",
+      "cell_id": "RES05-SXX:1048:3568",
+      "crop": "RCW",
+      "region": "lat3_lon4",
+      "split": "test"
+    },
+    {
+      "block": "9:29",
+      "cell_id": "RES05-SXX:1048:3568",
+      "crop": "WHE",
+      "region": "lat3_lon4",
+      "split": "test"
+    },
+    {
+      "block": "15:1",
+      "cell_id": "RES05-SXX:293:230",
+      "crop": "BRL",
+      "region": "lat5_lon0",
+      "split": "train"
+    },
+    {
+      "block": "15:1",
+      "cell_id": "RES05-SXX:293:230",
+      "crop": "MZE",
+      "region": "lat5_lon0",
+      "split": "train"
+    },
+    {
+      "block": "15:1",
+      "cell_id": "RES05-SXX:293:230",
+      "crop": "RCD",
+      "region": "lat5_lon0",
+      "split": "train"
+    },
+    {
+      "block": "15:1",
+      "cell_id": "RES05-SXX:293:230",
+      "crop": "RCW",
+      "region": "lat5_lon0",
+      "split": "train"
+    },
+    {
+      "block": "15:1",
+      "cell_id": "RES05-SXX:293:230",
+      "crop": "WHE",
+      "region": "lat5_lon0",
+      "split": "train"
+    },
+    {
+      "block": "6:29",
+      "cell_id": "RES05-SXX:1381:3585",
+      "crop": "BRL",
+      "region": "lat2_lon4",
+      "split": "train"
+    },
+    {
+      "block": "6:29",
+      "cell_id": "RES05-SXX:1381:3585",
+      "crop": "MZE",
+      "region": "lat2_lon4",
+      "split": "train"
+    },
+    {
+      "block": "6:29",
+      "cell_id": "RES05-SXX:1381:3585",
+      "crop": "RCD",
+      "region": "lat2_lon4",
+      "split": "train"
+    },
+    {
+      "block": "6:29",
+      "cell_id": "RES05-SXX:1381:3585",
+      "crop": "RCW",
+      "region": "lat2_lon4",
+      "split": "train"
+    },
+    {
+      "block": "6:29",
+      "cell_id": "RES05-SXX:1381:3585",
+      "crop": "WHE",
+      "region": "lat2_lon4",
+      "split": "train"
+    },
+    {
+      "block": "15:15",
+      "cell_id": "RES05-SXX:309:1919",
+      "crop": "BRL",
+      "region": "lat5_lon2",
+      "split": "validation"
+    },
+    {
+      "block": "15:15",
+      "cell_id": "RES05-SXX:309:1919",
+      "crop": "MZE",
+      "region": "lat5_lon2",
+      "split": "validation"
+    },
+    {
+      "block": "15:15",
+      "cell_id": "RES05-SXX:309:1919",
+      "crop": "RCD",
+      "region": "lat5_lon2",
+      "split": "validation"
+    },
+    {
+      "block": "15:15",
+      "cell_id": "RES05-SXX:309:1919",
+      "crop": "RCW",
+      "region": "lat5_lon2",
+      "split": "validation"
+    },
+    {
+      "block": "15:15",
+      "cell_id": "RES05-SXX:309:1919",
+      "crop": "WHE",
+      "region": "lat5_lon2",
+      "split": "validation"
+    },
+    {
+      "block": "6:19",
+      "cell_id": "RES05-SXX:1328:2344",
+      "crop": "BRL",
+      "region": "lat2_lon3",
+      "split": "test"
+    },
+    {
+      "block": "6:19",
+      "cell_id": "RES05-SXX:1328:2344",
+      "crop": "MZE",
+      "region": "lat2_lon3",
+      "split": "test"
+    },
+    {
+      "block": "6:19",
+      "cell_id": "RES05-SXX:1328:2344",
+      "crop": "RCD",
+      "region": "lat2_lon3",
+      "split": "test"
+    },
+    {
+      "block": "6:19",
+      "cell_id": "RES05-SXX:1328:2344",
+      "crop": "RCW",
+      "region": "lat2_lon3",
+      "split": "test"
+    },
+    {
+      "block": "6:19",
+      "cell_id": "RES05-SXX:1328:2344",
+      "crop": "WHE",
+      "region": "lat2_lon3",
+      "split": "test"
+    },
+    {
+      "block": "12:7",
+      "cell_id": "RES05-SXX:711:913",
+      "crop": "BRL",
+      "region": "lat4_lon1",
+      "split": "train"
+    },
+    {
+      "block": "12:7",
+      "cell_id": "RES05-SXX:711:913",
+      "crop": "MZE",
+      "region": "lat4_lon1",
+      "split": "train"
+    },
+    {
+      "block": "12:7",
+      "cell_id": "RES05-SXX:711:913",
+      "crop": "RCD",
+      "region": "lat4_lon1",
+      "split": "train"
+    },
+    {
+      "block": "12:7",
+      "cell_id": "RES05-SXX:711:913",
+      "crop": "RCW",
+      "region": "lat4_lon1",
+      "split": "train"
+    },
+    {
+      "block": "12:7",
+      "cell_id": "RES05-SXX:711:913",
+      "crop": "WHE",
+      "region": "lat4_lon1",
+      "split": "train"
+    },
+    {
+      "block": "16:25",
+      "cell_id": "RES05-SXX:221:3004",
+      "crop": "BRL",
+      "region": "lat5_lon4",
+      "split": "train"
+    },
+    {
+      "block": "16:25",
+      "cell_id": "RES05-SXX:221:3004",
+      "crop": "MZE",
+      "region": "lat5_lon4",
+      "split": "train"
+    },
+    {
+      "block": "16:25",
+      "cell_id": "RES05-SXX:221:3004",
+      "crop": "RCD",
+      "region": "lat5_lon4",
+      "split": "train"
+    },
+    {
+      "block": "16:25",
+      "cell_id": "RES05-SXX:221:3004",
+      "crop": "RCW",
+      "region": "lat5_lon4",
+      "split": "train"
+    },
+    {
+      "block": "16:25",
+      "cell_id": "RES05-SXX:221:3004",
+      "crop": "WHE",
+      "region": "lat5_lon4",
+      "split": "train"
+    },
+    {
+      "block": "5:12",
+      "cell_id": "RES05-SXX:1526:1465",
+      "crop": "BRL",
+      "region": "lat1_lon2",
+      "split": "train"
+    },
+    {
+      "block": "5:12",
+      "cell_id": "RES05-SXX:1526:1465",
+      "crop": "MZE",
+      "region": "lat1_lon2",
+      "split": "train"
+    },
+    {
+      "block": "5:12",
+      "cell_id": "RES05-SXX:1526:1465",
+      "crop": "RCD",
+      "region": "lat1_lon2",
+      "split": "train"
+    },
+    {
+      "block": "5:12",
+      "cell_id": "RES05-SXX:1526:1465",
+      "crop": "RCW",
+      "region": "lat1_lon2",
+      "split": "train"
+    },
+    {
+      "block": "5:12",
+      "cell_id": "RES05-SXX:1526:1465",
+      "crop": "WHE",
+      "region": "lat1_lon2",
+      "split": "train"
+    },
+    {
+      "block": "10:19",
+      "cell_id": "RES05-SXX:895:2322",
+      "crop": "BRL",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "10:19",
+      "cell_id": "RES05-SXX:895:2322",
+      "crop": "MZE",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "10:19",
+      "cell_id": "RES05-SXX:895:2322",
+      "crop": "RCD",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "10:19",
+      "cell_id": "RES05-SXX:895:2322",
+      "crop": "RCW",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "10:19",
+      "cell_id": "RES05-SXX:895:2322",
+      "crop": "WHE",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "9:22",
+      "cell_id": "RES05-SXX:1016:2728",
+      "crop": "BRL",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "9:22",
+      "cell_id": "RES05-SXX:1016:2728",
+      "crop": "MZE",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "9:22",
+      "cell_id": "RES05-SXX:1016:2728",
+      "crop": "RCD",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "9:22",
+      "cell_id": "RES05-SXX:1016:2728",
+      "crop": "RCW",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "9:22",
+      "cell_id": "RES05-SXX:1016:2728",
+      "crop": "WHE",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "13:17",
+      "cell_id": "RES05-SXX:559:2142",
+      "crop": "BRL",
+      "region": "lat4_lon2",
+      "split": "test"
+    },
+    {
+      "block": "13:17",
+      "cell_id": "RES05-SXX:559:2142",
+      "crop": "MZE",
+      "region": "lat4_lon2",
+      "split": "test"
+    },
+    {
+      "block": "13:17",
+      "cell_id": "RES05-SXX:559:2142",
+      "crop": "RCD",
+      "region": "lat4_lon2",
+      "split": "test"
+    },
+    {
+      "block": "13:17",
+      "cell_id": "RES05-SXX:559:2142",
+      "crop": "RCW",
+      "region": "lat4_lon2",
+      "split": "test"
+    },
+    {
+      "block": "13:17",
+      "cell_id": "RES05-SXX:559:2142",
+      "crop": "WHE",
+      "region": "lat4_lon2",
+      "split": "test"
+    },
+    {
+      "block": "14:29",
+      "cell_id": "RES05-SXX:418:3534",
+      "crop": "BRL",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "14:29",
+      "cell_id": "RES05-SXX:418:3534",
+      "crop": "MZE",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "14:29",
+      "cell_id": "RES05-SXX:418:3534",
+      "crop": "RCD",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "14:29",
+      "cell_id": "RES05-SXX:418:3534",
+      "crop": "RCW",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "14:29",
+      "cell_id": "RES05-SXX:418:3534",
+      "crop": "WHE",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "5:31",
+      "cell_id": "RES05-SXX:1495:3787",
+      "crop": "BRL",
+      "region": "lat1_lon5",
+      "split": "test"
+    },
+    {
+      "block": "5:31",
+      "cell_id": "RES05-SXX:1495:3787",
+      "crop": "MZE",
+      "region": "lat1_lon5",
+      "split": "test"
+    },
+    {
+      "block": "5:31",
+      "cell_id": "RES05-SXX:1495:3787",
+      "crop": "RCD",
+      "region": "lat1_lon5",
+      "split": "test"
+    },
+    {
+      "block": "5:31",
+      "cell_id": "RES05-SXX:1495:3787",
+      "crop": "RCW",
+      "region": "lat1_lon5",
+      "split": "test"
+    },
+    {
+      "block": "5:31",
+      "cell_id": "RES05-SXX:1495:3787",
+      "crop": "WHE",
+      "region": "lat1_lon5",
+      "split": "test"
+    },
+    {
+      "block": "15:25",
+      "cell_id": "RES05-SXX:351:3026",
+      "crop": "BRL",
+      "region": "lat5_lon4",
+      "split": "train"
+    },
+    {
+      "block": "15:25",
+      "cell_id": "RES05-SXX:351:3026",
+      "crop": "MZE",
+      "region": "lat5_lon4",
+      "split": "train"
+    },
+    {
+      "block": "15:25",
+      "cell_id": "RES05-SXX:351:3026",
+      "crop": "RCD",
+      "region": "lat5_lon4",
+      "split": "train"
+    },
+    {
+      "block": "15:25",
+      "cell_id": "RES05-SXX:351:3026",
+      "crop": "RCW",
+      "region": "lat5_lon4",
+      "split": "train"
+    },
+    {
+      "block": "15:25",
+      "cell_id": "RES05-SXX:351:3026",
+      "crop": "WHE",
+      "region": "lat5_lon4",
+      "split": "train"
+    },
+    {
+      "block": "4:11",
+      "cell_id": "RES05-SXX:1623:1352",
+      "crop": "BRL",
+      "region": "lat1_lon1",
+      "split": "train"
+    },
+    {
+      "block": "4:11",
+      "cell_id": "RES05-SXX:1623:1352",
+      "crop": "MZE",
+      "region": "lat1_lon1",
+      "split": "train"
+    },
+    {
+      "block": "4:11",
+      "cell_id": "RES05-SXX:1623:1352",
+      "crop": "RCD",
+      "region": "lat1_lon1",
+      "split": "train"
+    },
+    {
+      "block": "4:11",
+      "cell_id": "RES05-SXX:1623:1352",
+      "crop": "RCW",
+      "region": "lat1_lon1",
+      "split": "train"
+    },
+    {
+      "block": "4:11",
+      "cell_id": "RES05-SXX:1623:1352",
+      "crop": "WHE",
+      "region": "lat1_lon1",
+      "split": "train"
+    },
+    {
+      "block": "5:29",
+      "cell_id": "RES05-SXX:1447:3592",
+      "crop": "BRL",
+      "region": "lat1_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "5:29",
+      "cell_id": "RES05-SXX:1447:3592",
+      "crop": "MZE",
+      "region": "lat1_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "5:29",
+      "cell_id": "RES05-SXX:1447:3592",
+      "crop": "RCD",
+      "region": "lat1_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "5:29",
+      "cell_id": "RES05-SXX:1447:3592",
+      "crop": "RCW",
+      "region": "lat1_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "5:29",
+      "cell_id": "RES05-SXX:1447:3592",
+      "crop": "WHE",
+      "region": "lat1_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "13:32",
+      "cell_id": "RES05-SXX:482:3869",
+      "crop": "BRL",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "13:32",
+      "cell_id": "RES05-SXX:482:3869",
+      "crop": "MZE",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "13:32",
+      "cell_id": "RES05-SXX:482:3869",
+      "crop": "RCD",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "13:32",
+      "cell_id": "RES05-SXX:482:3869",
+      "crop": "RCW",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "13:32",
+      "cell_id": "RES05-SXX:482:3869",
+      "crop": "WHE",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "8:14",
+      "cell_id": "RES05-SXX:1157:1729",
+      "crop": "BRL",
+      "region": "lat2_lon2",
+      "split": "validation"
+    },
+    {
+      "block": "8:14",
+      "cell_id": "RES05-SXX:1157:1729",
+      "crop": "MZE",
+      "region": "lat2_lon2",
+      "split": "validation"
+    },
+    {
+      "block": "8:14",
+      "cell_id": "RES05-SXX:1157:1729",
+      "crop": "RCD",
+      "region": "lat2_lon2",
+      "split": "validation"
+    },
+    {
+      "block": "8:14",
+      "cell_id": "RES05-SXX:1157:1729",
+      "crop": "RCW",
+      "region": "lat2_lon2",
+      "split": "validation"
+    },
+    {
+      "block": "8:14",
+      "cell_id": "RES05-SXX:1157:1729",
+      "crop": "WHE",
+      "region": "lat2_lon2",
+      "split": "validation"
+    },
+    {
+      "block": "10:2",
+      "cell_id": "RES05-SXX:845:289",
+      "crop": "BRL",
+      "region": "lat3_lon0",
+      "split": "train"
+    },
+    {
+      "block": "10:2",
+      "cell_id": "RES05-SXX:845:289",
+      "crop": "MZE",
+      "region": "lat3_lon0",
+      "split": "train"
+    },
+    {
+      "block": "10:2",
+      "cell_id": "RES05-SXX:845:289",
+      "crop": "RCD",
+      "region": "lat3_lon0",
+      "split": "train"
+    },
+    {
+      "block": "10:2",
+      "cell_id": "RES05-SXX:845:289",
+      "crop": "RCW",
+      "region": "lat3_lon0",
+      "split": "train"
+    },
+    {
+      "block": "10:2",
+      "cell_id": "RES05-SXX:845:289",
+      "crop": "WHE",
+      "region": "lat3_lon0",
+      "split": "train"
+    },
+    {
+      "block": "16:29",
+      "cell_id": "RES05-SXX:215:3538",
+      "crop": "BRL",
+      "region": "lat5_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "16:29",
+      "cell_id": "RES05-SXX:215:3538",
+      "crop": "MZE",
+      "region": "lat5_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "16:29",
+      "cell_id": "RES05-SXX:215:3538",
+      "crop": "RCD",
+      "region": "lat5_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "16:29",
+      "cell_id": "RES05-SXX:215:3538",
+      "crop": "RCW",
+      "region": "lat5_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "16:29",
+      "cell_id": "RES05-SXX:215:3538",
+      "crop": "WHE",
+      "region": "lat5_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "8:12",
+      "cell_id": "RES05-SXX:1126:1555",
+      "crop": "BRL",
+      "region": "lat2_lon2",
+      "split": "train"
+    },
+    {
+      "block": "8:12",
+      "cell_id": "RES05-SXX:1126:1555",
+      "crop": "MZE",
+      "region": "lat2_lon2",
+      "split": "train"
+    },
+    {
+      "block": "8:12",
+      "cell_id": "RES05-SXX:1126:1555",
+      "crop": "RCD",
+      "region": "lat2_lon2",
+      "split": "train"
+    },
+    {
+      "block": "8:12",
+      "cell_id": "RES05-SXX:1126:1555",
+      "crop": "RCW",
+      "region": "lat2_lon2",
+      "split": "train"
+    },
+    {
+      "block": "8:12",
+      "cell_id": "RES05-SXX:1126:1555",
+      "crop": "WHE",
+      "region": "lat2_lon2",
+      "split": "train"
+    },
+    {
+      "block": "15:5",
+      "cell_id": "RES05-SXX:247:682",
+      "crop": "BRL",
+      "region": "lat5_lon0",
+      "split": "test"
+    },
+    {
+      "block": "15:5",
+      "cell_id": "RES05-SXX:247:682",
+      "crop": "MZE",
+      "region": "lat5_lon0",
+      "split": "test"
+    },
+    {
+      "block": "15:5",
+      "cell_id": "RES05-SXX:247:682",
+      "crop": "RCD",
+      "region": "lat5_lon0",
+      "split": "test"
+    },
+    {
+      "block": "15:5",
+      "cell_id": "RES05-SXX:247:682",
+      "crop": "RCW",
+      "region": "lat5_lon0",
+      "split": "test"
+    },
+    {
+      "block": "15:5",
+      "cell_id": "RES05-SXX:247:682",
+      "crop": "WHE",
+      "region": "lat5_lon0",
+      "split": "test"
+    },
+    {
+      "block": "7:13",
+      "cell_id": "RES05-SXX:1264:1678",
+      "crop": "BRL",
+      "region": "lat2_lon2",
+      "split": "train"
+    },
+    {
+      "block": "7:13",
+      "cell_id": "RES05-SXX:1264:1678",
+      "crop": "MZE",
+      "region": "lat2_lon2",
+      "split": "train"
+    },
+    {
+      "block": "7:13",
+      "cell_id": "RES05-SXX:1264:1678",
+      "crop": "RCD",
+      "region": "lat2_lon2",
+      "split": "train"
+    },
+    {
+      "block": "7:13",
+      "cell_id": "RES05-SXX:1264:1678",
+      "crop": "RCW",
+      "region": "lat2_lon2",
+      "split": "train"
+    },
+    {
+      "block": "7:13",
+      "cell_id": "RES05-SXX:1264:1678",
+      "crop": "WHE",
+      "region": "lat2_lon2",
+      "split": "train"
+    },
+    {
+      "block": "16:31",
+      "cell_id": "RES05-SXX:230:3778",
+      "crop": "BRL",
+      "region": "lat5_lon5",
+      "split": "train"
+    },
+    {
+      "block": "16:31",
+      "cell_id": "RES05-SXX:230:3778",
+      "crop": "MZE",
+      "region": "lat5_lon5",
+      "split": "train"
+    },
+    {
+      "block": "16:31",
+      "cell_id": "RES05-SXX:230:3778",
+      "crop": "RCD",
+      "region": "lat5_lon5",
+      "split": "train"
+    },
+    {
+      "block": "16:31",
+      "cell_id": "RES05-SXX:230:3778",
+      "crop": "RCW",
+      "region": "lat5_lon5",
+      "split": "train"
+    },
+    {
+      "block": "16:31",
+      "cell_id": "RES05-SXX:230:3778",
+      "crop": "WHE",
+      "region": "lat5_lon5",
+      "split": "train"
+    },
+    {
+      "block": "13:23",
+      "cell_id": "RES05-SXX:509:2791",
+      "crop": "BRL",
+      "region": "lat4_lon3",
+      "split": "train"
+    },
+    {
+      "block": "13:23",
+      "cell_id": "RES05-SXX:509:2791",
+      "crop": "MZE",
+      "region": "lat4_lon3",
+      "split": "train"
+    },
+    {
+      "block": "13:23",
+      "cell_id": "RES05-SXX:509:2791",
+      "crop": "RCD",
+      "region": "lat4_lon3",
+      "split": "train"
+    },
+    {
+      "block": "13:23",
+      "cell_id": "RES05-SXX:509:2791",
+      "crop": "RCW",
+      "region": "lat4_lon3",
+      "split": "train"
+    },
+    {
+      "block": "13:23",
+      "cell_id": "RES05-SXX:509:2791",
+      "crop": "WHE",
+      "region": "lat4_lon3",
+      "split": "train"
+    },
+    {
+      "block": "14:23",
+      "cell_id": "RES05-SXX:464:2805",
+      "crop": "BRL",
+      "region": "lat4_lon3",
+      "split": "train"
+    },
+    {
+      "block": "14:23",
+      "cell_id": "RES05-SXX:464:2805",
+      "crop": "MZE",
+      "region": "lat4_lon3",
+      "split": "train"
+    },
+    {
+      "block": "14:23",
+      "cell_id": "RES05-SXX:464:2805",
+      "crop": "RCD",
+      "region": "lat4_lon3",
+      "split": "train"
+    },
+    {
+      "block": "14:23",
+      "cell_id": "RES05-SXX:464:2805",
+      "crop": "RCW",
+      "region": "lat4_lon3",
+      "split": "train"
+    },
+    {
+      "block": "14:23",
+      "cell_id": "RES05-SXX:464:2805",
+      "crop": "WHE",
+      "region": "lat4_lon3",
+      "split": "train"
+    },
+    {
+      "block": "14:11",
+      "cell_id": "RES05-SXX:412:1431",
+      "crop": "BRL",
+      "region": "lat4_lon1",
+      "split": "train"
+    },
+    {
+      "block": "14:11",
+      "cell_id": "RES05-SXX:412:1431",
+      "crop": "MZE",
+      "region": "lat4_lon1",
+      "split": "train"
+    },
+    {
+      "block": "14:11",
+      "cell_id": "RES05-SXX:412:1431",
+      "crop": "RCD",
+      "region": "lat4_lon1",
+      "split": "train"
+    },
+    {
+      "block": "14:11",
+      "cell_id": "RES05-SXX:412:1431",
+      "crop": "RCW",
+      "region": "lat4_lon1",
+      "split": "train"
+    },
+    {
+      "block": "14:11",
+      "cell_id": "RES05-SXX:412:1431",
+      "crop": "WHE",
+      "region": "lat4_lon1",
+      "split": "train"
+    },
+    {
+      "block": "14:32",
+      "cell_id": "RES05-SXX:430:3870",
+      "crop": "BRL",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "14:32",
+      "cell_id": "RES05-SXX:430:3870",
+      "crop": "MZE",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "14:32",
+      "cell_id": "RES05-SXX:430:3870",
+      "crop": "RCD",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "14:32",
+      "cell_id": "RES05-SXX:430:3870",
+      "crop": "RCW",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "14:32",
+      "cell_id": "RES05-SXX:430:3870",
+      "crop": "WHE",
+      "region": "lat4_lon5",
+      "split": "train"
+    },
+    {
+      "block": "9:17",
+      "cell_id": "RES05-SXX:980:2080",
+      "crop": "BRL",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "9:17",
+      "cell_id": "RES05-SXX:980:2080",
+      "crop": "MZE",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "9:17",
+      "cell_id": "RES05-SXX:980:2080",
+      "crop": "RCD",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "9:17",
+      "cell_id": "RES05-SXX:980:2080",
+      "crop": "RCW",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "9:17",
+      "cell_id": "RES05-SXX:980:2080",
+      "crop": "WHE",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "8:19",
+      "cell_id": "RES05-SXX:1082:2344",
+      "crop": "BRL",
+      "region": "lat2_lon3",
+      "split": "train"
+    },
+    {
+      "block": "8:19",
+      "cell_id": "RES05-SXX:1082:2344",
+      "crop": "MZE",
+      "region": "lat2_lon3",
+      "split": "train"
+    },
+    {
+      "block": "8:19",
+      "cell_id": "RES05-SXX:1082:2344",
+      "crop": "RCD",
+      "region": "lat2_lon3",
+      "split": "train"
+    },
+    {
+      "block": "8:19",
+      "cell_id": "RES05-SXX:1082:2344",
+      "crop": "RCW",
+      "region": "lat2_lon3",
+      "split": "train"
+    },
+    {
+      "block": "8:19",
+      "cell_id": "RES05-SXX:1082:2344",
+      "crop": "WHE",
+      "region": "lat2_lon3",
+      "split": "train"
+    },
+    {
+      "block": "16:5",
+      "cell_id": "RES05-SXX:216:681",
+      "crop": "BRL",
+      "region": "lat5_lon0",
+      "split": "train"
+    },
+    {
+      "block": "16:5",
+      "cell_id": "RES05-SXX:216:681",
+      "crop": "MZE",
+      "region": "lat5_lon0",
+      "split": "train"
+    },
+    {
+      "block": "16:5",
+      "cell_id": "RES05-SXX:216:681",
+      "crop": "RCD",
+      "region": "lat5_lon0",
+      "split": "train"
+    },
+    {
+      "block": "16:5",
+      "cell_id": "RES05-SXX:216:681",
+      "crop": "RCW",
+      "region": "lat5_lon0",
+      "split": "train"
+    },
+    {
+      "block": "16:5",
+      "cell_id": "RES05-SXX:216:681",
+      "crop": "WHE",
+      "region": "lat5_lon0",
+      "split": "train"
+    },
+    {
+      "block": "13:29",
+      "cell_id": "RES05-SXX:584:3529",
+      "crop": "BRL",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "13:29",
+      "cell_id": "RES05-SXX:584:3529",
+      "crop": "MZE",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "13:29",
+      "cell_id": "RES05-SXX:584:3529",
+      "crop": "RCD",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "13:29",
+      "cell_id": "RES05-SXX:584:3529",
+      "crop": "RCW",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "13:29",
+      "cell_id": "RES05-SXX:584:3529",
+      "crop": "WHE",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "12:25",
+      "cell_id": "RES05-SXX:697:3077",
+      "crop": "BRL",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "12:25",
+      "cell_id": "RES05-SXX:697:3077",
+      "crop": "MZE",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "12:25",
+      "cell_id": "RES05-SXX:697:3077",
+      "crop": "RCD",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "12:25",
+      "cell_id": "RES05-SXX:697:3077",
+      "crop": "RCW",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "12:25",
+      "cell_id": "RES05-SXX:697:3077",
+      "crop": "WHE",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "14:30",
+      "cell_id": "RES05-SXX:434:3656",
+      "crop": "BRL",
+      "region": "lat4_lon5",
+      "split": "validation"
+    },
+    {
+      "block": "14:30",
+      "cell_id": "RES05-SXX:434:3656",
+      "crop": "MZE",
+      "region": "lat4_lon5",
+      "split": "validation"
+    },
+    {
+      "block": "14:30",
+      "cell_id": "RES05-SXX:434:3656",
+      "crop": "RCD",
+      "region": "lat4_lon5",
+      "split": "validation"
+    },
+    {
+      "block": "14:30",
+      "cell_id": "RES05-SXX:434:3656",
+      "crop": "RCW",
+      "region": "lat4_lon5",
+      "split": "validation"
+    },
+    {
+      "block": "14:30",
+      "cell_id": "RES05-SXX:434:3656",
+      "crop": "WHE",
+      "region": "lat4_lon5",
+      "split": "validation"
+    },
+    {
+      "block": "11:21",
+      "cell_id": "RES05-SXX:830:2639",
+      "crop": "BRL",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "11:21",
+      "cell_id": "RES05-SXX:830:2639",
+      "crop": "MZE",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "11:21",
+      "cell_id": "RES05-SXX:830:2639",
+      "crop": "RCD",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "11:21",
+      "cell_id": "RES05-SXX:830:2639",
+      "crop": "RCW",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "11:21",
+      "cell_id": "RES05-SXX:830:2639",
+      "crop": "WHE",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "9:21",
+      "cell_id": "RES05-SXX:1018:2541",
+      "crop": "BRL",
+      "region": "lat3_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "9:21",
+      "cell_id": "RES05-SXX:1018:2541",
+      "crop": "MZE",
+      "region": "lat3_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "9:21",
+      "cell_id": "RES05-SXX:1018:2541",
+      "crop": "RCD",
+      "region": "lat3_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "9:21",
+      "cell_id": "RES05-SXX:1018:2541",
+      "crop": "RCW",
+      "region": "lat3_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "9:21",
+      "cell_id": "RES05-SXX:1018:2541",
+      "crop": "WHE",
+      "region": "lat3_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "6:20",
+      "cell_id": "RES05-SXX:1375:2454",
+      "crop": "BRL",
+      "region": "lat2_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "6:20",
+      "cell_id": "RES05-SXX:1375:2454",
+      "crop": "MZE",
+      "region": "lat2_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "6:20",
+      "cell_id": "RES05-SXX:1375:2454",
+      "crop": "RCD",
+      "region": "lat2_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "6:20",
+      "cell_id": "RES05-SXX:1375:2454",
+      "crop": "RCW",
+      "region": "lat2_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "6:20",
+      "cell_id": "RES05-SXX:1375:2454",
+      "crop": "WHE",
+      "region": "lat2_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "12:5",
+      "cell_id": "RES05-SXX:601:687",
+      "crop": "BRL",
+      "region": "lat4_lon0",
+      "split": "train"
+    },
+    {
+      "block": "12:5",
+      "cell_id": "RES05-SXX:601:687",
+      "crop": "MZE",
+      "region": "lat4_lon0",
+      "split": "train"
+    },
+    {
+      "block": "12:5",
+      "cell_id": "RES05-SXX:601:687",
+      "crop": "RCD",
+      "region": "lat4_lon0",
+      "split": "train"
+    },
+    {
+      "block": "12:5",
+      "cell_id": "RES05-SXX:601:687",
+      "crop": "RCW",
+      "region": "lat4_lon0",
+      "split": "train"
+    },
+    {
+      "block": "12:5",
+      "cell_id": "RES05-SXX:601:687",
+      "crop": "WHE",
+      "region": "lat4_lon0",
+      "split": "train"
+    },
+    {
+      "block": "9:11",
+      "cell_id": "RES05-SXX:1063:1397",
+      "crop": "BRL",
+      "region": "lat3_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "9:11",
+      "cell_id": "RES05-SXX:1063:1397",
+      "crop": "MZE",
+      "region": "lat3_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "9:11",
+      "cell_id": "RES05-SXX:1063:1397",
+      "crop": "RCD",
+      "region": "lat3_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "9:11",
+      "cell_id": "RES05-SXX:1063:1397",
+      "crop": "RCW",
+      "region": "lat3_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "9:11",
+      "cell_id": "RES05-SXX:1063:1397",
+      "crop": "WHE",
+      "region": "lat3_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "15:3",
+      "cell_id": "RES05-SXX:255:415",
+      "crop": "BRL",
+      "region": "lat5_lon0",
+      "split": "train"
+    },
+    {
+      "block": "15:3",
+      "cell_id": "RES05-SXX:255:415",
+      "crop": "MZE",
+      "region": "lat5_lon0",
+      "split": "train"
+    },
+    {
+      "block": "15:3",
+      "cell_id": "RES05-SXX:255:415",
+      "crop": "RCD",
+      "region": "lat5_lon0",
+      "split": "train"
+    },
+    {
+      "block": "15:3",
+      "cell_id": "RES05-SXX:255:415",
+      "crop": "RCW",
+      "region": "lat5_lon0",
+      "split": "train"
+    },
+    {
+      "block": "15:3",
+      "cell_id": "RES05-SXX:255:415",
+      "crop": "WHE",
+      "region": "lat5_lon0",
+      "split": "train"
+    },
+    {
+      "block": "12:27",
+      "cell_id": "RES05-SXX:699:3278",
+      "crop": "BRL",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "12:27",
+      "cell_id": "RES05-SXX:699:3278",
+      "crop": "MZE",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "12:27",
+      "cell_id": "RES05-SXX:699:3278",
+      "crop": "RCD",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "12:27",
+      "cell_id": "RES05-SXX:699:3278",
+      "crop": "RCW",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "12:27",
+      "cell_id": "RES05-SXX:699:3278",
+      "crop": "WHE",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "14:17",
+      "cell_id": "RES05-SXX:409:2132",
+      "crop": "BRL",
+      "region": "lat4_lon2",
+      "split": "train"
+    },
+    {
+      "block": "14:17",
+      "cell_id": "RES05-SXX:409:2132",
+      "crop": "MZE",
+      "region": "lat4_lon2",
+      "split": "train"
+    },
+    {
+      "block": "14:17",
+      "cell_id": "RES05-SXX:409:2132",
+      "crop": "RCD",
+      "region": "lat4_lon2",
+      "split": "train"
+    },
+    {
+      "block": "14:17",
+      "cell_id": "RES05-SXX:409:2132",
+      "crop": "RCW",
+      "region": "lat4_lon2",
+      "split": "train"
+    },
+    {
+      "block": "14:17",
+      "cell_id": "RES05-SXX:409:2132",
+      "crop": "WHE",
+      "region": "lat4_lon2",
+      "split": "train"
+    },
+    {
+      "block": "7:14",
+      "cell_id": "RES05-SXX:1229:1696",
+      "crop": "BRL",
+      "region": "lat2_lon2",
+      "split": "train"
+    },
+    {
+      "block": "7:14",
+      "cell_id": "RES05-SXX:1229:1696",
+      "crop": "MZE",
+      "region": "lat2_lon2",
+      "split": "train"
+    },
+    {
+      "block": "7:14",
+      "cell_id": "RES05-SXX:1229:1696",
+      "crop": "RCD",
+      "region": "lat2_lon2",
+      "split": "train"
+    },
+    {
+      "block": "7:14",
+      "cell_id": "RES05-SXX:1229:1696",
+      "crop": "RCW",
+      "region": "lat2_lon2",
+      "split": "train"
+    },
+    {
+      "block": "7:14",
+      "cell_id": "RES05-SXX:1229:1696",
+      "crop": "WHE",
+      "region": "lat2_lon2",
+      "split": "train"
+    },
+    {
+      "block": "5:20",
+      "cell_id": "RES05-SXX:1485:2413",
+      "crop": "BRL",
+      "region": "lat1_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "5:20",
+      "cell_id": "RES05-SXX:1485:2413",
+      "crop": "MZE",
+      "region": "lat1_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "5:20",
+      "cell_id": "RES05-SXX:1485:2413",
+      "crop": "RCD",
+      "region": "lat1_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "5:20",
+      "cell_id": "RES05-SXX:1485:2413",
+      "crop": "RCW",
+      "region": "lat1_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "5:20",
+      "cell_id": "RES05-SXX:1485:2413",
+      "crop": "WHE",
+      "region": "lat1_lon3",
+      "split": "validation"
+    },
+    {
+      "block": "14:27",
+      "cell_id": "RES05-SXX:421:3332",
+      "crop": "BRL",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "14:27",
+      "cell_id": "RES05-SXX:421:3332",
+      "crop": "MZE",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "14:27",
+      "cell_id": "RES05-SXX:421:3332",
+      "crop": "RCD",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "14:27",
+      "cell_id": "RES05-SXX:421:3332",
+      "crop": "RCW",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "14:27",
+      "cell_id": "RES05-SXX:421:3332",
+      "crop": "WHE",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "6:10",
+      "cell_id": "RES05-SXX:1426:1308",
+      "crop": "BRL",
+      "region": "lat2_lon1",
+      "split": "test"
+    },
+    {
+      "block": "6:10",
+      "cell_id": "RES05-SXX:1426:1308",
+      "crop": "MZE",
+      "region": "lat2_lon1",
+      "split": "test"
+    },
+    {
+      "block": "6:10",
+      "cell_id": "RES05-SXX:1426:1308",
+      "crop": "RCD",
+      "region": "lat2_lon1",
+      "split": "test"
+    },
+    {
+      "block": "6:10",
+      "cell_id": "RES05-SXX:1426:1308",
+      "crop": "RCW",
+      "region": "lat2_lon1",
+      "split": "test"
+    },
+    {
+      "block": "6:10",
+      "cell_id": "RES05-SXX:1426:1308",
+      "crop": "WHE",
+      "region": "lat2_lon1",
+      "split": "test"
+    },
+    {
+      "block": "13:8",
+      "cell_id": "RES05-SXX:535:964",
+      "crop": "BRL",
+      "region": "lat4_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "13:8",
+      "cell_id": "RES05-SXX:535:964",
+      "crop": "MZE",
+      "region": "lat4_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "13:8",
+      "cell_id": "RES05-SXX:535:964",
+      "crop": "RCD",
+      "region": "lat4_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "13:8",
+      "cell_id": "RES05-SXX:535:964",
+      "crop": "RCW",
+      "region": "lat4_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "13:8",
+      "cell_id": "RES05-SXX:535:964",
+      "crop": "WHE",
+      "region": "lat4_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "8:32",
+      "cell_id": "RES05-SXX:1134:3867",
+      "crop": "BRL",
+      "region": "lat2_lon5",
+      "split": "train"
+    },
+    {
+      "block": "8:32",
+      "cell_id": "RES05-SXX:1134:3867",
+      "crop": "MZE",
+      "region": "lat2_lon5",
+      "split": "train"
+    },
+    {
+      "block": "8:32",
+      "cell_id": "RES05-SXX:1134:3867",
+      "crop": "RCD",
+      "region": "lat2_lon5",
+      "split": "train"
+    },
+    {
+      "block": "8:32",
+      "cell_id": "RES05-SXX:1134:3867",
+      "crop": "RCW",
+      "region": "lat2_lon5",
+      "split": "train"
+    },
+    {
+      "block": "8:32",
+      "cell_id": "RES05-SXX:1134:3867",
+      "crop": "WHE",
+      "region": "lat2_lon5",
+      "split": "train"
+    },
+    {
+      "block": "8:9",
+      "cell_id": "RES05-SXX:1093:1198",
+      "crop": "BRL",
+      "region": "lat2_lon1",
+      "split": "train"
+    },
+    {
+      "block": "8:9",
+      "cell_id": "RES05-SXX:1093:1198",
+      "crop": "MZE",
+      "region": "lat2_lon1",
+      "split": "train"
+    },
+    {
+      "block": "8:9",
+      "cell_id": "RES05-SXX:1093:1198",
+      "crop": "RCD",
+      "region": "lat2_lon1",
+      "split": "train"
+    },
+    {
+      "block": "8:9",
+      "cell_id": "RES05-SXX:1093:1198",
+      "crop": "RCW",
+      "region": "lat2_lon1",
+      "split": "train"
+    },
+    {
+      "block": "8:9",
+      "cell_id": "RES05-SXX:1093:1198",
+      "crop": "WHE",
+      "region": "lat2_lon1",
+      "split": "train"
+    },
+    {
+      "block": "10:18",
+      "cell_id": "RES05-SXX:917:2246",
+      "crop": "BRL",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "10:18",
+      "cell_id": "RES05-SXX:917:2246",
+      "crop": "MZE",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "10:18",
+      "cell_id": "RES05-SXX:917:2246",
+      "crop": "RCD",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "10:18",
+      "cell_id": "RES05-SXX:917:2246",
+      "crop": "RCW",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "10:18",
+      "cell_id": "RES05-SXX:917:2246",
+      "crop": "WHE",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "9:10",
+      "cell_id": "RES05-SXX:971:1224",
+      "crop": "BRL",
+      "region": "lat3_lon1",
+      "split": "train"
+    },
+    {
+      "block": "9:10",
+      "cell_id": "RES05-SXX:971:1224",
+      "crop": "MZE",
+      "region": "lat3_lon1",
+      "split": "train"
+    },
+    {
+      "block": "9:10",
+      "cell_id": "RES05-SXX:971:1224",
+      "crop": "RCD",
+      "region": "lat3_lon1",
+      "split": "train"
+    },
+    {
+      "block": "9:10",
+      "cell_id": "RES05-SXX:971:1224",
+      "crop": "RCW",
+      "region": "lat3_lon1",
+      "split": "train"
+    },
+    {
+      "block": "9:10",
+      "cell_id": "RES05-SXX:971:1224",
+      "crop": "WHE",
+      "region": "lat3_lon1",
+      "split": "train"
+    },
+    {
+      "block": "6:11",
+      "cell_id": "RES05-SXX:1387:1412",
+      "crop": "BRL",
+      "region": "lat2_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "6:11",
+      "cell_id": "RES05-SXX:1387:1412",
+      "crop": "MZE",
+      "region": "lat2_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "6:11",
+      "cell_id": "RES05-SXX:1387:1412",
+      "crop": "RCD",
+      "region": "lat2_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "6:11",
+      "cell_id": "RES05-SXX:1387:1412",
+      "crop": "RCW",
+      "region": "lat2_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "6:11",
+      "cell_id": "RES05-SXX:1387:1412",
+      "crop": "WHE",
+      "region": "lat2_lon1",
+      "split": "validation"
+    },
+    {
+      "block": "11:9",
+      "cell_id": "RES05-SXX:813:1149",
+      "crop": "BRL",
+      "region": "lat3_lon1",
+      "split": "train"
+    },
+    {
+      "block": "11:9",
+      "cell_id": "RES05-SXX:813:1149",
+      "crop": "MZE",
+      "region": "lat3_lon1",
+      "split": "train"
+    },
+    {
+      "block": "11:9",
+      "cell_id": "RES05-SXX:813:1149",
+      "crop": "RCD",
+      "region": "lat3_lon1",
+      "split": "train"
+    },
+    {
+      "block": "11:9",
+      "cell_id": "RES05-SXX:813:1149",
+      "crop": "RCW",
+      "region": "lat3_lon1",
+      "split": "train"
+    },
+    {
+      "block": "11:9",
+      "cell_id": "RES05-SXX:813:1149",
+      "crop": "WHE",
+      "region": "lat3_lon1",
+      "split": "train"
+    },
+    {
+      "block": "11:21",
+      "cell_id": "RES05-SXX:772:2574",
+      "crop": "BRL",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "11:21",
+      "cell_id": "RES05-SXX:772:2574",
+      "crop": "MZE",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "11:21",
+      "cell_id": "RES05-SXX:772:2574",
+      "crop": "RCD",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "11:21",
+      "cell_id": "RES05-SXX:772:2574",
+      "crop": "RCW",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "11:21",
+      "cell_id": "RES05-SXX:772:2574",
+      "crop": "WHE",
+      "region": "lat3_lon3",
+      "split": "train"
+    },
+    {
+      "block": "15:27",
+      "cell_id": "RES05-SXX:308:3295",
+      "crop": "BRL",
+      "region": "lat5_lon4",
+      "split": "train"
+    },
+    {
+      "block": "15:27",
+      "cell_id": "RES05-SXX:308:3295",
+      "crop": "MZE",
+      "region": "lat5_lon4",
+      "split": "train"
+    },
+    {
+      "block": "15:27",
+      "cell_id": "RES05-SXX:308:3295",
+      "crop": "RCD",
+      "region": "lat5_lon4",
+      "split": "train"
+    },
+    {
+      "block": "15:27",
+      "cell_id": "RES05-SXX:308:3295",
+      "crop": "RCW",
+      "region": "lat5_lon4",
+      "split": "train"
+    },
+    {
+      "block": "15:27",
+      "cell_id": "RES05-SXX:308:3295",
+      "crop": "WHE",
+      "region": "lat5_lon4",
+      "split": "train"
+    },
+    {
+      "block": "12:6",
+      "cell_id": "RES05-SXX:711:781",
+      "crop": "BRL",
+      "region": "lat4_lon1",
+      "split": "train"
+    },
+    {
+      "block": "12:6",
+      "cell_id": "RES05-SXX:711:781",
+      "crop": "MZE",
+      "region": "lat4_lon1",
+      "split": "train"
+    },
+    {
+      "block": "12:6",
+      "cell_id": "RES05-SXX:711:781",
+      "crop": "RCD",
+      "region": "lat4_lon1",
+      "split": "train"
+    },
+    {
+      "block": "12:6",
+      "cell_id": "RES05-SXX:711:781",
+      "crop": "RCW",
+      "region": "lat4_lon1",
+      "split": "train"
+    },
+    {
+      "block": "12:6",
+      "cell_id": "RES05-SXX:711:781",
+      "crop": "WHE",
+      "region": "lat4_lon1",
+      "split": "train"
+    },
+    {
+      "block": "12:9",
+      "cell_id": "RES05-SXX:685:1190",
+      "crop": "BRL",
+      "region": "lat4_lon1",
+      "split": "test"
+    },
+    {
+      "block": "12:9",
+      "cell_id": "RES05-SXX:685:1190",
+      "crop": "MZE",
+      "region": "lat4_lon1",
+      "split": "test"
+    },
+    {
+      "block": "12:9",
+      "cell_id": "RES05-SXX:685:1190",
+      "crop": "RCD",
+      "region": "lat4_lon1",
+      "split": "test"
+    },
+    {
+      "block": "12:9",
+      "cell_id": "RES05-SXX:685:1190",
+      "crop": "RCW",
+      "region": "lat4_lon1",
+      "split": "test"
+    },
+    {
+      "block": "12:9",
+      "cell_id": "RES05-SXX:685:1190",
+      "crop": "WHE",
+      "region": "lat4_lon1",
+      "split": "test"
+    },
+    {
+      "block": "4:35",
+      "cell_id": "RES05-SXX:1570:4271",
+      "crop": "BRL",
+      "region": "lat1_lon5",
+      "split": "validation"
+    },
+    {
+      "block": "4:35",
+      "cell_id": "RES05-SXX:1570:4271",
+      "crop": "MZE",
+      "region": "lat1_lon5",
+      "split": "validation"
+    },
+    {
+      "block": "4:35",
+      "cell_id": "RES05-SXX:1570:4271",
+      "crop": "RCD",
+      "region": "lat1_lon5",
+      "split": "validation"
+    },
+    {
+      "block": "4:35",
+      "cell_id": "RES05-SXX:1570:4271",
+      "crop": "RCW",
+      "region": "lat1_lon5",
+      "split": "validation"
+    },
+    {
+      "block": "4:35",
+      "cell_id": "RES05-SXX:1570:4271",
+      "crop": "WHE",
+      "region": "lat1_lon5",
+      "split": "validation"
+    },
+    {
+      "block": "14:28",
+      "cell_id": "RES05-SXX:388:3418",
+      "crop": "BRL",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "14:28",
+      "cell_id": "RES05-SXX:388:3418",
+      "crop": "MZE",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "14:28",
+      "cell_id": "RES05-SXX:388:3418",
+      "crop": "RCD",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "14:28",
+      "cell_id": "RES05-SXX:388:3418",
+      "crop": "RCW",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "14:28",
+      "cell_id": "RES05-SXX:388:3418",
+      "crop": "WHE",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "12:28",
+      "cell_id": "RES05-SXX:710:3390",
+      "crop": "BRL",
+      "region": "lat4_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "12:28",
+      "cell_id": "RES05-SXX:710:3390",
+      "crop": "MZE",
+      "region": "lat4_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "12:28",
+      "cell_id": "RES05-SXX:710:3390",
+      "crop": "RCD",
+      "region": "lat4_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "12:28",
+      "cell_id": "RES05-SXX:710:3390",
+      "crop": "RCW",
+      "region": "lat4_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "12:28",
+      "cell_id": "RES05-SXX:710:3390",
+      "crop": "WHE",
+      "region": "lat4_lon4",
+      "split": "validation"
+    },
+    {
+      "block": "13:25",
+      "cell_id": "RES05-SXX:549:3072",
+      "crop": "BRL",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "13:25",
+      "cell_id": "RES05-SXX:549:3072",
+      "crop": "MZE",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "13:25",
+      "cell_id": "RES05-SXX:549:3072",
+      "crop": "RCD",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "13:25",
+      "cell_id": "RES05-SXX:549:3072",
+      "crop": "RCW",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "13:25",
+      "cell_id": "RES05-SXX:549:3072",
+      "crop": "WHE",
+      "region": "lat4_lon4",
+      "split": "train"
+    },
+    {
+      "block": "10:10",
+      "cell_id": "RES05-SXX:953:1257",
+      "crop": "BRL",
+      "region": "lat3_lon1",
+      "split": "test"
+    },
+    {
+      "block": "10:10",
+      "cell_id": "RES05-SXX:953:1257",
+      "crop": "MZE",
+      "region": "lat3_lon1",
+      "split": "test"
+    },
+    {
+      "block": "10:10",
+      "cell_id": "RES05-SXX:953:1257",
+      "crop": "RCD",
+      "region": "lat3_lon1",
+      "split": "test"
+    },
+    {
+      "block": "10:10",
+      "cell_id": "RES05-SXX:953:1257",
+      "crop": "RCW",
+      "region": "lat3_lon1",
+      "split": "test"
+    },
+    {
+      "block": "10:10",
+      "cell_id": "RES05-SXX:953:1257",
+      "crop": "WHE",
+      "region": "lat3_lon1",
+      "split": "test"
+    },
+    {
+      "block": "9:17",
+      "cell_id": "RES05-SXX:1017:2143",
+      "crop": "BRL",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "9:17",
+      "cell_id": "RES05-SXX:1017:2143",
+      "crop": "MZE",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "9:17",
+      "cell_id": "RES05-SXX:1017:2143",
+      "crop": "RCD",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "9:17",
+      "cell_id": "RES05-SXX:1017:2143",
+      "crop": "RCW",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "9:17",
+      "cell_id": "RES05-SXX:1017:2143",
+      "crop": "WHE",
+      "region": "lat3_lon2",
+      "split": "train"
+    },
+    {
+      "block": "4:32",
+      "cell_id": "RES05-SXX:1589:3934",
+      "crop": "BRL",
+      "region": "lat1_lon5",
+      "split": "train"
+    },
+    {
+      "block": "4:32",
+      "cell_id": "RES05-SXX:1589:3934",
+      "crop": "MZE",
+      "region": "lat1_lon5",
+      "split": "train"
+    },
+    {
+      "block": "4:32",
+      "cell_id": "RES05-SXX:1589:3934",
+      "crop": "RCD",
+      "region": "lat1_lon5",
+      "split": "train"
+    },
+    {
+      "block": "4:32",
+      "cell_id": "RES05-SXX:1589:3934",
+      "crop": "RCW",
+      "region": "lat1_lon5",
+      "split": "train"
+    },
+    {
+      "block": "4:32",
+      "cell_id": "RES05-SXX:1589:3934",
+      "crop": "WHE",
+      "region": "lat1_lon5",
+      "split": "train"
+    },
+    {
+      "block": "16:7",
+      "cell_id": "RES05-SXX:196:899",
+      "crop": "BRL",
+      "region": "lat5_lon1",
+      "split": "train"
+    },
+    {
+      "block": "16:7",
+      "cell_id": "RES05-SXX:196:899",
+      "crop": "MZE",
+      "region": "lat5_lon1",
+      "split": "train"
+    },
+    {
+      "block": "16:7",
+      "cell_id": "RES05-SXX:196:899",
+      "crop": "RCD",
+      "region": "lat5_lon1",
+      "split": "train"
+    },
+    {
+      "block": "16:7",
+      "cell_id": "RES05-SXX:196:899",
+      "crop": "RCW",
+      "region": "lat5_lon1",
+      "split": "train"
+    },
+    {
+      "block": "16:7",
+      "cell_id": "RES05-SXX:196:899",
+      "crop": "WHE",
+      "region": "lat5_lon1",
+      "split": "train"
+    },
+    {
+      "block": "13:31",
+      "cell_id": "RES05-SXX:524:3816",
+      "crop": "BRL",
+      "region": "lat4_lon5",
+      "split": "test"
+    },
+    {
+      "block": "13:31",
+      "cell_id": "RES05-SXX:524:3816",
+      "crop": "MZE",
+      "region": "lat4_lon5",
+      "split": "test"
+    },
+    {
+      "block": "13:31",
+      "cell_id": "RES05-SXX:524:3816",
+      "crop": "RCD",
+      "region": "lat4_lon5",
+      "split": "test"
+    },
+    {
+      "block": "13:31",
+      "cell_id": "RES05-SXX:524:3816",
+      "crop": "RCW",
+      "region": "lat4_lon5",
+      "split": "test"
+    },
+    {
+      "block": "13:31",
+      "cell_id": "RES05-SXX:524:3816",
+      "crop": "WHE",
+      "region": "lat4_lon5",
+      "split": "test"
+    },
+    {
+      "block": "7:11",
+      "cell_id": "RES05-SXX:1241:1386",
+      "crop": "BRL",
+      "region": "lat2_lon1",
+      "split": "test"
+    },
+    {
+      "block": "7:11",
+      "cell_id": "RES05-SXX:1241:1386",
+      "crop": "MZE",
+      "region": "lat2_lon1",
+      "split": "test"
+    },
+    {
+      "block": "7:11",
+      "cell_id": "RES05-SXX:1241:1386",
+      "crop": "RCD",
+      "region": "lat2_lon1",
+      "split": "test"
+    },
+    {
+      "block": "7:11",
+      "cell_id": "RES05-SXX:1241:1386",
+      "crop": "RCW",
+      "region": "lat2_lon1",
+      "split": "test"
+    },
+    {
+      "block": "7:11",
+      "cell_id": "RES05-SXX:1241:1386",
+      "crop": "WHE",
+      "region": "lat2_lon1",
+      "split": "test"
+    },
+    {
+      "block": "15:24",
+      "cell_id": "RES05-SXX:243:2993",
+      "crop": "BRL",
+      "region": "lat5_lon4",
+      "split": "test"
+    },
+    {
+      "block": "15:24",
+      "cell_id": "RES05-SXX:243:2993",
+      "crop": "MZE",
+      "region": "lat5_lon4",
+      "split": "test"
+    },
+    {
+      "block": "15:24",
+      "cell_id": "RES05-SXX:243:2993",
+      "crop": "RCD",
+      "region": "lat5_lon4",
+      "split": "test"
+    },
+    {
+      "block": "15:24",
+      "cell_id": "RES05-SXX:243:2993",
+      "crop": "RCW",
+      "region": "lat5_lon4",
+      "split": "test"
+    },
+    {
+      "block": "15:24",
+      "cell_id": "RES05-SXX:243:2993",
+      "crop": "WHE",
+      "region": "lat5_lon4",
+      "split": "test"
+    },
+    {
+      "block": "16:33",
+      "cell_id": "RES05-SXX:180:3966",
+      "crop": "BRL",
+      "region": "lat5_lon5",
+      "split": "test"
+    },
+    {
+      "block": "16:33",
+      "cell_id": "RES05-SXX:180:3966",
+      "crop": "MZE",
+      "region": "lat5_lon5",
+      "split": "test"
+    },
+    {
+      "block": "16:33",
+      "cell_id": "RES05-SXX:180:3966",
+      "crop": "RCD",
+      "region": "lat5_lon5",
+      "split": "test"
+    },
+    {
+      "block": "16:33",
+      "cell_id": "RES05-SXX:180:3966",
+      "crop": "RCW",
+      "region": "lat5_lon5",
+      "split": "test"
+    },
+    {
+      "block": "16:33",
+      "cell_id": "RES05-SXX:180:3966",
+      "crop": "WHE",
+      "region": "lat5_lon5",
+      "split": "test"
+    },
+    {
+      "block": "6:19",
+      "cell_id": "RES05-SXX:1368:2338",
+      "crop": "BRL",
+      "region": "lat2_lon3",
+      "split": "test"
+    },
+    {
+      "block": "6:19",
+      "cell_id": "RES05-SXX:1368:2338",
+      "crop": "MZE",
+      "region": "lat2_lon3",
+      "split": "test"
+    },
+    {
+      "block": "6:19",
+      "cell_id": "RES05-SXX:1368:2338",
+      "crop": "RCD",
+      "region": "lat2_lon3",
+      "split": "test"
+    },
+    {
+      "block": "6:19",
+      "cell_id": "RES05-SXX:1368:2338",
+      "crop": "RCW",
+      "region": "lat2_lon3",
+      "split": "test"
+    },
+    {
+      "block": "6:19",
+      "cell_id": "RES05-SXX:1368:2338",
+      "crop": "WHE",
+      "region": "lat2_lon3",
+      "split": "test"
+    },
+    {
+      "block": "15:26",
+      "cell_id": "RES05-SXX:309:3219",
+      "crop": "BRL",
+      "region": "lat5_lon4",
+      "split": "test"
+    },
+    {
+      "block": "15:26",
+      "cell_id": "RES05-SXX:309:3219",
+      "crop": "MZE",
+      "region": "lat5_lon4",
+      "split": "test"
+    },
+    {
+      "block": "15:26",
+      "cell_id": "RES05-SXX:309:3219",
+      "crop": "RCD",
+      "region": "lat5_lon4",
+      "split": "test"
+    },
+    {
+      "block": "15:26",
+      "cell_id": "RES05-SXX:309:3219",
+      "crop": "RCW",
+      "region": "lat5_lon4",
+      "split": "test"
+    },
+    {
+      "block": "15:26",
+      "cell_id": "RES05-SXX:309:3219",
+      "crop": "WHE",
+      "region": "lat5_lon4",
+      "split": "test"
+    },
+    {
+      "block": "15:9",
+      "cell_id": "RES05-SXX:302:1155",
+      "crop": "BRL",
+      "region": "lat5_lon1",
+      "split": "test"
+    },
+    {
+      "block": "15:9",
+      "cell_id": "RES05-SXX:302:1155",
+      "crop": "MZE",
+      "region": "lat5_lon1",
+      "split": "test"
+    },
+    {
+      "block": "15:9",
+      "cell_id": "RES05-SXX:302:1155",
+      "crop": "RCD",
+      "region": "lat5_lon1",
+      "split": "test"
+    },
+    {
+      "block": "15:9",
+      "cell_id": "RES05-SXX:302:1155",
+      "crop": "RCW",
+      "region": "lat5_lon1",
+      "split": "test"
+    },
+    {
+      "block": "15:9",
+      "cell_id": "RES05-SXX:302:1155",
+      "crop": "WHE",
+      "region": "lat5_lon1",
+      "split": "test"
+    },
+    {
+      "block": "7:11",
+      "cell_id": "RES05-SXX:1205:1433",
+      "crop": "BRL",
+      "region": "lat2_lon1",
+      "split": "test"
+    },
+    {
+      "block": "7:11",
+      "cell_id": "RES05-SXX:1205:1433",
+      "crop": "MZE",
+      "region": "lat2_lon1",
+      "split": "test"
+    },
+    {
+      "block": "7:11",
+      "cell_id": "RES05-SXX:1205:1433",
+      "crop": "RCD",
+      "region": "lat2_lon1",
+      "split": "test"
+    },
+    {
+      "block": "7:11",
+      "cell_id": "RES05-SXX:1205:1433",
+      "crop": "RCW",
+      "region": "lat2_lon1",
+      "split": "test"
+    },
+    {
+      "block": "7:11",
+      "cell_id": "RES05-SXX:1205:1433",
+      "crop": "WHE",
+      "region": "lat2_lon1",
+      "split": "test"
+    },
+    {
+      "block": "9:9",
+      "cell_id": "RES05-SXX:974:1162",
+      "crop": "BRL",
+      "region": "lat3_lon1",
+      "split": "test"
+    },
+    {
+      "block": "9:9",
+      "cell_id": "RES05-SXX:974:1162",
+      "crop": "MZE",
+      "region": "lat3_lon1",
+      "split": "test"
+    },
+    {
+      "block": "9:9",
+      "cell_id": "RES05-SXX:974:1162",
+      "crop": "RCD",
+      "region": "lat3_lon1",
+      "split": "test"
+    },
+    {
+      "block": "9:9",
+      "cell_id": "RES05-SXX:974:1162",
+      "crop": "RCW",
+      "region": "lat3_lon1",
+      "split": "test"
+    },
+    {
+      "block": "9:9",
+      "cell_id": "RES05-SXX:974:1162",
+      "crop": "WHE",
+      "region": "lat3_lon1",
+      "split": "test"
+    },
+    {
+      "block": "14:24",
+      "cell_id": "RES05-SXX:398:2892",
+      "crop": "BRL",
+      "region": "lat4_lon4",
+      "split": "test"
+    },
+    {
+      "block": "14:24",
+      "cell_id": "RES05-SXX:398:2892",
+      "crop": "MZE",
+      "region": "lat4_lon4",
+      "split": "test"
+    },
+    {
+      "block": "14:24",
+      "cell_id": "RES05-SXX:398:2892",
+      "crop": "RCD",
+      "region": "lat4_lon4",
+      "split": "test"
+    },
+    {
+      "block": "14:24",
+      "cell_id": "RES05-SXX:398:2892",
+      "crop": "RCW",
+      "region": "lat4_lon4",
+      "split": "test"
+    },
+    {
+      "block": "14:24",
+      "cell_id": "RES05-SXX:398:2892",
+      "crop": "WHE",
+      "region": "lat4_lon4",
+      "split": "test"
+    },
+    {
+      "block": "16:9",
+      "cell_id": "RES05-SXX:214:1120",
+      "crop": "BRL",
+      "region": "lat5_lon1",
+      "split": "test"
+    },
+    {
+      "block": "16:9",
+      "cell_id": "RES05-SXX:214:1120",
+      "crop": "MZE",
+      "region": "lat5_lon1",
+      "split": "test"
+    },
+    {
+      "block": "16:9",
+      "cell_id": "RES05-SXX:214:1120",
+      "crop": "RCD",
+      "region": "lat5_lon1",
+      "split": "test"
+    },
+    {
+      "block": "16:9",
+      "cell_id": "RES05-SXX:214:1120",
+      "crop": "RCW",
+      "region": "lat5_lon1",
+      "split": "test"
+    },
+    {
+      "block": "16:9",
+      "cell_id": "RES05-SXX:214:1120",
+      "crop": "WHE",
+      "region": "lat5_lon1",
+      "split": "test"
+    },
+    {
+      "block": "15:2",
+      "cell_id": "RES05-SXX:320:351",
+      "crop": "BRL",
+      "region": "lat5_lon0",
+      "split": "test"
+    },
+    {
+      "block": "15:2",
+      "cell_id": "RES05-SXX:320:351",
+      "crop": "MZE",
+      "region": "lat5_lon0",
+      "split": "test"
+    },
+    {
+      "block": "15:2",
+      "cell_id": "RES05-SXX:320:351",
+      "crop": "RCD",
+      "region": "lat5_lon0",
+      "split": "test"
+    },
+    {
+      "block": "15:2",
+      "cell_id": "RES05-SXX:320:351",
+      "crop": "RCW",
+      "region": "lat5_lon0",
+      "split": "test"
+    },
+    {
+      "block": "15:2",
+      "cell_id": "RES05-SXX:320:351",
+      "crop": "WHE",
+      "region": "lat5_lon0",
+      "split": "test"
+    },
+    {
+      "block": "9:9",
+      "cell_id": "RES05-SXX:969:1199",
+      "crop": "BRL",
+      "region": "lat3_lon1",
+      "split": "test"
+    },
+    {
+      "block": "9:9",
+      "cell_id": "RES05-SXX:969:1199",
+      "crop": "MZE",
+      "region": "lat3_lon1",
+      "split": "test"
+    },
+    {
+      "block": "9:9",
+      "cell_id": "RES05-SXX:969:1199",
+      "crop": "RCD",
+      "region": "lat3_lon1",
+      "split": "test"
+    },
+    {
+      "block": "9:9",
+      "cell_id": "RES05-SXX:969:1199",
+      "crop": "RCW",
+      "region": "lat3_lon1",
+      "split": "test"
+    },
+    {
+      "block": "9:9",
+      "cell_id": "RES05-SXX:969:1199",
+      "crop": "WHE",
+      "region": "lat3_lon1",
+      "split": "test"
+    }
+  ],
+  "status": "rejected_on_validation",
+  "supported_crops": [],
+  "supported_scenarios": [],
+  "target": {
+    "label_climate": "AgERA5",
+    "mapset": "RES05-SXX",
+    "meaning": "Approximation of FAO/IIASA GAEZ v5 modeled all-land suitability index",
+    "not": [
+      "observed yield",
+      "profit",
+      "rotation benefit",
+      "real-time forecast"
+    ],
+    "period": [
+      2001,
+      2020
+    ],
+    "range": [
+      0,
+      10000
+    ],
+    "scale_factor": 1,
+    "unit": "Index"
+  },
+  "trained_at": "2026-11-15T14:37:00.918001+00:00",
+  "training_cv_folds": [
+    {
+      "train_cells": [
+        "RES05-SXX:1016:2728",
+        "RES05-SXX:1024:1467",
+        "RES05-SXX:1082:2344",
+        "RES05-SXX:1093:1198",
+        "RES05-SXX:1134:3867",
+        "RES05-SXX:1135:1187",
+        "RES05-SXX:1264:1678",
+        "RES05-SXX:1284:2615",
+        "RES05-SXX:1294:1608",
+        "RES05-SXX:1319:2742",
+        "RES05-SXX:1376:3637",
+        "RES05-SXX:1381:3585",
+        "RES05-SXX:1473:2387",
+        "RES05-SXX:1526:1465",
+        "RES05-SXX:1623:1352",
+        "RES05-SXX:187:3424",
+        "RES05-SXX:196:899",
+        "RES05-SXX:216:681",
+        "RES05-SXX:216:711",
+        "RES05-SXX:236:3618",
+        "RES05-SXX:255:415",
+        "RES05-SXX:268:2643",
+        "RES05-SXX:293:230",
+        "RES05-SXX:308:3295",
+        "RES05-SXX:361:3921",
+        "RES05-SXX:409:2132",
+        "RES05-SXX:415:3103",
+        "RES05-SXX:418:3534",
+        "RES05-SXX:430:3870",
+        "RES05-SXX:460:3807",
+        "RES05-SXX:464:2805",
+        "RES05-SXX:468:2122",
+        "RES05-SXX:482:3869",
+        "RES05-SXX:505:1453",
+        "RES05-SXX:547:671",
+        "RES05-SXX:560:3880",
+        "RES05-SXX:584:3529",
+        "RES05-SXX:601:687",
+        "RES05-SXX:699:3278",
+        "RES05-SXX:711:913",
+        "RES05-SXX:772:2574",
+        "RES05-SXX:777:3494",
+        "RES05-SXX:813:1149",
+        "RES05-SXX:830:2639",
+        "RES05-SXX:845:289",
+        "RES05-SXX:888:3305",
+        "RES05-SXX:895:2322",
+        "RES05-SXX:898:1998",
+        "RES05-SXX:952:2664"
+      ],
+      "validation_cells": [
+        "RES05-SXX:1017:2143",
+        "RES05-SXX:1126:1555",
+        "RES05-SXX:1229:1696",
+        "RES05-SXX:1467:3659",
+        "RES05-SXX:1589:3934",
+        "RES05-SXX:221:3004",
+        "RES05-SXX:230:3778",
+        "RES05-SXX:351:3026",
+        "RES05-SXX:388:3418",
+        "RES05-SXX:412:1431",
+        "RES05-SXX:421:3332",
+        "RES05-SXX:445:3472",
+        "RES05-SXX:465:739",
+        "RES05-SXX:509:2791",
+        "RES05-SXX:549:3072",
+        "RES05-SXX:591:3110",
+        "RES05-SXX:697:3077",
+        "RES05-SXX:711:781",
+        "RES05-SXX:886:2446",
+        "RES05-SXX:917:2246",
+        "RES05-SXX:951:3637",
+        "RES05-SXX:969:2107",
+        "RES05-SXX:971:1224",
+        "RES05-SXX:980:2080",
+        "RES05-SXX:998:2517"
+      ]
+    },
+    {
+      "train_cells": [
+        "RES05-SXX:1016:2728",
+        "RES05-SXX:1017:2143",
+        "RES05-SXX:1024:1467",
+        "RES05-SXX:1082:2344",
+        "RES05-SXX:1126:1555",
+        "RES05-SXX:1229:1696",
+        "RES05-SXX:1264:1678",
+        "RES05-SXX:1284:2615",
+        "RES05-SXX:1294:1608",
+        "RES05-SXX:1381:3585",
+        "RES05-SXX:1467:3659",
+        "RES05-SXX:1526:1465",
+        "RES05-SXX:1589:3934",
+        "RES05-SXX:187:3424",
+        "RES05-SXX:196:899",
+        "RES05-SXX:221:3004",
+        "RES05-SXX:230:3778",
+        "RES05-SXX:293:230",
+        "RES05-SXX:308:3295",
+        "RES05-SXX:351:3026",
+        "RES05-SXX:361:3921",
+        "RES05-SXX:388:3418",
+        "RES05-SXX:412:1431",
+        "RES05-SXX:418:3534",
+        "RES05-SXX:421:3332",
+        "RES05-SXX:430:3870",
+        "RES05-SXX:445:3472",
+        "RES05-SXX:464:2805",
+        "RES05-SXX:465:739",
+        "RES05-SXX:482:3869",
+        "RES05-SXX:509:2791",
+        "RES05-SXX:549:3072",
+        "RES05-SXX:560:3880",
+        "RES05-SXX:584:3529",
+        "RES05-SXX:591:3110",
+        "RES05-SXX:697:3077",
+        "RES05-SXX:699:3278",
+        "RES05-SXX:711:781",
+        "RES05-SXX:711:913",
+        "RES05-SXX:777:3494",
+        "RES05-SXX:886:2446",
+        "RES05-SXX:895:2322",
+        "RES05-SXX:917:2246",
+        "RES05-SXX:951:3637",
+        "RES05-SXX:952:2664",
+        "RES05-SXX:969:2107",
+        "RES05-SXX:971:1224",
+        "RES05-SXX:980:2080",
+        "RES05-SXX:998:2517"
+      ],
+      "validation_cells": [
+        "RES05-SXX:1093:1198",
+        "RES05-SXX:1134:3867",
+        "RES05-SXX:1135:1187",
+        "RES05-SXX:1319:2742",
+        "RES05-SXX:1376:3637",
+        "RES05-SXX:1473:2387",
+        "RES05-SXX:1623:1352",
+        "RES05-SXX:216:681",
+        "RES05-SXX:216:711",
+        "RES05-SXX:236:3618",
+        "RES05-SXX:255:415",
+        "RES05-SXX:268:2643",
+        "RES05-SXX:409:2132",
+        "RES05-SXX:415:3103",
+        "RES05-SXX:460:3807",
+        "RES05-SXX:468:2122",
+        "RES05-SXX:505:1453",
+        "RES05-SXX:547:671",
+        "RES05-SXX:601:687",
+        "RES05-SXX:772:2574",
+        "RES05-SXX:813:1149",
+        "RES05-SXX:830:2639",
+        "RES05-SXX:845:289",
+        "RES05-SXX:888:3305",
+        "RES05-SXX:898:1998"
+      ]
+    },
+    {
+      "train_cells": [
+        "RES05-SXX:1017:2143",
+        "RES05-SXX:1093:1198",
+        "RES05-SXX:1126:1555",
+        "RES05-SXX:1134:3867",
+        "RES05-SXX:1135:1187",
+        "RES05-SXX:1229:1696",
+        "RES05-SXX:1319:2742",
+        "RES05-SXX:1376:3637",
+        "RES05-SXX:1467:3659",
+        "RES05-SXX:1473:2387",
+        "RES05-SXX:1589:3934",
+        "RES05-SXX:1623:1352",
+        "RES05-SXX:216:681",
+        "RES05-SXX:216:711",
+        "RES05-SXX:221:3004",
+        "RES05-SXX:230:3778",
+        "RES05-SXX:236:3618",
+        "RES05-SXX:255:415",
+        "RES05-SXX:268:2643",
+        "RES05-SXX:351:3026",
+        "RES05-SXX:388:3418",
+        "RES05-SXX:409:2132",
+        "RES05-SXX:412:1431",
+        "RES05-SXX:415:3103",
+        "RES05-SXX:421:3332",
+        "RES05-SXX:445:3472",
+        "RES05-SXX:460:3807",
+        "RES05-SXX:465:739",
+        "RES05-SXX:468:2122",
+        "RES05-SXX:505:1453",
+        "RES05-SXX:509:2791",
+        "RES05-SXX:547:671",
+        "RES05-SXX:549:3072",
+        "RES05-SXX:591:3110",
+        "RES05-SXX:601:687",
+        "RES05-SXX:697:3077",
+        "RES05-SXX:711:781",
+        "RES05-SXX:772:2574",
+        "RES05-SXX:813:1149",
+        "RES05-SXX:830:2639",
+        "RES05-SXX:845:289",
+        "RES05-SXX:886:2446",
+        "RES05-SXX:888:3305",
+        "RES05-SXX:898:1998",
+        "RES05-SXX:917:2246",
+        "RES05-SXX:951:3637",
+        "RES05-SXX:969:2107",
+        "RES05-SXX:971:1224",
+        "RES05-SXX:980:2080",
+        "RES05-SXX:998:2517"
+      ],
+      "validation_cells": [
+        "RES05-SXX:1016:2728",
+        "RES05-SXX:1024:1467",
+        "RES05-SXX:1082:2344",
+        "RES05-SXX:1264:1678",
+        "RES05-SXX:1284:2615",
+        "RES05-SXX:1294:1608",
+        "RES05-SXX:1381:3585",
+        "RES05-SXX:1526:1465",
+        "RES05-SXX:187:3424",
+        "RES05-SXX:196:899",
+        "RES05-SXX:293:230",
+        "RES05-SXX:308:3295",
+        "RES05-SXX:361:3921",
+        "RES05-SXX:418:3534",
+        "RES05-SXX:430:3870",
+        "RES05-SXX:464:2805",
+        "RES05-SXX:482:3869",
+        "RES05-SXX:560:3880",
+        "RES05-SXX:584:3529",
+        "RES05-SXX:699:3278",
+        "RES05-SXX:711:913",
+        "RES05-SXX:777:3494",
+        "RES05-SXX:895:2322",
+        "RES05-SXX:952:2664"
+      ]
+    }
+  ],
+  "validation": {
+    "forest_leaf_3": {
+      "spatial_cv": [
+        {
+          "count": 125,
+          "mae": 1196.3095096800976,
+          "r2": -0.2394428252705738,
+          "rmse": 1455.923479432873
+        },
+        {
+          "count": 125,
+          "mae": 1458.2648403557926,
+          "r2": -0.127249878098034,
+          "rmse": 2336.0614364224652
+        },
+        {
+          "count": 120,
+          "mae": 1228.4338552627928,
+          "r2": 0.19971348044761683,
+          "rmse": 1992.8245668088218
+        }
+      ],
+      "validation": {
+        "aggregate": {
+          "count": 120,
+          "mae": 1672.8007297084994,
+          "r2": 0.056803218459852145,
+          "rmse": 2535.842776799052
+        },
+        "per_crop": {
+          "BRL": {
+            "cells": 24,
+            "count": 24,
+            "mae": 2026.6403427923296,
+            "r2": -0.003293734491816247,
+            "rmse": 3074.78999264807
+          },
+          "MZE": {
+            "cells": 24,
+            "count": 24,
+            "mae": 1751.589396599633,
+            "r2": 0.025294320382684754,
+            "rmse": 2714.434392409468
+          },
+          "RCD": {
+            "cells": 24,
+            "count": 24,
+            "mae": 1369.4666487649058,
+            "r2": 0.201333214563313,
+            "rmse": 1795.9263648130634
+          },
+          "RCW": {
+            "cells": 24,
+            "count": 24,
+            "mae": 1265.7706152012474,
+            "r2": 0.013309768344921702,
+            "rmse": 1640.5570461663356
+          },
+          "WHE": {
+            "cells": 24,
+            "count": 24,
+            "mae": 1950.536645184382,
+            "r2": -0.011335287866138133,
+            "rmse": 3068.0981803193454
+          }
+        },
+        "per_region": {
+          "lat1_lon3": {
+            "cells": 2,
+            "count": 10,
+            "mae": 1507.131844849595,
+            "r2": -2.2760882953956107,
+            "rmse": 1641.6072386124254
+          },
+          "lat1_lon4": {
+            "cells": 2,
+            "count": 10,
+            "mae": 832.2675577589076,
+            "r2": 0.10247768345013641,
+            "rmse": 911.3806129661558
+          },
+          "lat1_lon5": {
+            "cells": 1,
+            "count": 5,
+            "mae": 1109.53540938691,
+            "r2": 0.3977969546377108,
+            "rmse": 1293.716281076267
+          },
+          "lat2_lon1": {
+            "cells": 2,
+            "count": 10,
+            "mae": 4690.156664357864,
+            "r2": -0.4026666534059469,
+            "rmse": 5136.129441208314
+          },
+          "lat2_lon2": {
+            "cells": 1,
+            "count": 5,
+            "mae": 1384.2443903488668,
+            "r2": -1.9801960234503424,
+            "rmse": 1489.494323575535
+          },
+          "lat2_lon3": {
+            "cells": 1,
+            "count": 5,
+            "mae": 2547.093235353536,
+            "r2": null,
+            "rmse": 2558.2775405078964
+          },
+          "lat2_lon5": {
+            "cells": 1,
+            "count": 5,
+            "mae": 842.8785859066859,
+            "r2": null,
+            "rmse": 844.4165152967807
+          },
+          "lat3_lon1": {
+            "cells": 1,
+            "count": 5,
+            "mae": 797.9794430976433,
+            "r2": 0.7526598469322753,
+            "rmse": 920.5678587938022
+          },
+          "lat3_lon3": {
+            "cells": 2,
+            "count": 10,
+            "mae": 1795.5147979834978,
+            "r2": 0.08706773793515366,
+            "rmse": 2193.143013162598
+          },
+          "lat4_lon1": {
+            "cells": 3,
+            "count": 15,
+            "mae": 3140.9195807476476,
+            "r2": -0.3819049148879181,
+            "rmse": 4588.684742282036
+          },
+          "lat4_lon3": {
+            "cells": 1,
+            "count": 5,
+            "mae": 1606.668734772635,
+            "r2": -2.1685557748243296,
+            "rmse": 1619.6788631064253
+          },
+          "lat4_lon4": {
+            "cells": 3,
+            "count": 15,
+            "mae": 949.2853778949446,
+            "r2": 0.3556085041397564,
+            "rmse": 1315.86743896258
+          },
+          "lat4_lon5": {
+            "cells": 1,
+            "count": 5,
+            "mae": 836.1985534391536,
+            "r2": -77.17783758421766,
+            "rmse": 866.3182099023946
+          },
+          "lat5_lon1": {
+            "cells": 1,
+            "count": 5,
+            "mae": 16.42692804232804,
+            "r2": null,
+            "rmse": 20.425553158929702
+          },
+          "lat5_lon2": {
+            "cells": 1,
+            "count": 5,
+            "mae": 1073.15296016206,
+            "r2": null,
+            "rmse": 1080.1189404002462
+          },
+          "lat5_lon4": {
+            "cells": 1,
+            "count": 5,
+            "mae": 12.282666666666666,
+            "r2": null,
+            "rmse": 21.80619687662712
+          }
+        }
+      }
+    },
+    "forest_leaf_8": {
+      "spatial_cv": [
+        {
+          "count": 125,
+          "mae": 1102.625151210798,
+          "r2": -0.053693338630484755,
+          "rmse": 1342.4014673771487
+        },
+        {
+          "count": 125,
+          "mae": 1514.7668573162264,
+          "r2": -0.21246945940930706,
+          "rmse": 2422.7553747196307
+        },
+        {
+          "count": 120,
+          "mae": 1307.3913688098723,
+          "r2": 0.1300291991121505,
+          "rmse": 2077.7756669636246
+        }
+      ],
+      "validation": {
+        "aggregate": {
+          "count": 120,
+          "mae": 1720.7395923195443,
+          "r2": 0.05591170334278994,
+          "rmse": 2537.040940453703
+        },
+        "per_crop": {
+          "BRL": {
+            "cells": 24,
+            "count": 24,
+            "mae": 2030.876048605589,
+            "r2": 0.019090834827126146,
+            "rmse": 3040.2955586363955
+          },
+          "MZE": {
+            "cells": 24,
+            "count": 24,
+            "mae": 1701.850048655587,
+            "r2": 0.04636104725587076,
+            "rmse": 2684.9400430177575
+          },
+          "RCD": {
+            "cells": 24,
+            "count": 24,
+            "mae": 1523.3597072595303,
+            "r2": 0.06075536516708735,
+            "rmse": 1947.5789673088782
+          },
+          "RCW": {
+            "cells": 24,
+            "count": 24,
+            "mae": 1394.9199828499106,
+            "r2": -0.08149774751350192,
+            "rmse": 1717.5671757796943
+          },
+          "WHE": {
+            "cells": 24,
+            "count": 24,
+            "mae": 1952.6921742271043,
+            "r2": 0.034405634482866376,
+            "rmse": 2997.9130594476733
+          }
+        },
+        "per_region": {
+          "lat1_lon3": {
+            "cells": 2,
+            "count": 10,
+            "mae": 1549.0079466065004,
+            "r2": -2.5178296756542617,
+            "rmse": 1701.0961571233859
+          },
+          "lat1_lon4": {
+            "cells": 2,
+            "count": 10,
+            "mae": 888.3023767417237,
+            "r2": 0.06012847893524542,
+            "rmse": 932.6343417428252
+          },
+          "lat1_lon5": {
+            "cells": 1,
+            "count": 5,
+            "mae": 1668.565433388593,
+            "r2": -0.041390593818035004,
+            "rmse": 1701.2745108417314
+          },
+          "lat2_lon1": {
+            "cells": 2,
+            "count": 10,
+            "mae": 4502.542254721028,
+            "r2": -0.2874120186171445,
+            "rmse": 4920.593671795919
+          },
+          "lat2_lon2": {
+            "cells": 1,
+            "count": 5,
+            "mae": 1379.2860374179447,
+            "r2": -2.2466956808177017,
+            "rmse": 1554.666457685517
+          },
+          "lat2_lon3": {
+            "cells": 1,
+            "count": 5,
+            "mae": 2243.887519224884,
+            "r2": null,
+            "rmse": 2244.447306454401
+          },
+          "lat2_lon5": {
+            "cells": 1,
+            "count": 5,
+            "mae": 829.1287234796913,
+            "r2": null,
+            "rmse": 829.3471236302919
+          },
+          "lat3_lon1": {
+            "cells": 1,
+            "count": 5,
+            "mae": 1317.697500828434,
+            "r2": 0.3007356250567055,
+            "rmse": 1547.8511584115618
+          },
+          "lat3_lon3": {
+            "cells": 2,
+            "count": 10,
+            "mae": 1846.2450546790883,
+            "r2": 0.034183185692695295,
+            "rmse": 2255.7712443699866
+          },
+          "lat4_lon1": {
+            "cells": 3,
+            "count": 15,
+            "mae": 3301.787550036046,
+            "r2": -0.4099556418733352,
+            "rmse": 4635.022699347922
+          },
+          "lat4_lon3": {
+            "cells": 1,
+            "count": 5,
+            "mae": 1533.4558024899404,
+            "r2": -2.4682247485360267,
+            "rmse": 1694.540109645701
+          },
+          "lat4_lon4": {
+            "cells": 3,
+            "count": 15,
+            "mae": 1086.6569390833542,
+            "r2": 0.19780593931656432,
+            "rmse": 1468.1720817254322
+          },
+          "lat4_lon5": {
+            "cells": 1,
+            "count": 5,
+            "mae": 713.9262335558535,
+            "r2": -52.18881583725853,
+            "rmse": 714.5716423408376
+          },
+          "lat5_lon1": {
+            "cells": 1,
+            "count": 5,
+            "mae": 30.768475990829632,
+            "r2": null,
+            "rmse": 39.394754397468475
+          },
+          "lat5_lon2": {
+            "cells": 1,
+            "count": 5,
+            "mae": 781.3557660140722,
+            "r2": null,
+            "rmse": 782.2328536484653
+          },
+          "lat5_lon4": {
+            "cells": 1,
+            "count": 5,
+            "mae": 62.14999042393655,
+            "r2": null,
+            "rmse": 65.88126544886016
+          }
+        }
+      }
+    },
+    "ridge_1.0": {
+      "spatial_cv": [
+        {
+          "count": 125,
+          "mae": 1280.1323150176484,
+          "r2": -0.5149033391105018,
+          "rmse": 1609.5992551198794
+        },
+        {
+          "count": 125,
+          "mae": 1624.467724498384,
+          "r2": -0.3636431858454505,
+          "rmse": 2569.357493165313
+        },
+        {
+          "count": 120,
+          "mae": 1402.0146442966084,
+          "r2": -0.03891390939470041,
+          "rmse": 2270.576287600448
+        }
+      ],
+      "validation": {
+        "aggregate": {
+          "count": 120,
+          "mae": 1800.6512824480565,
+          "r2": -0.10605487776754274,
+          "rmse": 2746.056738026047
+        },
+        "per_crop": {
+          "BRL": {
+            "cells": 24,
+            "count": 24,
+            "mae": 2166.846611707203,
+            "r2": -0.16023576095318037,
+            "rmse": 3306.5457227274974
+          },
+          "MZE": {
+            "cells": 24,
+            "count": 24,
+            "mae": 1885.862538459739,
+            "r2": -0.09512765392723321,
+            "rmse": 2877.232609677134
+          },
+          "RCD": {
+            "cells": 24,
+            "count": 24,
+            "mae": 1525.5891669304829,
+            "r2": -0.1381298756300533,
+            "rmse": 2143.8856931967484
+          },
+          "RCW": {
+            "cells": 24,
+            "count": 24,
+            "mae": 1274.4209278800988,
+            "r2": -0.1997147209905188,
+            "rmse": 1809.0056199394644
+          },
+          "WHE": {
+            "cells": 24,
+            "count": 24,
+            "mae": 2150.537167262759,
+            "r2": -0.1413834839370316,
+            "rmse": 3259.398523830432
+          }
+        },
+        "per_region": {
+          "lat1_lon3": {
+            "cells": 2,
+            "count": 10,
+            "mae": 1589.1956599248372,
+            "r2": -2.577834853307192,
+            "rmse": 1715.5429861301943
+          },
+          "lat1_lon4": {
+            "cells": 2,
+            "count": 10,
+            "mae": 1156.7795782469639,
+            "r2": -0.6249204500375629,
+            "rmse": 1226.2900662189852
+          },
+          "lat1_lon5": {
+            "cells": 1,
+            "count": 5,
+            "mae": 1597.8334966733728,
+            "r2": 0.07409044070343873,
+            "rmse": 1604.1754063939966
+          },
+          "lat2_lon1": {
+            "cells": 2,
+            "count": 10,
+            "mae": 4794.432572473326,
+            "r2": -0.6525830567260766,
+            "rmse": 5574.94223863393
+          },
+          "lat2_lon2": {
+            "cells": 1,
+            "count": 5,
+            "mae": 857.1221929924013,
+            "r2": -0.025999564993884228,
+            "rmse": 873.9569197630285
+          },
+          "lat2_lon3": {
+            "cells": 1,
+            "count": 5,
+            "mae": 919.0149025326309,
+            "r2": null,
+            "rmse": 935.0788623348866
+          },
+          "lat2_lon5": {
+            "cells": 1,
+            "count": 5,
+            "mae": 2042.0962975131592,
+            "r2": null,
+            "rmse": 2049.3758503567365
+          },
+          "lat3_lon1": {
+            "cells": 1,
+            "count": 5,
+            "mae": 1771.0230786350708,
+            "r2": -0.3426276409525433,
+            "rmse": 2144.7974614263144
+          },
+          "lat3_lon3": {
+            "cells": 2,
+            "count": 10,
+            "mae": 2477.179691175842,
+            "r2": -0.43145777476041314,
+            "rmse": 2746.2302461692457
+          },
+          "lat4_lon1": {
+            "cells": 3,
+            "count": 15,
+            "mae": 3419.5975888726844,
+            "r2": -0.530271113019829,
+            "rmse": 4828.734539089678
+          },
+          "lat4_lon3": {
+            "cells": 1,
+            "count": 5,
+            "mae": 802.35845900155,
+            "r2": 0.1535941594614535,
+            "rmse": 837.1196999263913
+          },
+          "lat4_lon4": {
+            "cells": 3,
+            "count": 15,
+            "mae": 1350.1751798879538,
+            "r2": -0.29629181214220934,
+            "rmse": 1866.33082568148
+          },
+          "lat4_lon5": {
+            "cells": 1,
+            "count": 5,
+            "mae": 843.0406141250536,
+            "r2": -74.82740188605473,
+            "rmse": 853.1957911910522
+          },
+          "lat5_lon1": {
+            "cells": 1,
+            "count": 5,
+            "mae": 34.324349753077556,
+            "r2": null,
+            "rmse": 50.85715217872948
+          },
+          "lat5_lon2": {
+            "cells": 1,
+            "count": 5,
+            "mae": 2.6264117749694607,
+            "r2": null,
+            "rmse": 4.853869398774346
+          },
+          "lat5_lon4": {
+            "cells": 1,
+            "count": 5,
+            "mae": 1.6976658282150539,
+            "r2": null,
+            "rmse": 3.6769721608730213
+          }
+        }
+      }
+    },
+    "ridge_10.0": {
+      "spatial_cv": [
+        {
+          "count": 125,
+          "mae": 1154.7725386720906,
+          "r2": -0.2924692681054377,
+          "rmse": 1486.741326887152
+        },
+        {
+          "count": 125,
+          "mae": 1561.1131885247926,
+          "r2": -0.1750534692672976,
+          "rmse": 2385.0801401828635
+        },
+        {
+          "count": 120,
+          "mae": 1373.7659866606593,
+          "r2": 0.010978650450538474,
+          "rmse": 2215.3846944692855
+        }
+      ],
+      "validation": {
+        "aggregate": {
+          "count": 120,
+          "mae": 1772.5000254396007,
+          "r2": -0.05625460723597486,
+          "rmse": 2683.523956486956
+        },
+        "per_crop": {
+          "BRL": {
+            "cells": 24,
+            "count": 24,
+            "mae": 2185.3378253535275,
+            "r2": -0.1319600486882928,
+            "rmse": 3266.005851139733
+          },
+          "MZE": {
+            "cells": 24,
+            "count": 24,
+            "mae": 1816.8598449910114,
+            "r2": -0.03892061225928911,
+            "rmse": 2802.4236042922557
+          },
+          "RCD": {
+            "cells": 24,
+            "count": 24,
+            "mae": 1482.983246283408,
+            "r2": -0.04343118937791557,
+            "rmse": 2052.7573762596385
+          },
+          "RCW": {
+            "cells": 24,
+            "count": 24,
+            "mae": 1208.5746391847822,
+            "r2": -0.06824954038022657,
+            "rmse": 1707.014772242637
+          },
+          "WHE": {
+            "cells": 24,
+            "count": 24,
+            "mae": 2168.744571385274,
+            "r2": -0.11288465215082177,
+            "rmse": 3218.4498705402784
+          }
+        },
+        "per_region": {
+          "lat1_lon3": {
+            "cells": 2,
+            "count": 10,
+            "mae": 1399.436309380938,
+            "r2": -1.8982564453227044,
+            "rmse": 1544.0446842730348
+          },
+          "lat1_lon4": {
+            "cells": 2,
+            "count": 10,
+            "mae": 1166.4540892190566,
+            "r2": -0.5841375859348958,
+            "rmse": 1210.8033312892198
+          },
+          "lat1_lon5": {
+            "cells": 1,
+            "count": 5,
+            "mae": 1567.5965473963088,
+            "r2": 0.10273563078441628,
+            "rmse": 1579.165985700817
+          },
+          "lat2_lon1": {
+            "cells": 2,
+            "count": 10,
+            "mae": 4625.717811798915,
+            "r2": -0.5387586492929965,
+            "rmse": 5379.52558944218
+          },
+          "lat2_lon2": {
+            "cells": 1,
+            "count": 5,
+            "mae": 875.9184903962212,
+            "r2": -0.06679122019474248,
+            "rmse": 891.1609615024728
+          },
+          "lat2_lon3": {
+            "cells": 1,
+            "count": 5,
+            "mae": 1057.0567690357097,
+            "r2": null,
+            "rmse": 1068.228770130176
+          },
+          "lat2_lon5": {
+            "cells": 1,
+            "count": 5,
+            "mae": 2219.8345581647563,
+            "r2": null,
+            "rmse": 2225.1762083017456
+          },
+          "lat3_lon1": {
+            "cells": 1,
+            "count": 5,
+            "mae": 1734.2228065774912,
+            "r2": -0.2695662748608909,
+            "rmse": 2085.6248060199664
+          },
+          "lat3_lon3": {
+            "cells": 2,
+            "count": 10,
+            "mae": 2328.1033815521187,
+            "r2": -0.2914161557054611,
+            "rmse": 2608.4395876001927
+          },
+          "lat4_lon1": {
+            "cells": 3,
+            "count": 15,
+            "mae": 3369.275458154879,
+            "r2": -0.508674944376512,
+            "rmse": 4794.540366537328
+          },
+          "lat4_lon3": {
+            "cells": 1,
+            "count": 5,
+            "mae": 759.1182614473765,
+            "r2": 0.1842633523128887,
+            "rmse": 821.8134096782271
+          },
+          "lat4_lon4": {
+            "cells": 3,
+            "count": 15,
+            "mae": 1224.0897600218757,
+            "r2": -0.16925474100403526,
+            "rmse": 1772.5227177268341
+          },
+          "lat4_lon5": {
+            "cells": 1,
+            "count": 5,
+            "mae": 779.4438665141481,
+            "r2": -63.697088798308215,
+            "rmse": 788.0939363196236
+          },
+          "lat5_lon1": {
+            "cells": 1,
+            "count": 5,
+            "mae": 259.0237948318869,
+            "r2": null,
+            "rmse": 294.41732513678215
+          },
+          "lat5_lon2": {
+            "cells": 1,
+            "count": 5,
+            "mae": 235.0848295753217,
+            "r2": null,
+            "rmse": 268.13429443075904
+          },
+          "lat5_lon4": {
+            "cells": 1,
+            "count": 5,
+            "mae": 233.1818481788754,
+            "r2": null,
+            "rmse": 266.04909580649496
+          }
+        }
+      }
+    }
+  },
+  "validation_crop_mean": {
+    "aggregate": {
+      "count": 120,
+      "mae": 1694.9065315315318,
+      "r2": -0.0023979439077210785,
+      "rmse": 2614.2146983508324
+    },
+    "per_crop": {
+      "BRL": {
+        "cells": 24,
+        "count": 24,
+        "mae": 2055.9808558558557,
+        "r2": -0.048355919818253934,
+        "rmse": 3143.0825306580223
+      },
+      "MZE": {
+        "cells": 24,
+        "count": 24,
+        "mae": 1817.8716216216217,
+        "r2": -0.029707148695352403,
+        "rmse": 2789.9695593564056
+      },
+      "RCD": {
+        "cells": 24,
+        "count": 24,
+        "mae": 1436.6936936936936,
+        "r2": -0.0023329564596761276,
+        "rmse": 2011.9246857668293
+      },
+      "RCW": {
+        "cells": 24,
+        "count": 24,
+        "mae": 1125.783783783784,
+        "r2": -0.0020332107818998857,
+        "rmse": 1653.263128150911
+      },
+      "WHE": {
+        "cells": 24,
+        "count": 24,
+        "mae": 2038.2027027027027,
+        "r2": -0.045000688982139936,
+        "rmse": 3118.7456768071615
+      }
+    },
+    "per_region": {
+      "lat1_lon3": {
+        "cells": 2,
+        "count": 10,
+        "mae": 875.1351351351352,
+        "r2": -0.04732145484161676,
+        "rmse": 928.1784042464946
+      },
+      "lat1_lon4": {
+        "cells": 2,
+        "count": 10,
+        "mae": 1011.208108108108,
+        "r2": -0.1819569111710897,
+        "rmse": 1045.8706608843936
+      },
+      "lat1_lon5": {
+        "cells": 1,
+        "count": 5,
+        "mae": 1447.3945945945948,
+        "r2": 0.07754833897935476,
+        "rmse": 1601.1771307896022
+      },
+      "lat2_lon1": {
+        "cells": 2,
+        "count": 10,
+        "mae": 4234.1,
+        "r2": -0.5483769115482797,
+        "rmse": 5396.312200097432
+      },
+      "lat2_lon2": {
+        "cells": 1,
+        "count": 5,
+        "mae": 883.8,
+        "r2": -0.10631267455308047,
+        "rmse": 907.5182784854775
+      },
+      "lat2_lon3": {
+        "cells": 1,
+        "count": 5,
+        "mae": 992.4216216216216,
+        "r2": null,
+        "rmse": 1007.7178063012462
+      },
+      "lat2_lon5": {
+        "cells": 1,
+        "count": 5,
+        "mae": 992.4216216216216,
+        "r2": null,
+        "rmse": 1007.7178063012462
+      },
+      "lat3_lon1": {
+        "cells": 1,
+        "count": 5,
+        "mae": 1765.6054054054052,
+        "r2": -0.3265318677580509,
+        "rmse": 2131.9024998879495
+      },
+      "lat3_lon3": {
+        "cells": 2,
+        "count": 10,
+        "mae": 1919.8783783783783,
+        "r2": -0.2515966986128326,
+        "rmse": 2567.9104795904877
+      },
+      "lat4_lon1": {
+        "cells": 3,
+        "count": 15,
+        "mae": 3300.5171171171173,
+        "r2": -0.4443815408519769,
+        "rmse": 4691.266504172689
+      },
+      "lat4_lon3": {
+        "cells": 1,
+        "count": 5,
+        "mae": 811.7945945945946,
+        "r2": 0.12428598414812653,
+        "rmse": 851.4896764074641
+      },
+      "lat4_lon4": {
+        "cells": 3,
+        "count": 15,
+        "mae": 1304.1459459459459,
+        "r2": -0.0011445583704783324,
+        "rmse": 1640.1578084428506
+      },
+      "lat4_lon5": {
+        "cells": 1,
+        "count": 5,
+        "mae": 912.4216216216216,
+        "r2": -87.56768455533235,
+        "rmse": 922.0898935197102
+      },
+      "lat5_lon1": {
+        "cells": 1,
+        "count": 5,
+        "mae": 992.4216216216216,
+        "r2": null,
+        "rmse": 1007.7178063012462
+      },
+      "lat5_lon2": {
+        "cells": 1,
+        "count": 5,
+        "mae": 992.4216216216216,
+        "r2": null,
+        "rmse": 1007.7178063012462
+      },
+      "lat5_lon4": {
+        "cells": 1,
+        "count": 5,
+        "mae": 992.4216216216216,
+        "r2": null,
+        "rmse": 1007.7178063012462
+      }
+    }
+  },
+  "validation_dummy": {
+    "aggregate": {
+      "count": 120,
+      "mae": 1717.1936486486486,
+      "r2": -0.018453906369401585,
+      "rmse": 2635.0681862160673
+    },
+    "per_crop": {
+      "BRL": {
+        "cells": 24,
+        "count": 24,
+        "mae": 2021.897072072072,
+        "r2": -0.06986105216313954,
+        "rmse": 3175.1562189799347
+      },
+      "MZE": {
+        "cells": 24,
+        "count": 24,
+        "mae": 1794.057207207207,
+        "r2": -0.03933969561260864,
+        "rmse": 2802.9887729168886
+      },
+      "RCD": {
+        "cells": 24,
+        "count": 24,
+        "mae": 1450.5376126126127,
+        "r2": -0.0036132511373951903,
+        "rmse": 2013.209206260044
+      },
+      "RCW": {
+        "cells": 24,
+        "count": 24,
+        "mae": 1317.370945945946,
+        "r2": -0.023645039235757448,
+        "rmse": 1670.9967883657812
+      },
+      "WHE": {
+        "cells": 24,
+        "count": 24,
+        "mae": 2002.1054054054055,
+        "r2": -0.06732006104890331,
+        "rmse": 3151.8751687076924
+      }
+    },
+    "per_region": {
+      "lat1_lon3": {
+        "cells": 2,
+        "count": 10,
+        "mae": 945.5686486486486,
+        "r2": -0.17537853926582603,
+        "rmse": 983.2870914698709
+      },
+      "lat1_lon4": {
+        "cells": 2,
+        "count": 10,
+        "mae": 1067.352972972973,
+        "r2": -0.2927677480974775,
+        "rmse": 1093.7987239778636
+      },
+      "lat1_lon5": {
+        "cells": 1,
+        "count": 5,
+        "mae": 1559.6843243243243,
+        "r2": -0.04893231475365911,
+        "rmse": 1707.4236885903235
+      },
+      "lat2_lon1": {
+        "cells": 2,
+        "count": 10,
+        "mae": 4234.1,
+        "r2": -0.558756258128412,
+        "rmse": 5414.368735027739
+      },
+      "lat2_lon2": {
+        "cells": 1,
+        "count": 5,
+        "mae": 902.8843243243243,
+        "r2": -0.1114338943651112,
+        "rmse": 909.6163446868952
+      },
+      "lat2_lon3": {
+        "cells": 1,
+        "count": 5,
+        "mae": 992.4216216216216,
+        "r2": null,
+        "rmse": 992.4216216216215
+      },
+      "lat2_lon5": {
+        "cells": 1,
+        "count": 5,
+        "mae": 992.4216216216216,
+        "r2": null,
+        "rmse": 992.4216216216215
+      },
+      "lat3_lon1": {
+        "cells": 1,
+        "count": 5,
+        "mae": 1653.3156756756755,
+        "r2": -0.21555190012028014,
+        "rmse": 2040.7755773784268
+      },
+      "lat3_lon3": {
+        "cells": 2,
+        "count": 10,
+        "mae": 1793.3,
+        "r2": -0.18216783464905606,
+        "rmse": 2495.6704940881295
+      },
+      "lat4_lon1": {
+        "cells": 3,
+        "count": 15,
+        "mae": 3397.592792792793,
+        "r2": -0.49127768833802943,
+        "rmse": 4766.816134516551
+      },
+      "lat4_lon3": {
+        "cells": 1,
+        "count": 5,
+        "mae": 924.0843243243244,
+        "r2": -0.08598952807816973,
+        "rmse": 948.2242444510644
+      },
+      "lat4_lon4": {
+        "cells": 3,
+        "count": 15,
+        "mae": 1341.575855855856,
+        "r2": -0.05335023562093566,
+        "rmse": 1682.3782251204354
+      },
+      "lat4_lon5": {
+        "cells": 1,
+        "count": 5,
+        "mae": 912.4216216216216,
+        "r2": -86.72012662527392,
+        "rmse": 917.6672684598866
+      },
+      "lat5_lon1": {
+        "cells": 1,
+        "count": 5,
+        "mae": 992.4216216216216,
+        "r2": null,
+        "rmse": 992.4216216216215
+      },
+      "lat5_lon2": {
+        "cells": 1,
+        "count": 5,
+        "mae": 992.4216216216216,
+        "r2": null,
+        "rmse": 992.4216216216215
+      },
+      "lat5_lon4": {
+        "cells": 1,
+        "count": 5,
+        "mae": 992.4216216216216,
+        "r2": null,
+        "rmse": 992.4216216216215
+      }
+    }
+  },
+  "versions": {
+    "joblib": "1.6.0",
+    "numpy": "2.5.4",
+    "pandas": "3.1.1",
+    "pyproj": "3.8.0",
+    "rasterio": "1.5.2",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1"
+  }
+}

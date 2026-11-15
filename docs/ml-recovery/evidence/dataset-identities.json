@@ -1,0 +1,39 @@
+{
+  "environment_cache_at_acquisition_completion": {
+    "native_soil_tiles": 1584,
+    "native_soil_vrts": 5,
+    "power_responses": 215
+  },
+  "expanded": {
+    "cells": 215,
+    "crop_counts": {
+      "BRL": 215,
+      "MZE": 215,
+      "RCD": 215,
+      "RCW": 215,
+      "WHE": 215
+    },
+    "dataset_file_sha256": "4635789aa66d7782e82a31dff5e126040725055f0c0db9c331f890a650136def",
+    "dataset_hash": "1b3e36d6c0307fc583bbf22b522d6e44f3c659967b951814ebd9219318d2c030",
+    "geographic_20degree_strata": 78,
+    "path": "generated-artifacts/ml-recovery/expanded/dataset.json",
+    "rows": 1075,
+    "sample_file_sha256": "11c8eb97f9056e9c619d41ba40f3f0667aefe0a911385d8643f71971c25d570f"
+  },
+  "restored": {
+    "cells": 124,
+    "crop_counts": {
+      "BRL": 124,
+      "MZE": 124,
+      "RCD": 124,
+      "RCW": 124,
+      "WHE": 124
+    },
+    "dataset_file_sha256": "e87e911b28b88d338cf44963b4f4cf5ba781bfbeabb4ce96927d80a1b1e6c97e",
+    "dataset_hash": "c65011185d4b5f79cbec3e2f069912731cad3df15d6c8ffb0c3af9e98f7d0734",
+    "geographic_20degree_strata": 73,
+    "path": "generated-artifacts/ml-recovery/restored/dataset.json",
+    "rows": 620,
+    "sample_file_sha256": "eb1a751cc9d8d966cc9edce481e6e6caeaab34954af581a189242f4cebf528b2"
+  }
+}

@@ -1,0 +1,973 @@
+{
+  "accuracy_benchmark": false,
+  "estimator_executions": 0,
+  "generated_at": "2026-11-15T14:48:12.759847+00:00",
+  "locations": {
+    "al_ain": {
+      "elapsed_seconds": 7.051195619999817,
+      "estimator_executed": false,
+      "prediction": {
+        "available": false,
+        "reasons": [
+          "historical_inputs_unavailable",
+          "ValueError:Soil_insufficient_valid_area:0.000"
+        ],
+        "status": "insufficient_evidence"
+      },
+      "prepared": {
+        "climate_features": {
+          "rain_m01": 11.058499999999999,
+          "rain_m02": 4.7945,
+          "rain_m03": 14.437000000000001,
+          "rain_m04": 6.774500000000001,
+          "rain_m05": 4.8165,
+          "rain_m06": 2.3034999999999997,
+          "rain_m07": 1.9575,
+          "rain_m08": 2.741,
+          "rain_m09": 1.5065,
+          "rain_m10": 1.3230000000000002,
+          "rain_m11": 3.9430000000000005,
+          "rain_m12": 7.0764999999999985,
+          "tmean_m01": 18.047435483870974,
+          "tmean_m02": 20.222567733990154,
+          "tmean_m03": 24.05491935483871,
+          "tmean_m04": 29.00091666666666,
+          "tmean_m05": 33.676951612903224,
+          "tmean_m06": 36.13986666666666,
+          "tmean_m07": 37.64520967741935,
+          "tmean_m08": 37.452451612903225,
+          "tmean_m09": 34.581450000000004,
+          "tmean_m10": 30.143725806451606,
+          "tmean_m11": 24.591583333333336,
+          "tmean_m12": 20.12166129032258
+        },
+        "compatible": false,
+        "contract": {
+          "categorical": [
+            "crop",
+            "scenario"
+          ],
+          "climate_source": "NASA POWER",
+          "coordinates_as_features": false,
+          "missing_policy": "reject",
+          "numeric": [
+            "tmean_m01",
+            "tmean_m02",
+            "tmean_m03",
+            "tmean_m04",
+            "tmean_m05",
+            "tmean_m06",
+            "tmean_m07",
+            "tmean_m08",
+            "tmean_m09",
+            "tmean_m10",
+            "tmean_m11",
+            "tmean_m12",
+            "rain_m01",
+            "rain_m02",
+            "rain_m03",
+            "rain_m04",
+            "rain_m05",
+            "rain_m06",
+            "rain_m07",
+            "rain_m08",
+            "rain_m09",
+            "rain_m10",
+            "rain_m11",
+            "rain_m12",
+            "clay_pct",
+            "sand_pct",
+            "silt_pct",
+            "ph",
+            "soc_g_kg"
+          ],
+          "period": [
+            2001,
+            2020
+          ],
+          "soil_depth_cm": [
+            0,
+            5
+          ],
+          "soil_source": "ISRIC SoilGrids",
+          "soil_statistic": "mean",
+          "spatial_rule": "GAEZ cell-center POWER point; area-mean SoilGrids over label cell",
+          "time_standard": "UTC",
+          "units": {
+            "clay_pct": "%",
+            "ph": "pH",
+            "rain_m01": "mm/month",
+            "rain_m02": "mm/month",
+            "rain_m03": "mm/month",
+            "rain_m04": "mm/month",
+            "rain_m05": "mm/month",
+            "rain_m06": "mm/month",
+            "rain_m07": "mm/month",
+            "rain_m08": "mm/month",
+            "rain_m09": "mm/month",
+            "rain_m10": "mm/month",
+            "rain_m11": "mm/month",
+            "rain_m12": "mm/month",
+            "sand_pct": "%",
+            "silt_pct": "%",
+            "soc_g_kg": "g/kg",
+            "tmean_m01": "C",
+            "tmean_m02": "C",
+            "tmean_m03": "C",
+            "tmean_m04": "C",
+            "tmean_m05": "C",
+            "tmean_m06": "C",
+            "tmean_m07": "C",
+            "tmean_m08": "C",
+            "tmean_m09": "C",
+            "tmean_m10": "C",
+            "tmean_m11": "C",
+            "tmean_m12": "C"
+          },
+          "version": "gaez-approximation-1"
+        },
+        "crop": "WHE",
+        "label_cell": {
+          "bounds_wgs84": [
+            55.66666666666666,
+            24.166666666666668,
+            55.74999999999999,
+            24.25
+          ],
+          "cell_id": "RES05-SXX:789:2828",
+          "col": 2828,
+          "latitude": 24.208333333333332,
+          "longitude": 55.70833333333332,
+          "row": 789
+        },
+        "model_request": null,
+        "provenance": {
+          "climate": {
+            "bytes": 234730,
+            "etag": null,
+            "header": {
+              "api": {
+                "name": "POWER Daily API",
+                "version": "v2.10.3"
+              },
+              "end": "20201231",
+              "fill_value": -999.0,
+              "sources": [
+                "MERRA2"
+              ],
+              "start": "20010101",
+              "time_standard": "UTC",
+              "title": "NASA/POWER Source Native Resolution Daily Data"
+            },
+            "path": "generated-artifacts/ml-recovery/environment/power-7bee09c7e307dd4c11c942dc.json",
+            "period": [
+              2001,
+              2020
+            ],
+            "point": [
+              55.70833333333332,
+              24.208333333333332
+            ],
+            "resolution_notice": "Native coarse meteorological grid, not a farm sensor",
+            "retrieved_at": "2026-11-15T14:47:52.937824+00:00",
+            "returned_geometry": {
+              "coordinates": [
+                55.708,
+                24.208,
+                257.71
+              ],
+              "type": "Point"
+            },
+            "sha256": "a9120e423a0b869e62d0922471aba5198a1347669b68916f5fd28d3f111c151f",
+            "source": "NASA POWER",
+            "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CPRECTOTCORR&community=AG&latitude=24.208333333333332&longitude=55.70833333333332&start=20010101&end=20201231&format=JSON&time-standard=UTC"
+          }
+        },
+        "reasons": [
+          "historical_inputs_unavailable",
+          "ValueError:Soil_insufficient_valid_area:0.000"
+        ],
+        "scenario": "LRLM",
+        "selected_coordinates": {
+          "latitude": 24.2249,
+          "longitude": 55.7452
+        },
+        "spatial_mapping": "GAEZ cell-center POWER point; area-mean SoilGrids over label cell",
+        "status": "unavailable"
+      }
+    },
+    "colusa": {
+      "elapsed_seconds": 4.917458572000214,
+      "estimator_executed": false,
+      "prediction": {
+        "available": false,
+        "reasons": [
+          "historical_inputs_unavailable",
+          "ValueError:Soil_insufficient_valid_area:0.932"
+        ],
+        "status": "insufficient_evidence"
+      },
+      "prepared": {
+        "climate_features": {
+          "rain_m01": 110.49100000000001,
+          "rain_m02": 116.04,
+          "rain_m03": 98.35249999999999,
+          "rain_m04": 50.616,
+          "rain_m05": 26.464000000000006,
+          "rain_m06": 7.0715,
+          "rain_m07": 0.7949999999999998,
+          "rain_m08": 1.187,
+          "rain_m09": 4.3934999999999995,
+          "rain_m10": 33.892,
+          "rain_m11": 68.743,
+          "rain_m12": 150.10049999999998,
+          "tmean_m01": 8.124112903225805,
+          "tmean_m02": 9.608432266009853,
+          "tmean_m03": 11.872435483870966,
+          "tmean_m04": 14.29125,
+          "tmean_m05": 18.871387096774193,
+          "tmean_m06": 24.011549999999996,
+          "tmean_m07": 27.406387096774193,
+          "tmean_m08": 26.618048387096774,
+          "tmean_m09": 24.522333333333332,
+          "tmean_m10": 19.016145161290325,
+          "tmean_m11": 12.47655,
+          "tmean_m12": 8.203096774193549
+        },
+        "compatible": false,
+        "contract": {
+          "categorical": [
+            "crop",
+            "scenario"
+          ],
+          "climate_source": "NASA POWER",
+          "coordinates_as_features": false,
+          "missing_policy": "reject",
+          "numeric": [
+            "tmean_m01",
+            "tmean_m02",
+            "tmean_m03",
+            "tmean_m04",
+            "tmean_m05",
+            "tmean_m06",
+            "tmean_m07",
+            "tmean_m08",
+            "tmean_m09",
+            "tmean_m10",
+            "tmean_m11",
+            "tmean_m12",
+            "rain_m01",
+            "rain_m02",
+            "rain_m03",
+            "rain_m04",
+            "rain_m05",
+            "rain_m06",
+            "rain_m07",
+            "rain_m08",
+            "rain_m09",
+            "rain_m10",
+            "rain_m11",
+            "rain_m12",
+            "clay_pct",
+            "sand_pct",
+            "silt_pct",
+            "ph",
+            "soc_g_kg"
+          ],
+          "period": [
+            2001,
+            2020
+          ],
+          "soil_depth_cm": [
+            0,
+            5
+          ],
+          "soil_source": "ISRIC SoilGrids",
+          "soil_statistic": "mean",
+          "spatial_rule": "GAEZ cell-center POWER point; area-mean SoilGrids over label cell",
+          "time_standard": "UTC",
+          "units": {
+            "clay_pct": "%",
+            "ph": "pH",
+            "rain_m01": "mm/month",
+            "rain_m02": "mm/month",
+            "rain_m03": "mm/month",
+            "rain_m04": "mm/month",
+            "rain_m05": "mm/month",
+            "rain_m06": "mm/month",
+            "rain_m07": "mm/month",
+            "rain_m08": "mm/month",
+            "rain_m09": "mm/month",
+            "rain_m10": "mm/month",
+            "rain_m11": "mm/month",
+            "rain_m12": "mm/month",
+            "sand_pct": "%",
+            "silt_pct": "%",
+            "soc_g_kg": "g/kg",
+            "tmean_m01": "C",
+            "tmean_m02": "C",
+            "tmean_m03": "C",
+            "tmean_m04": "C",
+            "tmean_m05": "C",
+            "tmean_m06": "C",
+            "tmean_m07": "C",
+            "tmean_m08": "C",
+            "tmean_m09": "C",
+            "tmean_m10": "C",
+            "tmean_m11": "C",
+            "tmean_m12": "C"
+          },
+          "version": "gaez-approximation-1"
+        },
+        "crop": "WHE",
+        "label_cell": {
+          "bounds_wgs84": [
+            -122.08333333333334,
+            39.166666666666664,
+            -122.00000000000001,
+            39.25
+          ],
+          "cell_id": "RES05-SXX:609:695",
+          "col": 695,
+          "latitude": 39.208333333333336,
+          "longitude": -122.04166666666667,
+          "row": 609
+        },
+        "model_request": null,
+        "provenance": {
+          "climate": {
+            "bytes": 235192,
+            "etag": null,
+            "header": {
+              "api": {
+                "name": "POWER Daily API",
+                "version": "v2.10.3"
+              },
+              "end": "20201231",
+              "fill_value": -999.0,
+              "sources": [
+                "MERRA2"
+              ],
+              "start": "20010101",
+              "time_standard": "UTC",
+              "title": "NASA/POWER Source Native Resolution Daily Data"
+            },
+            "path": "generated-artifacts/ml-recovery/environment/power-cb1fdb3dcd7485cf65b14691.json",
+            "period": [
+              2001,
+              2020
+            ],
+            "point": [
+              -122.04166666666667,
+              39.208333333333336
+            ],
+            "resolution_notice": "Native coarse meteorological grid, not a farm sensor",
+            "retrieved_at": "2026-11-15T14:47:59.941404+00:00",
+            "returned_geometry": {
+              "coordinates": [
+                -122.042,
+                39.208,
+                57.4
+              ],
+              "type": "Point"
+            },
+            "sha256": "ad74b6725e691b865e68585009d26e02fc7c57bf0ae328c35c4d5842a03186e9",
+            "source": "NASA POWER",
+            "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CPRECTOTCORR&community=AG&latitude=39.208333333333336&longitude=-122.04166666666667&start=20010101&end=20201231&format=JSON&time-standard=UTC"
+          }
+        },
+        "reasons": [
+          "historical_inputs_unavailable",
+          "ValueError:Soil_insufficient_valid_area:0.932"
+        ],
+        "scenario": "LRLM",
+        "selected_coordinates": {
+          "latitude": 39.2146,
+          "longitude": -122.0094
+        },
+        "spatial_mapping": "GAEZ cell-center POWER point; area-mean SoilGrids over label cell",
+        "status": "unavailable"
+      }
+    },
+    "cordoba": {
+      "elapsed_seconds": 7.118695949999619,
+      "estimator_executed": false,
+      "prediction": {
+        "available": false,
+        "reasons": [
+          "historical_inputs_unavailable",
+          "ValueError:Soil_insufficient_valid_area:0.590"
+        ],
+        "status": "insufficient_evidence"
+      },
+      "prepared": {
+        "climate_features": {
+          "rain_m01": 45.6775,
+          "rain_m02": 48.850500000000004,
+          "rain_m03": 64.6875,
+          "rain_m04": 52.9755,
+          "rain_m05": 32.846999999999994,
+          "rain_m06": 5.320000000000001,
+          "rain_m07": 0.9785,
+          "rain_m08": 6.911000000000001,
+          "rain_m09": 27.569499999999998,
+          "rain_m10": 68.4165,
+          "rain_m11": 65.58449999999999,
+          "rain_m12": 62.46349999999999,
+          "tmean_m01": 7.3359354838709665,
+          "tmean_m02": 8.501831896551723,
+          "tmean_m03": 11.398290322580646,
+          "tmean_m04": 14.449550000000002,
+          "tmean_m05": 18.783290322580644,
+          "tmean_m06": 24.381866666666667,
+          "tmean_m07": 28.044467741935485,
+          "tmean_m08": 28.142387096774193,
+          "tmean_m09": 23.429666666666666,
+          "tmean_m10": 17.930532258064513,
+          "tmean_m11": 11.335783333333332,
+          "tmean_m12": 8.207177419354839
+        },
+        "compatible": false,
+        "contract": {
+          "categorical": [
+            "crop",
+            "scenario"
+          ],
+          "climate_source": "NASA POWER",
+          "coordinates_as_features": false,
+          "missing_policy": "reject",
+          "numeric": [
+            "tmean_m01",
+            "tmean_m02",
+            "tmean_m03",
+            "tmean_m04",
+            "tmean_m05",
+            "tmean_m06",
+            "tmean_m07",
+            "tmean_m08",
+            "tmean_m09",
+            "tmean_m10",
+            "tmean_m11",
+            "tmean_m12",
+            "rain_m01",
+            "rain_m02",
+            "rain_m03",
+            "rain_m04",
+            "rain_m05",
+            "rain_m06",
+            "rain_m07",
+            "rain_m08",
+            "rain_m09",
+            "rain_m10",
+            "rain_m11",
+            "rain_m12",
+            "clay_pct",
+            "sand_pct",
+            "silt_pct",
+            "ph",
+            "soc_g_kg"
+          ],
+          "period": [
+            2001,
+            2020
+          ],
+          "soil_depth_cm": [
+            0,
+            5
+          ],
+          "soil_source": "ISRIC SoilGrids",
+          "soil_statistic": "mean",
+          "spatial_rule": "GAEZ cell-center POWER point; area-mean SoilGrids over label cell",
+          "time_standard": "UTC",
+          "units": {
+            "clay_pct": "%",
+            "ph": "pH",
+            "rain_m01": "mm/month",
+            "rain_m02": "mm/month",
+            "rain_m03": "mm/month",
+            "rain_m04": "mm/month",
+            "rain_m05": "mm/month",
+            "rain_m06": "mm/month",
+            "rain_m07": "mm/month",
+            "rain_m08": "mm/month",
+            "rain_m09": "mm/month",
+            "rain_m10": "mm/month",
+            "rain_m11": "mm/month",
+            "rain_m12": "mm/month",
+            "sand_pct": "%",
+            "silt_pct": "%",
+            "soc_g_kg": "g/kg",
+            "tmean_m01": "C",
+            "tmean_m02": "C",
+            "tmean_m03": "C",
+            "tmean_m04": "C",
+            "tmean_m05": "C",
+            "tmean_m06": "C",
+            "tmean_m07": "C",
+            "tmean_m08": "C",
+            "tmean_m09": "C",
+            "tmean_m10": "C",
+            "tmean_m11": "C",
+            "tmean_m12": "C"
+          },
+          "version": "gaez-approximation-1"
+        },
+        "crop": "WHE",
+        "label_cell": {
+          "bounds_wgs84": [
+            -4.833333333333343,
+            37.83333333333333,
+            -4.75000000000001,
+            37.916666666666664
+          ],
+          "cell_id": "RES05-SXX:625:2102",
+          "col": 2102,
+          "latitude": 37.875,
+          "longitude": -4.791666666666676,
+          "row": 625
+        },
+        "model_request": null,
+        "provenance": {
+          "climate": {
+            "bytes": 234779,
+            "etag": null,
+            "header": {
+              "api": {
+                "name": "POWER Daily API",
+                "version": "v2.10.3"
+              },
+              "end": "20201231",
+              "fill_value": -999.0,
+              "sources": [
+                "MERRA2"
+              ],
+              "start": "20010101",
+              "time_standard": "UTC",
+              "title": "NASA/POWER Source Native Resolution Daily Data"
+            },
+            "path": "generated-artifacts/ml-recovery/environment/power-1b9feed22ef29bca34533760.json",
+            "period": [
+              2001,
+              2020
+            ],
+            "point": [
+              -4.791666666666676,
+              37.875
+            ],
+            "resolution_notice": "Native coarse meteorological grid, not a farm sensor",
+            "retrieved_at": "2026-11-15T14:48:08.027228+00:00",
+            "returned_geometry": {
+              "coordinates": [
+                -4.792,
+                37.875,
+                409.24
+              ],
+              "type": "Point"
+            },
+            "sha256": "9011059e3c65be99bd00357995f4b24346c7e48f6d654747507f4289fd316e26",
+            "source": "NASA POWER",
+            "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CPRECTOTCORR&community=AG&latitude=37.875&longitude=-4.791666666666676&start=20010101&end=20201231&format=JSON&time-standard=UTC"
+          }
+        },
+        "reasons": [
+          "historical_inputs_unavailable",
+          "ValueError:Soil_insufficient_valid_area:0.590"
+        ],
+        "scenario": "LRLM",
+        "selected_coordinates": {
+          "latitude": 37.8882,
+          "longitude": -4.7794
+        },
+        "spatial_mapping": "GAEZ cell-center POWER point; area-mean SoilGrids over label cell",
+        "status": "unavailable"
+      }
+    },
+    "irbid": {
+      "elapsed_seconds": 5.7359517249997225,
+      "estimator_executed": false,
+      "prediction": {
+        "available": false,
+        "reasons": [
+          "historical_inputs_unavailable",
+          "ValueError:Soil_insufficient_valid_area:0.422"
+        ],
+        "status": "insufficient_evidence"
+      },
+      "prepared": {
+        "climate_features": {
+          "rain_m01": 92.4945,
+          "rain_m02": 78.9735,
+          "rain_m03": 39.810500000000005,
+          "rain_m04": 20.4045,
+          "rain_m05": 6.174,
+          "rain_m06": 0.6244999999999999,
+          "rain_m07": 0.0645,
+          "rain_m08": 0.8604999999999998,
+          "rain_m09": 1.387,
+          "rain_m10": 11.859499999999999,
+          "rain_m11": 40.197500000000005,
+          "rain_m12": 78.732,
+          "tmean_m01": 10.644306451612902,
+          "tmean_m02": 11.920837438423646,
+          "tmean_m03": 14.98125806451613,
+          "tmean_m04": 18.717700000000004,
+          "tmean_m05": 23.29875806451613,
+          "tmean_m06": 26.686316666666663,
+          "tmean_m07": 28.69941935483871,
+          "tmean_m08": 28.801322580645166,
+          "tmean_m09": 26.914666666666665,
+          "tmean_m10": 23.68225806451613,
+          "tmean_m11": 17.701016666666668,
+          "tmean_m12": 12.795129032258066
+        },
+        "compatible": false,
+        "contract": {
+          "categorical": [
+            "crop",
+            "scenario"
+          ],
+          "climate_source": "NASA POWER",
+          "coordinates_as_features": false,
+          "missing_policy": "reject",
+          "numeric": [
+            "tmean_m01",
+            "tmean_m02",
+            "tmean_m03",
+            "tmean_m04",
+            "tmean_m05",
+            "tmean_m06",
+            "tmean_m07",
+            "tmean_m08",
+            "tmean_m09",
+            "tmean_m10",
+            "tmean_m11",
+            "tmean_m12",
+            "rain_m01",
+            "rain_m02",
+            "rain_m03",
+            "rain_m04",
+            "rain_m05",
+            "rain_m06",
+            "rain_m07",
+            "rain_m08",
+            "rain_m09",
+            "rain_m10",
+            "rain_m11",
+            "rain_m12",
+            "clay_pct",
+            "sand_pct",
+            "silt_pct",
+            "ph",
+            "soc_g_kg"
+          ],
+          "period": [
+            2001,
+            2020
+          ],
+          "soil_depth_cm": [
+            0,
+            5
+          ],
+          "soil_source": "ISRIC SoilGrids",
+          "soil_statistic": "mean",
+          "spatial_rule": "GAEZ cell-center POWER point; area-mean SoilGrids over label cell",
+          "time_standard": "UTC",
+          "units": {
+            "clay_pct": "%",
+            "ph": "pH",
+            "rain_m01": "mm/month",
+            "rain_m02": "mm/month",
+            "rain_m03": "mm/month",
+            "rain_m04": "mm/month",
+            "rain_m05": "mm/month",
+            "rain_m06": "mm/month",
+            "rain_m07": "mm/month",
+            "rain_m08": "mm/month",
+            "rain_m09": "mm/month",
+            "rain_m10": "mm/month",
+            "rain_m11": "mm/month",
+            "rain_m12": "mm/month",
+            "sand_pct": "%",
+            "silt_pct": "%",
+            "soc_g_kg": "g/kg",
+            "tmean_m01": "C",
+            "tmean_m02": "C",
+            "tmean_m03": "C",
+            "tmean_m04": "C",
+            "tmean_m05": "C",
+            "tmean_m06": "C",
+            "tmean_m07": "C",
+            "tmean_m08": "C",
+            "tmean_m09": "C",
+            "tmean_m10": "C",
+            "tmean_m11": "C",
+            "tmean_m12": "C"
+          },
+          "version": "gaez-approximation-1"
+        },
+        "crop": "WHE",
+        "label_cell": {
+          "bounds_wgs84": [
+            35.83333333333334,
+            32.5,
+            35.91666666666668,
+            32.583333333333336
+          ],
+          "cell_id": "RES05-SXX:689:2590",
+          "col": 2590,
+          "latitude": 32.54166666666667,
+          "longitude": 35.87500000000001,
+          "row": 689
+        },
+        "model_request": null,
+        "provenance": {
+          "climate": {
+            "bytes": 235496,
+            "etag": null,
+            "header": {
+              "api": {
+                "name": "POWER Daily API",
+                "version": "v2.10.3"
+              },
+              "end": "20201231",
+              "fill_value": -999.0,
+              "sources": [
+                "MERRA2"
+              ],
+              "start": "20010101",
+              "time_standard": "UTC",
+              "title": "NASA/POWER Source Native Resolution Daily Data"
+            },
+            "path": "generated-artifacts/ml-recovery/environment/power-ea65e803acd6e69b04fe55fb.json",
+            "period": [
+              2001,
+              2020
+            ],
+            "point": [
+              35.87500000000001,
+              32.54166666666667
+            ],
+            "resolution_notice": "Native coarse meteorological grid, not a farm sensor",
+            "retrieved_at": "2026-11-15T14:47:47.667116+00:00",
+            "returned_geometry": {
+              "coordinates": [
+                35.875,
+                32.542,
+                148.86
+              ],
+              "type": "Point"
+            },
+            "sha256": "972e3071b3292d47949ebb8073c014f585fa3201eeac9bf51df2e79cff8ecba5",
+            "source": "NASA POWER",
+            "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CPRECTOTCORR&community=AG&latitude=32.54166666666667&longitude=35.87500000000001&start=20010101&end=20201231&format=JSON&time-standard=UTC"
+          }
+        },
+        "reasons": [
+          "historical_inputs_unavailable",
+          "ValueError:Soil_insufficient_valid_area:0.422"
+        ],
+        "scenario": "LRLM",
+        "selected_coordinates": {
+          "latitude": 32.55696,
+          "longitude": 35.8479
+        },
+        "spatial_mapping": "GAEZ cell-center POWER point; area-mean SoilGrids over label cell",
+        "status": "unavailable"
+      }
+    },
+    "stuttgart": {
+      "elapsed_seconds": 3.0989999209996313,
+      "estimator_executed": false,
+      "prediction": {
+        "available": false,
+        "reasons": [
+          "historical_inputs_unavailable",
+          "ValueError:Soil_insufficient_valid_area:0.922"
+        ],
+        "status": "insufficient_evidence"
+      },
+      "prepared": {
+        "climate_features": {
+          "rain_m01": 92.09199999999998,
+          "rain_m02": 115.2195,
+          "rain_m03": 128.11999999999998,
+          "rain_m04": 134.17199999999997,
+          "rain_m05": 136.77249999999998,
+          "rain_m06": 83.4435,
+          "rain_m07": 89.09549999999999,
+          "rain_m08": 92.6045,
+          "rain_m09": 80.1425,
+          "rain_m10": 110.9295,
+          "rain_m11": 102.476,
+          "rain_m12": 138.02349999999998,
+          "tmean_m01": 4.581048387096774,
+          "tmean_m02": 6.470304802955664,
+          "tmean_m03": 11.67341935483871,
+          "tmean_m04": 16.822433333333333,
+          "tmean_m05": 21.513096774193546,
+          "tmean_m06": 26.328250000000004,
+          "tmean_m07": 28.37275806451613,
+          "tmean_m08": 28.255629032258064,
+          "tmean_m09": 24.5559,
+          "tmean_m10": 17.78827419354839,
+          "tmean_m11": 11.167666666666666,
+          "tmean_m12": 6.288806451612904
+        },
+        "compatible": false,
+        "contract": {
+          "categorical": [
+            "crop",
+            "scenario"
+          ],
+          "climate_source": "NASA POWER",
+          "coordinates_as_features": false,
+          "missing_policy": "reject",
+          "numeric": [
+            "tmean_m01",
+            "tmean_m02",
+            "tmean_m03",
+            "tmean_m04",
+            "tmean_m05",
+            "tmean_m06",
+            "tmean_m07",
+            "tmean_m08",
+            "tmean_m09",
+            "tmean_m10",
+            "tmean_m11",
+            "tmean_m12",
+            "rain_m01",
+            "rain_m02",
+            "rain_m03",
+            "rain_m04",
+            "rain_m05",
+            "rain_m06",
+            "rain_m07",
+            "rain_m08",
+            "rain_m09",
+            "rain_m10",
+            "rain_m11",
+            "rain_m12",
+            "clay_pct",
+            "sand_pct",
+            "silt_pct",
+            "ph",
+            "soc_g_kg"
+          ],
+          "period": [
+            2001,
+            2020
+          ],
+          "soil_depth_cm": [
+            0,
+            5
+          ],
+          "soil_source": "ISRIC SoilGrids",
+          "soil_statistic": "mean",
+          "spatial_rule": "GAEZ cell-center POWER point; area-mean SoilGrids over label cell",
+          "time_standard": "UTC",
+          "units": {
+            "clay_pct": "%",
+            "ph": "pH",
+            "rain_m01": "mm/month",
+            "rain_m02": "mm/month",
+            "rain_m03": "mm/month",
+            "rain_m04": "mm/month",
+            "rain_m05": "mm/month",
+            "rain_m06": "mm/month",
+            "rain_m07": "mm/month",
+            "rain_m08": "mm/month",
+            "rain_m09": "mm/month",
+            "rain_m10": "mm/month",
+            "rain_m11": "mm/month",
+            "rain_m12": "mm/month",
+            "sand_pct": "%",
+            "silt_pct": "%",
+            "soc_g_kg": "g/kg",
+            "tmean_m01": "C",
+            "tmean_m02": "C",
+            "tmean_m03": "C",
+            "tmean_m04": "C",
+            "tmean_m05": "C",
+            "tmean_m06": "C",
+            "tmean_m07": "C",
+            "tmean_m08": "C",
+            "tmean_m09": "C",
+            "tmean_m10": "C",
+            "tmean_m11": "C",
+            "tmean_m12": "C"
+          },
+          "version": "gaez-approximation-1"
+        },
+        "crop": "WHE",
+        "label_cell": {
+          "bounds_wgs84": [
+            -91.58333333333333,
+            34.5,
+            -91.5,
+            34.583333333333336
+          ],
+          "cell_id": "RES05-SXX:665:1061",
+          "col": 1061,
+          "latitude": 34.54166666666667,
+          "longitude": -91.54166666666666,
+          "row": 665
+        },
+        "model_request": null,
+        "provenance": {
+          "climate": {
+            "bytes": 237203,
+            "etag": null,
+            "header": {
+              "api": {
+                "name": "POWER Daily API",
+                "version": "v2.10.3"
+              },
+              "end": "20201231",
+              "fill_value": -999.0,
+              "sources": [
+                "MERRA2"
+              ],
+              "start": "20010101",
+              "time_standard": "UTC",
+              "title": "NASA/POWER Source Native Resolution Daily Data"
+            },
+            "path": "generated-artifacts/ml-recovery/environment/power-f73a065e76f6f11343c5e149.json",
+            "period": [
+              2001,
+              2020
+            ],
+            "point": [
+              -91.54166666666666,
+              34.54166666666667
+            ],
+            "resolution_notice": "Native coarse meteorological grid, not a farm sensor",
+            "retrieved_at": "2026-11-15T14:48:04.899990+00:00",
+            "returned_geometry": {
+              "coordinates": [
+                -91.542,
+                34.542,
+                57.03
+              ],
+              "type": "Point"
+            },
+            "sha256": "435b76b7f0bfb217ad7e3ab045c3f5f1177f7658c7d9a03e81c24b59d30a3479",
+            "source": "NASA POWER",
+            "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CPRECTOTCORR&community=AG&latitude=34.54166666666667&longitude=-91.54166666666666&start=20010101&end=20201231&format=JSON&time-standard=UTC"
+          }
+        },
+        "reasons": [
+          "historical_inputs_unavailable",
+          "ValueError:Soil_insufficient_valid_area:0.922"
+        ],
+        "scenario": "LRLM",
+        "selected_coordinates": {
+          "latitude": 34.5004,
+          "longitude": -91.5526
+        },
+        "spatial_mapping": "GAEZ cell-center POWER point; area-mean SoilGrids over label cell",
+        "status": "unavailable"
+      }
+    }
+  },
+  "operator_model_loaded": false
+}

@@ -1,0 +1,1328 @@
+{
+  "accuracy_benchmark": false,
+  "data_mutations_rolled_back": true,
+  "generated_at": "2026-11-15T14:48:26.483298+00:00",
+  "locations": {
+    "al_ain": {
+      "coordinates": [
+        24.2249,
+        55.7452
+      ],
+      "coverage": [
+        {
+          "available": false,
+          "crop": "Wheat",
+          "modelCrop": "WHE",
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Barley",
+          "modelCrop": "BRL",
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Grain maize",
+          "modelCrop": "MZE",
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Common bean",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Pea",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Potato",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Sorghum",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Chickpea",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Lentil",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Oat",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Sunflower",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Soybean",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Rice",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        }
+      ],
+      "dashboard_period": "2019-01-01 to 2025-12-31",
+      "estimator_executed": false,
+      "historical_climate_prepared": true,
+      "historical_full_vector_prepared": false,
+      "historical_preparation_reasons": [
+        "historical_inputs_unavailable",
+        "ValueError:Soil_insufficient_valid_area:0.000"
+      ],
+      "model_enabled": false,
+      "model_input_in_live_planner": null,
+      "owner_isolation": "passed",
+      "planner_use": "Reference rules only. No model predictions were supplied or used to rank rotations.",
+      "report_created_reopened_snapshot_equal": true,
+      "required_ml_period": [
+        2001,
+        2020
+      ],
+      "schema": "field-shift-analysis-1",
+      "unavailable_reasons": [
+        "model_aligned_feature_builder_pending_stage_b",
+        "reference_period_mismatch",
+        "daily_time_standard_unverified_or_mixed",
+        "soil_source_or_spatial_aggregation_incompatible",
+        "low_input_management_not_confirmed"
+      ]
+    },
+    "colusa": {
+      "coordinates": [
+        39.2146,
+        -122.0094
+      ],
+      "coverage": [
+        {
+          "available": false,
+          "crop": "Wheat",
+          "modelCrop": "WHE",
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Barley",
+          "modelCrop": "BRL",
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Grain maize",
+          "modelCrop": "MZE",
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Common bean",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Pea",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Potato",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Sorghum",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Chickpea",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Lentil",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Oat",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Sunflower",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Soybean",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Rice",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        }
+      ],
+      "dashboard_period": "2019-01-01 to 2025-12-31",
+      "estimator_executed": false,
+      "historical_climate_prepared": true,
+      "historical_full_vector_prepared": false,
+      "historical_preparation_reasons": [
+        "historical_inputs_unavailable",
+        "ValueError:Soil_insufficient_valid_area:0.932"
+      ],
+      "model_enabled": false,
+      "model_input_in_live_planner": null,
+      "owner_isolation": "passed",
+      "planner_use": "Reference rules only. No model predictions were supplied or used to rank rotations.",
+      "report_created_reopened_snapshot_equal": true,
+      "required_ml_period": [
+        2001,
+        2020
+      ],
+      "schema": "field-shift-analysis-1",
+      "unavailable_reasons": [
+        "model_aligned_feature_builder_pending_stage_b",
+        "reference_period_mismatch",
+        "daily_time_standard_unverified_or_mixed",
+        "soil_source_or_spatial_aggregation_incompatible",
+        "low_input_management_not_confirmed"
+      ]
+    },
+    "cordoba": {
+      "coordinates": [
+        37.8882,
+        -4.7794
+      ],
+      "coverage": [
+        {
+          "available": false,
+          "crop": "Wheat",
+          "modelCrop": "WHE",
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "soil_features_missing",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Barley",
+          "modelCrop": "BRL",
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "soil_features_missing",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Grain maize",
+          "modelCrop": "MZE",
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "soil_features_missing",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Common bean",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "soil_features_missing",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Pea",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "soil_features_missing",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Potato",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "soil_features_missing",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Sorghum",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "soil_features_missing",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Chickpea",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "soil_features_missing",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Lentil",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "soil_features_missing",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Oat",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "soil_features_missing",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Sunflower",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "soil_features_missing",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Soybean",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "soil_features_missing",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Rice",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "soil_features_missing",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        }
+      ],
+      "dashboard_period": "2019-01-01 to 2025-12-31",
+      "estimator_executed": false,
+      "historical_climate_prepared": true,
+      "historical_full_vector_prepared": false,
+      "historical_preparation_reasons": [
+        "historical_inputs_unavailable",
+        "ValueError:Soil_insufficient_valid_area:0.590"
+      ],
+      "model_enabled": false,
+      "model_input_in_live_planner": null,
+      "owner_isolation": "passed",
+      "planner_use": "Reference rules only. No model predictions were supplied or used to rank rotations.",
+      "report_created_reopened_snapshot_equal": true,
+      "required_ml_period": [
+        2001,
+        2020
+      ],
+      "schema": "field-shift-analysis-1",
+      "unavailable_reasons": [
+        "model_aligned_feature_builder_pending_stage_b",
+        "reference_period_mismatch",
+        "soil_features_missing",
+        "soil_source_or_spatial_aggregation_incompatible",
+        "low_input_management_not_confirmed"
+      ]
+    },
+    "irbid": {
+      "coordinates": [
+        32.55696,
+        35.8479
+      ],
+      "coverage": [
+        {
+          "available": false,
+          "crop": "Wheat",
+          "modelCrop": "WHE",
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Barley",
+          "modelCrop": "BRL",
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Grain maize",
+          "modelCrop": "MZE",
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Common bean",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Pea",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Potato",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Sorghum",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Chickpea",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Lentil",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Oat",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Sunflower",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Soybean",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Rice",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        }
+      ],
+      "dashboard_period": "2019-01-01 to 2025-12-31",
+      "estimator_executed": false,
+      "historical_climate_prepared": true,
+      "historical_full_vector_prepared": false,
+      "historical_preparation_reasons": [
+        "historical_inputs_unavailable",
+        "ValueError:Soil_insufficient_valid_area:0.422"
+      ],
+      "model_enabled": false,
+      "model_input_in_live_planner": null,
+      "owner_isolation": "passed",
+      "planner_use": "Reference rules only. No model predictions were supplied or used to rank rotations.",
+      "report_created_reopened_snapshot_equal": true,
+      "required_ml_period": [
+        2001,
+        2020
+      ],
+      "schema": "field-shift-analysis-1",
+      "unavailable_reasons": [
+        "model_aligned_feature_builder_pending_stage_b",
+        "reference_period_mismatch",
+        "daily_time_standard_unverified_or_mixed",
+        "soil_source_or_spatial_aggregation_incompatible",
+        "low_input_management_not_confirmed"
+      ]
+    },
+    "stuttgart": {
+      "coordinates": [
+        34.5004,
+        -91.5526
+      ],
+      "coverage": [
+        {
+          "available": false,
+          "crop": "Wheat",
+          "modelCrop": "WHE",
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Barley",
+          "modelCrop": "BRL",
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Grain maize",
+          "modelCrop": "MZE",
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Common bean",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Pea",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Potato",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Sorghum",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Chickpea",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Lentil",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Oat",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Sunflower",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Soybean",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        },
+        {
+          "available": false,
+          "crop": "Rice",
+          "modelCrop": null,
+          "reasons": [
+            "phase4_validation_not_passed",
+            "missing_accepted_model",
+            "crop_not_mapped_to_reviewed_model_identity",
+            "model_aligned_feature_builder_pending_stage_b",
+            "reference_period_mismatch",
+            "daily_time_standard_unverified_or_mixed",
+            "soil_source_or_spatial_aggregation_incompatible",
+            "low_input_management_not_confirmed",
+            "coverage_method_not_validated_for_live_use",
+            "similar_region_estimates_disabled"
+          ],
+          "status": "insufficient_evidence"
+        }
+      ],
+      "dashboard_period": "2019-01-01 to 2025-12-31",
+      "estimator_executed": false,
+      "historical_climate_prepared": true,
+      "historical_full_vector_prepared": false,
+      "historical_preparation_reasons": [
+        "historical_inputs_unavailable",
+        "ValueError:Soil_insufficient_valid_area:0.922"
+      ],
+      "model_enabled": false,
+      "model_input_in_live_planner": null,
+      "owner_isolation": "passed",
+      "planner_use": "Reference rules only. No model predictions were supplied or used to rank rotations.",
+      "report_created_reopened_snapshot_equal": true,
+      "required_ml_period": [
+        2001,
+        2020
+      ],
+      "schema": "field-shift-analysis-1",
+      "unavailable_reasons": [
+        "model_aligned_feature_builder_pending_stage_b",
+        "reference_period_mismatch",
+        "daily_time_standard_unverified_or_mixed",
+        "soil_source_or_spatial_aggregation_incompatible",
+        "low_input_management_not_confirmed"
+      ]
+    }
+  },
+  "session_type": "signed browser-session ownership, not account authentication"
+}

@@ -454,7 +454,8 @@ class DatasetAndTrainingTests(unittest.TestCase):
                               "records": [], "samples_sha256": "TEST_ONLY", "sampling": {}})
             with patch("backend.machine_learning.training.validate_dataset",
                        return_value=synthetic_frame()):
-                result = train(path, root/"out", config_path)
+                with patch("backend.machine_learning.holdout.LEDGER_ROOT", root/"geographic-ledger"):
+                    result = train(path, root/"out", config_path)
                 self.assertEqual(result["status"], "accepted")
                 loaded = SuitabilityPredictor(root/"out")
                 self.assertIsNotNone(loaded.model)

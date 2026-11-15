@@ -1,0 +1,540 @@
+{
+  "additional_median_baseline_diagnostic": {
+    "meaning": "Train-only crop median is MAE-optimal constant; additional diagnostic, not the recorded original rejection gate",
+    "validation_mae": 1347.125
+  },
+  "candidates": {
+    "forest_leaf_3": {
+      "count": 120,
+      "mae": 1672.8007297084994,
+      "r2": 0.056803218459852256,
+      "recorded_cv": [
+        {
+          "count": 125,
+          "mae": 1196.3095096800976,
+          "r2": -0.2394428252705738,
+          "rmse": 1455.923479432873
+        },
+        {
+          "count": 125,
+          "mae": 1458.2648403557926,
+          "r2": -0.127249878098034,
+          "rmse": 2336.0614364224652
+        },
+        {
+          "count": 120,
+          "mae": 1228.4338552627928,
+          "r2": 0.19971348044761683,
+          "rmse": 1992.8245668088218
+        }
+      ],
+      "rmse": 2535.8427767990515,
+      "screening_failures_visible_from_recorded_metrics": [
+        "validation_mae",
+        "validation_r2",
+        "validation_dummy_gain"
+      ]
+    },
+    "forest_leaf_8": {
+      "count": 120,
+      "mae": 1720.739592319544,
+      "r2": 0.05591170334278994,
+      "recorded_cv": [
+        {
+          "count": 125,
+          "mae": 1102.625151210798,
+          "r2": -0.053693338630484755,
+          "rmse": 1342.4014673771487
+        },
+        {
+          "count": 125,
+          "mae": 1514.7668573162264,
+          "r2": -0.21246945940930706,
+          "rmse": 2422.7553747196307
+        },
+        {
+          "count": 120,
+          "mae": 1307.3913688098723,
+          "r2": 0.1300291991121506,
+          "rmse": 2077.775666963624
+        }
+      ],
+      "rmse": 2537.040940453703,
+      "screening_failures_visible_from_recorded_metrics": [
+        "validation_mae",
+        "validation_r2",
+        "validation_dummy_gain"
+      ]
+    },
+    "ridge_1.0": {
+      "count": 120,
+      "mae": 1800.6512824480565,
+      "r2": -0.10605487776754274,
+      "recorded_cv": [
+        {
+          "count": 125,
+          "mae": 1280.1323150176484,
+          "r2": -0.5149033391105018,
+          "rmse": 1609.5992551198794
+        },
+        {
+          "count": 125,
+          "mae": 1624.467724498384,
+          "r2": -0.3636431858454505,
+          "rmse": 2569.357493165313
+        },
+        {
+          "count": 120,
+          "mae": 1402.0146442966084,
+          "r2": -0.03891390939470041,
+          "rmse": 2270.576287600448
+        }
+      ],
+      "rmse": 2746.056738026047,
+      "screening_failures_visible_from_recorded_metrics": [
+        "validation_mae",
+        "validation_r2",
+        "validation_dummy_gain"
+      ]
+    },
+    "ridge_10.0": {
+      "count": 120,
+      "mae": 1772.5000254396007,
+      "r2": -0.05625460723597486,
+      "recorded_cv": [
+        {
+          "count": 125,
+          "mae": 1154.7725386720906,
+          "r2": -0.2924692681054377,
+          "rmse": 1486.741326887152
+        },
+        {
+          "count": 125,
+          "mae": 1561.1131885247926,
+          "r2": -0.1750534692672976,
+          "rmse": 2385.0801401828635
+        },
+        {
+          "count": 120,
+          "mae": 1373.7659866606593,
+          "r2": 0.010978650450538474,
+          "rmse": 2215.3846944692855
+        }
+      ],
+      "rmse": 2683.523956486956,
+      "screening_failures_visible_from_recorded_metrics": [
+        "validation_mae",
+        "validation_r2",
+        "validation_dummy_gain"
+      ]
+    }
+  },
+  "continuous_target_distributions": {
+    "BRL": {
+      "count": 124,
+      "max": 9998,
+      "mean": 1255.7016129032259,
+      "min": 0,
+      "quantiles_0_25_50_75_100": [
+        0.0,
+        0.0,
+        0.0,
+        1492.25,
+        9998.0
+      ],
+      "target_type": "continuous index; not classes",
+      "zero_count": 79
+    },
+    "MZE": {
+      "count": 124,
+      "max": 9624,
+      "mean": 1087.3870967741937,
+      "min": 0,
+      "quantiles_0_25_50_75_100": [
+        0.0,
+        0.0,
+        0.0,
+        1628.75,
+        9624.0
+      ],
+      "target_type": "continuous index; not classes",
+      "zero_count": 77
+    },
+    "RCD": {
+      "count": 124,
+      "max": 7865,
+      "mean": 903.5,
+      "min": 0,
+      "quantiles_0_25_50_75_100": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        7865.0
+      ],
+      "target_type": "continuous index; not classes",
+      "zero_count": 94
+    },
+    "RCW": {
+      "count": 124,
+      "max": 6517,
+      "mean": 695.3629032258065,
+      "min": 0,
+      "quantiles_0_25_50_75_100": [
+        0.0,
+        0.0,
+        0.0,
+        414.75,
+        6517.0
+      ],
+      "target_type": "continuous index; not classes",
+      "zero_count": 92
+    },
+    "WHE": {
+      "count": 124,
+      "max": 10000,
+      "mean": 1265.1693548387098,
+      "min": 0,
+      "quantiles_0_25_50_75_100": [
+        0.0,
+        0.0,
+        0.0,
+        1473.0,
+        10000.0
+      ],
+      "target_type": "continuous index; not classes",
+      "zero_count": 80
+    }
+  },
+  "contract": {
+    "categorical": [
+      "crop",
+      "scenario"
+    ],
+    "climate_source": "NASA POWER",
+    "coordinates_as_features": false,
+    "missing_policy": "reject",
+    "numeric": [
+      "tmean_m01",
+      "tmean_m02",
+      "tmean_m03",
+      "tmean_m04",
+      "tmean_m05",
+      "tmean_m06",
+      "tmean_m07",
+      "tmean_m08",
+      "tmean_m09",
+      "tmean_m10",
+      "tmean_m11",
+      "tmean_m12",
+      "rain_m01",
+      "rain_m02",
+      "rain_m03",
+      "rain_m04",
+      "rain_m05",
+      "rain_m06",
+      "rain_m07",
+      "rain_m08",
+      "rain_m09",
+      "rain_m10",
+      "rain_m11",
+      "rain_m12",
+      "clay_pct",
+      "sand_pct",
+      "silt_pct",
+      "ph",
+      "soc_g_kg"
+    ],
+    "period": [
+      2001,
+      2020
+    ],
+    "soil_depth_cm": [
+      0,
+      5
+    ],
+    "soil_source": "ISRIC SoilGrids",
+    "soil_statistic": "mean",
+    "spatial_rule": "GAEZ cell-center POWER point; area-mean SoilGrids over label cell",
+    "time_standard": "UTC",
+    "units": {
+      "clay_pct": "%",
+      "ph": "pH",
+      "rain_m01": "mm/month",
+      "rain_m02": "mm/month",
+      "rain_m03": "mm/month",
+      "rain_m04": "mm/month",
+      "rain_m05": "mm/month",
+      "rain_m06": "mm/month",
+      "rain_m07": "mm/month",
+      "rain_m08": "mm/month",
+      "rain_m09": "mm/month",
+      "rain_m10": "mm/month",
+      "rain_m11": "mm/month",
+      "rain_m12": "mm/month",
+      "sand_pct": "%",
+      "silt_pct": "%",
+      "soc_g_kg": "g/kg",
+      "tmean_m01": "C",
+      "tmean_m02": "C",
+      "tmean_m03": "C",
+      "tmean_m04": "C",
+      "tmean_m05": "C",
+      "tmean_m06": "C",
+      "tmean_m07": "C",
+      "tmean_m08": "C",
+      "tmean_m09": "C",
+      "tmean_m10": "C",
+      "tmean_m11": "C",
+      "tmean_m12": "C"
+    },
+    "version": "gaez-approximation-1"
+  },
+  "demonstrated": [
+    "Selected validation MAE exceeds the frozen maximum",
+    "All four candidates also fail R2 and meaningful dummy improvement screens",
+    "176 of 300 sampled cells excluded by native soil coverage",
+    "Five crop rows repeat one environmental cell; not five independent environments",
+    "Sparse diagnostic regions cannot support the previous regional promotion gate",
+    "Original research sources/dataset/estimators absent at recovery start"
+  ],
+  "dummy_validation": {
+    "aggregate": {
+      "count": 120,
+      "mae": 1717.1936486486486,
+      "r2": -0.018453906369401585,
+      "rmse": 2635.0681862160673
+    },
+    "per_crop": {
+      "BRL": {
+        "cells": 24,
+        "count": 24,
+        "mae": 2021.897072072072,
+        "r2": -0.06986105216313954,
+        "rmse": 3175.1562189799347
+      },
+      "MZE": {
+        "cells": 24,
+        "count": 24,
+        "mae": 1794.057207207207,
+        "r2": -0.03933969561260864,
+        "rmse": 2802.9887729168886
+      },
+      "RCD": {
+        "cells": 24,
+        "count": 24,
+        "mae": 1450.5376126126127,
+        "r2": -0.0036132511373951903,
+        "rmse": 2013.209206260044
+      },
+      "RCW": {
+        "cells": 24,
+        "count": 24,
+        "mae": 1317.370945945946,
+        "r2": -0.023645039235757448,
+        "rmse": 1670.9967883657812
+      },
+      "WHE": {
+        "cells": 24,
+        "count": 24,
+        "mae": 2002.1054054054055,
+        "r2": -0.06732006104890331,
+        "rmse": 3151.8751687076924
+      }
+    },
+    "per_region": {
+      "lat1_lon3": {
+        "cells": 2,
+        "count": 10,
+        "mae": 945.5686486486486,
+        "r2": -0.17537853926582603,
+        "rmse": 983.2870914698709
+      },
+      "lat1_lon4": {
+        "cells": 2,
+        "count": 10,
+        "mae": 1067.352972972973,
+        "r2": -0.2927677480974775,
+        "rmse": 1093.7987239778636
+      },
+      "lat1_lon5": {
+        "cells": 1,
+        "count": 5,
+        "mae": 1559.6843243243243,
+        "r2": -0.04893231475365911,
+        "rmse": 1707.4236885903235
+      },
+      "lat2_lon1": {
+        "cells": 2,
+        "count": 10,
+        "mae": 4234.1,
+        "r2": -0.558756258128412,
+        "rmse": 5414.368735027739
+      },
+      "lat2_lon2": {
+        "cells": 1,
+        "count": 5,
+        "mae": 902.8843243243243,
+        "r2": -0.1114338943651112,
+        "rmse": 909.6163446868952
+      },
+      "lat2_lon3": {
+        "cells": 1,
+        "count": 5,
+        "mae": 992.4216216216216,
+        "r2": null,
+        "rmse": 992.4216216216215
+      },
+      "lat2_lon5": {
+        "cells": 1,
+        "count": 5,
+        "mae": 992.4216216216216,
+        "r2": null,
+        "rmse": 992.4216216216215
+      },
+      "lat3_lon1": {
+        "cells": 1,
+        "count": 5,
+        "mae": 1653.3156756756755,
+        "r2": -0.21555190012028014,
+        "rmse": 2040.7755773784268
+      },
+      "lat3_lon3": {
+        "cells": 2,
+        "count": 10,
+        "mae": 1793.3,
+        "r2": -0.18216783464905606,
+        "rmse": 2495.6704940881295
+      },
+      "lat4_lon1": {
+        "cells": 3,
+        "count": 15,
+        "mae": 3397.592792792793,
+        "r2": -0.49127768833802943,
+        "rmse": 4766.816134516551
+      },
+      "lat4_lon3": {
+        "cells": 1,
+        "count": 5,
+        "mae": 924.0843243243244,
+        "r2": -0.08598952807816973,
+        "rmse": 948.2242444510644
+      },
+      "lat4_lon4": {
+        "cells": 3,
+        "count": 15,
+        "mae": 1341.575855855856,
+        "r2": -0.05335023562093566,
+        "rmse": 1682.3782251204354
+      },
+      "lat4_lon5": {
+        "cells": 1,
+        "count": 5,
+        "mae": 912.4216216216216,
+        "r2": -86.72012662527392,
+        "rmse": 917.6672684598866
+      },
+      "lat5_lon1": {
+        "cells": 1,
+        "count": 5,
+        "mae": 992.4216216216216,
+        "r2": null,
+        "rmse": 992.4216216216215
+      },
+      "lat5_lon2": {
+        "cells": 1,
+        "count": 5,
+        "mae": 992.4216216216216,
+        "r2": null,
+        "rmse": 992.4216216216215
+      },
+      "lat5_lon4": {
+        "cells": 1,
+        "count": 5,
+        "mae": 992.4216216216216,
+        "r2": null,
+        "rmse": 992.4216216216215
+      }
+    }
+  },
+  "excluded_cells": 176,
+  "exclusion_counts": {
+    "Soil_insufficient_valid_area": 138,
+    "Soil_no_intersecting_tiles": 38
+  },
+  "final_test_evaluated": false,
+  "generated_at": "2026-11-15T14:15:28.696425+00:00",
+  "hypotheses_not_established_causes": [
+    "POWER/MERRA2 versus AgERA5 climate product mismatch limits target approximation",
+    "Static shallow soil features omit relevant GAEZ constraints",
+    "Soil complete-case attrition introduces geographic selection bias",
+    "Zero-heavy all-land targets require more representative sampling"
+  ],
+  "not_demonstrated": [
+    "unit bug",
+    "crop-code bug",
+    "fabricated GAEZ labels",
+    "period relabeling",
+    "a model that passes independent testing"
+  ],
+  "old_evidence_sha256": "0fe6df69b1a9dc2b29fca172f3538df44e0f928c2040714ca1adea24c4293f32",
+  "original_sample_identities_recovered": true,
+  "partitions": {
+    "test": {
+      "blocks": 21,
+      "cells": 26,
+      "regions": 14
+    },
+    "train": {
+      "blocks": 63,
+      "cells": 74,
+      "regions": 26
+    },
+    "validation": {
+      "blocks": 21,
+      "cells": 24,
+      "regions": 16
+    }
+  },
+  "protocol_sha256": "ea86956bf677da1ac2320f700089bd2096c0f1e19a5a55b65e4d5861e854f1bc",
+  "reconstructed_crop_mean_baseline": {
+    "BRL": {
+      "median_validation_mae": 1803.7916666666667,
+      "training_mean": 1128.7567567567567,
+      "training_median": 0.0,
+      "validation_mae": 2055.9808558558557
+    },
+    "MZE": {
+      "median_validation_mae": 1537.75,
+      "training_mean": 1063.8648648648648,
+      "training_median": 0.0,
+      "validation_mae": 1817.8716216216217
+    },
+    "RCD": {
+      "median_validation_mae": 871.625,
+      "training_mean": 968.6891891891892,
+      "training_median": 0.0,
+      "validation_mae": 1436.6936936936936
+    },
+    "RCW": {
+      "median_validation_mae": 738.4583333333334,
+      "training_mean": 663.9864864864865,
+      "training_median": 0.0,
+      "validation_mae": 1125.783783783784
+    },
+    "WHE": {
+      "median_validation_mae": 1784.0,
+      "training_mean": 1136.8108108108108,
+      "training_median": 0.0,
+      "validation_mae": 2038.2027027027027
+    }
+  },
+  "recorded_rejection": [
+    "validation_mae"
+  ],
+  "retained_cells": 124,
+  "retained_rows": 620,
+  "sampled_cells": 300,
+  "selected_candidate": "forest_leaf_3",
+  "source_rasters_byte_identical": true
+}

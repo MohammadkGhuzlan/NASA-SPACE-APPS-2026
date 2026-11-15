@@ -1,2 +1,3 @@
 - [Scientific source boundaries](scientific-source-boundaries.md) — preserve source identity and uncertainty when expanding environmental analyses.
 - [Agricultural intelligence scope](agricultural-intelligence-scope.md) — evidence-based farming decisions are the goal; rules, supervised models and coverage checks are separate stages.
+- [Suitability validation decisions](suitability-validation-decisions.md) — partial crop/domain acceptance is allowed, but baseline choice and holdout identity must remain scientifically defensible.

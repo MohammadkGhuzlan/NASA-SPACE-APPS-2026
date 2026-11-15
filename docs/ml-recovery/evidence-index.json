@@ -1,0 +1,72 @@
+{
+  "accepted_model_files": [],
+  "files": {
+    "docs/ml-recovery/evidence/acquisition-summary.json": {
+      "bytes": 335,
+      "sha256": "9a270903ba41e1588468af1f25742469bc8b16c3db522de862e3f19ab03c0b99"
+    },
+    "docs/ml-recovery/evidence/browser-results.json": {
+      "bytes": 3605,
+      "sha256": "6996fcc4119851ebf8aae1a63abe5625cf65ed74c10600862746a7c91e3c1880"
+    },
+    "docs/ml-recovery/evidence/complete-input-control.json": {
+      "bytes": 19105,
+      "sha256": "9c3709aa1dffb34c301f7ddb26ebcd02bc23a8fc12a24b18131ea05784f5c52e"
+    },
+    "docs/ml-recovery/evidence/database-preservation.json": {
+      "bytes": 1004,
+      "sha256": "0637b1e0309dd5c807f6031c9b91d67e1b2941998a45e97e45e1b5ba083eb517"
+    },
+    "docs/ml-recovery/evidence/dataset-identities.json": {
+      "bytes": 1257,
+      "sha256": "9d88d3434eec59d61367178cb12633f6feac11a65e0fd1e7146fa3c8683f98a0"
+    },
+    "docs/ml-recovery/evidence/diagnosis.json": {
+      "bytes": 13421,
+      "sha256": "53f891b39b819b1a4e413193065fd3c0e16bed3502857e8bd3feed11d7583c2b"
+    },
+    "docs/ml-recovery/evidence/environment-source-comparison.json": {
+      "bytes": 405,
+      "sha256": "a7327eb7a34da3ef1f9758dadc6841a6bf9edfe53ddcfa5a7379fd0f0d4d6208"
+    },
+    "docs/ml-recovery/evidence/expanded-evaluation.json": {
+      "bytes": 1025098,
+      "sha256": "c359bcbabb4834235cf37120ec4e70f96698d8120084895cac33c957293f1894"
+    },
+    "docs/ml-recovery/evidence/expanded-quality.json": {
+      "bytes": 53464,
+      "sha256": "4c9791113b7c2ca8191add2e348bb25b22284cd56beffe90082714840300a7e3"
+    },
+    "docs/ml-recovery/evidence/five-location-api.json": {
+      "bytes": 50479,
+      "sha256": "a9615d3b7a2562ab01db32072a0a9355085527492919375ed71eaaba6b594e93"
+    },
+    "docs/ml-recovery/evidence/five-location-historical.json": {
+      "bytes": 30562,
+      "sha256": "e05b0c02ef31edd375dbd5b1758a9a24f714f72af461fd4469927d1ce7706580"
+    },
+    "docs/ml-recovery/evidence/pooled-replay-comparison.json": {
+      "bytes": 1780,
+      "sha256": "c917ad35ec4610b8a3dc9d70a6cfc2f5556e3c258e0d3f284cfb2caaf9310795"
+    },
+    "docs/ml-recovery/evidence/pooled-replay-evaluation.json": {
+      "bytes": 141614,
+      "sha256": "9817f4cb6b108b594aef74c6928649a8b4ce5ee895275646dd564d9b95d40d58"
+    },
+    "docs/ml-recovery/evidence/restoration-comparison.json": {
+      "bytes": 412,
+      "sha256": "10b415e9f623fcb39740d11379a122f21e428123f802a7f3461a776bd44b10ff"
+    },
+    "docs/ml-recovery/evidence/restored-evaluation.json": {
+      "bytes": 639786,
+      "sha256": "36488fcce8b852652cd843b9b582840e17f9a437144ee96cc6091b5efed3af21"
+    },
+    "docs/ml-recovery/evidence/source-recovery.json": {
+      "bytes": 7783,
+      "sha256": "b7afd53d89a45be343f7a3b0503787bd49dec48a5dfd1c2b9a51dcf1f757d652"
+    }
+  },
+  "final_test_evaluated": false,
+  "production_deployed": false,
+  "purpose": "Review evidence integrity, not a model artifact acceptance record"
+}

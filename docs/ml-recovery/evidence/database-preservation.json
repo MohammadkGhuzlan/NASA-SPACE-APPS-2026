@@ -1,0 +1,38 @@
+{
+  "after_browser_cleanup": {
+    "crop_rotation_strategies": 2,
+    "environment_values": 143192,
+    "environmental_observations": 0,
+    "farmer_measurements": 1,
+    "farms": 6,
+    "recommendation_results": 4,
+    "soil_property_estimates": 4
+  },
+  "after_rollback_regressions": {
+    "crop_rotation_strategies": 2,
+    "environment_values": 143192,
+    "environmental_observations": 0,
+    "farmer_measurements": 1,
+    "farms": 6,
+    "recommendation_results": 4,
+    "soil_property_estimates": 4
+  },
+  "before": {
+    "crop_rotation_strategies": 2,
+    "environment_values": 143192,
+    "environmental_observations": 0,
+    "farmer_measurements": 1,
+    "farms": 6,
+    "recommendation_results": 4,
+    "soil_property_estimates": 4
+  },
+  "browser_test_records_removed": {
+    "crop_rotation_strategies": 0,
+    "environmental_observations": 0,
+    "farmer_measurements": 0,
+    "farms": 5,
+    "recommendation_results": 5
+  },
+  "unchanged": true,
+  "unchanged_after_browser_cleanup": true
+}

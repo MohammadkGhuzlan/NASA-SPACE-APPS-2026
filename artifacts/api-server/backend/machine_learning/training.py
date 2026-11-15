@@ -210,13 +210,27 @@ def train(dataset_path, output, config_path=DEFAULT_CONFIG):
     model = fitted[selected]
     evidence.update(selected=selected, validation=validation,
                     validation_dummy=breakdown(va, predict(dummy, va)))
-    # Pre-test validation failure stops without consuming the untouched holdout.
-    if validation[selected]["validation"]["aggregate"]["mae"] > config["maximum_mae"]:
-        evidence.update(status="rejected_on_validation", reasons=["validation_mae"])
+    # Every known validation failure must stop final testing, not just MAE.
+    validation_report = {
+        "candidate": validation[selected]["validation"],
+        "dummy": evidence["validation_dummy"],
+        "crop_mean": breakdown(va, va.crop.map(crop_means).to_numpy()),
+    }
+    evidence["validation_crop_mean"] = validation_report["crop_mean"]
+    validation_failures = acceptance(validation_report, config)
+    if validation_failures:
+        evidence.update(status="rejected_on_validation",
+                        reasons=["validation_" + reason for reason in validation_failures])
         write_json(output / "evaluation.json", evidence)
         return evidence
     # Reserve the final holdout once per immutable dataset, not once per output directory.
     ledger = Path(dataset_path).parent / ".holdout" / (bundle["dataset_hash"] + ".json")
+    if ledger.exists():
+        raise FileExistsError("Existing dataset holdout reservation; refusing reuse")
+    from .holdout import reserve
+    evidence["geographic_holdout_reservation"] = reserve(
+        te.block.unique(), seed=config["seed"],
+        run_identity={"dataset_hash": bundle["dataset_hash"], "output": str(output)})
     ledger.parent.mkdir(parents=True, exist_ok=True)
     with ledger.open("x") as stream:
         import json

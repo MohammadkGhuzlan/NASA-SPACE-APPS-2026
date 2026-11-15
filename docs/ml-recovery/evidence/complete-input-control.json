@@ -1,0 +1,508 @@
+{
+  "estimator_executed": false,
+  "max_numeric_feature_difference_from_training_record": 0.0,
+  "prediction": {
+    "available": false,
+    "coverage_status": "not_assessed",
+    "crop": "WHE",
+    "input_quality": "verified_source_estimates",
+    "limitations": [
+      "Approximates a modeled GAEZ assessment, not observed farm success.",
+      "POWER and GAEZ AgERA5 are different climate products despite aligned years.",
+      "Coarse regional climate and ~10 km labels do not establish field precision.",
+      "0\u20135 cm modeled soil is not a laboratory test or a full root-zone profile.",
+      "Coverage screening is conservative and is not a complete Phase 5 reliability system.",
+      "No confidence percentage, yield, management benefit or rotation advice is provided."
+    ],
+    "missing_features": [],
+    "model_version": null,
+    "reasons": [
+      "missing_accepted_model"
+    ],
+    "reference_period": [
+      2001,
+      2020
+    ],
+    "schema_version": "gaez-approximation-1",
+    "source_versions": {
+      "climate": "NASA POWER",
+      "labels": "FAO/IIASA GAEZ v5",
+      "soil": "ISRIC SoilGrids (acquisition hashes in model manifest)"
+    },
+    "status": "unavailable",
+    "target": {
+      "label_climate": "AgERA5",
+      "mapset": "RES05-SXX",
+      "meaning": "Approximation of FAO/IIASA GAEZ v5 modeled all-land suitability index",
+      "not": [
+        "observed yield",
+        "profit",
+        "rotation benefit",
+        "real-time forecast"
+      ],
+      "period": [
+        2001,
+        2020
+      ],
+      "range": [
+        0,
+        10000
+      ],
+      "scale_factor": 1,
+      "unit": "Index"
+    }
+  },
+  "prepared": {
+    "climate_features": {
+      "rain_m01": 15.539999999999997,
+      "rain_m02": 14.4185,
+      "rain_m03": 23.2825,
+      "rain_m04": 36.172,
+      "rain_m05": 55.7515,
+      "rain_m06": 61.1125,
+      "rain_m07": 83.63649999999998,
+      "rain_m08": 77.93050000000001,
+      "rain_m09": 62.875,
+      "rain_m10": 37.2795,
+      "rain_m11": 32.8615,
+      "rain_m12": 26.8105,
+      "tmean_m01": -24.028790322580644,
+      "tmean_m02": -20.968523399014778,
+      "tmean_m03": -12.61591935483871,
+      "tmean_m04": -3.7587500000000005,
+      "tmean_m05": 5.0197258064516115,
+      "tmean_m06": 13.83526666666667,
+      "tmean_m07": 16.83075806451613,
+      "tmean_m08": 13.76882258064516,
+      "tmean_m09": 6.052966666666667,
+      "tmean_m10": -3.6146612903225814,
+      "tmean_m11": -14.403633333333332,
+      "tmean_m12": -22.43008064516129
+    },
+    "compatible": true,
+    "contract": {
+      "categorical": [
+        "crop",
+        "scenario"
+      ],
+      "climate_source": "NASA POWER",
+      "coordinates_as_features": false,
+      "missing_policy": "reject",
+      "numeric": [
+        "tmean_m01",
+        "tmean_m02",
+        "tmean_m03",
+        "tmean_m04",
+        "tmean_m05",
+        "tmean_m06",
+        "tmean_m07",
+        "tmean_m08",
+        "tmean_m09",
+        "tmean_m10",
+        "tmean_m11",
+        "tmean_m12",
+        "rain_m01",
+        "rain_m02",
+        "rain_m03",
+        "rain_m04",
+        "rain_m05",
+        "rain_m06",
+        "rain_m07",
+        "rain_m08",
+        "rain_m09",
+        "rain_m10",
+        "rain_m11",
+        "rain_m12",
+        "clay_pct",
+        "sand_pct",
+        "silt_pct",
+        "ph",
+        "soc_g_kg"
+      ],
+      "period": [
+        2001,
+        2020
+      ],
+      "soil_depth_cm": [
+        0,
+        5
+      ],
+      "soil_source": "ISRIC SoilGrids",
+      "soil_statistic": "mean",
+      "spatial_rule": "GAEZ cell-center POWER point; area-mean SoilGrids over label cell",
+      "time_standard": "UTC",
+      "units": {
+        "clay_pct": "%",
+        "ph": "pH",
+        "rain_m01": "mm/month",
+        "rain_m02": "mm/month",
+        "rain_m03": "mm/month",
+        "rain_m04": "mm/month",
+        "rain_m05": "mm/month",
+        "rain_m06": "mm/month",
+        "rain_m07": "mm/month",
+        "rain_m08": "mm/month",
+        "rain_m09": "mm/month",
+        "rain_m10": "mm/month",
+        "rain_m11": "mm/month",
+        "rain_m12": "mm/month",
+        "sand_pct": "%",
+        "silt_pct": "%",
+        "soc_g_kg": "g/kg",
+        "tmean_m01": "C",
+        "tmean_m02": "C",
+        "tmean_m03": "C",
+        "tmean_m04": "C",
+        "tmean_m05": "C",
+        "tmean_m06": "C",
+        "tmean_m07": "C",
+        "tmean_m08": "C",
+        "tmean_m09": "C",
+        "tmean_m10": "C",
+        "tmean_m11": "C",
+        "tmean_m12": "C"
+      },
+      "version": "gaez-approximation-1"
+    },
+    "crop": "WHE",
+    "label_cell": {
+      "bounds_wgs84": [
+        109.33333333333331,
+        52.83333333333333,
+        109.41666666666664,
+        52.916666666666664
+      ],
+      "cell_id": "RES05-SXX:445:3472",
+      "col": 3472,
+      "latitude": 52.875,
+      "longitude": 109.37499999999999,
+      "row": 445
+    },
+    "model_request": {
+      "climate_source": "NASA POWER",
+      "features": {
+        "clay_pct": 19.194933655006032,
+        "crop": "WHE",
+        "ph": 5.93546441495778,
+        "rain_m01": 15.539999999999997,
+        "rain_m02": 14.4185,
+        "rain_m03": 23.2825,
+        "rain_m04": 36.172,
+        "rain_m05": 55.7515,
+        "rain_m06": 61.1125,
+        "rain_m07": 83.63649999999998,
+        "rain_m08": 77.93050000000001,
+        "rain_m09": 62.875,
+        "rain_m10": 37.2795,
+        "rain_m11": 32.8615,
+        "rain_m12": 26.8105,
+        "sand_pct": 62.47370325693606,
+        "scenario": "LRLM",
+        "silt_pct": 18.333172496984318,
+        "soc_g_kg": 162.66224366706876,
+        "tmean_m01": -24.028790322580644,
+        "tmean_m02": -20.968523399014778,
+        "tmean_m03": -12.61591935483871,
+        "tmean_m04": -3.7587500000000005,
+        "tmean_m05": 5.0197258064516115,
+        "tmean_m06": 13.83526666666667,
+        "tmean_m07": 16.83075806451613,
+        "tmean_m08": 13.76882258064516,
+        "tmean_m09": 6.052966666666667,
+        "tmean_m10": -3.6146612903225814,
+        "tmean_m11": -14.403633333333332,
+        "tmean_m12": -22.43008064516129
+      },
+      "latitude": 52.875,
+      "longitude": 109.37499999999999,
+      "period": [
+        2001,
+        2020
+      ],
+      "schema_version": "gaez-approximation-1",
+      "soil_depth_cm": [
+        0,
+        5
+      ],
+      "soil_source": "ISRIC SoilGrids",
+      "soil_statistic": "mean",
+      "source_quality": "verified_source_estimates",
+      "spatial_rule": "GAEZ cell-center POWER point; area-mean SoilGrids over label cell",
+      "units": {
+        "clay_pct": "%",
+        "ph": "pH",
+        "rain_m01": "mm/month",
+        "rain_m02": "mm/month",
+        "rain_m03": "mm/month",
+        "rain_m04": "mm/month",
+        "rain_m05": "mm/month",
+        "rain_m06": "mm/month",
+        "rain_m07": "mm/month",
+        "rain_m08": "mm/month",
+        "rain_m09": "mm/month",
+        "rain_m10": "mm/month",
+        "rain_m11": "mm/month",
+        "rain_m12": "mm/month",
+        "sand_pct": "%",
+        "silt_pct": "%",
+        "soc_g_kg": "g/kg",
+        "tmean_m01": "C",
+        "tmean_m02": "C",
+        "tmean_m03": "C",
+        "tmean_m04": "C",
+        "tmean_m05": "C",
+        "tmean_m06": "C",
+        "tmean_m07": "C",
+        "tmean_m08": "C",
+        "tmean_m09": "C",
+        "tmean_m10": "C",
+        "tmean_m11": "C",
+        "tmean_m12": "C"
+      }
+    },
+    "provenance": {
+      "climate": {
+        "bytes": 240979,
+        "etag": null,
+        "header": {
+          "api": {
+            "name": "POWER Daily API",
+            "version": "v2.10.3"
+          },
+          "end": "20201231",
+          "fill_value": -999.0,
+          "sources": [
+            "MERRA2"
+          ],
+          "start": "20010101",
+          "time_standard": "UTC",
+          "title": "NASA/POWER Source Native Resolution Daily Data"
+        },
+        "path": "generated-artifacts/ml-recovery/environment/power-3066f96f6a66b0003cc661a4.json",
+        "period": [
+          2001,
+          2020
+        ],
+        "point": [
+          109.37499999999999,
+          52.875
+        ],
+        "resolution_notice": "Native coarse meteorological grid, not a farm sensor",
+        "retrieved_at": "2026-11-15T14:56:57.058606+00:00",
+        "returned_geometry": {
+          "coordinates": [
+            109.375,
+            52.875,
+            1087.67
+          ],
+          "type": "Point"
+        },
+        "sha256": "814d377ea89c6b65411772f178c857afc3c5b4029a823b81f3d382cd4e190e62",
+        "source": "NASA POWER",
+        "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CPRECTOTCORR&community=AG&latitude=52.875&longitude=109.37499999999999&start=20010101&end=20201231&format=JSON&time-standard=UTC"
+      },
+      "soil": {
+        "clay": {
+          "access": "WebDAV_native",
+          "aggregation": "native equal-area pixel centers inside densified GAEZ polygon",
+          "bounds_wgs84": [
+            109.33333333333331,
+            52.833333333333336,
+            109.41666666666666,
+            52.916666666666664
+          ],
+          "conversion_divisor": 10,
+          "crs": "PROJCRS[\"Interrupted_Goode_Homolosine\",BASEGEOGCRS[\"GCS_WGS_1984 ellipse\",DATUM[\"World Geodetic System 1984\",ELLIPSOID[\"WGS 84\",6378137,298.257223563,LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6326]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"Degree\",0.0174532925199433]]],CONVERSION[\"unnamed\",METHOD[\"Interrupted Goode Homolosine\"]],CS[Cartesian,2],AXIS[\"(E)\",east,ORDER[1],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],AXIS[\"(N)\",north,ORDER[2],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]]",
+          "depth_cm": [
+            0,
+            5
+          ],
+          "nodata": -32768.0,
+          "path": "generated-artifacts/ml-recovery/environment/clay_0-5cm_mean.vrt",
+          "period": "static modeled soil product, not annual observations",
+          "product": "clay_0-5cm_mean",
+          "resolution_m": [
+            250,
+            250
+          ],
+          "source": "ISRIC SoilGrids",
+          "statistic": "mean",
+          "tiles": [
+            {
+              "bytes": 406513,
+              "etag": "\"10775549749-1586623016-406513\"",
+              "path": "generated-artifacts/ml-recovery/environment/tile-6cd769d4c3f0ce35915069f2.tif",
+              "retrieved_at": "2026-11-15T14:03:32.432994+00:00",
+              "sha256": "dc205b1746fec812a5af91a9aa8bc9eedec147ae02fc06e0b9c594f0899f3946",
+              "url": "https://files.isric.org/soilgrids/latest/data/clay/clay_0-5cm_mean/tileSG-006-064/tileSG-006-064_1-4.tif"
+            }
+          ],
+          "valid_area_fraction": 1.0,
+          "vrt_sha256": "ad1a77d56090bf543e3600bc48d4cd6fa80f8e1a9eb37177044de65a64848ede"
+        },
+        "phh2o": {
+          "access": "WebDAV_native",
+          "aggregation": "native equal-area pixel centers inside densified GAEZ polygon",
+          "bounds_wgs84": [
+            109.33333333333331,
+            52.833333333333336,
+            109.41666666666666,
+            52.916666666666664
+          ],
+          "conversion_divisor": 10,
+          "crs": "PROJCRS[\"Interrupted_Goode_Homolosine\",BASEGEOGCRS[\"GCS_WGS_1984 ellipse\",DATUM[\"World Geodetic System 1984\",ELLIPSOID[\"WGS 84\",6378137,298.257223563,LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6326]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"Degree\",0.0174532925199433]]],CONVERSION[\"unnamed\",METHOD[\"Interrupted Goode Homolosine\"]],CS[Cartesian,2],AXIS[\"(E)\",east,ORDER[1],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],AXIS[\"(N)\",north,ORDER[2],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]]",
+          "depth_cm": [
+            0,
+            5
+          ],
+          "nodata": -32768.0,
+          "path": "generated-artifacts/ml-recovery/environment/phh2o_0-5cm_mean.vrt",
+          "period": "static modeled soil product, not annual observations",
+          "product": "phh2o_0-5cm_mean",
+          "resolution_m": [
+            250,
+            250
+          ],
+          "source": "ISRIC SoilGrids",
+          "statistic": "mean",
+          "tiles": [
+            {
+              "bytes": 721911,
+              "etag": "\"10779103793-1586198809-721911\"",
+              "path": "generated-artifacts/ml-recovery/environment/tile-ea45057d1b2ff2a451f864cb.tif",
+              "retrieved_at": "2026-11-15T14:04:20.549417+00:00",
+              "sha256": "7df6b470d100677e683c1407744efaee2266a43ba75072dacf04ebc7cd15eb30",
+              "url": "https://files.isric.org/soilgrids/latest/data/phh2o/phh2o_0-5cm_mean/tileSG-006-064/tileSG-006-064_1-3.tif"
+            }
+          ],
+          "valid_area_fraction": 1.0,
+          "vrt_sha256": "28bf9ceef0ee29a2d29926929b1760eddb6749b4f31ed212e8d536a226892f0d"
+        },
+        "sand": {
+          "access": "WebDAV_native",
+          "aggregation": "native equal-area pixel centers inside densified GAEZ polygon",
+          "bounds_wgs84": [
+            109.33333333333331,
+            52.833333333333336,
+            109.41666666666666,
+            52.916666666666664
+          ],
+          "conversion_divisor": 10,
+          "crs": "PROJCRS[\"Interrupted_Goode_Homolosine\",BASEGEOGCRS[\"GCS_WGS_1984 ellipse\",DATUM[\"World Geodetic System 1984\",ELLIPSOID[\"WGS 84\",6378137,298.257223563,LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6326]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"Degree\",0.0174532925199433]]],CONVERSION[\"unnamed\",METHOD[\"Interrupted Goode Homolosine\"]],CS[Cartesian,2],AXIS[\"(E)\",east,ORDER[1],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],AXIS[\"(N)\",north,ORDER[2],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]]",
+          "depth_cm": [
+            0,
+            5
+          ],
+          "nodata": -32768.0,
+          "path": "generated-artifacts/ml-recovery/environment/sand_0-5cm_mean.vrt",
+          "period": "static modeled soil product, not annual observations",
+          "product": "sand_0-5cm_mean",
+          "resolution_m": [
+            250,
+            250
+          ],
+          "source": "ISRIC SoilGrids",
+          "statistic": "mean",
+          "tiles": [
+            {
+              "bytes": 406513,
+              "etag": "\"10780149036-1586622991-406513\"",
+              "path": "generated-artifacts/ml-recovery/environment/tile-0e4ffe9e58ec80c0f6dde3e9.tif",
+              "retrieved_at": "2026-11-15T14:03:49.214106+00:00",
+              "sha256": "bd49077a5a42bf05d7b9c66733da125efe708db113dd1de086254e8cbc01c0d4",
+              "url": "https://files.isric.org/soilgrids/latest/data/sand/sand_0-5cm_mean/tileSG-006-064/tileSG-006-064_1-4.tif"
+            }
+          ],
+          "valid_area_fraction": 1.0,
+          "vrt_sha256": "a3367c212d59c4f482282b0df789348db3b48bf0301582d71a73540b2da118e4"
+        },
+        "silt": {
+          "access": "WebDAV_native",
+          "aggregation": "native equal-area pixel centers inside densified GAEZ polygon",
+          "bounds_wgs84": [
+            109.33333333333331,
+            52.833333333333336,
+            109.41666666666666,
+            52.916666666666664
+          ],
+          "conversion_divisor": 10,
+          "crs": "PROJCRS[\"Interrupted_Goode_Homolosine\",BASEGEOGCRS[\"GCS_WGS_1984 ellipse\",DATUM[\"World Geodetic System 1984\",ELLIPSOID[\"WGS 84\",6378137,298.257223563,LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6326]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"Degree\",0.0174532925199433]]],CONVERSION[\"unnamed\",METHOD[\"Interrupted Goode Homolosine\"]],CS[Cartesian,2],AXIS[\"(E)\",east,ORDER[1],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],AXIS[\"(N)\",north,ORDER[2],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]]",
+          "depth_cm": [
+            0,
+            5
+          ],
+          "nodata": -32768.0,
+          "path": "generated-artifacts/ml-recovery/environment/silt_0-5cm_mean.vrt",
+          "period": "static modeled soil product, not annual observations",
+          "product": "silt_0-5cm_mean",
+          "resolution_m": [
+            250,
+            250
+          ],
+          "source": "ISRIC SoilGrids",
+          "statistic": "mean",
+          "tiles": [
+            {
+              "bytes": 406513,
+              "etag": "\"10779346149-1586623004-406513\"",
+              "path": "generated-artifacts/ml-recovery/environment/tile-49556363b4347cca10c202a8.tif",
+              "retrieved_at": "2026-11-15T14:04:08.774576+00:00",
+              "sha256": "f5c15a925ec71d339044b5edac55eab1e74edfaee77e4044a1ab17237c4ce99a",
+              "url": "https://files.isric.org/soilgrids/latest/data/silt/silt_0-5cm_mean/tileSG-006-064/tileSG-006-064_1-4.tif"
+            }
+          ],
+          "valid_area_fraction": 1.0,
+          "vrt_sha256": "62fe5feb4e89c864a6f510fc467652304721e8c19f424cf26742f187fb34cc6b"
+        },
+        "soc": {
+          "access": "WebDAV_native",
+          "aggregation": "native equal-area pixel centers inside densified GAEZ polygon",
+          "bounds_wgs84": [
+            109.33333333333331,
+            52.833333333333336,
+            109.41666666666666,
+            52.916666666666664
+          ],
+          "conversion_divisor": 10,
+          "crs": "PROJCRS[\"Interrupted_Goode_Homolosine\",BASEGEOGCRS[\"GCS_WGS_1984 ellipse\",DATUM[\"World Geodetic System 1984\",ELLIPSOID[\"WGS 84\",6378137,298.257223563,LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6326]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"Degree\",0.0174532925199433]]],CONVERSION[\"unnamed\",METHOD[\"Interrupted Goode Homolosine\"]],CS[Cartesian,2],AXIS[\"(E)\",east,ORDER[1],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],AXIS[\"(N)\",north,ORDER[2],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]]",
+          "depth_cm": [
+            0,
+            5
+          ],
+          "nodata": -32768.0,
+          "path": "generated-artifacts/ml-recovery/environment/soc_0-5cm_mean.vrt",
+          "period": "static modeled soil product, not annual observations",
+          "product": "soc_0-5cm_mean",
+          "resolution_m": [
+            250,
+            250
+          ],
+          "source": "ISRIC SoilGrids",
+          "statistic": "mean",
+          "tiles": [
+            {
+              "bytes": 406515,
+              "etag": "\"10780894081-1586369968-406515\"",
+              "path": "generated-artifacts/ml-recovery/environment/tile-d02e97004b76c4f2d2ff4d3b.tif",
+              "retrieved_at": "2026-11-15T14:04:37.178475+00:00",
+              "sha256": "12dbbf1b7fdec51fffa263343efbe8347ec36c0fb270d3c3b9a899ecbee3d69f",
+              "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_0-5cm_mean/tileSG-006-064/tileSG-006-064_1-4.tif"
+            }
+          ],
+          "valid_area_fraction": 1.0,
+          "vrt_sha256": "5be0b42c0eb913f81eb55cda503dd5742d0d9195375adafea84c8d618aef4f5b"
+        }
+      }
+    },
+    "reasons": [],
+    "scenario": "LRLM",
+    "selected_coordinates": {
+      "latitude": 52.876,
+      "longitude": 109.376
+    },
+    "spatial_mapping": "GAEZ cell-center POWER point; area-mean SoilGrids over label cell",
+    "status": "prepared"
+  },
+  "purpose": "Genuine complete-input software integration control, not accuracy validation or an accepted-model prediction",
+  "source_cell_id": "RES05-SXX:445:3472"
+}

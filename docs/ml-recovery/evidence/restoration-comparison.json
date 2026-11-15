@@ -1,0 +1,9 @@
+{
+  "exclusion_cells_and_reasons_identical": true,
+  "notice": "Dataset bytes/hash differ because acquisition paths/timestamps changed; source-cell identities and exclusions are checked separately.",
+  "original_retained_cells": 124,
+  "original_rows": 620,
+  "restored_dataset_hash": "c65011185d4b5f79cbec3e2f069912731cad3df15d6c8ffb0c3af9e98f7d0734",
+  "restored_retained_cells": 124,
+  "restored_rows": 620
+}
