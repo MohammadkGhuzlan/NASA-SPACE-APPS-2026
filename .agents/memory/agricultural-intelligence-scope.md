@@ -26,3 +26,9 @@ Current product status: Field Shift is being used as a testing prototype. Make t
 **Why:** The user explicitly said the app is for testing and asked that inaccurate test outputs not be presented as farming advice.
 
 **How to apply:** Testing may use disclosed, source-backed estimates when enabled, but preserve provenance, warnings, and the distinction between farmer-entered profile data and model features.
+
+User-facing Field Shift copy should be readable by a third-grade reader: short sentences, familiar words, and direct explanations of data limits.
+
+**Why:** The user asked for the unreadable page to be rewritten for a person in the third grade.
+
+**How to apply:** Prefer plain labels such as “Choose a place” over technical terms, while keeping source and safety meaning accurate.

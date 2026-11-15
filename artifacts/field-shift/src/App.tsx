@@ -22,7 +22,7 @@ const queryClient = new QueryClient({ defaultOptions: { queries: { retry: 1, ref
 function Router() {
   const [location] = useLocation();
   useEffect(() => {
-    const page = location === '/' ? ['Climate-aware crop rotation planning', 'Map your field, understand NASA POWER climate data, and compare your own rotation drafts.']
+      const page = location === '/' ? ['Plan crops for your farm', 'Choose a place, see rain and heat data, and try crop plans. This test app may be wrong.']
       : location === '/select' ? ['Select a farm location', 'Search worldwide, enter coordinates, or draw your field boundary.']
       : location === '/sources' ? ['Sources and limitations', 'Understand the provenance, coverage and limitations of Field Shift data.']
       : location === '/farms/new' ? ['Create a farm profile', 'Add your crop history, soil measurements and water constraints.']

@@ -7,11 +7,11 @@ import { cn } from "@/lib/utils";
 
 const nav = [
   { href: "/farms", label: "My farms" },
-  { href: "/select", label: "Analyze a location" },
-  { href: "/environment", label: "Explore" },
-  { href: "/compare", label: "Compare regions" },
-  { href: "/knowledge", label: "Reference library" },
-  { href: "/sources", label: "Sources & limits" },
+  { href: "/select", label: "Choose a place" },
+  { href: "/environment", label: "Map and weather" },
+  { href: "/compare", label: "Compare places" },
+  { href: "/knowledge", label: "Crop guide" },
+  { href: "/sources", label: "Where data comes from" },
 ];
 
 export function Shell({ children }: { children: ReactNode }) {
@@ -51,18 +51,18 @@ export function Shell({ children }: { children: ReactNode }) {
       </header>
       <div role="note" className="border-b border-[hsl(38_70%_50%/.4)] bg-[hsl(38_70%_50%/.12)] px-5 py-2.5 text-sm text-foreground" data-testid="banner-testing-only">
         <div className="mx-auto max-w-7xl">
-          <span className="font-semibold uppercase tracking-wide">Testing build:</span>{" "}
-          Field Shift is being tested. Data and experimental predictions may be incomplete or inaccurate; do not use them to make farming decisions.
+          <span className="font-semibold uppercase tracking-wide">Test app:</span>{" "}
+          We are testing this app. Some answers may be wrong or missing. Do not use them to decide what to grow.
         </div>
       </div>
       <main className="flex-1">{children}</main>
       <footer className="border-t border-border/70 mt-16">
         <div className="mx-auto max-w-7xl px-5 py-8 flex flex-col md:flex-row gap-4 justify-between text-sm text-muted-foreground">
-          <div className="flex items-center gap-3"><Logo /><span>NASA Space Apps 2026 prototype</span></div>
+          <div className="flex items-center gap-3"><Logo /><span>NASA Space Apps 2026 test app</span></div>
           <div className="flex items-center gap-2" data-testid="status-api">
             <span className={cn("h-2 w-2 rounded-full", health.isLoading ? "bg-chart-4 animate-pulse" : ok ? "bg-chart-3" : "bg-destructive")} />
-            {health.isLoading ? "Checking service" : ok ? "Service reachable" : "Service unreachable"}
-            <span className="mx-2 opacity-40">|</span>Observations are not advice.
+            {health.isLoading ? "Checking app" : ok ? "App connection works" : "App connection failed"}
+            <span className="mx-2 opacity-40">|</span>Data is not farming advice.
           </div>
         </div>
       </footer>
