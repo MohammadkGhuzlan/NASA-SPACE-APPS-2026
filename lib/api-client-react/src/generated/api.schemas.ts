@@ -5,6 +5,115 @@
  * Field Shift farm intelligence foundation
  * OpenAPI spec version: 0.1.0
  */
+export interface GaezAssessmentInput {
+  /** @maxLength 10 */
+  cropCode: string;
+  /** @maxLength 10 */
+  scenario: string;
+  /** @maxLength 20 */
+  datasetVersion?: string;
+  /** @maxLength 20 */
+  referencePeriod?: string;
+}
+
+export interface GaezCode {
+  code: string;
+  name: string;
+}
+
+export interface GaezClass {
+  code: number;
+  label: string;
+}
+
+export interface GaezDataset {
+  version: string;
+  variable: string;
+  referencePeriod: string;
+  title: string;
+  resolutionLabel: string;
+  unit: string;
+  license: string;
+  metadataUrl: string;
+  catalogUrl: string;
+  classDefinitionUrl: string;
+  attribution: string;
+}
+
+export type GaezCatalogStatus = typeof GaezCatalogStatus[keyof typeof GaezCatalogStatus];
+
+
+export const GaezCatalogStatus = {
+  available: 'available',
+  unavailable: 'unavailable',
+} as const;
+
+export interface GaezCatalog {
+  status: GaezCatalogStatus;
+  dataset: GaezDataset;
+  warnings: string[];
+  crops: GaezCode[];
+  scenarios: GaezCode[];
+  classes: GaezClass[];
+  cachedLayers: number;
+}
+
+export type GaezAssessmentStatus = typeof GaezAssessmentStatus[keyof typeof GaezAssessmentStatus];
+
+
+export const GaezAssessmentStatus = {
+  available: 'available',
+  nodata: 'nodata',
+  not_land: 'not_land',
+  outside_coverage: 'outside_coverage',
+  unsupported: 'unsupported',
+  unavailable: 'unavailable',
+} as const;
+
+export interface JsonRecord { [key: string]: unknown }
+
+export interface GaezAssessment {
+  status: GaezAssessmentStatus;
+  cropCode: string;
+  cropName: string;
+  scenario: string;
+  scenarioLabel: string;
+  dataset: GaezDataset;
+  /** @nullable */
+  datasetId: string | null;
+  /** @nullable */
+  sourceUrl: string | null;
+  /** @nullable */
+  sha256: string | null;
+  /** @nullable */
+  retrievedAt: string | null;
+  /** @nullable */
+  rawValue: number | null;
+  /** @nullable */
+  category: string | null;
+  sampling: JsonRecord;
+  warnings: string[];
+}
+
+export type GaezReportEvidenceStatus = typeof GaezReportEvidenceStatus[keyof typeof GaezReportEvidenceStatus];
+
+
+export const GaezReportEvidenceStatus = {
+  available: 'available',
+  partial: 'partial',
+  unavailable: 'unavailable',
+} as const;
+
+export interface GaezReportEvidence {
+  status: GaezReportEvidenceStatus;
+  dataset: GaezDataset;
+  generatedAt: string;
+  results: GaezAssessment[];
+  warnings: string[];
+  planningNotes: string[];
+  context: JsonRecord;
+}
+
 export type AnalysisModelStatusStage = typeof AnalysisModelStatusStage[keyof typeof AnalysisModelStatusStage];
 
 
@@ -22,8 +131,6 @@ export const AnalysisModelStatusState = {
   validated_ready: 'validated_ready',
   temporarily_unavailable: 'temporarily_unavailable',
 } as const;
-
-export interface JsonRecord { [key: string]: unknown }
 
 export interface AnalysisModelStatus {
   adapterVersion: string;
@@ -171,6 +278,7 @@ export interface RotationScenario {
 }
 
 export interface FarmingPlanReport {
+  gaezEvidence?: GaezReportEvidence;
   id: number;
   farmId: number;
   createdAt: string;

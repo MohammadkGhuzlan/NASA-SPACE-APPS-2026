@@ -1,5 +1,6 @@
 import { useState, type FormEvent, type ReactNode } from "react";
 import { AnalysisStatus } from "@/components/analysis-status";
+import { GaezEvidence, GaezReport } from "@/components/gaez-evidence";
 import { useQueryClient } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { FileText, Loader2, RotateCcw } from "lucide-react";
@@ -131,13 +132,14 @@ function ReportView({ r }: { r: FarmingPlanReport }) {
         <p className="font-mono text-xs text-muted-foreground mt-1">{fmt(r.createdAt)} / knowledge {r.knowledgeVersion} / engine {r.engineVersion}</p>
         <p className="text-sm text-muted-foreground mt-3 max-w-3xl">
           {r.status === "insufficient_evidence" ? "There was not enough evidence to build a reference-based plan. Nothing has been guessed in its place." : "Conditional findings from limited reference-based rules."}
-          {" "}No accepted model prediction is used: no suitability score, no yield prediction, no similar-region comparison.
+          {" "}No accepted Field Shift ML prediction is used: no model suitability score, no yield forecast, no similar-region comparison.
         </p>
-        <p className="text-sm mt-2"><span className="font-semibold">Priority applied:</span> {humanize(r.priorityApplied ?? "not recorded")}. NASA temperature and farmer-reported soil/water inputs can flag conflicts; they cannot establish crop suitability.</p>
+        <p className="text-sm mt-2"><span className="font-semibold">Priority applied:</span> {humanize(r.priorityApplied ?? "not recorded")}. NASA temperature and farmer-reported soil/water inputs can flag conflicts; they cannot establish crop suitability on their own.</p>
         {r.warnings.length > 0 && <ul className="mt-4 space-y-1.5">{r.warnings.map((w, i) => <li key={i} className="rounded-xl bg-[hsl(38_70%_50%/.12)] px-3 py-2 text-sm">{w}</li>)}</ul>}
       </div>
 
       {r.aiIntegration && <AnalysisStatus evidence={r.aiIntegration} />}
+      {r.gaezEvidence && <GaezReport evidence={r.gaezEvidence} />}
       <Section title="Rotation scenarios">
         {r.scenarios.length === 0 ? <p className="text-sm text-muted-foreground italic">No scenarios in this report.</p> : (
           <div className="grid xl:grid-cols-3 gap-4">
@@ -210,9 +212,9 @@ export function PlanReports({ farmId, defaultCrop, defaultPriority }: { farmId: 
       <div className="pb-6">
         <p className="font-mono text-xs uppercase tracking-[0.18em] text-accent">Reference-based reports</p>
         <h2 id="reports-heading" className="font-display text-3xl md:text-4xl text-primary mt-2">Saved farming <span className="italic">reports</span></h2>
-        <p className="text-muted-foreground mt-2 max-w-3xl">Limited rules applied to the <Link href="/knowledge" className="text-accent hover:underline" data-testid="link-planner-knowledge">reference library</Link> and this farm's evidence. Every finding links to a source. No accepted ML predictions, suitability score or yield prediction.</p>
+        <p className="text-muted-foreground mt-2 max-w-3xl">Limited rules applied to the <Link href="/knowledge" className="text-accent hover:underline" data-testid="link-planner-knowledge">reference library</Link> and this farm's evidence. Every finding links to a source. No accepted Field Shift ML predictions or yield forecasts. Published FAO GAEZ classes are shown separately as cited evidence.</p>
       </div>
-      <div className="mb-5"><AnalysisStatus /></div>
+      <div className="mb-5 space-y-5"><AnalysisStatus /><GaezEvidence farmId={farmId} defaultCrop={defaultCrop} /></div>
       <div className="grid lg:grid-cols-[22rem_1fr] gap-5 items-start">
         <div className="space-y-5 min-w-0">
           <ReportForm farmId={farmId} defaultCrop={defaultCrop} defaultPriority={defaultPriority} onCreated={setPicked} />

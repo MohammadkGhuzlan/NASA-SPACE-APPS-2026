@@ -7,12 +7,14 @@
  */
 import type { AgriculturalReference } from './agriculturalReference';
 import type { AnalysisIntegration } from './analysisIntegration';
+import type { GaezReportEvidence } from './gaezReportEvidence';
 import type { JsonRecord } from './jsonRecord';
 import type { PlanningCandidate } from './planningCandidate';
 import type { PlanningFinding } from './planningFinding';
 import type { RotationScenario } from './rotationScenario';
 
 export interface FarmingPlanReport {
+  gaezEvidence?: GaezReportEvidence;
   id: number;
   farmId: number;
   createdAt: string;

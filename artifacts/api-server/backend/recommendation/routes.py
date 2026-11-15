@@ -12,6 +12,7 @@ from .engine import build_report
 from ..analysis.model import model_status
 from ..analysis.service import integrate_report
 from ..analysis.limits import check_analysis_rate
+from ..gaez.service import integrate_evidence, soil_context
 
 router = APIRouter(prefix="/api")
 
@@ -65,6 +66,8 @@ def generate(id: int, data: FarmingPlanInput, request: Request, db: Session = De
     drafts = db.scalars(select(Strategy).where(Strategy.farm_id == id)).all()
     result = build_report(farm, data, summary, features, drafts)
     result = integrate_report(farm, data, summary, features, result)
+    result = integrate_evidence(farm, data, summary, features, result,
+                                soil_provenance=soil_context(db, farm, location))
     row = RecommendationResult(farm_id=id, model_id=None, strategy_id=None, result=result)
     db.add(row)
     db.commit()

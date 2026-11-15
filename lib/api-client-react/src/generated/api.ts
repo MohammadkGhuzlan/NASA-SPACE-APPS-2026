@@ -38,6 +38,9 @@ import type {
   FarmingPlanInput,
   FarmingPlanReport,
   FarmingPlanSummary,
+  GaezAssessment,
+  GaezAssessmentInput,
+  GaezCatalog,
   GetEnvironmentalHistoryParams,
   GetEnvironmentalSummaryParams,
   GetSoilPropertiesParams,
@@ -80,6 +83,184 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
   }
   return result;
 };
+
+export const getGetGaezCatalogUrl = () => {
+
+
+
+
+  return `/api/gaez/catalog`
+}
+
+export const getGaezCatalog = async ( options?: Parameters<typeof customFetch>[1]): Promise<GaezCatalog> => {
+
+  return customFetch<GaezCatalog>(getGetGaezCatalogUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetGaezCatalogQueryKey = () => {
+    return [
+    `/api/gaez/catalog`
+    ] as const;
+    }
+
+
+export const getGetGaezCatalogQueryOptions = <TData = Awaited<ReturnType<typeof getGaezCatalog>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGaezCatalog>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetGaezCatalogQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getGaezCatalog>>> = ({ signal }) => getGaezCatalog({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getGaezCatalog>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetGaezCatalogQueryResult = NonNullable<Awaited<ReturnType<typeof getGaezCatalog>>>
+export type GetGaezCatalogQueryError = ErrorType<unknown>
+
+
+export function useGetGaezCatalog<TData = Awaited<ReturnType<typeof getGaezCatalog>>, TError = ErrorType<unknown>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGaezCatalog>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getGaezCatalog>>,
+          TError,
+          Awaited<ReturnType<typeof getGaezCatalog>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetGaezCatalog<TData = Awaited<ReturnType<typeof getGaezCatalog>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGaezCatalog>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getGaezCatalog>>,
+          TError,
+          Awaited<ReturnType<typeof getGaezCatalog>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetGaezCatalog<TData = Awaited<ReturnType<typeof getGaezCatalog>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGaezCatalog>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetGaezCatalog<TData = Awaited<ReturnType<typeof getGaezCatalog>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGaezCatalog>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetGaezCatalogQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getAssessFarmGaezUrl = (id: number,) => {
+
+
+
+
+  return `/api/farms/${id}/gaez`
+}
+
+export const assessFarmGaez = async (id: number,
+    gaezAssessmentInput: GaezAssessmentInput, options?: Parameters<typeof customFetch>[1]): Promise<GaezAssessment> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<GaezAssessment>(getAssessFarmGaezUrl(id),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(gaezAssessmentInput)
+  }
+);}
+
+
+
+
+
+export const getAssessFarmGaezMutationKey = () => ['assessFarmGaez'] as const;
+
+export const getAssessFarmGaezMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof assessFarmGaez>>, TError,AssessFarmGaezMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof assessFarmGaez>>, TError,AssessFarmGaezMutationVariables, TContext> => {
+
+const mutationKey = getAssessFarmGaezMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof assessFarmGaez>>, AssessFarmGaezMutationVariables> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  assessFarmGaez(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AssessFarmGaezMutationResult = NonNullable<Awaited<ReturnType<typeof assessFarmGaez>>>
+    export type AssessFarmGaezMutationBody = BodyType<GaezAssessmentInput>
+    export type AssessFarmGaezMutationError = ErrorType<void>
+    export type AssessFarmGaezMutationVariables = {id: number;data: BodyType<GaezAssessmentInput>}
+
+    export const useAssessFarmGaez = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof assessFarmGaez>>, TError,AssessFarmGaezMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof assessFarmGaez>>,
+        TError,
+        AssessFarmGaezMutationVariables,
+        TContext
+      > => {
+      return useMutation(getAssessFarmGaezMutationOptions(options), queryClient);
+    }
 
 export const getGetAnalysisModelStatusUrl = () => {
 

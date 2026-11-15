@@ -28,7 +28,7 @@ export function AnalysisStatus({ evidence }: { evidence?: AnalysisIntegration })
             ? "Research candidates were trained but did not pass validation."
             : "No reviewed, accepted model is active."}{" "}
           Historical NASA data and agricultural reference rules remain available.
-          No suitability value, confidence percentage, or similar-region estimate is being supplied.
+          No Field Shift model suitability value, yield forecast, confidence percentage, or similar-region estimate is being supplied. Trained AI crop-suitability predictions are not currently available; published FAO GAEZ classes, where shown, come from FAO data and documented requirements.
         </p>
         {evidence && <>
           <p className="text-xs text-muted-foreground">Saved evidence snapshot: {new Date(evidence.generatedAt).toLocaleString()}.
@@ -51,7 +51,7 @@ export function AnalysisStatus({ evidence }: { evidence?: AnalysisIntegration })
             </p>
             <ul className="mt-3 space-y-1">
               {evidence.coverage.map((c) => <li key={c.crop}>
-                <span className="font-semibold">{c.crop}:</span> insufficient evidence — no prediction
+                <span className="font-semibold">{c.crop}:</span> insufficient evidence — no Field Shift model prediction
               </li>)}
             </ul>
           </details>

@@ -8,6 +8,91 @@
 import * as zod from 'zod';
 
 
+export const GetGaezCatalogResponse = zod.object({
+  "status": zod.enum(['available', 'unavailable']),
+  "dataset": zod.object({
+  "version": zod.string(),
+  "variable": zod.string(),
+  "referencePeriod": zod.string(),
+  "title": zod.string(),
+  "resolutionLabel": zod.string(),
+  "unit": zod.string(),
+  "license": zod.string(),
+  "metadataUrl": zod.string(),
+  "catalogUrl": zod.string(),
+  "classDefinitionUrl": zod.string(),
+  "attribution": zod.string()
+}),
+  "warnings": zod.array(zod.string()),
+  "crops": zod.array(zod.object({
+  "code": zod.string(),
+  "name": zod.string()
+})),
+  "scenarios": zod.array(zod.object({
+  "code": zod.string(),
+  "name": zod.string()
+})),
+  "classes": zod.array(zod.object({
+  "code": zod.number().int(),
+  "label": zod.string()
+})),
+  "cachedLayers": zod.number().int()
+})
+
+
+export const AssessFarmGaezParams = zod.object({
+  "id": zod.coerce.number().int()
+})
+
+export const assessFarmGaezBodyCropCodeMax = 10;
+
+export const assessFarmGaezBodyScenarioMax = 10;
+
+export const assessFarmGaezBodyDatasetVersionDefault = `GAEZ-v5`;
+export const assessFarmGaezBodyDatasetVersionMax = 20;
+
+export const assessFarmGaezBodyReferencePeriodDefault = `2001-2020`;
+export const assessFarmGaezBodyReferencePeriodMax = 20;
+
+
+
+export const AssessFarmGaezBody = zod.object({
+  "cropCode": zod.string().max(assessFarmGaezBodyCropCodeMax),
+  "scenario": zod.string().max(assessFarmGaezBodyScenarioMax),
+  "datasetVersion": zod.string().max(assessFarmGaezBodyDatasetVersionMax).default(assessFarmGaezBodyDatasetVersionDefault),
+  "referencePeriod": zod.string().max(assessFarmGaezBodyReferencePeriodMax).default(assessFarmGaezBodyReferencePeriodDefault)
+})
+
+export const AssessFarmGaezResponse = zod.object({
+  "status": zod.enum(['available', 'nodata', 'not_land', 'outside_coverage', 'unsupported', 'unavailable']),
+  "cropCode": zod.string(),
+  "cropName": zod.string(),
+  "scenario": zod.string(),
+  "scenarioLabel": zod.string(),
+  "dataset": zod.object({
+  "version": zod.string(),
+  "variable": zod.string(),
+  "referencePeriod": zod.string(),
+  "title": zod.string(),
+  "resolutionLabel": zod.string(),
+  "unit": zod.string(),
+  "license": zod.string(),
+  "metadataUrl": zod.string(),
+  "catalogUrl": zod.string(),
+  "classDefinitionUrl": zod.string(),
+  "attribution": zod.string()
+}),
+  "datasetId": zod.string().nullable(),
+  "sourceUrl": zod.string().nullable(),
+  "sha256": zod.string().nullable(),
+  "retrievedAt": zod.string().nullable(),
+  "rawValue": zod.number().int().nullable(),
+  "category": zod.string().nullable(),
+  "sampling": zod.record(zod.string(), zod.unknown()),
+  "warnings": zod.array(zod.string())
+})
+
+
 export const GetAnalysisModelStatusResponse = zod.object({
   "adapterVersion": zod.string(),
   "stage": zod.enum(['stage_a']),
@@ -93,6 +178,54 @@ export const GenerateFarmingPlanBody = zod.object({
 })
 
 export const GenerateFarmingPlanResponse = zod.object({
+  "gaezEvidence": zod.object({
+  "status": zod.enum(['available', 'partial', 'unavailable']),
+  "dataset": zod.object({
+  "version": zod.string(),
+  "variable": zod.string(),
+  "referencePeriod": zod.string(),
+  "title": zod.string(),
+  "resolutionLabel": zod.string(),
+  "unit": zod.string(),
+  "license": zod.string(),
+  "metadataUrl": zod.string(),
+  "catalogUrl": zod.string(),
+  "classDefinitionUrl": zod.string(),
+  "attribution": zod.string()
+}),
+  "generatedAt": zod.string(),
+  "results": zod.array(zod.object({
+  "status": zod.enum(['available', 'nodata', 'not_land', 'outside_coverage', 'unsupported', 'unavailable']),
+  "cropCode": zod.string(),
+  "cropName": zod.string(),
+  "scenario": zod.string(),
+  "scenarioLabel": zod.string(),
+  "dataset": zod.object({
+  "version": zod.string(),
+  "variable": zod.string(),
+  "referencePeriod": zod.string(),
+  "title": zod.string(),
+  "resolutionLabel": zod.string(),
+  "unit": zod.string(),
+  "license": zod.string(),
+  "metadataUrl": zod.string(),
+  "catalogUrl": zod.string(),
+  "classDefinitionUrl": zod.string(),
+  "attribution": zod.string()
+}),
+  "datasetId": zod.string().nullable(),
+  "sourceUrl": zod.string().nullable(),
+  "sha256": zod.string().nullable(),
+  "retrievedAt": zod.string().nullable(),
+  "rawValue": zod.number().int().nullable(),
+  "category": zod.string().nullable(),
+  "sampling": zod.record(zod.string(), zod.unknown()),
+  "warnings": zod.array(zod.string())
+})),
+  "warnings": zod.array(zod.string()),
+  "planningNotes": zod.array(zod.string()),
+  "context": zod.record(zod.string(), zod.unknown())
+}).optional(),
   "id": zod.number().int(),
   "farmId": zod.number().int(),
   "createdAt": zod.string(),
@@ -197,6 +330,54 @@ export const GetFarmingPlanParams = zod.object({
 })
 
 export const GetFarmingPlanResponse = zod.object({
+  "gaezEvidence": zod.object({
+  "status": zod.enum(['available', 'partial', 'unavailable']),
+  "dataset": zod.object({
+  "version": zod.string(),
+  "variable": zod.string(),
+  "referencePeriod": zod.string(),
+  "title": zod.string(),
+  "resolutionLabel": zod.string(),
+  "unit": zod.string(),
+  "license": zod.string(),
+  "metadataUrl": zod.string(),
+  "catalogUrl": zod.string(),
+  "classDefinitionUrl": zod.string(),
+  "attribution": zod.string()
+}),
+  "generatedAt": zod.string(),
+  "results": zod.array(zod.object({
+  "status": zod.enum(['available', 'nodata', 'not_land', 'outside_coverage', 'unsupported', 'unavailable']),
+  "cropCode": zod.string(),
+  "cropName": zod.string(),
+  "scenario": zod.string(),
+  "scenarioLabel": zod.string(),
+  "dataset": zod.object({
+  "version": zod.string(),
+  "variable": zod.string(),
+  "referencePeriod": zod.string(),
+  "title": zod.string(),
+  "resolutionLabel": zod.string(),
+  "unit": zod.string(),
+  "license": zod.string(),
+  "metadataUrl": zod.string(),
+  "catalogUrl": zod.string(),
+  "classDefinitionUrl": zod.string(),
+  "attribution": zod.string()
+}),
+  "datasetId": zod.string().nullable(),
+  "sourceUrl": zod.string().nullable(),
+  "sha256": zod.string().nullable(),
+  "retrievedAt": zod.string().nullable(),
+  "rawValue": zod.number().int().nullable(),
+  "category": zod.string().nullable(),
+  "sampling": zod.record(zod.string(), zod.unknown()),
+  "warnings": zod.array(zod.string())
+})),
+  "warnings": zod.array(zod.string()),
+  "planningNotes": zod.array(zod.string()),
+  "context": zod.record(zod.string(), zod.unknown())
+}).optional(),
   "id": zod.number().int(),
   "farmId": zod.number().int(),
   "createdAt": zod.string(),

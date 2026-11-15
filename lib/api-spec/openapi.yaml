@@ -6,6 +6,32 @@ info:
 servers:
   - url: /api
 paths:
+  /gaez/catalog:
+    get:
+      operationId: getGaezCatalog
+      responses:
+        "200":
+          description: Verified published FAO class definitions and locally acquired subset; never downloads on request
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/GaezCatalog" }
+  /farms/{id}/gaez:
+    post:
+      operationId: assessFarmGaez
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/GaezAssessmentInput" }
+      responses:
+        "200":
+          description: Owner-scoped exact farm-coordinate categorical raster extraction, including honest unavailable states
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/GaezAssessment" }
+        "404": { description: Farm not found in this browser workspace }
   /analysis/model-status:
     get:
       operationId: getAnalysisModelStatus
@@ -299,6 +325,81 @@ components:
     Latitude: { name: latitude, in: query, required: true, schema: { type: number, minimum: -90, maximum: 90 } }
     Longitude: { name: longitude, in: query, required: true, schema: { type: number, minimum: -180, maximum: 180 } }
   schemas:
+    GaezAssessmentInput:
+      type: object
+      required: [cropCode, scenario]
+      properties:
+        cropCode: { type: string, maxLength: 10 }
+        scenario: { type: string, maxLength: 10 }
+        datasetVersion: { type: string, default: GAEZ-v5, maxLength: 20 }
+        referencePeriod: { type: string, default: "2001-2020", maxLength: 20 }
+    GaezCode:
+      type: object
+      required: [code, name]
+      properties:
+        code: { type: string }
+        name: { type: string }
+    GaezClass:
+      type: object
+      required: [code, label]
+      properties:
+        code: { type: integer }
+        label: { type: string }
+    GaezDataset:
+      type: object
+      required: [version, variable, referencePeriod, title, resolutionLabel, unit, license, metadataUrl, catalogUrl, classDefinitionUrl, attribution]
+      properties:
+        version: { type: string }
+        variable: { type: string }
+        referencePeriod: { type: string }
+        title: { type: string }
+        resolutionLabel: { type: string }
+        unit: { type: string }
+        license: { type: string }
+        metadataUrl: { type: string }
+        catalogUrl: { type: string }
+        classDefinitionUrl: { type: string }
+        attribution: { type: string }
+    GaezCatalog:
+      type: object
+      required: [status, dataset, warnings, crops, scenarios, classes, cachedLayers]
+      properties:
+        status: { type: string, enum: [available, unavailable] }
+        dataset: { $ref: "#/components/schemas/GaezDataset" }
+        warnings: { type: array, items: { type: string } }
+        crops: { type: array, items: { $ref: "#/components/schemas/GaezCode" } }
+        scenarios: { type: array, items: { $ref: "#/components/schemas/GaezCode" } }
+        classes: { type: array, items: { $ref: "#/components/schemas/GaezClass" } }
+        cachedLayers: { type: integer }
+    GaezAssessment:
+      type: object
+      required: [status, cropCode, cropName, scenario, scenarioLabel, dataset, datasetId, sourceUrl, sha256, retrievedAt, rawValue, category, sampling, warnings]
+      properties:
+        status: { type: string, enum: [available, nodata, not_land, outside_coverage, unsupported, unavailable] }
+        cropCode: { type: string }
+        cropName: { type: string }
+        scenario: { type: string }
+        scenarioLabel: { type: string }
+        dataset: { $ref: "#/components/schemas/GaezDataset" }
+        datasetId: { type: [string, "null"] }
+        sourceUrl: { type: [string, "null"] }
+        sha256: { type: [string, "null"] }
+        retrievedAt: { type: [string, "null"] }
+        rawValue: { type: [integer, "null"] }
+        category: { type: [string, "null"] }
+        sampling: { $ref: "#/components/schemas/JsonRecord" }
+        warnings: { type: array, items: { type: string } }
+    GaezReportEvidence:
+      type: object
+      required: [status, dataset, generatedAt, results, warnings, planningNotes, context]
+      properties:
+        status: { type: string, enum: [available, partial, unavailable] }
+        dataset: { $ref: "#/components/schemas/GaezDataset" }
+        generatedAt: { type: string }
+        results: { type: array, items: { $ref: "#/components/schemas/GaezAssessment" } }
+        warnings: { type: array, items: { type: string } }
+        planningNotes: { type: array, items: { type: string } }
+        context: { $ref: "#/components/schemas/JsonRecord" }
     AnalysisModelStatus:
       type: object
       required: [adapterVersion, stage, state, predictionsEnabled, message, reasons, contract, target]
@@ -408,6 +509,7 @@ components:
       type: object
       required: [id, farmId, createdAt, knowledgeVersion, engineVersion, status, modelStatus, inputs, candidates, scenarios, management, missingInformation, warnings, references, environmentalEvidence]
       properties:
+        gaezEvidence: { $ref: "#/components/schemas/GaezReportEvidence" }
         id: { type: integer }
         farmId: { type: integer }
         createdAt: { type: string }

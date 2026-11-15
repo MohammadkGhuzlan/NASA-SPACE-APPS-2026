@@ -117,7 +117,7 @@ export default function Planner() {
                 <Bot className="h-8 w-8 text-muted-foreground shrink-0" />
                 <div>
                   <div className="flex flex-wrap items-center gap-2"><h2 className="font-display text-2xl text-primary">AI explanation</h2><Tag kind="unassessed">Not operational</Tag></div>
-                  <p className="text-sm text-muted-foreground mt-2 leading-relaxed">No model has been trained and none is running. Saved reports come from limited reference-based rules, not AI. Prediction statuses reserved for a future model are not operational.</p>
+                  <p className="text-sm text-muted-foreground mt-2 leading-relaxed">No accepted Field Shift model is running. Research candidates failed validation. Saved reports use reference-based rules and, where recorded, published FAO assessments—not trained Field Shift predictions. Future prediction statuses are not operational.</p>
                 </div>
               </div>
               <div className="rounded-3xl border border-card-border bg-card p-6">
