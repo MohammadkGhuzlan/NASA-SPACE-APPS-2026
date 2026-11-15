@@ -58,3 +58,4 @@ __pycache__/
 .pythonlibs/
 .venv/
 /generated-artifacts/
+/docs/ml-recovery/holdout-ledger/.lock
