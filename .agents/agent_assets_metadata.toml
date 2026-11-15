@@ -140,3 +140,17 @@ mtime_ms = 1794756658632
 storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:99c0b8d5-1681-405c-9948-7d284359ce38/5daffdd4-1b08-41d3-b017-758789ee041c/462d9ffa-cf9d-4f09-bdbd-0e1d8cbb3793"
 storage_version_token = "1794757162721801"
 content_type = "application/octet-stream"
+
+[[outputs]]
+id = "DMprovg1pyD36OR9V6NV0"
+uri = "file://docs/ml-recovery/UNVALIDATED_WORKFLOW.md"
+type = "text"
+title = "Enabled predictions — behavior and verification results"
+description = "Actual five-location model outputs, estimated-soil sources, normal report persistence, access checks, tests and remaining scientific/deployment limitations."
+logical_id = "5acbc66f-c49d-4c0a-983d-885c2ae696b4"
+content_hash = "sha256:9d2a1e5d859dd491db9fe097af22994b60dcb5fc6f224068ff4c8ce7072db963"
+size = 7347
+mtime_ms = 1794758536740
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:99c0b8d5-1681-405c-9948-7d284359ce38/5acbc66f-c49d-4c0a-983d-885c2ae696b4/1c9e3bcc-1a61-4532-b90d-f6e6a053c177"
+storage_version_token = "1794758725998187"
+content_type = "text/markdown"
