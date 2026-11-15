@@ -56,3 +56,17 @@ mtime_ms = 1794746448079
 storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:99c0b8d5-1681-405c-9948-7d284359ce38/6ebe05c4-c0de-4edf-a821-07ccc7120735/70c07e4e-778f-4eda-bde4-7f1eedc2e9a6"
 storage_version_token = "1794746506920311"
 content_type = "text/markdown"
+
+[[outputs]]
+id = "U9m2UpgrKScQ41zCFQ9d8"
+uri = "file://docs/phase5/ENGINEERING_VERIFICATION.md"
+type = "text"
+title = "Field Shift — Stage A engineering verification"
+description = "Independent review findings, integration details, 153 backend tests, frontend checks, real Córdoba data persistence, browser evidence, preservation checks and remaining Stage B dependencies."
+logical_id = "c5e09165-6292-4e4a-9581-beab33a5dbe8"
+content_hash = "sha256:6907d8fcda7cc7e650ff14818a2437f44910cda0dda4cc5d276c3b539fe47996"
+size = 18488
+mtime_ms = 1794748087708
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:99c0b8d5-1681-405c-9948-7d284359ce38/c5e09165-6292-4e4a-9581-beab33a5dbe8/9461c6ce-5dd9-48fa-aeb0-e2d6edf3d530"
+storage_version_token = "1794748192017243"
+content_type = "text/markdown"
