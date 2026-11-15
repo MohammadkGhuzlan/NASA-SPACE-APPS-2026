@@ -20,6 +20,7 @@ const CROPS: { code: ExperimentalPredictionInputCropCode; label: string }[] = [
   { code: "RCD", label: "Rice · dryland" },
   { code: "RCW", label: "Rice · wetland" },
 ];
+const DEMO_VALUE = "1,234.56";
 const TERMINAL_STOP = new Set([401, 403, 404, 409]);
 const storeKey = (farmId: number, crop: string) => `fieldshift:expml:${farmId}:${crop}`;
 const cropKey = (farmId: number) => `fieldshift:expml:${farmId}:crop`;
@@ -38,11 +39,11 @@ function errText(e: unknown): string {
   if (typeof d === "string") msg = d;
   else if (d && typeof d === "object") for (const k of ["error", "message", "detail"]) if (typeof d[k] === "string") { msg = d[k] as string; break; }
   const s = o?.status;
-  if (s === 429) return `Too many experimental runs recently. Wait a little, then retry.${msg ? ` (${msg})` : ""}`;
-  if (s === 401 || s === 403) return "Development access is required for experimental predictions.";
-  if (s === 404) return "This experimental job was not found. It may have expired.";
+  if (s === 429) return `Too many test runs just now. Wait a little, then try again.${msg ? ` (${msg})` : ""}`;
+  if (s === 401 || s === 403) return "Only the test version can run this model.";
+  if (s === 404) return "This test run was not found. It may have expired.";
   if (s === 409) return "The farm location changed since this job was requested. The old result was cleared; run again for the current location.";
-  return msg || "The experimental request could not be completed. Try again.";
+  return msg || "The test could not finish. Try again.";
 }
 const num = (n: number | null | undefined) => (n === null || n === undefined ? "not reported" : Number.isInteger(n) ? String(n) : n.toFixed(3));
 function Kv({ k, v }: { k: string; v: string }) {
@@ -52,6 +53,8 @@ function Kv({ k, v }: { k: string; v: string }) {
 export function ExperimentalMl({ farmId }: { farmId: number }) {
   const status = useGetExperimentalStatus(farmId, { query: { queryKey: getGetExperimentalStatusQueryKey(farmId), retry: false, staleTime: 60_000 } });
   const [crop, setCrop] = useState<ExperimentalPredictionInputCropCode | "">(() => restoreCrop(farmId));
+  const [demoCrop, setDemoCrop] = useState<ExperimentalPredictionInputCropCode>(() => restoreCrop(farmId) || "WHE");
+  const [showDemo, setShowDemo] = useState(false);
   const qc = useQueryClient();
   const selection = useRef({ farmId, crop });
   selection.current = { farmId, crop };
@@ -137,46 +140,81 @@ export function ExperimentalMl({ farmId }: { farmId: number }) {
   return (
     <section className="min-w-0 max-w-full rounded-3xl border-2 border-dashed border-[hsl(38_70%_50%/.55)] bg-card p-5 md:p-6 space-y-4" aria-labelledby="experimental-ml-heading" data-testid="experimental-ml">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <div className="flex items-center gap-2"><FlaskConical className="h-5 w-5 text-accent" aria-hidden /><h3 id="experimental-ml-heading" className="font-display text-xl text-primary">Unvalidated ML predictions</h3></div>
+        <div className="flex items-center gap-2"><FlaskConical className="h-5 w-5 text-accent" aria-hidden /><h3 id="experimental-ml-heading" className="font-display text-xl text-primary">Crop model test</h3></div>
         <Button type="button" size="sm" variant="outline" className="rounded-full" onClick={() => status.refetch()} disabled={status.isFetching} data-testid="button-refresh-experimental">
-          {status.isFetching ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RotateCcw className="h-3.5 w-3.5" />}Refresh status
+          {status.isFetching ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RotateCcw className="h-3.5 w-3.5" />}Check again
         </Button>
       </div>
       <ol className="rounded-2xl bg-secondary/60 px-4 py-3 text-sm space-y-1 list-decimal pl-8" data-testid="text-ml-workflow">
-        <li>Choose a crop, confirm the warning and run the model here. Repeat for each crop you want.</li>
-        <li>Wait until each run finishes, then use <span className="font-semibold">Generate and save report</span> below. Completed outputs for this farm location are snapshotted into that new report with their warnings.</li>
+        <li>Choose a crop, check the warning box, then start the test.</li>
+        <li>When it ends, make a report below to save the result and its warning.</li>
       </ol>
-      <p className="text-xs text-muted-foreground">Nothing runs automatically: a report only contains model outputs you ran first. Agronomic reference rules still choose the three rotation strategies; the models do not rank rotations.</p>
-      <p className="text-sm text-muted-foreground">This experiment estimates a historical crop-suitability index for rain-fed, low-input conditions. It is not a percentage, yield, probability, or assessment of this farm. The model did not pass scientific acceptance.</p>
+      <p className="text-xs text-muted-foreground">The test only runs when you start it. It does not pick or rank your crop plans.</p>
+      <p className="text-sm text-muted-foreground">It gives a test number using old weather and crop data from places that use little extra water. It is not a percent, harvest amount, chance, or farm check. The model did not pass its tests.</p>
       <p role="note" className="rounded-xl bg-[hsl(38_70%_50%/.14)] px-3 py-2 text-sm font-semibold" data-testid="text-experimental-warning">{WARNING}</p>
       <div role="note" className="rounded-xl border border-border bg-secondary/50 px-3 py-2 text-sm" data-testid="text-ml-input-contract">
-        <span className="font-semibold">Inputs used in this experiment:</span> the selected farm point, chosen crop, observed historical NASA POWER climate data (2001–2020), and topsoil estimates from ISRIC SoilGrids (0–5 cm). SoilGrids values are regional proxies, not measurements at this farm. Farm-entered soil values, crop history, irrigation, and priorities are stored separately and are not inputs to this model.
+        <span className="font-semibold">What the test uses:</span> the farm point, chosen crop, real NASA weather records from 2001–2020, and soil-map numbers for the top 5 cm. The soil-map numbers are not a soil test from this farm. Your soil answers, past crops, watering and goals are saved separately and do not go into this model.
+      </div>
+
+      <div className="rounded-2xl border-2 border-dashed border-[hsl(38_70%_50%/.55)] bg-[hsl(38_70%_50%/.08)] p-4 space-y-3" data-testid="synthetic-demo">
+        <div>
+          <p className="font-semibold">Try a fake example</p>
+          <p className="text-sm text-muted-foreground mt-1">This shows a made-up number to test the screen. It does not run the model or use your farm, NASA, or soil data. It is not saved in reports.</p>
+        </div>
+        <div className="grid sm:grid-cols-[1fr_auto] gap-3 items-end">
+          <div className="space-y-1.5">
+            <Label htmlFor="exp-demo-crop" className="text-xs uppercase tracking-wider">Crop for the fake example</Label>
+            <select
+              id="exp-demo-crop"
+              value={demoCrop}
+              onChange={(e) => {
+                setDemoCrop(e.target.value as ExperimentalPredictionInputCropCode);
+                setShowDemo(false);
+              }}
+              className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
+              data-testid="select-demo-crop"
+            >
+              {CROPS.map((item) => <option key={item.code} value={item.code}>{item.label}</option>)}
+            </select>
+          </div>
+          <Button type="button" variant="outline" className="rounded-full" onClick={() => setShowDemo(true)} data-testid="button-show-demo">
+            Show fake example
+          </Button>
+        </div>
+        {showDemo && (
+          <div role="status" className="rounded-xl border border-destructive/40 bg-background p-3 space-y-1" data-testid="demo-result">
+            <p className="text-xs font-bold uppercase tracking-wider text-destructive">Fake data · not a model result</p>
+            <p className="font-display text-2xl text-primary">{CROPS.find((item) => item.code === demoCrop)?.label}</p>
+            <p className="text-sm"><span className="font-semibold">Made-up sample number:</span> {DEMO_VALUE}</p>
+            <p className="text-xs text-muted-foreground">This number is only for checking the page. It says nothing about this crop or farm.</p>
+          </div>
+        )}
       </div>
 
       {status.isLoading ? <Skeleton className="h-24 rounded-2xl" />
         : status.isError || !s ? (
           errStatus(status.error) === 401 || errStatus(status.error) === 403 ? (
-            <p className="flex items-center gap-2 text-sm" data-testid="text-experimental-locked"><Lock className="h-4 w-4" />Locked: development access only.</p>
+            <p className="flex items-center gap-2 text-sm" data-testid="text-experimental-locked"><Lock className="h-4 w-4" />This test is locked.</p>
           ) : <p role="alert" className="text-sm text-destructive">{errText(status.error)}</p>
         ) : !s.authorized ? (
-          <div className="flex items-start gap-2 text-sm" data-testid="text-experimental-locked"><Lock className="h-4 w-4 mt-0.5 shrink-0" /><div><p className="font-semibold">Locked: development access only.</p><p className="text-muted-foreground">{s.reason}</p></div></div>
+          <div className="flex items-start gap-2 text-sm" data-testid="text-experimental-locked"><Lock className="h-4 w-4 mt-0.5 shrink-0" /><div><p className="font-semibold">This test is locked.</p><p className="text-muted-foreground">{s.reason}</p></div></div>
         ) : !s.available ? (
-          <div className="text-sm" role="status" data-testid="text-experimental-unavailable"><p className="font-semibold">Experimental models are unavailable.</p><p className="text-muted-foreground">{s.reason}</p><p className="text-muted-foreground mt-1">Use Refresh status to check again.</p></div>
+          <div className="text-sm" role="status" data-testid="text-experimental-unavailable"><p className="font-semibold">The test model is not ready.</p><p className="text-muted-foreground">{s.reason}</p><p className="text-muted-foreground mt-1">Choose “Check again” to look later.</p></div>
         ) : (
           <>
-            <p className="text-sm" data-testid="text-ml-status">{s.productionPredictionsEnabled ? "Experimental predictions are enabled for testing." : "Experimental predictions are not currently enabled."}{" "}{s.scientificallyValidated ? "" : "They are not validated for farming decisions and have no calibrated confidence."}</p>
-            <details className="text-xs" data-testid="details-experimental-availability"><summary className="cursor-pointer text-accent">Availability details</summary><p className="mt-1 font-mono text-muted-foreground break-all">{s.reason.replaceAll("_", " ")}</p></details>
+            <p className="text-sm" data-testid="text-ml-status">{s.productionPredictionsEnabled ? "The test model can run." : "The test model is off right now."}{" "}{s.scientificallyValidated ? "" : "It has not passed its checks. Do not use it to choose crops."}</p>
+            <details className="text-xs" data-testid="details-experimental-availability"><summary className="cursor-pointer text-accent">More about this test</summary><p className="mt-1 font-mono text-muted-foreground break-all">{s.reason.replaceAll("_", " ")}</p></details>
             <div className="grid md:grid-cols-2 gap-3">
               {s.models.map((m) => (
                 <div key={m.cropCode} className="rounded-2xl border border-border p-3 space-y-2" data-testid={`experimental-model-${m.cropCode}`}>
-                  <div className="flex flex-wrap items-center justify-between gap-2"><span className="font-semibold text-sm">{m.name}</span><span className="rounded-full bg-destructive/10 text-destructive px-2 py-0.5 text-[10.5px] font-semibold uppercase">Not validated</span></div>
-                  <details className="text-xs" data-testid={`details-model-metrics-${m.cropCode}`}><summary className="cursor-pointer font-semibold text-accent">Validation metrics and limits</summary>
-                    <p className="mt-2 text-muted-foreground">MAE is the average size of prediction errors, measured in index points. R² describes fit to the development data. These are not local-farm accuracy estimates.</p>
+                  <div className="flex flex-wrap items-center justify-between gap-2"><span className="font-semibold text-sm">{m.name}</span><span className="rounded-full bg-destructive/10 text-destructive px-2 py-0.5 text-[10.5px] font-semibold uppercase">Test only</span></div>
+                  <details className="text-xs" data-testid={`details-model-metrics-${m.cropCode}`}><summary className="cursor-pointer font-semibold text-accent">More test details</summary>
+                    <p className="mt-2 text-muted-foreground">The error number shows how far the test guesses were from the old data. R² shows how well it fit that data. These numbers do not show how well it works on your farm.</p>
                     <dl className="mt-2 grid grid-cols-2 sm:grid-cols-3 gap-2">
                       <Kv k="Model variant" v={m.selected} /><Kv k="Validation MAE" v={num(m.validationMae)} /><Kv k="Validation R²" v={num(m.validationR2)} />
                       <Kv k="Mean baseline MAE" v={num(m.meanBaselineMae)} /><Kv k="Median baseline MAE" v={num(m.medianBaselineMae)} /><Kv k="Training / validation cells" v={`${m.trainedCells} / ${m.validationCells}`} />
                     </dl>
-                    <p className="mt-2 text-muted-foreground">These development metrics are not estimates of accuracy for a local farm. The model also failed its geographic-support screen.</p>
+                    <p className="mt-2 text-muted-foreground">These numbers are not a farm accuracy score. The model also failed its location check.</p>
                     {m.rejectionReasons.length > 0 && <ul className="mt-2 list-disc pl-5 space-y-0.5">{m.rejectionReasons.map((reason) => <li key={reason}>{reason.replaceAll("_", " ")}</li>)}</ul>}
                     <p className="mt-2 text-muted-foreground"><span className="font-semibold">Geographic limits:</span> {m.geographicLimitations}</p>
                     <p className="mt-2 font-mono text-muted-foreground">Crop code: {m.cropCode} · Validation status: {m.validationStatus.replaceAll("_", " ")}</p>
@@ -186,7 +224,7 @@ export function ExperimentalMl({ farmId }: { farmId: number }) {
             </div>
             <div className="grid sm:grid-cols-[1fr_auto] gap-3 items-end">
               <div className="space-y-1.5">
-                <Label htmlFor="exp-crop" className="text-xs uppercase tracking-wider">Choose a crop for the test</Label>
+                <Label htmlFor="exp-crop" className="text-xs uppercase tracking-wider">Which crop should we test?</Label>
                 <select id="exp-crop" value={crop} onChange={(e) => {
                   const v = e.target.value as ExperimentalPredictionInputCropCode | "";
                   if (v) sessionStorage.setItem(cropKey(farmId), v); else sessionStorage.removeItem(cropKey(farmId));
@@ -197,7 +235,7 @@ export function ExperimentalMl({ farmId }: { farmId: number }) {
                 </select>
               </div>
               <Button type="button" onClick={() => submit(failed)} disabled={!crop || !ack || run.isPending || preparing || waitSeconds > 0} className="rounded-full" data-testid="button-run-experimental">
-                {run.isPending && <Loader2 className="h-4 w-4 animate-spin" />}{waitSeconds > 0 ? `Retry in ${waitSeconds}s` : preparing ? "Estimate running" : failed ? "Retry experimental model" : "Run experimental model"}
+                {run.isPending && <Loader2 className="h-4 w-4 animate-spin" />}{waitSeconds > 0 ? `Try again in ${waitSeconds}s` : preparing ? "Test is running" : failed ? "Try again" : "Start test"}
               </Button>
             </div>
             {wait && <div role="status" className="rounded-xl border border-border bg-secondary/60 px-3 py-2 text-sm" data-testid="text-estimate-admission">
@@ -206,11 +244,11 @@ export function ExperimentalMl({ farmId }: { farmId: number }) {
             </div>}
             <div className="flex items-start gap-2">
               <Checkbox id="exp-ack" checked={ack} onCheckedChange={(v) => setAck(v === true)} disabled={!crop} data-testid="checkbox-experimental-ack" />
-              <Label htmlFor="exp-ack" className="text-sm font-normal leading-snug">I understand this model failed validation and its output must not be used for real farming decisions.</Label>
+              <Label htmlFor="exp-ack" className="text-sm font-normal leading-snug">I know this test may be wrong. I will not use it to choose crops.</Label>
             </div>
             <div className="flex items-start gap-2 rounded-xl border border-border p-3">
               <Checkbox id="exp-est" checked={allowEst} onCheckedChange={(v) => setAllowEst(v === true)} data-testid="checkbox-allow-estimated" />
-              <Label htmlFor="exp-est" className="text-sm font-normal leading-snug"><span className="font-semibold">Allow estimated soil inputs.</span> If SoilGrids does not fully cover this cell, use partial coverage or the nearest recorded training cell. Results are flagged as estimated. Untick to require original inputs only.</Label>
+              <Label htmlFor="exp-est" className="text-sm font-normal leading-snug"><span className="font-semibold">Allow soil-map guesses.</span> If the soil map is missing some data, use the parts we have or data from the nearest training place. The result will say this. Turn this off to stop unless the original data is available.</Label>
             </div>
             {error && (
               <div role="alert" className="rounded-xl bg-destructive/10 text-destructive px-3 py-2 text-sm flex flex-wrap items-center justify-between gap-2" data-testid="text-experimental-error">
@@ -219,7 +257,7 @@ export function ExperimentalMl({ farmId }: { farmId: number }) {
               </div>
             )}
             {shown && <MlJobView job={shown} />}
-            {shown && shown.allowEstimatedInputs !== allowEst && <p className="text-sm text-muted-foreground" data-testid="text-estimate-inputs-changed">The displayed run used a different estimated-soil setting. Run again to apply the current setting; the previous result has not been changed.</p>}
+            {shown && shown.allowEstimatedInputs !== allowEst && <p className="text-sm text-muted-foreground" data-testid="text-estimate-inputs-changed">This result used a different soil setting. Start a new test to use the setting you picked. The old result will stay the same.</p>}
             {failed && ack && <Button type="button" size="sm" variant="outline" className="rounded-full" onClick={() => submit(true)} disabled={run.isPending || waitSeconds > 0} data-testid="button-rerun-experimental">Retry with current input settings</Button>}
           </>
         )}

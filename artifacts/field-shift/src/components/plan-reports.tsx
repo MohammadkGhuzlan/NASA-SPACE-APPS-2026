@@ -36,9 +36,9 @@ function errorMessage(e: unknown): string {
 function StatusTag({ s }: { s: string }) {
   const ok = s === "reference_based_plan" || s === "conditional_candidate";
   const label = ({
-    reference_based_plan: "Reference findings",
-    conditional_candidate: "Conditional finding",
-    insufficient_evidence: "Not enough evidence",
+    reference_based_plan: "Crop facts found",
+    conditional_candidate: "Check this",
+    insufficient_evidence: "Not enough facts",
   } as Record<string, string>)[s] ?? humanize(s);
   return <span className={cn("inline-flex rounded-full border px-2.5 py-0.5 font-mono text-[10.5px] uppercase tracking-wider",
     ok ? "bg-secondary border-[hsl(92_20%_70%)] text-secondary-foreground" : "bg-[hsl(38_70%_50%/.14)] text-[hsl(30_60%_30%)] border-[hsl(38_70%_50%/.35)]")}>{label}</span>;
@@ -88,70 +88,70 @@ function ReportSummary({ report }: { report: FarmingPlanReport }) {
   return (
     <section className="rounded-3xl border border-card-border bg-card p-5 md:p-6" aria-labelledby="report-summary-heading" data-testid="report-summary">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h3 id="report-summary-heading" className="font-display text-2xl text-primary">At a glance</h3>
-        <Tag kind="farmer">Saved farm and scenario inputs</Tag>
+        <h3 id="report-summary-heading" className="font-display text-2xl text-primary">Your report</h3>
+        <Tag kind="farmer">Saved farm and plan details</Tag>
       </div>
       <p className="mt-2 text-sm text-muted-foreground">
         {report.status === "insufficient_evidence"
-          ? "There was not enough reference information to build a plan. No substitute values were added."
-          : "This is a screening report based on limited crop references and the evidence recorded at the time. It is not a farm recommendation, suitability score, or yield forecast."}
+          ? "We did not have enough crop facts to make this report. We did not fill in missing facts."
+          : "This report uses crop facts and the details you shared. It is not a promise, a crop score, or a harvest guess."}
         {" "}{report.mlPredictions
-          ? "The experimental model output below is unvalidated and was not used to rank rotation scenarios."
-          : "No experimental model output is included in this report."}
+          ? "The test model number below may be wrong. It did not choose or rank your crop plans."
+          : "This report has no test model number."}
       </p>
       <div className="mt-4 grid gap-4 md:grid-cols-2">
         <div className="rounded-2xl bg-muted/60 p-4">
-          <h4 className="text-sm font-semibold">Farm profile snapshot</h4>
+          <h4 className="text-sm font-semibold">About the farm</h4>
           <dl className="mt-2 space-y-2 text-sm">
             <div><dt className="text-xs text-muted-foreground">Farm</dt><dd>{profileText(farm.name)}</dd></div>
             <div><dt className="text-xs text-muted-foreground">Location</dt><dd>{profileText(farm.locationName)}</dd></div>
-            <div><dt className="text-xs text-muted-foreground">Current crop reported</dt><dd>{currentCrop}</dd></div>
-            <div><dt className="text-xs text-muted-foreground">Crop history in profile</dt><dd>{profileHistory}</dd></div>
-            <div><dt className="text-xs text-muted-foreground">Irrigation reported</dt><dd>{profileText(farm.irrigation, "Not provided").replaceAll("_", " ")}</dd></div>
-            <div><dt className="text-xs text-muted-foreground">Soil type / pH / moisture</dt><dd>{profileText(farm.soilType)} · pH {soilPh} · moisture {soilMoisture}</dd></div>
+            <div><dt className="text-xs text-muted-foreground">Crop now</dt><dd>{currentCrop}</dd></div>
+            <div><dt className="text-xs text-muted-foreground">Past crops</dt><dd>{profileHistory}</dd></div>
+            <div><dt className="text-xs text-muted-foreground">Watering</dt><dd>{profileText(farm.irrigation, "Not added").replaceAll("_", " ")}</dd></div>
+            <div><dt className="text-xs text-muted-foreground">Soil type, pH and wetness</dt><dd>{profileText(farm.soilType)} · pH {soilPh} · wetness {soilMoisture}</dd></div>
             <div><dt className="text-xs text-muted-foreground">Farm size</dt><dd>{farmSize}</dd></div>
-            <div><dt className="text-xs text-muted-foreground">Water resources / limits</dt><dd className="break-words">{profileText(farm.waterResources)} · {profileText(farm.waterConstraints)}</dd></div>
-            <div><dt className="text-xs text-muted-foreground">Other farming constraints</dt><dd className="break-words">{profileText(farm.agriculturalConstraints)}</dd></div>
+            <div><dt className="text-xs text-muted-foreground">Water sources and limits</dt><dd className="break-words">{profileText(farm.waterResources)} · {profileText(farm.waterConstraints)}</dd></div>
+            <div><dt className="text-xs text-muted-foreground">Other farm limits</dt><dd className="break-words">{profileText(farm.agriculturalConstraints)}</dd></div>
           </dl>
-          <p className="mt-2 text-xs text-muted-foreground">Profile values are farmer-entered and not independently verified. Blank values have not been filled in.</p>
+          <p className="mt-2 text-xs text-muted-foreground">These details came from you. We have not checked them. Empty boxes stay empty.</p>
         </div>
         <div className="rounded-2xl bg-muted/60 p-4">
-          <h4 className="text-sm font-semibold">Plan entered for this report</h4>
+          <h4 className="text-sm font-semibold">Your plan</h4>
           <dl className="mt-2 space-y-2 text-sm">
-            <div><dt className="text-xs text-muted-foreground">Rotation sequence</dt>
-              <dd>{rotation.length ? rotation.map((crop, index) => `${index + 1}. ${crop}`).join(" → ") : `Based on reported current crop: ${currentCrop}`}</dd></div>
-            {previousCrops.length > 0 && <div><dt className="text-xs text-muted-foreground">Earlier crops entered for this plan</dt><dd>{previousCrops.join(", ")}</dd></div>}
-            {priority && <div><dt className="text-xs text-muted-foreground">Planning focus</dt><dd>{priority}</dd></div>}
-            {water !== null && <div><dt className="text-xs text-muted-foreground">Seasonal water estimate entered</dt><dd>{water} mm · farmer estimate, not a measured water supply</dd></div>}
+            <div><dt className="text-xs text-muted-foreground">Crop order</dt>
+              <dd>{rotation.length ? rotation.map((crop, index) => `${index + 1}. ${crop}`).join(" → ") : `Based on the crop you grow now: ${currentCrop}`}</dd></div>
+            {previousCrops.length > 0 && <div><dt className="text-xs text-muted-foreground">Past crops</dt><dd>{previousCrops.join(", ")}</dd></div>}
+            {priority && <div><dt className="text-xs text-muted-foreground">What matters most</dt><dd>{priority}</dd></div>}
+            {water !== null && <div><dt className="text-xs text-muted-foreground">Your water guess</dt><dd>{water} mm · your estimate, not a measurement</dd></div>}
           </dl>
         </div>
         <div className="rounded-2xl bg-muted/60 p-4">
-          <h4 className="text-sm font-semibold">Findings to review</h4>
+          <h4 className="text-sm font-semibold">What we found</h4>
           {findings.length
             ? <ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm">{findings.map((finding, index) => <li key={`${finding.code}-${index}`}>{finding.message}</li>)}</ul>
-            : <p className="mt-2 text-sm text-muted-foreground">No findings were recorded. This does not mean a crop or rotation is suitable.</p>}
+            : <p className="mt-2 text-sm text-muted-foreground">We found no crop facts to show. This does not mean the plan will work.</p>}
         </div>
       </div>
       <div className="mt-4 grid gap-4 md:grid-cols-2">
         <div>
-          <h4 className="text-sm font-semibold">Information still needed</h4>
+          <h4 className="text-sm font-semibold">Details still needed</h4>
           {missing.length
             ? <ul className="mt-2 list-disc space-y-1 pl-5 text-sm">{missing.slice(0, 4).map((item, index) => <li key={`${item}-${index}`}>{item}</li>)}</ul>
-            : <p className="mt-2 text-sm text-muted-foreground">No missing information was flagged in this snapshot. This does not mean the farm details were independently verified.</p>}
-          {missing.length > 4 && <p className="mt-1 text-xs text-muted-foreground">{missing.length - 4} more item(s) are listed below.</p>}
+            : <p className="mt-2 text-sm text-muted-foreground">No empty details were found. We still have not checked if they are true.</p>}
+          {missing.length > 4 && <p className="mt-1 text-xs text-muted-foreground">{missing.length - 4} more details are listed below.</p>}
         </div>
         <div>
-          <h4 className="text-sm font-semibold">Useful local checks</h4>
+          <h4 className="text-sm font-semibold">Things to check</h4>
           <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
-            <li>Confirm seasonal water availability, soil conditions, and management limits for this field before comparing options.</li>
-            {includesRice && <li>If rice is recorded generically, confirm whether it is dryland or wetland rice; published evidence treats them separately.</li>}
-            <li>Review timing, rotation breaks, equipment, and local crop conditions with a local extension adviser.</li>
+            <li>Check how much water you can use and what your soil is like.</li>
+            {includesRice && <li>Check if the rice grows in dry ground or under water.</li>}
+            <li>Ask a local farm helper before changing your plan.</li>
           </ul>
         </div>
       </div>
       {report.mlPredictions && (
         <p role="note" className="mt-4 rounded-xl border border-[hsl(38_70%_50%/.5)] bg-[hsl(38_70%_50%/.14)] px-3 py-2 text-sm font-semibold">
-          Unvalidated model outputs are included in this saved snapshot. They failed scientific acceptance, have no calibrated confidence, and are not safe for farming decisions.
+          This report has a test model number. It has not passed its checks and may be wrong. Do not use it to choose what to grow.
         </p>
       )}
     </section>
@@ -159,10 +159,10 @@ function ReportSummary({ report }: { report: FarmingPlanReport }) {
 }
 
 const priorityOptions = [
-  { value: "conserve_water", label: "Conserve water" },
-  { value: "soil_health", label: "Support soil health" },
-  { value: "reduce_risk", label: "Reduce rotation risks" },
-  { value: "productivity", label: "Improve productivity" },
+  { value: "conserve_water", label: "Use less water" },
+  { value: "soil_health", label: "Help the soil" },
+  { value: "reduce_risk", label: "Lower risk" },
+  { value: "productivity", label: "Grow more" },
 ] as const;
 
 function ReportForm({ farmId, defaultCrop, defaultPriority, onCreated }: { farmId: number; defaultCrop: string; defaultPriority: string; onCreated: (id: number) => void }) {
@@ -181,13 +181,13 @@ function ReportForm({ farmId, defaultCrop, defaultPriority, onCreated }: { farmI
   function submit(e: FormEvent) {
     e.preventDefault();
     const data: FarmingPlanInput = { currentRotation: split(rotation), previousCrops: split(previous), excludedCrops: split(excluded), operationalLimitations: limits.trim(), priority: priority as FarmingPlanInput["priority"] };
-    if (data.currentRotation!.length > 6) return setError("Planned rotation allows at most 6 crops.");
-    if (data.previousCrops!.length > 12) return setError("Previous crops allows at most 12 entries.");
-    if (data.excludedCrops!.length > 20) return setError("Excluded crops allows at most 20 entries.");
+    if (data.currentRotation!.length > 6) return setError("Use 6 crops or fewer in your plan.");
+    if (data.previousCrops!.length > 12) return setError("Add 12 past crops or fewer.");
+    if (data.excludedCrops!.length > 20) return setError("Leave out 20 crops or fewer.");
     if (plantingDate) data.plantingDate = plantingDate;
     if (water.trim() !== "") {
       const n = Number(water);
-      if (!Number.isFinite(n) || n < 0 || n > 10000) return setError("Seasonal water must be a number from 0 to 10000 mm.");
+      if (!Number.isFinite(n) || n < 0 || n > 10000) return setError("Water must be a number from 0 to 10,000 mm.");
       data.availableSeasonalWaterMm = n;
     }
     setError("");
@@ -199,36 +199,36 @@ function ReportForm({ farmId, defaultCrop, defaultPriority, onCreated }: { farmI
 
   return (
     <form onSubmit={submit} className="rounded-3xl bg-primary text-primary-foreground furrows p-6 flex flex-col gap-4" data-testid="form-generate-report">
-      <div><h3 className="font-display text-2xl">Save a report</h3><p className="text-sm opacity-80 mt-1">This saves the rotation and evidence as they are now. Optional water is your estimate, not a measured supply. Manual drafts stay unchanged.</p></div>
+      <div><h3 className="font-display text-2xl">Make and save a report</h3><p className="text-sm opacity-80 mt-1">This saves a copy of your answers and the crop facts we have now. Water is your guess, not a measurement. Your other plans will not change.</p></div>
       {[
-        { id: "rotation", l: "Current rotation (in order, comma separated)", v: rotation, s: setRotation, p: "e.g. Wheat, Pea" },
-        { id: "previous", l: "Previous crops, oldest first", v: previous, s: setPrevious, p: "e.g. Barley, Potato" },
-        { id: "excluded", l: "Crops to exclude", v: excluded, s: setExcluded, p: "Names from the reference library" },
+        { id: "rotation", l: "Crops in your plan, in order", v: rotation, s: setRotation, p: "Example: wheat, then pea" },
+        { id: "previous", l: "Past crops, oldest first", v: previous, s: setPrevious, p: "Example: barley, then potato" },
+        { id: "excluded", l: "Crops to leave out", v: excluded, s: setExcluded, p: "Use names from the crop guide" },
       ].map((f) => (
         <div key={f.id} className="space-y-1.5"><Label htmlFor={`plan-${f.id}`} className="text-xs uppercase tracking-wider opacity-80">{f.l}</Label>
           <Input id={`plan-${f.id}`} value={f.v} onChange={(e) => f.s(e.target.value)} placeholder={f.p} className="bg-primary-foreground/95 text-foreground" data-testid={`input-plan-${f.id}`} /></div>
       ))}
       <div className="space-y-1.5">
-        <Label htmlFor="plan-priority" className="text-xs uppercase tracking-wider opacity-80">Main planning priority</Label>
+        <Label htmlFor="plan-priority" className="text-xs uppercase tracking-wider opacity-80">What matters most?</Label>
         <select id="plan-priority" value={priority} onChange={(e) => setPriority(e.target.value)}
           className="h-10 w-full rounded-md border border-input bg-primary-foreground/95 px-3 text-sm text-foreground"
           data-testid="select-plan-priority">
           {priorityOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
         </select>
-        <p className="text-xs opacity-75">This changes transparent rule ordering only. Productivity cannot be optimized without verified yield or market data.</p>
+        <p className="text-xs opacity-75">This helps choose which crop facts to show first. It cannot tell which crop will give the biggest harvest.</p>
       </div>
       <div className="grid sm:grid-cols-2 gap-3">
-        <div className="space-y-1.5"><Label htmlFor="plan-date" className="text-xs uppercase tracking-wider opacity-80">Planting date (optional)</Label>
+        <div className="space-y-1.5"><Label htmlFor="plan-date" className="text-xs uppercase tracking-wider opacity-80">When might you plant? (optional)</Label>
           <Input id="plan-date" type="date" value={plantingDate} onChange={(e) => setPlantingDate(e.target.value)} className="bg-primary-foreground/95 text-foreground" data-testid="input-plan-date" /></div>
-        <div className="space-y-1.5"><Label htmlFor="plan-water" className="text-xs uppercase tracking-wider opacity-80">Seasonal water, mm (optional)</Label>
+        <div className="space-y-1.5"><Label htmlFor="plan-water" className="text-xs uppercase tracking-wider opacity-80">Water for the whole season, in mm (optional)</Label>
           <Input id="plan-water" type="number" min={0} max={10000} step="any" value={water} onChange={(e) => setWater(e.target.value)} className="bg-primary-foreground/95 text-foreground" data-testid="input-plan-water" /></div>
       </div>
-      <p className="text-xs opacity-75 -mt-2">Water: your own estimate of total crop-available water for the season (rain, stored soil water and irrigation), not irrigation depth alone. The date is a scenario assumption, not validated local planting advice.</p>
-      <div className="space-y-1.5"><Label htmlFor="plan-limits" className="text-xs uppercase tracking-wider opacity-80">Operational limitations</Label>
-        <Textarea id="plan-limits" rows={2} maxLength={2000} value={limits} onChange={(e) => setLimits(e.target.value)} placeholder="Machinery, labour, markets..." className="bg-primary-foreground/95 text-foreground" data-testid="input-plan-limits" /></div>
+      <p className="text-xs opacity-75 -mt-2">mm is a way to measure water. Add your guess for rain, saved water and watering. This is not a measurement. The planting day is your guess, not local advice.</p>
+      <div className="space-y-1.5"><Label htmlFor="plan-limits" className="text-xs uppercase tracking-wider opacity-80">Farm limits</Label>
+        <Textarea id="plan-limits" rows={2} maxLength={2000} value={limits} onChange={(e) => setLimits(e.target.value)} placeholder="Machines, workers or markets..." className="bg-primary-foreground/95 text-foreground" data-testid="input-plan-limits" /></div>
       {error && <p role="alert" className="rounded-xl bg-destructive/90 text-destructive-foreground px-3 py-2 text-sm" data-testid="text-plan-error">{error}</p>}
       <Button type="submit" variant="secondary" disabled={gen.isPending} className="rounded-full" data-testid="button-generate-report">
-        {gen.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <FileText className="h-4 w-4" />}Generate and save report
+        {gen.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <FileText className="h-4 w-4" />}Make report
       </Button>
     </form>
   );
@@ -239,11 +239,11 @@ function ReportView({ r }: { r: FarmingPlanReport }) {
   return (
     <div className="space-y-4 rise" data-testid={`report-${r.id}`}>
       <div className="rounded-3xl border border-card-border bg-card p-6">
-        <div className="flex flex-wrap items-center gap-2"><StatusTag s={r.status} /><Tag kind="unassessed">{r.mlPredictions ? "Experimental output included" : "Reference rules only"}</Tag></div>
+        <div className="flex flex-wrap items-center gap-2"><StatusTag s={r.status} /><Tag kind="unassessed">{r.mlPredictions ? "Test number included" : "Crop facts only"}</Tag></div>
         <h3 className="font-display text-3xl text-primary mt-3">Saved report</h3>
         <p className="text-sm text-muted-foreground mt-1">{fmt(r.createdAt)}</p>
         <details className="mt-3 text-sm" data-testid={`details-report-technical-${r.id}`}>
-          <summary className="cursor-pointer font-semibold text-accent">Technical report details</summary>
+          <summary className="cursor-pointer font-semibold text-accent">Extra report details</summary>
           <dl className="mt-2 grid gap-1 text-xs sm:grid-cols-2">
             <div><dt className="text-muted-foreground">Report number</dt><dd className="font-mono">{r.id}</dd></div>
             <div><dt className="text-muted-foreground">Reference set</dt><dd className="font-mono break-all">{r.knowledgeVersion}</dd></div>
@@ -255,9 +255,9 @@ function ReportView({ r }: { r: FarmingPlanReport }) {
 
       <ReportSummary report={r} />
 
-      <Section title="Rotation scenarios">
-        <p className="mb-4 text-sm text-muted-foreground">These are alternatives to review, not a ranked list. The reference rules do not predict harvest, profit, or guaranteed soil benefits.</p>
-        {r.scenarios.length === 0 ? <p className="text-sm text-muted-foreground italic">No scenarios were recorded in this report.</p> : (
+      <Section title="Crop plan ideas">
+        <p className="mb-4 text-sm text-muted-foreground">These are ideas to check, not a list of best crops. Crop facts cannot tell how much you will grow or earn.</p>
+        {r.scenarios.length === 0 ? <p className="text-sm text-muted-foreground italic">No crop plans were saved in this report.</p> : (
           <div className="grid xl:grid-cols-3 gap-4">
             {r.scenarios.map((s) => {
               const total = s.waterRequirementMm?.length ? s.waterRequirementMm : null;
@@ -265,13 +265,13 @@ function ReportView({ r }: { r: FarmingPlanReport }) {
                 <div key={s.slot} className="min-w-0 rounded-2xl border border-border p-4 flex flex-col gap-3" data-testid={`scenario-${s.slot}`}>
                   <div className="flex flex-wrap items-center justify-between gap-2"><span className="font-display text-xl">{s.title}</span><StatusTag s={s.status} /></div>
                   <ol className="flex flex-wrap gap-1.5">{s.crops.map((c, i) => <li key={i} className="rounded-full bg-secondary px-2.5 py-1 text-sm"><span className="font-mono text-[10px] mr-1 opacity-60">{i + 1}</span>{c}</li>)}</ol>
-                  {total && <p className="text-sm"><span className="font-semibold">{total.length >= 2 ? `${total[0]}–${total[1]}` : total[0]} mm</span> <span className="text-muted-foreground">indicative total from crop references; not a measured farm value or irrigation target</span></p>}
-                  <div><p className="text-xs uppercase tracking-wider text-muted-foreground mb-1.5">Potential benefits and tradeoffs</p><Findings items={s.benefits} refs={refs} tone="benefit" empty="None recorded." testid={`benefit-${s.slot}`} /></div>
-                  <div><p className="text-xs uppercase tracking-wider text-muted-foreground mb-1.5">Risks to check locally</p><Findings items={s.risks} refs={refs} tone="risk" empty="None recorded." testid={`risk-${s.slot}`} /></div>
+                  {total && <p className="text-sm"><span className="font-semibold">{total.length >= 2 ? `${total[0]}–${total[1]}` : total[0]} mm</span> <span className="text-muted-foreground">a broad crop-guide guess, not a farm measurement or watering rule</span></p>}
+                  <div><p className="text-xs uppercase tracking-wider text-muted-foreground mb-1.5">What may help</p><Findings items={s.benefits} refs={refs} tone="benefit" empty="Nothing listed." testid={`benefit-${s.slot}`} /></div>
+                  <div><p className="text-xs uppercase tracking-wider text-muted-foreground mb-1.5">Things to watch</p><Findings items={s.risks} refs={refs} tone="risk" empty="Nothing listed." testid={`risk-${s.slot}`} /></div>
                   {s.schedule.length > 0 && (
-                    <details className="group"><summary className="cursor-pointer text-sm font-semibold text-accent">Timing details ({s.schedule.length} crops)</summary>
+                    <details className="group"><summary className="cursor-pointer text-sm font-semibold text-accent">When crops may grow ({s.schedule.length})</summary>
                       <div className="mt-2 space-y-2">{s.schedule.map((row, i) => <div key={i} className="rounded-xl bg-muted/60 p-3"><RecordView record={row} /></div>)}</div>
-                      <p className="text-xs text-muted-foreground mt-2">Dates use the entered planting date and broad reference ranges. They are not a local planting calendar.</p>
+                      <p className="text-xs text-muted-foreground mt-2">These dates use your guess and broad crop facts. They are not a local planting calendar.</p>
                     </details>
                   )}
                 </div>
@@ -297,18 +297,18 @@ function ReportView({ r }: { r: FarmingPlanReport }) {
         </div>
       </Section>}
 
-      <Section title="Reference candidates" aside={<span className="text-xs text-muted-foreground">{r.candidates.length} crops evaluated</span>}>
-        {r.candidates.length === 0 ? <p className="text-sm text-muted-foreground italic">No candidates.</p> : (
+      <Section title="Crops checked" aside={<span className="text-xs text-muted-foreground">{r.candidates.length} crops</span>}>
+        {r.candidates.length === 0 ? <p className="text-sm text-muted-foreground italic">No crops were checked.</p> : (
           <div className="grid lg:grid-cols-2 gap-4">
             {r.candidates.map((c) => (
               <div key={c.crop.id} className="rounded-2xl border border-border p-4 space-y-3" data-testid={`candidate-${c.crop.id}`}>
                 <div className="flex items-center justify-between gap-2"><span className="font-display text-xl">{c.crop.name} <span className="text-sm text-muted-foreground font-sans">{humanize(c.crop.group)}</span></span><StatusTag s={c.status} /></div>
                 <Findings items={c.reasons} refs={refs} empty="No reasons recorded." testid={`reason-${c.crop.id}`} />
                 <Findings items={c.risks} refs={refs} tone="risk" empty="No risks recorded." testid={`crisk-${c.crop.id}`} />
-                {c.modelEstimates && c.modelEstimates.length > 0 && <details><summary className="cursor-pointer text-sm font-semibold text-accent">Unvalidated ML estimates ({c.modelEstimates.length})</summary>
+                 {c.modelEstimates && c.modelEstimates.length > 0 && <details><summary className="cursor-pointer text-sm font-semibold text-accent">Test model numbers ({c.modelEstimates.length})</summary>
                   <div className="mt-2 space-y-2">{c.modelEstimates.map((j) => <MlJobView key={j.jobId} job={j} saved />)}</div></details>}
                 {c.screen && <details data-testid={`details-candidate-screen-${c.crop.id}`}><summary className="cursor-pointer text-sm font-semibold text-accent">Detailed screening record</summary><div className="mt-2 rounded-xl bg-muted/60 p-3"><RecordView record={c.screen as Record<string, unknown>} /></div></details>}
-                <details><summary className="cursor-pointer text-sm font-semibold text-accent">Calendar and context</summary>
+                 <details><summary className="cursor-pointer text-sm font-semibold text-accent">Growing time and place</summary>
                   <div className="mt-2 space-y-3"><RecordView record={c.calendar} /><RecordView record={c.environmentalContext} /></div>
                 </details>
               </div>
@@ -318,23 +318,23 @@ function ReportView({ r }: { r: FarmingPlanReport }) {
       </Section>
 
       <details className="rounded-3xl border border-card-border bg-card p-5 md:p-6" data-testid={`details-report-evidence-${r.id}`}>
-        <summary className="cursor-pointer font-display text-2xl text-primary">Detailed evidence, limitations, and citations</summary>
+        <summary className="cursor-pointer font-display text-2xl text-primary">More facts and where they came from</summary>
         <div className="mt-4 space-y-4">
           {r.aiIntegration && <AnalysisStatus evidence={r.aiIntegration} />}
-          {r.warnings.length > 0 && <Section title={`Report limitations (${r.warnings.length})`}>
+          {r.warnings.length > 0 && <Section title={`What we do not know (${r.warnings.length})`}>
             <ul className="list-disc space-y-2 pl-5 text-sm">{r.warnings.map((warning, index) => <li key={index}>{warning}</li>)}</ul>
           </Section>}
-          <Section title="All management findings"><Findings items={r.management} refs={refs} empty="None recorded." testid="management" /></Section>
-          <Section title="All missing information">
-            {r.missingInformation.length ? <ul className="list-disc pl-5 space-y-1 text-sm">{r.missingInformation.map((item, index) => <li key={index}>{item}</li>)}</ul> : <p className="text-sm text-muted-foreground italic">Nothing was flagged in this snapshot.</p>}
+          <Section title="All farm notes"><Findings items={r.management} refs={refs} empty="No notes saved." testid="management" /></Section>
+          <Section title="Details not added">
+            {r.missingInformation.length ? <ul className="list-disc pl-5 space-y-1 text-sm">{r.missingInformation.map((item, index) => <li key={index}>{item}</li>)}</ul> : <p className="text-sm text-muted-foreground italic">No missing details were noted.</p>}
           </Section>
-          <Section title="Environmental evidence" aside={<Tag kind="observed">Saved snapshot</Tag>}><RecordView record={r.environmentalEvidence} /></Section>
-          <Section title="Planning inputs as saved" aside={<Tag kind="farmer">Farm and scenario inputs</Tag>}><RecordView record={r.inputs} /></Section>
-          <Section title={`Sources cited (${refs.length})`}>
+          <Section title="Weather and land data" aside={<Tag kind="observed">Saved copy</Tag>}><RecordView record={r.environmentalEvidence} /></Section>
+          <Section title="Your saved answers" aside={<Tag kind="farmer">Farm and plan details</Tag>}><RecordView record={r.inputs} /></Section>
+          <Section title={`Where facts came from (${refs.length})`}>
             <ul className="space-y-3 text-sm">{refs.map((reference) => <li key={reference.id}>
               <a href={reference.url} target="_blank" rel="noreferrer" className="font-semibold text-primary hover:text-accent">{reference.title}</a>
               <span className="block text-xs text-muted-foreground">{reference.scope}</span>
-              <details className="mt-1 text-xs"><summary className="cursor-pointer text-accent">Source identifier</summary><span className="font-mono">{reference.id}</span></details>
+              <details className="mt-1 text-xs"><summary className="cursor-pointer text-accent">Extra source code</summary><span className="font-mono">{reference.id}</span></details>
             </li>)}</ul>
           </Section>
         </div>
@@ -355,13 +355,13 @@ export function PlanReports({ farmId, defaultCrop, defaultPriority }: { farmId: 
       <div className="pb-6">
         <p className="font-mono text-xs uppercase tracking-[0.18em] text-accent">Reference-based reports</p>
         <h2 id="reports-heading" className="font-display text-3xl md:text-4xl text-primary mt-2">Saved farming <span className="italic">reports</span></h2>
-        <p className="text-muted-foreground mt-2 max-w-3xl">These reports show limited checks against the <Link href="/knowledge" className="text-accent hover:underline" data-testid="link-planner-knowledge">crop reference library</Link> and saved farm evidence. They are not professional recommendations or crop rankings. Published FAO assessments and experimental model results are separate evidence, with their limits shown.</p>
+        <p className="text-muted-foreground mt-2 max-w-3xl">These reports compare your farm details with facts in the <Link href="/knowledge" className="text-accent hover:underline" data-testid="link-planner-knowledge">crop guide</Link>. They are not expert advice and do not rank crops. FAO maps and test model numbers are shown separately.</p>
       </div>
       <div className="grid lg:grid-cols-[22rem_1fr] gap-5 items-start">
         <div className="space-y-5 min-w-0">
           <ReportForm farmId={farmId} defaultCrop={defaultCrop} defaultPriority={defaultPriority} onCreated={setPicked} />
           <div className="rounded-3xl border border-card-border bg-card p-4">
-            <p className="text-sm font-semibold mb-2 px-1">History</p>
+            <p className="text-sm font-semibold mb-2 px-1">Saved reports</p>
             {list.isLoading ? <div className="space-y-2">{[0, 1, 2].map((i) => <Skeleton key={i} className="h-12 rounded-xl" />)}</div>
               : list.isError ? <div className="px-1"><p className="text-sm text-destructive">Reports could not be listed.</p><Button size="sm" variant="outline" className="mt-2 rounded-full" onClick={() => list.refetch()} data-testid="button-retry-plans"><RotateCcw className="h-3.5 w-3.5" />Retry</Button></div>
               : sorted.length === 0 ? <p className="text-sm text-muted-foreground px-1">No saved reports yet.</p>
@@ -369,7 +369,7 @@ export function PlanReports({ farmId, defaultCrop, defaultPriority }: { farmId: 
                   <li key={p.id}><button type="button" onClick={() => setPicked(p.id)} aria-current={p.id === selected}
                     className={cn("w-full text-left rounded-xl px-3 py-2 transition-colors", p.id === selected ? "bg-secondary" : "hover:bg-muted")} data-testid={`button-open-plan-${p.id}`}>
                     <span className="flex items-center justify-between gap-2"><span className="font-semibold text-sm">Saved {fmt(p.createdAt)}</span><StatusTag s={p.status} /></span>
-                    <span className="text-xs text-muted-foreground">Select to review this snapshot</span>
+                    <span className="text-xs text-muted-foreground">Select to open this saved report</span>
                   </button></li>))}</ul>}
           </div>
         </div>
@@ -378,7 +378,7 @@ export function PlanReports({ farmId, defaultCrop, defaultPriority }: { farmId: 
             <div className="rounded-3xl border-2 border-dashed border-input p-10 text-center">
               <FileText className="h-8 w-8 mx-auto text-muted-foreground" />
               <p className="font-display text-2xl text-primary mt-3">No report open</p>
-              <p className="text-sm text-muted-foreground mt-1">Generate one to see conditional, source-linked findings.</p>
+              <p className="text-sm text-muted-foreground mt-1">Make one to see crop facts and where they came from.</p>
             </div>
           ) : report.isLoading ? <div className="space-y-4"><Skeleton className="h-40 rounded-3xl" /><Skeleton className="h-72 rounded-3xl" /></div>
             : report.isError || !report.data ? (
@@ -387,13 +387,13 @@ export function PlanReports({ farmId, defaultCrop, defaultPriority }: { farmId: 
             ) : <ReportView key={report.data.id} r={report.data} />}
         </div>
       </div>
-      <div className="mt-8 space-y-5" aria-label="Additional evidence and experimental tools">
-        <h3 className="font-display text-2xl text-primary">Additional evidence and testing tools</h3>
-        <p className="text-sm text-muted-foreground">These sections provide supporting context. They do not change the reference-based rotation scenarios above.</p>
+      <div className="mt-8 space-y-5" aria-label="More crop facts and test tools">
+        <h3 className="font-display text-2xl text-primary">More crop facts and test tools</h3>
+        <p className="text-sm text-muted-foreground">These tools show more facts. They do not change your crop plans above.</p>
         <AnalysisStatus />
         <GaezEvidence farmId={farmId} defaultCrop={defaultCrop} />
         <ExperimentalMl key={farmId} farmId={farmId} />
-        <p className="text-sm font-semibold text-primary px-1">If you want to include experimental output in a report, run it here first, then save a new report. Each saved output remains marked unvalidated.</p>
+        <p className="text-sm font-semibold text-primary px-1">To save a test number in a report, run it here first. It will stay marked as a test result.</p>
       </div>
     </section>
   );

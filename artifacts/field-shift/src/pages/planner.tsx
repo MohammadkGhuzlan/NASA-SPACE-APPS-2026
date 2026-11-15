@@ -29,39 +29,39 @@ function FarmContextSummary({ farm }: { farm: Farm }) {
   ].filter((value): value is string => typeof value === "string");
   const checks = [
     (!farm.waterResources?.trim() || !farm.waterConstraints?.trim())
-      ? "Confirm the water actually available for the season and any limits on its use."
+      ? "Check how much water you can use this season."
       : null,
     (!farm.soilType?.trim() || farm.soilPh == null || farm.soilMoisture == null)
-      ? "If soil condition matters to a choice, use current field-specific information; blank profile fields are not measurements."
+      ? "To check this field's soil, use a new soil test. Empty boxes are not test results."
       : null,
     /rice/i.test(farm.currentCrop)
-      ? "If this is rice, confirm whether it is dryland or wetland rice before comparing rice evidence."
+      ? "Rice can grow in dry ground or under water. Check which kind you grow."
       : null,
-    "Review crop timing, rotation breaks, equipment, and local conditions with a local extension adviser before making changes.",
+    "Ask a local farm helper before you change your crop plan.",
   ].filter((value): value is string => typeof value === "string");
 
   return (
     <section className="mb-6 rounded-3xl border border-card-border bg-card p-5 md:p-6" aria-labelledby="farm-context-heading" data-testid="farm-context-summary">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 id="farm-context-heading" className="font-display text-2xl text-primary">Farm context</h2>
-        <Tag kind="farmer">Farmer reported</Tag>
+        <h2 id="farm-context-heading" className="font-display text-2xl text-primary">About this farm</h2>
+        <Tag kind="farmer">You told us</Tag>
       </div>
-      <p className="mt-1 text-sm text-muted-foreground">This is the information currently in the farm profile. Blank fields stay blank; nothing has been estimated for this summary.</p>
+      <p className="mt-1 text-sm text-muted-foreground">These are the details you shared. Empty answers stay empty. We do not guess.</p>
       <dl className="mt-4 grid gap-x-6 gap-y-3 sm:grid-cols-2 lg:grid-cols-4">
         <div><dt className="text-xs text-muted-foreground">Current crop</dt><dd className="font-semibold">{farm.currentCrop}</dd></div>
-        <div><dt className="text-xs text-muted-foreground">Rotation history</dt><dd className="font-semibold">{farm.cropHistory?.trim() || "Not provided"}</dd></div>
-        <div><dt className="text-xs text-muted-foreground">Main priority</dt><dd className="font-semibold">{goalLabel[farm.goal] ?? farm.goal}</dd></div>
-        <div><dt className="text-xs text-muted-foreground">Irrigation</dt><dd className="font-semibold">{irrigationLabel[farm.irrigation] ?? farm.irrigation}</dd></div>
+        <div><dt className="text-xs text-muted-foreground">Past crops</dt><dd className="font-semibold">{farm.cropHistory?.trim() || "Not added"}</dd></div>
+        <div><dt className="text-xs text-muted-foreground">What matters most</dt><dd className="font-semibold">{goalLabel[farm.goal] ?? farm.goal}</dd></div>
+        <div><dt className="text-xs text-muted-foreground">Watering</dt><dd className="font-semibold">{irrigationLabel[farm.irrigation] ?? farm.irrigation}</dd></div>
       </dl>
       <div className="mt-5 grid gap-5 border-t border-border pt-4 md:grid-cols-2">
         <div>
-          <h3 className="text-sm font-semibold">Important details not in the profile</h3>
+          <h3 className="text-sm font-semibold">Details not added yet</h3>
           {missing.length
-            ? <ul className="mt-2 flex flex-wrap gap-2">{missing.map((item) => <li key={item} className="rounded-full bg-muted px-3 py-1 text-xs">{item}: not provided</li>)}</ul>
-            : <p className="mt-2 text-sm text-muted-foreground">No blank profile fields were found. This does not mean the details were independently measured or verified.</p>}
+            ? <ul className="mt-2 flex flex-wrap gap-2">{missing.map((item) => <li key={item} className="rounded-full bg-muted px-3 py-1 text-xs">{item}: not added</li>)}</ul>
+            : <p className="mt-2 text-sm text-muted-foreground">You filled in every box. We have not checked if the answers are true.</p>}
         </div>
         <div>
-          <h3 className="text-sm font-semibold">Useful local checks</h3>
+          <h3 className="text-sm font-semibold">Things to check</h3>
           <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-muted-foreground">{checks.map((item) => <li key={item}>{item}</li>)}</ul>
         </div>
       </div>
@@ -103,7 +103,7 @@ function DraftEditor({ farmId, slot, label, existing }: { farmId: number; slot: 
       </div>
       <Input value={name} maxLength={120} onChange={(e) => setName(e.target.value)} aria-label={`Draft ${label} name`} className="font-display text-lg" data-testid={`input-draft-name-${slot}`} />
       <div>
-        <p className="text-sm font-semibold mb-2">Sequence ({crops.length}/6)</p>
+        <p className="text-sm font-semibold mb-2">Crop order ({crops.length} of 6)</p>
         <ol className="space-y-2">
           {crops.map((c, i) => (
             <li key={i} className="flex items-center gap-2">
@@ -115,16 +115,16 @@ function DraftEditor({ farmId, slot, label, existing }: { farmId: number; slot: 
         </ol>
         <Button type="button" variant="outline" size="sm" className="mt-3 rounded-full" disabled={crops.length >= 6} onClick={() => setCrops([...crops, ""])} data-testid={`button-add-crop-${slot}`}><Plus className="h-4 w-4" />Add crop</Button>
       </div>
-      <Textarea value={notes} maxLength={2000} rows={3} onChange={(e) => setNotes(e.target.value)} placeholder="Your reasoning, questions to check with an agronomist..." aria-label="Notes" data-testid={`input-notes-${slot}`} />
+      <Textarea value={notes} maxLength={2000} rows={3} onChange={(e) => setNotes(e.target.value)} placeholder="Why do you like this plan? What do you want to ask a farm helper?" aria-label="Notes" data-testid={`input-notes-${slot}`} />
       <div className="rounded-2xl bg-muted/70 p-4 space-y-2 text-sm">
-        {["Water suitability", "Soil health effect", "Risks"].map((k) => (
-          <div key={k} className="flex items-center justify-between gap-3"><span>{k}</span><Tag kind="unassessed">Unassessed</Tag></div>
+        {["Water check", "Soil check", "Things to watch"].map((k) => (
+          <div key={k} className="flex items-center justify-between gap-3"><span>{k}</span><Tag kind="unassessed">Not checked</Tag></div>
         ))}
-        <p className="text-xs text-muted-foreground pt-1">Manual drafts are not assessed. Generate a reference-based report below for conditional, source-linked findings. No score is computed.</p>
+        <p className="text-xs text-muted-foreground pt-1">These plans are ideas only. Make a report below to see what the crop guides say. We do not give your plans a score.</p>
       </div>
       {error && <p className="text-sm text-destructive">{error}</p>}
       <Button onClick={submit} disabled={save.isPending} className="rounded-full" data-testid={`button-save-${slot}`}>
-        {save.isPending && <Loader2 className="h-4 w-4 animate-spin" />}Save draft {label}
+        {save.isPending && <Loader2 className="h-4 w-4 animate-spin" />}Save plan {label}
       </Button>
     </div>
   );
@@ -143,16 +143,16 @@ export default function Planner() {
           <>
             <div className="rise pb-8">
               <Link href={`/farms/${id}`} className="font-mono text-xs uppercase tracking-[0.18em] text-accent hover:underline">{farm.data.name} /</Link>
-              <h1 className="font-display text-4xl md:text-6xl text-primary mt-2">Rotation <span className="italic">bench</span></h1>
-              <p className="text-muted-foreground mt-3 max-w-2xl">Write two alternatives beside the crop sequence you reported. Your drafts are not scored or assessed. Saved reports show limited source-based checks; experimental model results are separate and not safe for farming decisions.</p>
+              <h1 className="font-display text-4xl md:text-6xl text-primary mt-2">Your crop plans</h1>
+              <p className="text-muted-foreground mt-3 max-w-2xl">See what you grow now. Then write two new plans to compare. Your plans are ideas, not advice. Reports share crop facts. Test model guesses may be wrong.</p>
             </div>
             <FarmContextSummary farm={farm.data} />
             <div className="grid lg:grid-cols-3 gap-5">
               <div className="rounded-3xl bg-primary text-primary-foreground p-6 furrows flex flex-col gap-4">
-                <div className="flex items-center justify-between"><span className="font-display text-2xl">Today</span><Tag kind="farmer">Reported</Tag></div>
+                <div className="flex items-center justify-between"><span className="font-display text-2xl">Now</span><Tag kind="farmer">You told us</Tag></div>
                 <div><p className="text-xs uppercase tracking-wider opacity-70">Current crop</p><p className="font-display text-3xl mt-1" data-testid="text-current-crop">{farm.data.currentCrop}</p></div>
-                <div><p className="text-xs uppercase tracking-wider opacity-70">History</p><p className="mt-1 leading-relaxed opacity-90 whitespace-pre-line">{farm.data.cropHistory || "No history recorded."}</p></div>
-                <Link href={`/farms/${id}/edit`} className="mt-auto text-sm font-semibold underline-offset-4 hover:underline">Edit history</Link>
+                <div><p className="text-xs uppercase tracking-wider opacity-70">Past crops</p><p className="mt-1 leading-relaxed opacity-90 whitespace-pre-line">{farm.data.cropHistory || "No past crops added."}</p></div>
+                <Link href={`/farms/${id}/edit`} className="mt-auto text-sm font-semibold underline-offset-4 hover:underline">Change farm details</Link>
               </div>
               {strategies.isLoading ? [0, 1].map((i) => <Skeleton key={i} className="h-[520px] rounded-3xl" />) : strategies.isError ? (
                 <div className="lg:col-span-2 rounded-3xl border border-card-border bg-card p-8">
@@ -171,14 +171,14 @@ export default function Planner() {
               <div className="rounded-3xl border-2 border-dashed border-input p-6 flex gap-4">
                 <Bot className="h-8 w-8 text-muted-foreground shrink-0" />
                 <div>
-                  <div className="flex flex-wrap items-center gap-2"><h2 className="font-display text-2xl text-primary">AI explanation</h2><Tag kind="unassessed">Unvalidated</Tag></div>
-                  <p className="text-sm text-muted-foreground mt-2 leading-relaxed">Unvalidated ML predictions are enabled for five crops (wheat, barley, maize, dryland and wetland rice) on a 0–10,000 index. Scientific acceptance failed and there is no calibrated confidence, so they are not safe for farming decisions. Outputs you run are saved in new reports with warnings; rotation strategies still come from reference rules and, where recorded, published FAO assessments.</p>
+                  <div className="flex flex-wrap items-center gap-2"><h2 className="font-display text-2xl text-primary">Test model</h2><Tag kind="unassessed">Not checked enough</Tag></div>
+                  <p className="text-sm text-muted-foreground mt-2 leading-relaxed">The test model can show a number for five crops. It has not passed its checks. It may be wrong. Do not use it to choose what to grow. Crop plans and reports use crop guides and FAO maps instead.</p>
                 </div>
               </div>
               <div className="rounded-3xl border border-card-border bg-card p-6">
-                <h2 className="font-display text-xl text-primary">Before acting on a draft</h2>
-                <p className="text-sm text-muted-foreground mt-2">Check with local extension services and review the data limits.</p>
-                <Link href="/sources" className="mt-3 inline-block text-sm font-semibold text-accent hover:underline" data-testid="link-planner-sources">Sources and limitations</Link>
+                <h2 className="font-display text-xl text-primary">Before changing your plan</h2>
+                <p className="text-sm text-muted-foreground mt-2">Ask a local farm helper. Some facts may be missing or wrong.</p>
+                <Link href="/sources" className="mt-3 inline-block text-sm font-semibold text-accent hover:underline" data-testid="link-planner-sources">Where the facts come from</Link>
               </div>
             </div>
           </>

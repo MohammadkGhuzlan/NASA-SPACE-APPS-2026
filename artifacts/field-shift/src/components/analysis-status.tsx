@@ -12,7 +12,7 @@ export function AnalysisStatus({ evidence }: { evidence?: AnalysisIntegration })
     <section className="rounded-3xl border border-card-border bg-card p-5 space-y-3"
       aria-labelledby={evidence ? "saved-analysis-status" : "analysis-status"} data-testid="analysis-status">
       <h3 id={evidence ? "saved-analysis-status" : "analysis-status"}
-        className="font-display text-xl text-primary">AI crop-suitability availability</h3>
+        className="font-display text-xl text-primary">Is the crop model ready?</h3>
       {!status ? (
         <div role="status">
           <p className="text-sm text-muted-foreground">{query.isError
@@ -22,18 +22,29 @@ export function AnalysisStatus({ evidence }: { evidence?: AnalysisIntegration })
             onClick={() => query.refetch()}>Retry availability check</Button>}
         </div>
       ) : <>
-        <p className="text-sm font-semibold">{status.message}</p>
+        <p className="text-sm font-semibold">
+          {status.state === "unvalidated_enabled" ? "The test model can run, but it may be wrong."
+            : status.state === "insufficiently_validated" ? "The model test did not pass its checks."
+            : status.state === "validated_ready" ? "A model passed review and is ready."
+            : status.state === "temporarily_unavailable" ? "The model is not ready right now."
+            : status.state === "incompatible" ? "The model cannot use these inputs."
+            : "No crop model is ready."}
+        </p>
         <p className="text-sm text-muted-foreground">
           {status.state === "unvalidated_enabled"
-            ? "Unvalidated ML predictions are enabled. Scientific acceptance failed: they are not safe for farming decisions and have no calibrated confidence. Completed runs are saved into new reports with warnings; reference rules still select rotation strategies."
+            ? "It failed its checks. Do not use its number to choose crops. Saved test numbers keep their warning. Crop plans use crop-guide facts, not this model."
             : status.state === "insufficiently_validated"
-              ? "Research candidates were trained but did not pass validation."
-              : status.state === "validated_ready" ? "A reviewed model is reported as ready."
-              : status.state === "temporarily_unavailable" ? "Model predictions are temporarily unavailable."
-              : status.state === "incompatible" ? "The installed model is incompatible with current inputs."
-              : "No model is installed."}{" "}
-          Historical NASA data, agricultural reference rules and published FAO GAEZ classes remain available. No yield forecast or percentage is supplied.
+              ? "The model did not pass its checks."
+              : status.state === "validated_ready" ? "This model passed review."
+              : status.state === "temporarily_unavailable" ? "Try again later."
+              : status.state === "incompatible" ? "This model does not fit the data it was given."
+              : "The app has no crop model to use right now."}{" "}
+          NASA weather and FAO crop maps are still available. This does not predict how much you will harvest.
         </p>
+        {status.message && <details className="text-xs">
+          <summary className="cursor-pointer font-semibold">More model details</summary>
+          <p className="mt-2 text-muted-foreground">{status.message}</p>
+        </details>}
         {evidence && <>
           <p className="text-xs text-muted-foreground">Saved evidence snapshot: {new Date(evidence.generatedAt).toLocaleString()}.
             {" "}Reopened reports keep the inputs and availability recorded when generated.</p>

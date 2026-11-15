@@ -20,12 +20,12 @@ const CLASS_LABELS: Record<number, string> = {
 const FIXED_LABELS: Record<number, string> = { 0: "No data", 9: "Water" };
 
 const STATUS_COPY: Record<string, { title: string; detail: string }> = {
-  available: { title: "Class retrieved", detail: "A published FAO class was read at the farm point." },
-  nodata: { title: "No data at this point", detail: "The FAO layer has no value for this grid cell. No class is shown and nothing has been substituted." },
-  not_land: { title: "Not land in the FAO grid", detail: "The sampled cell is classed as water or non-land. No crop class applies." },
-  outside_coverage: { title: "Outside dataset coverage", detail: "The farm point falls outside the layer extent. No class is shown." },
-  unsupported: { title: "Combination not supported", detail: "This crop or scenario is not in the verified layer subset. No class is shown." },
-  unavailable: { title: "Source unavailable", detail: "The FAO layer could not be read right now. Retry later; no fallback value is used." },
+  available: { title: "Map result found", detail: "The published FAO map has a result near this farm." },
+  nodata: { title: "No map result here", detail: "The map has no answer for this square. No answer was made up." },
+  not_land: { title: "The map shows water here", detail: "This square is not marked as land, so there is no crop result." },
+  outside_coverage: { title: "The map does not reach here", detail: "No result is shown for this place." },
+  unsupported: { title: "No map answer for this crop", detail: "This crop or water setting is not on the map." },
+  unavailable: { title: "The map did not load", detail: "Try again later. No made-up answer is shown." },
 };
 
 function classTone(code: number | null | undefined) {
@@ -40,10 +40,10 @@ function classText(a: GaezAssessment) {
   if (a.status !== "available" || a.rawValue == null) {
     const labels: Record<string, string> = {
       nodata: "No data",
-      not_land: "Not land",
-      outside_coverage: "Outside coverage",
-      unsupported: "Not assessed",
-      unavailable: "Source unavailable",
+      not_land: "Map shows water",
+      outside_coverage: "Map does not reach here",
+      unsupported: "No map answer",
+      unavailable: "Map not ready",
     };
     return labels[a.status] ?? humanize(a.status);
   }
@@ -69,10 +69,10 @@ const fmt = (d: string | null | undefined) => {
 function ScopeNotes({ dataset }: { dataset: GaezDataset }) {
   return (
     <ul className="grid sm:grid-cols-2 gap-2 text-xs text-muted-foreground leading-relaxed">
-      <li className="rounded-xl bg-muted/60 p-3"><span className="font-semibold text-foreground">Scale.</span> {dataset.resolutionLabel || "5 arc-minute"} grid, roughly 10 km per cell. One cell is sampled at the farm point; no farm-boundary aggregation is calculated.</li>
-      <li className="rounded-xl bg-muted/60 p-3"><span className="font-semibold text-foreground">Period.</span> {dataset.referencePeriod} AgERA5 climate inside the FAO model. This is separate from the 2019 to 2025 NASA POWER data shown elsewhere in Field Shift.</li>
-      <li className="rounded-xl bg-muted/60 p-3"><span className="font-semibold text-foreground">Soil.</span> Soil conditions are modeled inside FAO GAEZ. They are not independent tests of your farm's soil.</li>
-      <li className="rounded-xl bg-muted/60 p-3"><span className="font-semibold text-foreground">Meaning.</span> Classes are ordered categories (1 best, 8 not suitable). They are not percentages, yields, confidence values, or a ranking across crops.</li>
+      <li className="rounded-xl bg-muted/60 p-3"><span className="font-semibold text-foreground">Map size.</span> Each square is about 10 km wide. We read the square near your farm, not your whole field.</li>
+      <li className="rounded-xl bg-muted/60 p-3"><span className="font-semibold text-foreground">Years.</span> The map uses {dataset.referencePeriod} weather. It is different from the NASA weather shown elsewhere in Field Shift.</li>
+      <li className="rounded-xl bg-muted/60 p-3"><span className="font-semibold text-foreground">Soil.</span> Soil is part of the map's model. It is not a test of your farm's soil.</li>
+      <li className="rounded-xl bg-muted/60 p-3"><span className="font-semibold text-foreground">Numbers.</span> Class 1 is the best map class; class 8 means the map says “not suitable.” These are not scores, harvest amounts, or chances.</li>
     </ul>
   );
 }
@@ -81,7 +81,7 @@ function ClassLegend({ classes }: { classes?: { code: number; label: string }[] 
   const list = classes && classes.length ? classes : Object.entries({ ...FIXED_LABELS, ...CLASS_LABELS }).map(([c, l]) => ({ code: Number(c), label: l }));
   return (
     <details className="text-sm">
-      <summary className="cursor-pointer font-semibold text-accent">Class definitions</summary>
+      <summary className="cursor-pointer font-semibold text-accent">What the map numbers mean</summary>
       <ul className="mt-2 grid grid-cols-2 sm:grid-cols-5 gap-1.5">
         {[...list].sort((a, b) => a.code - b.code).map((c) => (
           <li key={c.code} className={cn("rounded-lg border px-2 py-1 text-xs", classTone(c.code))}><span className="font-mono mr-1">{c.code}</span>{CLASS_LABELS[c.code] ?? FIXED_LABELS[c.code] ?? c.label.split(":").pop()?.trim() ?? c.label}</li>
@@ -107,7 +107,7 @@ function Citation({ dataset }: { dataset: GaezDataset }) {
 function Provenance({ a }: { a: GaezAssessment }) {
   return (
     <details className="text-sm">
-      <summary className="cursor-pointer font-semibold text-accent">Source provenance and sampling</summary>
+      <summary className="cursor-pointer font-semibold text-accent">Where this map result came from</summary>
       <dl className="mt-2 grid gap-1.5 text-xs">
         <div><dt className="text-muted-foreground uppercase tracking-wider">Asset ID</dt><dd className="font-mono break-all">{a.datasetId ?? "not recorded"}</dd></div>
         <div><dt className="text-muted-foreground uppercase tracking-wider">Source URL</dt><dd className="break-all">{a.sourceUrl ? <a href={a.sourceUrl} target="_blank" rel="noreferrer" className="text-accent hover:underline">{a.sourceUrl}</a> : "not recorded"}</dd></div>
@@ -133,7 +133,7 @@ function ResultCard({ a, onRetry, retrying }: { a: GaezAssessment; onRetry?: () 
         <ClassChip a={a} />
       </div>
       <p className={cn("text-sm", !ok && "font-semibold")} role={ok ? undefined : "status"}>{copy.title}. <span className="font-normal text-muted-foreground">{copy.detail}</span></p>
-      {ok && <p className="text-sm text-muted-foreground">FAO class {a.rawValue} of 8 for this crop under this input and water scenario at one ~10 km cell. Compare only with other scenarios of the same crop, and read alongside your own constraints.</p>}
+      {ok && <p className="text-sm text-muted-foreground">This is FAO map class {a.rawValue} out of 8 for this crop in one map square, about 10 km wide. It is not a farm score. Compare only this crop under different water settings.</p>}
       <Warnings items={a.warnings} />
       {!ok && onRetry && <Button type="button" variant="outline" size="sm" className="rounded-full" onClick={onRetry} disabled={retrying} data-testid="gaez-retry">
         {retrying ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RotateCcw className="h-3.5 w-3.5" />}Retry lookup</Button>}
@@ -170,25 +170,25 @@ export function GaezEvidence({ farmId, defaultCrop }: { farmId: number; defaultC
     <section className="rounded-3xl border border-card-border bg-card p-5 md:p-6 space-y-5" aria-labelledby="gaez-heading" data-testid="gaez-evidence">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0 max-w-3xl">
-          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">Published evidence · separate from experimental models</p>
-          <h3 id="gaez-heading" className="font-display text-2xl md:text-3xl text-primary mt-1">FAO crop suitability classes</h3>
-          <p className="text-sm text-muted-foreground mt-2">GAEZ means Global Agro-Ecological Zones, a published FAO and IIASA assessment. This reads a modeled class for one roughly 10 km grid cell at the farm point; it is not a Field Shift prediction, soil test, harvest result, or farm-wide assessment.</p>
+          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">Published crop map · not a test model</p>
+          <h3 id="gaez-heading" className="font-display text-2xl md:text-3xl text-primary mt-1">FAO crop-growing map</h3>
+          <p className="text-sm text-muted-foreground mt-2">This map was made by FAO and IIASA. It shows one map square, about 10 km wide, near the farm. It is not a soil test, harvest result, or check of the whole farm.</p>
         </div>
-        <Tag kind="observed">Published FAO data · 2001–2020</Tag>
+        <Tag kind="observed">FAO map · 2001–2020</Tag>
       </div>
 
       {catalog.isLoading ? (
         <div className="grid sm:grid-cols-[1fr_1fr_auto] gap-3"><Skeleton className="h-10 rounded-md" /><Skeleton className="h-10 rounded-md" /><Skeleton className="h-10 w-32 rounded-full" /></div>
       ) : catalog.isError || !catalog.data ? (
         <div className="rounded-2xl border-2 border-dashed border-input furrows p-6 text-center" role="alert">
-          <p className="font-display text-xl text-primary">FAO catalog could not be loaded</p>
-          <p className="text-sm text-muted-foreground mt-1">{errMessage(catalog.error)} No suitability class is shown.</p>
+          <p className="font-display text-xl text-primary">The crop map did not load</p>
+          <p className="text-sm text-muted-foreground mt-1">{errMessage(catalog.error)} No map result is shown.</p>
           <Button variant="outline" className="mt-3 rounded-full" onClick={() => catalog.refetch()} data-testid="gaez-catalog-retry"><RotateCcw className="h-4 w-4" />Retry</Button>
         </div>
       ) : (
         <>
           <Warnings items={catalog.data.warnings} />
-          {unavailable && <p role="status" className="rounded-xl bg-muted px-3 py-2 text-sm">The FAO source is marked unavailable. Lookups may fail; no fallback class is used.</p>}
+          {unavailable && <p role="status" className="rounded-xl bg-muted px-3 py-2 text-sm">The FAO map is not ready. No made-up result is shown.</p>}
           <div className="grid sm:grid-cols-[1fr_1fr_auto] gap-3 items-end">
             <div className="space-y-1.5 min-w-0">
               <Label htmlFor="gaez-crop" className="text-xs uppercase tracking-wider text-muted-foreground">Crop</Label>
@@ -199,41 +199,41 @@ export function GaezEvidence({ farmId, defaultCrop }: { farmId: number; defaultC
               </select>
             </div>
             <div className="space-y-1.5 min-w-0">
-              <Label htmlFor="gaez-scenario" className="text-xs uppercase tracking-wider text-muted-foreground">Input and water scenario</Label>
+              <Label htmlFor="gaez-scenario" className="text-xs uppercase tracking-wider text-muted-foreground">How crops get water</Label>
               <select id="gaez-scenario" value={scenario} onChange={(e) => { setScenarioPick(e.target.value); assess.reset(); }}
                 className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm" data-testid="gaez-scenario">
                 {scenarios.map((s) => <option key={s.code} value={s.code}>{s.name}</option>)}
               </select>
             </div>
             <Button type="button" onClick={run} disabled={!crop || !scenario || assess.isPending} className="rounded-full" data-testid="gaez-assess">
-              {assess.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}Look up class
+              {assess.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}See map result
             </Button>
           </div>
-          {riceHint && <p className="text-xs text-muted-foreground -mt-2">Your crop is listed as rice. FAO separates dryland rice and wetland rice; choose the type you actually grow.</p>}
-          <p className="text-xs text-muted-foreground -mt-2">Both irrigated low-input and high-input assessments assume irrigation, not water availability at your farm. Your water access, priorities and costs decide what is feasible.</p>
+          {riceHint && <p className="text-xs text-muted-foreground -mt-2">Rice can grow in dry ground or under water. Choose the kind you grow.</p>}
+          <p className="text-xs text-muted-foreground -mt-2">Map results that say “irrigated” assume extra water. They do not know how much water your farm has.</p>
 
           {assess.isPending ? <Skeleton className="h-40 rounded-2xl" />
             : assess.isError ? (
               <div className="rounded-2xl border-2 border-dashed border-input furrows p-6" role="alert">
-                <p className="font-display text-xl text-primary">Lookup failed</p>
-                <p className="text-sm text-muted-foreground mt-1">{errMessage(assess.error)} No class is shown.</p>
+          <p className="font-display text-xl text-primary">The map result did not load</p>
+                <p className="text-sm text-muted-foreground mt-1">{errMessage(assess.error)} No result is shown.</p>
                 <Button variant="outline" className="mt-3 rounded-full" onClick={run} data-testid="gaez-retry"><RotateCcw className="h-4 w-4" />Retry</Button>
               </div>
             ) : assess.data ? <ResultCard a={assess.data} onRetry={run} retrying={assess.isPending} />
             : (
               <div className="rounded-2xl border-2 border-dashed border-input p-6 text-center">
                 <MapPin className="h-6 w-6 mx-auto text-muted-foreground" />
-                <p className="text-sm text-muted-foreground mt-2">Pick a crop and scenario to read the published FAO class at this farm point.</p>
+                <p className="text-sm text-muted-foreground mt-2">Choose a crop and water setting to see the map result near this farm.</p>
               </div>
             )}
           <ClassLegend classes={catalog.data.classes} />
           <details className="text-sm" data-testid="details-gaez-class-meaning">
-            <summary className="cursor-pointer font-semibold text-accent">How to read these classes</summary>
+            <summary className="cursor-pointer font-semibold text-accent">How to read this map</summary>
             <div className="mt-2"><ScopeNotes dataset={catalog.data.dataset} /></div>
           </details>
           <div className="flex flex-wrap items-end justify-between gap-2">
             <Citation dataset={catalog.data.dataset} />
-            <details className="text-xs" data-testid="details-gaez-dataset"><summary className="cursor-pointer text-accent">Dataset details</summary><p className="mt-1 text-muted-foreground">{catalog.data.dataset.variable} · {catalog.data.cachedLayers} layers available</p></details>
+            <details className="text-xs" data-testid="details-gaez-dataset"><summary className="cursor-pointer text-accent">Extra map details</summary><p className="mt-1 text-muted-foreground">{catalog.data.dataset.variable} · {catalog.data.cachedLayers} layers available</p></details>
           </div>
         </>
       )}
@@ -261,9 +261,9 @@ export function GaezReport({ evidence }: { evidence: GaezReportEvidence }) {
     <section className="rounded-3xl border border-card-border bg-card p-5 md:p-6 space-y-5" data-testid="gaez-snapshot" data-status={evidence.status}>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0 max-w-3xl">
-          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">Saved published evidence snapshot</p>
-          <h3 className="font-display text-2xl text-primary mt-1">FAO comparison at the farm point</h3>
-          <p className="text-sm text-muted-foreground mt-2">Recorded {fmt(evidence.generatedAt)}. {available} of {evidence.results.length} lookups returned a class. These are published modeled results, not a Field Shift prediction, yield forecast, or whole-farm assessment. Compare input scenarios within the same crop; do not rank different crops by class number.</p>
+          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">Saved FAO map results</p>
+          <h3 className="font-display text-2xl text-primary mt-1">Crop map results near the farm</h3>
+          <p className="text-sm text-muted-foreground mt-2">Saved {fmt(evidence.generatedAt)}. We found {available} of {evidence.results.length} map results. These are not a harvest guess or a check of the whole farm. Compare water settings for the same crop; do not rank different crops by these numbers.</p>
         </div>
         <span className={cn("inline-flex rounded-full border px-2.5 py-0.5 font-mono text-[10.5px] uppercase tracking-wider",
           evidence.status === "available" ? "bg-secondary border-[hsl(92_20%_70%)] text-secondary-foreground" : "bg-[hsl(38_70%_50%/.14)] text-[hsl(30_60%_30%)] border-[hsl(38_70%_50%/.35)]")}>{evidence.status === "available" ? "Classes available" : evidence.status === "partial" ? "Some classes missing" : "No classes available"}</span>
@@ -271,7 +271,7 @@ export function GaezReport({ evidence }: { evidence: GaezReportEvidence }) {
       <Warnings items={evidence.warnings} />
 
       {evidence.results.length === 0 ? (
-        <p className="rounded-2xl border-2 border-dashed border-input p-6 text-sm text-muted-foreground text-center">No FAO classes were recorded in this snapshot. Nothing has been substituted.</p>
+        <p className="rounded-2xl border-2 border-dashed border-input p-6 text-sm text-muted-foreground text-center">This saved report has no FAO map results. We did not fill in any missing answers.</p>
       ) : (
         <>
           <div className="hidden md:block overflow-x-auto">
@@ -284,7 +284,7 @@ export function GaezReport({ evidence }: { evidence: GaezReportEvidence }) {
                 <tr key={c} className="border-t border-border">
                   <td className="py-2 pr-3 border-t border-border"><span className="font-semibold">{cropName[c]}</span></td>
                   {scenOrder.map((s) => { const a = grid[`${c}|${s}`]; return (
-                    <td key={s} className="py-2 px-2 border-t border-border" data-testid={`gaez-cell-${c}-${s}`}>{a ? <ClassChip a={a} compact /> : <span className="text-xs text-muted-foreground">not run</span>}</td>
+                    <td key={s} className="py-2 px-2 border-t border-border" data-testid={`gaez-cell-${c}-${s}`}>{a ? <ClassChip a={a} compact /> : <span className="text-xs text-muted-foreground">not checked</span>}</td>
                   ); })}
                 </tr>
               ))}</tbody>
@@ -295,7 +295,7 @@ export function GaezReport({ evidence }: { evidence: GaezReportEvidence }) {
               <div key={c} className="rounded-2xl border border-border p-3">
                 <p className="font-semibold">{cropName[c]}</p>
                 <ul className="mt-2 space-y-1.5">{scenOrder.map((s) => { const a = grid[`${c}|${s}`]; return (
-                  <li key={s} className="flex items-center justify-between gap-2 text-xs"><span className="text-muted-foreground">{scenLabel[s]}</span>{a ? <ClassChip a={a} compact /> : <span className="text-muted-foreground">not run</span>}</li>
+                  <li key={s} className="flex items-center justify-between gap-2 text-xs"><span className="text-muted-foreground">{scenLabel[s]}</span>{a ? <ClassChip a={a} compact /> : <span className="text-muted-foreground">not checked</span>}</li>
                 ); })}</ul>
               </div>
             ))}
@@ -304,21 +304,21 @@ export function GaezReport({ evidence }: { evidence: GaezReportEvidence }) {
       )}
 
       {evidence.planningNotes.length > 0 && (
-        <div><p className="text-xs uppercase tracking-wider text-muted-foreground mb-1.5">Planning notes</p>
+        <div><p className="text-xs uppercase tracking-wider text-muted-foreground mb-1.5">Notes for your plan</p>
           <ul className="list-disc pl-5 space-y-1 text-sm">{evidence.planningNotes.map((n, i) => <li key={i}>{n.replaceAll("LRLM", "rain-fed, low-input management").replaceAll("HRLM", "rain-fed, high-input management").replaceAll("LILM", "irrigated, low-input management").replaceAll("HILM", "irrigated, high-input management")}</li>)}</ul></div>
       )}
-      <p className="text-sm">Your priorities and irrigation access constrain how these classes apply. An irrigated high-input class is not automatically feasible or preferred. The baseline and two alternatives above remain the planning scenarios.</p>
+      <p className="text-sm">Your goals and water supply matter too. A map result that assumes extra water may not fit your farm. These map results do not replace your three crop plans.</p>
       <ClassLegend />
       <details className="text-sm" data-testid="details-gaez-saved-meaning">
-        <summary className="cursor-pointer font-semibold text-accent">Scale, period, soil, and class meaning</summary>
+        <summary className="cursor-pointer font-semibold text-accent">How to read these map results</summary>
         <div className="mt-2"><ScopeNotes dataset={evidence.dataset} /></div>
       </details>
       <details className="text-sm" data-testid="details-gaez-source-details">
-        <summary className="cursor-pointer font-semibold text-accent">Per-result source and sampling details ({evidence.results.length})</summary>
+        <summary className="cursor-pointer font-semibold text-accent">More about where each result came from ({evidence.results.length})</summary>
         <div className="mt-2 grid lg:grid-cols-2 gap-3">{evidence.results.map((a) => <ResultCard key={`${a.cropCode}-${a.scenario}`} a={a} />)}</div>
       </details>
       {Object.keys(ctx).length > 0 && (
-        <details className="text-sm" data-testid="details-gaez-snapshot-context"><summary className="cursor-pointer font-semibold text-accent">Technical context saved with this snapshot</summary>
+        <details className="text-sm" data-testid="details-gaez-snapshot-context"><summary className="cursor-pointer font-semibold text-accent">Extra saved details</summary>
           <div className="mt-2 rounded-xl bg-muted/60 p-3"><RecordView record={ctx} /></div></details>
       )}
       <Citation dataset={evidence.dataset} />
