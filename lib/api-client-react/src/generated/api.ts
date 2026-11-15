@@ -26,6 +26,7 @@ import type {
 
 import type {
   AgriculturalKnowledge,
+  AnalysisModelStatus,
   CaseStudy,
   DataStatus,
   Environment,
@@ -79,6 +80,101 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
   }
   return result;
 };
+
+export const getGetAnalysisModelStatusUrl = () => {
+
+
+
+
+  return `/api/analysis/model-status`
+}
+
+export const getAnalysisModelStatus = async ( options?: Parameters<typeof customFetch>[1]): Promise<AnalysisModelStatus> => {
+
+  return customFetch<AnalysisModelStatus>(getGetAnalysisModelStatusUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetAnalysisModelStatusQueryKey = () => {
+    return [
+    `/api/analysis/model-status`
+    ] as const;
+    }
+
+
+export const getGetAnalysisModelStatusQueryOptions = <TData = Awaited<ReturnType<typeof getAnalysisModelStatus>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAnalysisModelStatus>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAnalysisModelStatusQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAnalysisModelStatus>>> = ({ signal }) => getAnalysisModelStatus({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAnalysisModelStatus>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetAnalysisModelStatusQueryResult = NonNullable<Awaited<ReturnType<typeof getAnalysisModelStatus>>>
+export type GetAnalysisModelStatusQueryError = ErrorType<unknown>
+
+
+export function useGetAnalysisModelStatus<TData = Awaited<ReturnType<typeof getAnalysisModelStatus>>, TError = ErrorType<unknown>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAnalysisModelStatus>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAnalysisModelStatus>>,
+          TError,
+          Awaited<ReturnType<typeof getAnalysisModelStatus>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAnalysisModelStatus<TData = Awaited<ReturnType<typeof getAnalysisModelStatus>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAnalysisModelStatus>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAnalysisModelStatus>>,
+          TError,
+          Awaited<ReturnType<typeof getAnalysisModelStatus>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAnalysisModelStatus<TData = Awaited<ReturnType<typeof getAnalysisModelStatus>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAnalysisModelStatus>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetAnalysisModelStatus<TData = Awaited<ReturnType<typeof getAnalysisModelStatus>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAnalysisModelStatus>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetAnalysisModelStatusQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
 
 export const getGetAgriculturalKnowledgeUrl = () => {
 

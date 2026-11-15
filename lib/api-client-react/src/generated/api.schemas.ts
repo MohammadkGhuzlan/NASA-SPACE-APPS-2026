@@ -5,6 +5,71 @@
  * Field Shift farm intelligence foundation
  * OpenAPI spec version: 0.1.0
  */
+export type AnalysisModelStatusStage = typeof AnalysisModelStatusStage[keyof typeof AnalysisModelStatusStage];
+
+
+export const AnalysisModelStatusStage = {
+  stage_a: 'stage_a',
+} as const;
+
+export type AnalysisModelStatusState = typeof AnalysisModelStatusState[keyof typeof AnalysisModelStatusState];
+
+
+export const AnalysisModelStatusState = {
+  not_installed: 'not_installed',
+  incompatible: 'incompatible',
+  insufficiently_validated: 'insufficiently_validated',
+  validated_ready: 'validated_ready',
+  temporarily_unavailable: 'temporarily_unavailable',
+} as const;
+
+export interface JsonRecord { [key: string]: unknown }
+
+export interface AnalysisModelStatus {
+  adapterVersion: string;
+  stage: AnalysisModelStatusStage;
+  state: AnalysisModelStatusState;
+  predictionsEnabled: boolean;
+  message: string;
+  reasons: string[];
+  contract: JsonRecord;
+  target: JsonRecord;
+}
+
+export type CropCoverageDiagnosticStatus = typeof CropCoverageDiagnosticStatus[keyof typeof CropCoverageDiagnosticStatus];
+
+
+export const CropCoverageDiagnosticStatus = {
+  insufficient_evidence: 'insufficient_evidence',
+} as const;
+
+export interface CropCoverageDiagnostic {
+  crop: string;
+  /** @nullable */
+  modelCrop: string | null;
+  status: CropCoverageDiagnosticStatus;
+  available: boolean;
+  reasons: string[];
+}
+
+export type AnalysisIntegrationStage = typeof AnalysisIntegrationStage[keyof typeof AnalysisIntegrationStage];
+
+
+export const AnalysisIntegrationStage = {
+  stage_a: 'stage_a',
+} as const;
+
+export interface AnalysisIntegration {
+  adapterVersion: string;
+  stage: AnalysisIntegrationStage;
+  generatedAt: string;
+  model: AnalysisModelStatus;
+  featurePreparation: JsonRecord;
+  coverage: CropCoverageDiagnostic[];
+  plannerUse: string;
+  warnings: string[];
+}
+
 /**
  * @nullable
  */
@@ -55,8 +120,6 @@ export interface AgriculturalReference {
   scope: string;
   checkedOn: string;
 }
-
-export interface JsonRecord { [key: string]: unknown }
 
 export interface ReferenceCrop {
   id: string;
@@ -124,6 +187,7 @@ export interface FarmingPlanReport {
   warnings: string[];
   references: AgriculturalReference[];
   environmentalEvidence: JsonRecord;
+  aiIntegration?: AnalysisIntegration;
 }
 
 export interface FarmingPlanSummary {
@@ -199,6 +263,7 @@ export interface EnvironmentProvenance {
 }
 
 export interface EnvironmentalSummary {
+  retrieval?: JsonRecord;
   location: EnvironmentLocation;
   status: string;
   monthly: ClimateAggregate[];

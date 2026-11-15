@@ -8,9 +8,16 @@
 
 export * from './agriculturalKnowledge';
 export * from './agriculturalReference';
+export * from './analysisIntegration';
+export * from './analysisIntegrationStage';
+export * from './analysisModelStatus';
+export * from './analysisModelStatusStage';
+export * from './analysisModelStatusState';
 export * from './caseStudy';
 export * from './climateAggregate';
 export * from './climateAggregateValidDays';
+export * from './cropCoverageDiagnostic';
+export * from './cropCoverageDiagnosticStatus';
 export * from './dailyEnvironment';
 export * from './dataStatus';
 export * from './environment';

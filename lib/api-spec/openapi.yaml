@@ -6,6 +6,15 @@ info:
 servers:
   - url: /api
 paths:
+  /analysis/model-status:
+    get:
+      operationId: getAnalysisModelStatus
+      responses:
+        "200":
+          description: Stage A readiness only; never loads a model or exposes artifact paths
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AnalysisModelStatus" }
   /knowledge:
     get:
       operationId: getAgriculturalKnowledge
@@ -290,6 +299,39 @@ components:
     Latitude: { name: latitude, in: query, required: true, schema: { type: number, minimum: -90, maximum: 90 } }
     Longitude: { name: longitude, in: query, required: true, schema: { type: number, minimum: -180, maximum: 180 } }
   schemas:
+    AnalysisModelStatus:
+      type: object
+      required: [adapterVersion, stage, state, predictionsEnabled, message, reasons, contract, target]
+      properties:
+        adapterVersion: { type: string }
+        stage: { type: string, enum: [stage_a] }
+        state: { type: string, enum: [not_installed, incompatible, insufficiently_validated, validated_ready, temporarily_unavailable] }
+        predictionsEnabled: { type: boolean }
+        message: { type: string }
+        reasons: { type: array, items: { type: string } }
+        contract: { $ref: "#/components/schemas/JsonRecord" }
+        target: { $ref: "#/components/schemas/JsonRecord" }
+    CropCoverageDiagnostic:
+      type: object
+      required: [crop, modelCrop, status, available, reasons]
+      properties:
+        crop: { type: string }
+        modelCrop: { type: ["string", "null"] }
+        status: { type: string, enum: [insufficient_evidence] }
+        available: { type: boolean }
+        reasons: { type: array, items: { type: string } }
+    AnalysisIntegration:
+      type: object
+      required: [adapterVersion, stage, generatedAt, model, featurePreparation, coverage, plannerUse, warnings]
+      properties:
+        adapterVersion: { type: string }
+        stage: { type: string, enum: [stage_a] }
+        generatedAt: { type: string }
+        model: { $ref: "#/components/schemas/AnalysisModelStatus" }
+        featurePreparation: { $ref: "#/components/schemas/JsonRecord" }
+        coverage: { type: array, items: { $ref: "#/components/schemas/CropCoverageDiagnostic" } }
+        plannerUse: { type: string }
+        warnings: { type: array, items: { type: string } }
     FarmingPlanInput:
       type: object
       properties:
@@ -382,6 +424,7 @@ components:
         warnings: { type: array, items: { type: string } }
         references: { type: array, items: { $ref: "#/components/schemas/AgriculturalReference" } }
         environmentalEvidence: { $ref: "#/components/schemas/JsonRecord" }
+        aiIntegration: { $ref: "#/components/schemas/AnalysisIntegration" }
     FarmingPlanSummary:
       type: object
       required: [id, farmId, createdAt, status, knowledgeVersion]
@@ -446,6 +489,7 @@ components:
       type: object
       required: [location, status, monthly, annual, seasonal, hotThreshold, dryThreshold, referencePeriod, warnings, provenance, availableParameters, drySpellDefinition]
       properties:
+        retrieval: { $ref: "#/components/schemas/JsonRecord" }
         location: { $ref: "#/components/schemas/EnvironmentLocation" }
         status: { type: string }
         monthly: { type: array, items: { $ref: "#/components/schemas/ClimateAggregate" } }

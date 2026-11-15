@@ -6,6 +6,7 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { AgriculturalReference } from './agriculturalReference';
+import type { AnalysisIntegration } from './analysisIntegration';
 import type { JsonRecord } from './jsonRecord';
 import type { PlanningCandidate } from './planningCandidate';
 import type { PlanningFinding } from './planningFinding';
@@ -28,4 +29,5 @@ export interface FarmingPlanReport {
   warnings: string[];
   references: AgriculturalReference[];
   environmentalEvidence: JsonRecord;
+  aiIntegration?: AnalysisIntegration;
 }

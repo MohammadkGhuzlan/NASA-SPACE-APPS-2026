@@ -13,6 +13,7 @@ from .constants import LOCATIONS, location_key
 from .importer import import_bundle
 from .features import build_features
 from .storage import ensure_location
+from ..admission import PREFIX as ADMISSION_PREFIX
 
 router = APIRouter(prefix="/api")
 
@@ -63,12 +64,17 @@ def compare(db: Session = Depends(get_db)):
 
 @router.get("/data/status")
 def status(db: Session = Depends(get_db)):
-    audits = db.scalars(select(IngestionReport).order_by(IngestionReport.id.desc()).limit(15)).all()
+    audits = db.scalars(select(IngestionReport).where(
+        ~IngestionReport.source.startswith(ADMISSION_PREFIX)).order_by(IngestionReport.id.desc()).limit(15)).all()
     return {"environmentalValues": db.scalar(select(func.count()).select_from(EnvironmentalValue)),
         "soilEstimates": db.scalar(select(func.count()).select_from(SoilEstimate)),
         "importPolicy": "Only operator-allowlisted browser sessions may run the fixed-bundle import. Server CLI is available; arbitrary uploads/paths are not accepted.",
-        "reports": [{"id": a.id, "source": a.source, "status": a.status, "startedAt": a.started_at.isoformat(),
-                     "completedAt": a.completed_at.isoformat() if a.completed_at else None, "report": a.report} for a in audits]}
+        "reports": [{"id": a.id,
+                     "source": "NASA POWER API (requested coordinates withheld)" if a.source.startswith("NASA POWER API ") else a.source,
+                     "status": a.status, "startedAt": a.started_at.isoformat(),
+                     "completedAt": a.completed_at.isoformat() if a.completed_at else None,
+                     "report": {k: v for k, v in a.report.items() if k not in {"latitude", "longitude"}}
+                     if a.source.startswith("NASA POWER API ") else a.report} for a in audits]}
 
 
 @router.post("/data/import")

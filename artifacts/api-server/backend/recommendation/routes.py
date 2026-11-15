@@ -9,8 +9,16 @@ from ..environment.features import build_features
 from .schemas import FarmingPlanInput
 from .knowledge import library, resolve
 from .engine import build_report
+from ..analysis.model import model_status
+from ..analysis.service import integrate_report
+from ..analysis.limits import check_analysis_rate
 
 router = APIRouter(prefix="/api")
+
+
+@router.get("/analysis/model-status")
+def analysis_model_status():
+    return model_status()
 
 
 @router.get("/knowledge")
@@ -49,11 +57,14 @@ def generate(id: int, data: FarmingPlanInput, request: Request, db: Session = De
     unknown = [n for n in data.excludedCrops if resolve(n) is None]
     if unknown:
         raise HTTPException(422, "Excluded crops must match library crops: " + ", ".join(unknown))
+    from ..main import owner
+    check_analysis_rate(owner(request), db)
     location = ensure_environment(db, farm.profile["latitude"], farm.profile["longitude"])
     summary = summary_for(db, location)
     features = build_features(db, farm, location)
     drafts = db.scalars(select(Strategy).where(Strategy.farm_id == id)).all()
     result = build_report(farm, data, summary, features, drafts)
+    result = integrate_report(farm, data, summary, features, result)
     row = RecommendationResult(farm_id=id, model_id=None, strategy_id=None, result=result)
     db.add(row)
     db.commit()

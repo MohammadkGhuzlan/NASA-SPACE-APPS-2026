@@ -11,6 +11,7 @@ from ..models import EnvironmentalValue, EnvironmentalLocation, IngestionReport
 from .constants import PARAMETERS, POWER_URL, CLIMATE, WETNESS, START, END
 from .validation import numeric, parse_date, coords
 from .storage import ensure_location, store_values
+from ..admission import admit
 
 logger = logging.getLogger(__name__)
 requests_lock = threading.Lock()
@@ -19,6 +20,11 @@ request_slots = threading.BoundedSemaphore(2)
 
 
 def parse_response(payload, requested, location, url):
+    if (not isinstance(payload, dict) or not isinstance(payload.get("header"), dict)
+            or not isinstance(payload.get("parameters"), dict)
+            or not isinstance(payload.get("properties"), dict)
+            or not isinstance(payload["properties"].get("parameter"), dict)):
+        raise ValueError("Malformed NASA response; no substitute measurements were used.")
     header = payload["header"]
     if header.get("time_standard") != "UTC":
         raise ValueError("NASA response has unexpected time standard")
@@ -29,6 +35,9 @@ def parse_response(payload, requested, location, url):
     for p in requested:
         if p not in values or p not in metadata:
             warnings.append(f"NASA did not return {p}; it remains unavailable.")
+            continue
+        if not isinstance(values[p], dict) or not isinstance(metadata[p], dict):
+            warnings.append(f"{p}: malformed parameter data rejected.")
             continue
         if metadata[p].get("units") != PARAMETERS[p][0]:
             warnings.append(f"{p}: unexpected units; variable rejected.")
@@ -54,7 +63,7 @@ def parse_response(payload, requested, location, url):
 
 def request_group(client, lat, lon, parameters):
     params = {"parameters": ",".join(parameters), "community": "AG", "latitude": lat,
-              "longitude": lon, "start": "20190101", "end": "20251231",
+              "longitude": lon, "start": START.strftime("%Y%m%d"), "end": END.strftime("%Y%m%d"),
               "format": "JSON", "time-standard": "UTC"}
     for attempt in range(2):
         try:
@@ -70,26 +79,51 @@ def request_group(client, lat, lon, parameters):
             time.sleep(.7)
 
 
+def parameter_coverage(db, key):
+    """Count covered dates, including explicit fill values, for this exact point.
+
+    A cached fill remains missing evidence; repeatedly fetching an immutable
+    historical fill would not make it a measurement.
+    """
+    return dict(db.execute(select(EnvironmentalValue.parameter, func.count(func.distinct(EnvironmentalValue.date)))
+        .where(EnvironmentalValue.location_key == key,
+               EnvironmentalValue.product == "POWER_DAILY", EnvironmentalValue.source == "NASA POWER",
+               EnvironmentalValue.date >= START, EnvironmentalValue.date <= END)
+        .group_by(EnvironmentalValue.parameter)).all())
+
+
+def missing_parameters(coverage):
+    days = (END - START).days + 1
+    return [p for p in PARAMETERS if coverage.get(p, 0) < days]
+
+
 def ensure_environment(db, lat, lon):
     coords(lat, lon)
     location = ensure_location(db, lat, lon)
-    count = db.scalar(select(func.count()).select_from(EnvironmentalValue).where(EnvironmentalValue.location_key == location.key))
+    coverage = parameter_coverage(db, location.key)
     def fresh():
-        if count and (location.study_id or (not location.last_error and location.last_attempt and location.last_attempt > datetime.now(timezone.utc)-timedelta(days=30))):
+        if not missing_parameters(coverage) and (location.study_id or (not location.last_error and location.last_attempt and location.last_attempt > datetime.now(timezone.utc)-timedelta(days=30))):
             return True
         return bool(location.last_attempt and location.last_attempt > datetime.now(timezone.utc)-timedelta(minutes=3))
     # Cached reads need no exclusive lock. Summary/history/wetness load in parallel.
     if fresh():
+        location._retrieval = {"mode": "cached", "requestMade": False,
+                               "coverageComplete": not missing_parameters(coverage)}
         return location
+    # Shared across browser sessions and API workers. Must precede the exact-
+    # point transaction lock, which stays held throughout the NASA retrieval.
+    admit(db, "nasa", limit=12)
     # DB advisory lock works across API workers; exact point cache, never nearest city.
     lock = int(hashlib.sha256(location.key.encode()).hexdigest()[:15], 16)
     from fastapi import HTTPException
     if not db.scalar(text("SELECT pg_try_advisory_xact_lock(:key)"), {"key": lock}):
         raise HTTPException(409, "Data for this point is already being retrieved. Please retry in a moment.")
     db.refresh(location)
-    count = db.scalar(select(func.count()).select_from(EnvironmentalValue).where(EnvironmentalValue.location_key == location.key))
+    coverage = parameter_coverage(db, location.key)
     # Historical uploaded observations are immutable; imported coverage served directly.
     if fresh():
+        location._retrieval = {"mode": "cached", "requestMade": False,
+                               "coverageComplete": not missing_parameters(coverage)}
         return location
     with requests_lock:
         now = time.monotonic()
@@ -105,7 +139,14 @@ def ensure_environment(db, lat, lon):
     # Bounded two attempts per product group, climate still works if wetness fails.
     try:
         with httpx.Client(timeout=httpx.Timeout(25, connect=8), headers={"User-Agent": "FieldShift/0.2"}) as client:
-            for group in (["T2M", "T2M_MAX", "T2M_MIN", "PRECTOTCORR", "RH2M"], ["GWETTOP", "GWETROOT"]):
+            missing = missing_parameters(coverage)
+            groups = (["T2M", "T2M_MAX", "T2M_MIN", "PRECTOTCORR", "RH2M"], ["GWETTOP", "GWETROOT"])
+            for original in groups:
+                group = [p for p in original if p in missing]
+                # Complete/stale exact-point coverage has no missing historical
+                # dates to download. Keep it; don't re-download immutable values.
+                if not group:
+                    continue
                 try:
                     payload, url = request_group(client, lat, lon, group)
                     records, notices = parse_response(payload, group, location, url)
@@ -120,9 +161,18 @@ def ensure_environment(db, lat, lon):
     finally:
         request_slots.release()
     location.last_error = "; ".join(errors) or None
-    location.metadata_json = {"warnings": warnings, "cachePolicy": "exact coordinates to 5 decimals; no inferred grid reuse"}
-    audit.status = "partial" if errors and inserted else "failed" if errors else "completed"
+    remaining = missing_parameters(parameter_coverage(db, location.key))
+    if remaining:
+        warnings.append("Historical date coverage is incomplete for: " + ", ".join(remaining))
+    location.metadata_json = {"warnings": warnings, "cachePolicy": "exact coordinates to 5 decimals; no inferred grid reuse",
+                              "requestedPeriod": [START.isoformat(), END.isoformat()], "requestTimeStandard": "UTC",
+                              "incompleteParameters": remaining}
+    audit.status = "partial" if (errors or remaining) and inserted else "failed" if errors else "partial" if remaining else "completed"
     audit.report = {"insertedValues": inserted, "errors": errors, "warnings": warnings, "latitude": lat, "longitude": lon}
     audit.completed_at = datetime.now(timezone.utc)
     db.commit()
+    location._retrieval = {"mode": "retrieved_or_partial_cache" if inserted else "cached_or_unavailable",
+                           "requestMade": bool(missing), "coverageComplete": not remaining}
+    logger.info("environment_retrieval_completed status=%s inserted_values=%s incomplete_parameters=%s",
+                audit.status, inserted, ",".join(remaining))
     return location
