@@ -112,3 +112,31 @@ mtime_ms = 1794751000483
 storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:99c0b8d5-1681-405c-9948-7d284359ce38/6b109855-5ee5-4711-8bca-e8bb20cd359a/349323d7-5fca-453d-9021-e206ef1fafac"
 storage_version_token = "1794751284754679"
 content_type = "application/octet-stream"
+
+[[outputs]]
+id = "RxB1Vd_JtpgFbMPKxtAA_"
+uri = "file://docs/ml-recovery/EXPERIMENTAL_MODE.md"
+type = "text"
+title = "Experimental ML — implementation and verification report"
+description = "Five genuine model artifacts, validation MAE/R², access policy, source restoration, five-location refusals, browser results and remaining blockers. No production deployment."
+logical_id = "94d7c4b9-677b-4521-83bc-97c7c7ce652a"
+content_hash = "sha256:9da588c4ffed3e8a3a1b91f5d9ff631e5d8401cb8eeba8b6656cea0dce8b12e3"
+size = 12070
+mtime_ms = 1794757042843
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:99c0b8d5-1681-405c-9948-7d284359ce38/94d7c4b9-677b-4521-83bc-97c7c7ce652a/9305a83d-fc6b-442a-bd77-647f1fe35495"
+storage_version_token = "1794757161478700"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "I--SS4-WdVibCBnsQ0APR"
+uri = "file://generated-artifacts/experimental-ml/verification.json"
+type = "unspecified"
+title = "Actual experimental inference and five-location results"
+description = "Real API jobs and all five saved crop pipelines executed on authentic inputs, cross-session access checks and unchanged production readiness. No simulated predictions."
+logical_id = "5daffdd4-1b08-41d3-b017-758789ee041c"
+content_hash = "sha256:59608f09f767f7c21308b96e3d3c9d3c3f68184d9cd2f06653eed2eb05708461"
+size = 24836
+mtime_ms = 1794756658632
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:99c0b8d5-1681-405c-9948-7d284359ce38/5daffdd4-1b08-41d3-b017-758789ee041c/462d9ffa-cf9d-4f09-bdbd-0e1d8cbb3793"
+storage_version_token = "1794757162721801"
+content_type = "application/octet-stream"
