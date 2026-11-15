@@ -16,10 +16,10 @@ export const GetAgriculturalKnowledgeResponse = zod.object({
   "group": zod.string(),
   "season": zod.string(),
   "growingDays": zod.array(zod.number().int()),
-  "waterMm": zod.array(zod.number()),
-  "droughtSensitivity": zod.string(),
+  "waterMm": zod.array(zod.number()).optional(),
   "sourceIds": zod.array(zod.string()),
-  "limitations": zod.array(zod.string())
+  "limitations": zod.array(zod.string()),
+  "ecologicalRequirements": zod.record(zod.string(), zod.unknown())
 })),
   "references": zod.array(zod.object({
   "id": zod.string(),
@@ -28,7 +28,8 @@ export const GetAgriculturalKnowledgeResponse = zod.object({
   "scope": zod.string(),
   "checkedOn": zod.string()
 })),
-  "limitations": zod.array(zod.string())
+  "limitations": zod.array(zod.string()),
+  "dataset": zod.record(zod.string(), zod.unknown()).optional()
 })
 
 
@@ -71,6 +72,7 @@ export const generateFarmingPlanBodyAvailableSeasonalWaterMmMax = 10000;
 
 export const GenerateFarmingPlanBody = zod.object({
   "plantingDate": zod.coerce.date().nullish(),
+  "priority": zod.union([zod.literal('conserve_water'),zod.literal('soil_health'),zod.literal('productivity'),zod.literal('reduce_risk'),zod.literal(null)]).nullish(),
   "currentRotation": zod.array(zod.string().max(generateFarmingPlanBodyCurrentRotationItemMax)).max(generateFarmingPlanBodyCurrentRotationMax).optional(),
   "previousCrops": zod.array(zod.string().max(generateFarmingPlanBodyPreviousCropsItemMax)).max(generateFarmingPlanBodyPreviousCropsMax).optional(),
   "excludedCrops": zod.array(zod.string().max(generateFarmingPlanBodyExcludedCropsItemMax)).max(generateFarmingPlanBodyExcludedCropsMax).optional(),
@@ -86,6 +88,7 @@ export const GenerateFarmingPlanResponse = zod.object({
   "engineVersion": zod.string(),
   "status": zod.string(),
   "modelStatus": zod.string(),
+  "priorityApplied": zod.string().optional(),
   "inputs": zod.record(zod.string(), zod.unknown()),
   "candidates": zod.array(zod.object({
   "crop": zod.object({
@@ -94,10 +97,10 @@ export const GenerateFarmingPlanResponse = zod.object({
   "group": zod.string(),
   "season": zod.string(),
   "growingDays": zod.array(zod.number().int()),
-  "waterMm": zod.array(zod.number()),
-  "droughtSensitivity": zod.string(),
+  "waterMm": zod.array(zod.number()).optional(),
   "sourceIds": zod.array(zod.string()),
-  "limitations": zod.array(zod.string())
+  "limitations": zod.array(zod.string()),
+  "ecologicalRequirements": zod.record(zod.string(), zod.unknown())
 }),
   "status": zod.string(),
   "reasons": zod.array(zod.object({
@@ -111,11 +114,13 @@ export const GenerateFarmingPlanResponse = zod.object({
   "sourceIds": zod.array(zod.string())
 })),
   "calendar": zod.record(zod.string(), zod.unknown()),
-  "environmentalContext": zod.record(zod.string(), zod.unknown())
+  "environmentalContext": zod.record(zod.string(), zod.unknown()),
+  "screen": zod.record(zod.string(), zod.unknown()).optional()
 })),
   "scenarios": zod.array(zod.object({
   "slot": zod.string(),
   "title": zod.string(),
+  "strategyType": zod.string().optional(),
   "crops": zod.array(zod.string()),
   "status": zod.string(),
   "benefits": zod.array(zod.object({
@@ -162,6 +167,7 @@ export const GetFarmingPlanResponse = zod.object({
   "engineVersion": zod.string(),
   "status": zod.string(),
   "modelStatus": zod.string(),
+  "priorityApplied": zod.string().optional(),
   "inputs": zod.record(zod.string(), zod.unknown()),
   "candidates": zod.array(zod.object({
   "crop": zod.object({
@@ -170,10 +176,10 @@ export const GetFarmingPlanResponse = zod.object({
   "group": zod.string(),
   "season": zod.string(),
   "growingDays": zod.array(zod.number().int()),
-  "waterMm": zod.array(zod.number()),
-  "droughtSensitivity": zod.string(),
+  "waterMm": zod.array(zod.number()).optional(),
   "sourceIds": zod.array(zod.string()),
-  "limitations": zod.array(zod.string())
+  "limitations": zod.array(zod.string()),
+  "ecologicalRequirements": zod.record(zod.string(), zod.unknown())
 }),
   "status": zod.string(),
   "reasons": zod.array(zod.object({
@@ -187,11 +193,13 @@ export const GetFarmingPlanResponse = zod.object({
   "sourceIds": zod.array(zod.string())
 })),
   "calendar": zod.record(zod.string(), zod.unknown()),
-  "environmentalContext": zod.record(zod.string(), zod.unknown())
+  "environmentalContext": zod.record(zod.string(), zod.unknown()),
+  "screen": zod.record(zod.string(), zod.unknown()).optional()
 })),
   "scenarios": zod.array(zod.object({
   "slot": zod.string(),
   "title": zod.string(),
+  "strategyType": zod.string().optional(),
   "crops": zod.array(zod.string()),
   "status": zod.string(),
   "benefits": zod.array(zod.object({

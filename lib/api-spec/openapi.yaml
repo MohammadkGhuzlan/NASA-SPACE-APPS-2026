@@ -294,6 +294,7 @@ components:
       type: object
       properties:
         plantingDate: { type: ["string", "null"], format: date }
+        priority: { type: ["string", "null"], enum: [conserve_water, soil_health, productivity, reduce_risk, null] }
         currentRotation: { type: array, maxItems: 6, items: { type: string, maxLength: 100 } }
         previousCrops: { type: array, maxItems: 12, items: { type: string, maxLength: 100 } }
         excludedCrops: { type: array, maxItems: 20, items: { type: string, maxLength: 100 } }
@@ -310,7 +311,7 @@ components:
         checkedOn: { type: string }
     ReferenceCrop:
       type: object
-      required: [id, name, group, season, growingDays, waterMm, droughtSensitivity, sourceIds, limitations]
+      required: [id, name, group, season, growingDays, sourceIds, limitations, ecologicalRequirements]
       properties:
         id: { type: string }
         name: { type: string }
@@ -318,9 +319,9 @@ components:
         season: { type: string }
         growingDays: { type: array, items: { type: integer } }
         waterMm: { type: array, items: { type: number } }
-        droughtSensitivity: { type: string }
         sourceIds: { type: array, items: { type: string } }
         limitations: { type: array, items: { type: string } }
+        ecologicalRequirements: { $ref: "#/components/schemas/JsonRecord" }
     AgriculturalKnowledge:
       type: object
       required: [version, crops, references, limitations]
@@ -329,6 +330,7 @@ components:
         crops: { type: array, items: { $ref: "#/components/schemas/ReferenceCrop" } }
         references: { type: array, items: { $ref: "#/components/schemas/AgriculturalReference" } }
         limitations: { type: array, items: { type: string } }
+        dataset: { $ref: "#/components/schemas/JsonRecord" }
     PlanningFinding:
       type: object
       required: [code, message, sourceIds]
@@ -346,12 +348,14 @@ components:
         risks: { type: array, items: { $ref: "#/components/schemas/PlanningFinding" } }
         calendar: { $ref: "#/components/schemas/JsonRecord" }
         environmentalContext: { $ref: "#/components/schemas/JsonRecord" }
+        screen: { $ref: "#/components/schemas/JsonRecord" }
     RotationScenario:
       type: object
       required: [slot, title, crops, status, benefits, risks, waterRequirementMm, schedule]
       properties:
         slot: { type: string }
         title: { type: string }
+        strategyType: { type: string }
         crops: { type: array, items: { type: string } }
         status: { type: string }
         benefits: { type: array, items: { $ref: "#/components/schemas/PlanningFinding" } }
@@ -369,6 +373,7 @@ components:
         engineVersion: { type: string }
         status: { type: string }
         modelStatus: { type: string }
+        priorityApplied: { type: string }
         inputs: { $ref: "#/components/schemas/JsonRecord" }
         candidates: { type: array, items: { $ref: "#/components/schemas/PlanningCandidate" } }
         scenarios: { type: array, items: { $ref: "#/components/schemas/RotationScenario" } }

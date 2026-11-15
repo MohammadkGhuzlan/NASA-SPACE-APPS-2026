@@ -5,9 +5,24 @@
  * Field Shift farm intelligence foundation
  * OpenAPI spec version: 0.1.0
  */
+/**
+ * @nullable
+ */
+export type FarmingPlanInputPriority = typeof FarmingPlanInputPriority[keyof typeof FarmingPlanInputPriority] | null;
+
+
+export const FarmingPlanInputPriority = {
+  conserve_water: 'conserve_water',
+  soil_health: 'soil_health',
+  productivity: 'productivity',
+  reduce_risk: 'reduce_risk',
+} as const;
+
 export interface FarmingPlanInput {
   /** @nullable */
   plantingDate?: string | null;
+  /** @nullable */
+  priority?: FarmingPlanInputPriority;
   /**
      * @maxItems 6
      * @items.maxLength 100
@@ -41,16 +56,18 @@ export interface AgriculturalReference {
   checkedOn: string;
 }
 
+export interface JsonRecord { [key: string]: unknown }
+
 export interface ReferenceCrop {
   id: string;
   name: string;
   group: string;
   season: string;
   growingDays: number[];
-  waterMm: number[];
-  droughtSensitivity: string;
+  waterMm?: number[];
   sourceIds: string[];
   limitations: string[];
+  ecologicalRequirements: JsonRecord;
 }
 
 export interface AgriculturalKnowledge {
@@ -58,6 +75,7 @@ export interface AgriculturalKnowledge {
   crops: ReferenceCrop[];
   references: AgriculturalReference[];
   limitations: string[];
+  dataset?: JsonRecord;
 }
 
 export interface PlanningFinding {
@@ -66,8 +84,6 @@ export interface PlanningFinding {
   sourceIds: string[];
 }
 
-export interface JsonRecord { [key: string]: unknown }
-
 export interface PlanningCandidate {
   crop: ReferenceCrop;
   status: string;
@@ -75,11 +91,13 @@ export interface PlanningCandidate {
   risks: PlanningFinding[];
   calendar: JsonRecord;
   environmentalContext: JsonRecord;
+  screen?: JsonRecord;
 }
 
 export interface RotationScenario {
   slot: string;
   title: string;
+  strategyType?: string;
   crops: string[];
   status: string;
   benefits: PlanningFinding[];
@@ -97,6 +115,7 @@ export interface FarmingPlanReport {
   engineVersion: string;
   status: string;
   modelStatus: string;
+  priorityApplied?: string;
   inputs: JsonRecord;
   candidates: PlanningCandidate[];
   scenarios: RotationScenario[];

@@ -14,9 +14,17 @@ def build_features(db, farm, location):
     for parameter, unit in [("clay_pct", "%"), ("sand_pct", "%"), ("silt_pct", "%"), ("ph", "pH"), ("soc_g_kg", "g/kg")]:
         matching = next((m for m in measurements if m.parameter == parameter and m.unit == unit and m.depth_top_cm == 0 and m.depth_bottom_cm == 5), None)
         estimate = soil["estimate"]
-        chosen[parameter] = {"value": matching.value if matching else estimate["properties"][parameter]["value"] if estimate else None,
-            "unit": unit, "depthCm": "0-5", "source": matching.source if matching else "PROXY_DEMO_ONLY" if estimate else "unavailable",
-            "measurementId": matching.id if matching else None, "groundTruthEligible": False}
+        profile_ph = farm.profile.get("soilPh") if parameter == "ph" else None
+        if matching:
+            value, source, depth, measurement_id = matching.value, matching.source, "0-5", matching.id
+        elif profile_ph is not None:
+            value, source, depth, measurement_id = profile_ph, "farmer_profile_unverified", "unspecified", None
+        elif estimate:
+            value, source, depth, measurement_id = estimate["properties"][parameter]["value"], "PROXY_DEMO_ONLY", "0-5", None
+        else:
+            value, source, depth, measurement_id = None, "unavailable", "0-5", None
+        chosen[parameter] = {"value": value, "unit": unit, "depthCm": depth, "source": source,
+            "measurementId": measurement_id, "groundTruthEligible": False}
     return {"farmId": farm.id, "referencePeriod": summary["referencePeriod"], "seasonal": summary["seasonal"],
         "soilInputs": chosen, "irrigation": farm.profile["irrigation"], "cropIdentity": farm.profile["currentCrop"],
         "missingValuesPreserved": True, "labels": None, "modelStatus": "not_trained",

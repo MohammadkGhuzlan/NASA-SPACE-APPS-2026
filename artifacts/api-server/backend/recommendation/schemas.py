@@ -1,10 +1,12 @@
 from datetime import date
+from typing import Literal
 from pydantic import BaseModel, Field, ConfigDict, field_validator
 
 
 class FarmingPlanInput(BaseModel):
     model_config = ConfigDict(str_strip_whitespace=True, allow_inf_nan=False, extra="forbid")
     plantingDate: date | None = None
+    priority: Literal["conserve_water", "soil_health", "productivity", "reduce_risk"] | None = None
     currentRotation: list[str] = Field(default_factory=list, max_length=6)
     previousCrops: list[str] = Field(default_factory=list, max_length=12)
     excludedCrops: list[str] = Field(default_factory=list, max_length=20)

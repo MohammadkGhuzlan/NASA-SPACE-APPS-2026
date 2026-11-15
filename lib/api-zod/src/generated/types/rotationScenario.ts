@@ -11,6 +11,7 @@ import type { PlanningFinding } from './planningFinding';
 export interface RotationScenario {
   slot: string;
   title: string;
+  strategyType?: string;
   crops: string[];
   status: string;
   benefits: PlanningFinding[];

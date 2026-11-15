@@ -5,7 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { humanize } from "@/components/record-view";
 
-const range = (r: number[]) => (r.length >= 2 ? `${r[0]} to ${r[1]}` : r.join(", ") || "Not stated");
+const range = (r?: number[]) => (r?.length ? `${r[0]} to ${r[1] ?? r[0]}` : "Not stated");
 
 export default function Knowledge() {
   const k = useGetAgriculturalKnowledge();
@@ -14,7 +14,7 @@ export default function Knowledge() {
       <div className="mx-auto max-w-6xl px-5 py-12">
         <PageHead eyebrow="Reference library" title={<>The facts the rules <span className="italic text-accent">are allowed to use</span></>}
           actions={k.data ? <Tag kind="observed">Version {k.data.version}</Tag> : undefined}>
-          Six crops, each fact tied to a cited source. These ranges feed limited reference-based rules. They are not a suitability score, not a yield prediction and not a local planting calendar.
+          Thirteen crops with FAO ECOCROP constraints, NASA context and USDA NRCS rotation guidance. ECOCROP values are expert estimates—not farm measurements, locally validated calendars, suitability scores or yield predictions.
         </PageHead>
         {k.isLoading ? (
           <div className="grid md:grid-cols-2 gap-4">{[0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-64 rounded-3xl" />)}</div>
@@ -30,20 +30,28 @@ export default function Knowledge() {
               <p className="rounded-3xl border-2 border-dashed border-input p-8 text-muted-foreground">No reference crops are published in this version.</p>
             ) : (
               <div className="grid md:grid-cols-2 gap-4">
-                {k.data.crops.map((c, i) => (
+                {k.data.crops.map((c, i) => {
+                  const eco = c.ecologicalRequirements as Record<string, unknown>;
+                  const ecoRange = (key: string) => range(eco[key] as number[] | undefined);
+                  return (
                   <article key={c.id} className="rise lift rounded-3xl border border-card-border bg-card p-6 flex flex-col gap-4" style={{ animationDelay: `${i * 60}ms` }} data-testid={`card-crop-${c.id}`}>
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">{c.group}</p>
+                        <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">{c.group} / ECOCROP {String(eco.ecoPortCode ?? "—")}</p>
                         <h2 className="font-display text-3xl text-primary">{c.name}</h2>
+                        <p className="text-sm text-muted-foreground italic">{String(eco.scientificName ?? "")}</p>
                       </div>
-                      <Tag kind="observed">{humanize(c.season)} season</Tag>
+                      <Tag kind="observed">Reference</Tag>
                     </div>
-                    <dl className="grid grid-cols-3 gap-3 rounded-2xl bg-muted/70 p-4">
-                      <div><dt className="text-[11px] uppercase tracking-wider text-muted-foreground">Growing days</dt><dd className="font-mono text-lg">{range(c.growingDays)}</dd></div>
-                      <div><dt className="text-[11px] uppercase tracking-wider text-muted-foreground">Water (mm)</dt><dd className="font-mono text-lg">{range(c.waterMm)}</dd></div>
-                      <div><dt className="text-[11px] uppercase tracking-wider text-muted-foreground">Drought sens.</dt><dd className="font-mono text-lg">{humanize(c.droughtSensitivity)}</dd></div>
+                    <dl className="grid sm:grid-cols-2 gap-3 rounded-2xl bg-muted/70 p-4">
+                      <div><dt className="text-[11px] uppercase tracking-wider text-muted-foreground">Crop cycle estimate (days)</dt><dd className="font-mono text-lg">{range(c.growingDays)}</dd></div>
+                      <div><dt className="text-[11px] uppercase tracking-wider text-muted-foreground">FAO crop-water reference (mm)</dt><dd className="font-mono text-lg">{range(c.waterMm)}</dd></div>
+                      <div><dt className="text-[11px] uppercase tracking-wider text-muted-foreground">Broad temperature limits</dt><dd className="font-mono text-lg">{ecoRange("broadTemperatureLimitsC")} °C</dd></div>
+                      <div><dt className="text-[11px] uppercase tracking-wider text-muted-foreground">Broad soil pH limits</dt><dd className="font-mono text-lg">{ecoRange("broadSoilPhLimits")}</dd></div>
+                      <div><dt className="text-[11px] uppercase tracking-wider text-muted-foreground">Optimal temperature estimate</dt><dd className="font-mono text-lg">{ecoRange("optimalTemperatureC")} °C</dd></div>
+                      <div><dt className="text-[11px] uppercase tracking-wider text-muted-foreground">Annual rainfall range</dt><dd className="font-mono text-lg">{ecoRange("optimalAnnualRainfallMm")} mm</dd></div>
                     </dl>
+                    <p className="text-xs text-muted-foreground">ECOCROP annual rainfall estimates are shown in saved reports where relevant, but are not directly compared with NASA rainfall or seasonal farm water.</p>
                     {c.limitations.length > 0 && (
                       <ul className="text-sm text-muted-foreground space-y-1 list-disc pl-5">{c.limitations.map((l, j) => <li key={j}>{l}</li>)}</ul>
                     )}
@@ -54,7 +62,8 @@ export default function Knowledge() {
                       })}
                     </div>
                   </article>
-                ))}
+                  );
+                })}
               </div>
             )}
             <div className="mt-10 grid lg:grid-cols-[1.3fr_1fr] gap-5">

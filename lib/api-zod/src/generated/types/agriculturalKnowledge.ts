@@ -6,6 +6,7 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { AgriculturalReference } from './agriculturalReference';
+import type { JsonRecord } from './jsonRecord';
 import type { ReferenceCrop } from './referenceCrop';
 
 export interface AgriculturalKnowledge {
@@ -13,4 +14,5 @@ export interface AgriculturalKnowledge {
   crops: ReferenceCrop[];
   references: AgriculturalReference[];
   limitations: string[];
+  dataset?: JsonRecord;
 }

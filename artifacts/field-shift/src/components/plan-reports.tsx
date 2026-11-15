@@ -44,8 +44,16 @@ function Section({ title, children, aside }: { title: string; children: ReactNod
   );
 }
 
-function ReportForm({ farmId, defaultCrop, onCreated }: { farmId: number; defaultCrop: string; onCreated: (id: number) => void }) {
+const priorityOptions = [
+  { value: "conserve_water", label: "Conserve water" },
+  { value: "soil_health", label: "Support soil health" },
+  { value: "reduce_risk", label: "Reduce rotation risks" },
+  { value: "productivity", label: "Improve productivity" },
+] as const;
+
+function ReportForm({ farmId, defaultCrop, defaultPriority, onCreated }: { farmId: number; defaultCrop: string; defaultPriority: string; onCreated: (id: number) => void }) {
   const [plantingDate, setPlantingDate] = useState("");
+  const [priority, setPriority] = useState(defaultPriority);
   const [rotation, setRotation] = useState(defaultCrop);
   const [previous, setPrevious] = useState("");
   const [excluded, setExcluded] = useState("");
@@ -58,7 +66,7 @@ function ReportForm({ farmId, defaultCrop, onCreated }: { farmId: number; defaul
 
   function submit(e: FormEvent) {
     e.preventDefault();
-    const data: FarmingPlanInput = { currentRotation: split(rotation), previousCrops: split(previous), excludedCrops: split(excluded), operationalLimitations: limits.trim() };
+    const data: FarmingPlanInput = { currentRotation: split(rotation), previousCrops: split(previous), excludedCrops: split(excluded), operationalLimitations: limits.trim(), priority: priority as FarmingPlanInput["priority"] };
     if (data.currentRotation!.length > 6) return setError("Planned rotation allows at most 6 crops.");
     if (data.previousCrops!.length > 12) return setError("Previous crops allows at most 12 entries.");
     if (data.excludedCrops!.length > 20) return setError("Excluded crops allows at most 20 entries.");
@@ -79,13 +87,22 @@ function ReportForm({ farmId, defaultCrop, onCreated }: { farmId: number; defaul
     <form onSubmit={submit} className="rounded-3xl bg-primary text-primary-foreground furrows p-6 flex flex-col gap-4" data-testid="form-generate-report">
       <div><h3 className="font-display text-2xl">New report</h3><p className="text-sm opacity-80 mt-1">Saved as an immutable snapshot. Manual drafts stay untouched.</p></div>
       {[
-        { id: "rotation", l: "Planned rotation (in order, comma separated)", v: rotation, s: setRotation, p: "e.g. Wheat, Pea" },
-        { id: "previous", l: "Previous crops", v: previous, s: setPrevious, p: "e.g. Barley, Potato" },
+        { id: "rotation", l: "Current rotation (in order, comma separated)", v: rotation, s: setRotation, p: "e.g. Wheat, Pea" },
+        { id: "previous", l: "Previous crops, oldest first", v: previous, s: setPrevious, p: "e.g. Barley, Potato" },
         { id: "excluded", l: "Crops to exclude", v: excluded, s: setExcluded, p: "Names from the reference library" },
       ].map((f) => (
         <div key={f.id} className="space-y-1.5"><Label htmlFor={`plan-${f.id}`} className="text-xs uppercase tracking-wider opacity-80">{f.l}</Label>
           <Input id={`plan-${f.id}`} value={f.v} onChange={(e) => f.s(e.target.value)} placeholder={f.p} className="bg-primary-foreground/95 text-foreground" data-testid={`input-plan-${f.id}`} /></div>
       ))}
+      <div className="space-y-1.5">
+        <Label htmlFor="plan-priority" className="text-xs uppercase tracking-wider opacity-80">Main planning priority</Label>
+        <select id="plan-priority" value={priority} onChange={(e) => setPriority(e.target.value)}
+          className="h-10 w-full rounded-md border border-input bg-primary-foreground/95 px-3 text-sm text-foreground"
+          data-testid="select-plan-priority">
+          {priorityOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+        </select>
+        <p className="text-xs opacity-75">This changes transparent rule ordering only. Productivity cannot be optimized without verified yield or market data.</p>
+      </div>
       <div className="grid sm:grid-cols-2 gap-3">
         <div className="space-y-1.5"><Label htmlFor="plan-date" className="text-xs uppercase tracking-wider opacity-80">Planting date (optional)</Label>
           <Input id="plan-date" type="date" value={plantingDate} onChange={(e) => setPlantingDate(e.target.value)} className="bg-primary-foreground/95 text-foreground" data-testid="input-plan-date" /></div>
@@ -115,6 +132,7 @@ function ReportView({ r }: { r: FarmingPlanReport }) {
           {r.status === "insufficient_evidence" ? "There was not enough evidence to build a reference-based plan. Nothing has been guessed in its place." : "Conditional findings from limited reference-based rules."}
           {" "}No trained prediction exists: no suitability score, no yield prediction, no similar-region comparison.
         </p>
+        <p className="text-sm mt-2"><span className="font-semibold">Priority applied:</span> {humanize(r.priorityApplied ?? "not recorded")}. NASA temperature and farmer-reported soil/water inputs can flag conflicts; they cannot establish crop suitability.</p>
         {r.warnings.length > 0 && <ul className="mt-4 space-y-1.5">{r.warnings.map((w, i) => <li key={i} className="rounded-xl bg-[hsl(38_70%_50%/.12)] px-3 py-2 text-sm">{w}</li>)}</ul>}
       </div>
 
@@ -148,9 +166,10 @@ function ReportView({ r }: { r: FarmingPlanReport }) {
           <div className="grid lg:grid-cols-2 gap-4">
             {r.candidates.map((c) => (
               <div key={c.crop.id} className="rounded-2xl border border-border p-4 space-y-3" data-testid={`candidate-${c.crop.id}`}>
-                <div className="flex items-center justify-between gap-2"><span className="font-display text-xl">{c.crop.name} <span className="text-sm text-muted-foreground font-sans">{humanize(c.crop.season)} season</span></span><StatusTag s={c.status} /></div>
+                <div className="flex items-center justify-between gap-2"><span className="font-display text-xl">{c.crop.name} <span className="text-sm text-muted-foreground font-sans">{humanize(c.crop.group)}</span></span><StatusTag s={c.status} /></div>
                 <Findings items={c.reasons} refs={refs} empty="No reasons recorded." testid={`reason-${c.crop.id}`} />
                 <Findings items={c.risks} refs={refs} tone="risk" empty="No risks recorded." testid={`crisk-${c.crop.id}`} />
+                {c.screen && <div className="rounded-xl bg-muted/60 p-3"><p className="text-xs font-semibold uppercase tracking-wider mb-2">Reference screening details</p><RecordView record={c.screen as Record<string, unknown>} /></div>}
                 <details><summary className="cursor-pointer text-sm font-semibold text-accent">Calendar and context</summary>
                   <div className="mt-2 space-y-3"><RecordView record={c.calendar} /><RecordView record={c.environmentalContext} /></div>
                 </details>
@@ -177,7 +196,7 @@ function ReportView({ r }: { r: FarmingPlanReport }) {
   );
 }
 
-export function PlanReports({ farmId, defaultCrop }: { farmId: number; defaultCrop: string }) {
+export function PlanReports({ farmId, defaultCrop, defaultPriority }: { farmId: number; defaultCrop: string; defaultPriority: string }) {
   const list = useListFarmingPlans(farmId);
   const [picked, setPicked] = useState<number | null>(null);
   const selected = picked ?? list.data?.[0]?.id ?? 0;
@@ -193,7 +212,7 @@ export function PlanReports({ farmId, defaultCrop }: { farmId: number; defaultCr
       </div>
       <div className="grid lg:grid-cols-[22rem_1fr] gap-5 items-start">
         <div className="space-y-5 min-w-0">
-          <ReportForm farmId={farmId} defaultCrop={defaultCrop} onCreated={setPicked} />
+          <ReportForm farmId={farmId} defaultCrop={defaultCrop} defaultPriority={defaultPriority} onCreated={setPicked} />
           <div className="rounded-3xl border border-card-border bg-card p-4">
             <p className="text-sm font-semibold mb-2 px-1">History</p>
             {list.isLoading ? <div className="space-y-2">{[0, 1, 2].map((i) => <Skeleton key={i} className="h-12 rounded-xl" />)}</div>

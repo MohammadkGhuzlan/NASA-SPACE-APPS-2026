@@ -1,103 +1,147 @@
-# Phase 3: initial reference-based agricultural planning
+# Phase 3: agricultural knowledge and crop-rotation engine
 
-## Implemented scope
+## Delivered
 
-This release starts Phase 3 without rebuilding the application or training a model.
-The existing map, NASA services, farmer profiles and manual rotation drafts remain.
+Phase 3 now has a working, source-linked agricultural planning foundation in the
+existing Field Shift application. The map, farm profiles, Phase 2 NASA services,
+manual rotation drafts and database are preserved. Reports use the existing
+recommendation-results table and save an immutable input/evidence snapshot.
 
-- Public reference library: Wheat, Barley, Grain maize, Dry bean, Pea and Potato.
-- FAO generic sowing-to-last-harvest durations, total crop-water ranges and drought sensitivity.
-- FAO diversification/soil-cover/minimum-disturbance principles.
-- University of Minnesota Extension crop-group descriptors and explicitly region-scoped rotation cautions.
-- Farmer-specified planned sequence, previous crops, exclusions, hypothetical sowing date,
-  crop-available seasonal water estimate and operational limitations.
-- Deterministic current/A/B scenario exploration with source-linked benefits and risks.
-- Conditional harvest arithmetic and historical NASA monthly climate context.
-- Versioned, immutable report snapshots stored in the existing recommendation-results table,
-  with no model ID. Reports do not replace or modify manual drafts.
-- Session-owner-scoped generation, history and reopening.
+The public Reference library contains 13 species: wheat, barley, grain maize,
+common bean, pea, potato, sorghum, chickpea, lentil, oat, sunflower, soybean and
+rice. Each crop lists its scientific name, botanical family, broad and optimal
+ECOCROP temperature/pH ranges, annual rainfall reference, cycle range, EcoPort
+record number and source links. FAO crop-water ranges are included only for the
+six species covered by the referenced FAO crop-water table.
 
-## Reference verification
+The data subset was read from the OpenCLIM EcoCrop database pinned at commit
+`ea43ecd418fd1a1ea08d32c7dce64b7fae02dec4`. Its source-file SHA-256 is
+`4187e8846336e185c4583165211c5981855e95adfbefd897bd2bd481de48d106`. It is
+attributed to FAO ECOCROP; the matching CGIAR Climate Action Data Hub export is
+licensed CC BY 4.0 and that license is identified in the app. The Hub's notes
+explain that ECOCROP values are expert estimates
+with uneven provenance; missing and anomalous values exist in the larger
+database. This implementation uses a small selected subset, not all 2,568
+species, and does not claim the facts are field measurements.
 
-Reviewed on 2026-11-15:
+## Farmer inputs and report behavior
 
-1. https://www.fao.org/4/s2022e/s2022e07.htm
-   - Table 6 durations; Table 14 indicative total crop-water requirements and drought sensitivity.
-   - The manual explicitly favors local information and warns that generic ranges are approximate.
-2. https://www.fao.org/conservation-agriculture/en
-3. https://www.fao.org/conservation-agriculture/in-practice/species-diversification/en/
-4. https://extension.umn.edu/small-grains-crop-and-variety-selection/small-grain-crop-rotations
-   - Minnesota/North Dakota evidence is not treated as worldwide validated advice.
+The report form accepts a chronological previous-crop list, the current/planned
+rotation, exclusions, a planning priority, a hypothetical planting date, an
+optional farmer estimate of total crop-available seasonal water, and operational
+limitations. The farm profile contributes its selected coordinates, current crop,
+goal, irrigation category, source-tagged pH, soil description, water constraints
+and saved farmer drafts.
 
-Several crop-specific FAO landing pages returned “page not found”; no numeric fact
-was taken from those failed fetches or search snippets. The accessible FAO manual
-is the cited numeric source.
+Each report compares:
 
-## Rules and their limits
+1. The farmer-reported rotation and supplied history.
+2. Alternative A, generated from the curated crops and priority rules unless a
+   saved farmer draft occupies that slot.
+3. Alternative B, likewise generated or populated by the saved farmer draft.
 
-- Exclude named crops using exact curated aliases, not substring guesses.
-- Mark conflicts if a farmer's total crop-available water estimate falls below the
-  generic FAO minimum; this is a conservative reference comparison, NOT a water balance.
-- Water-priority exploration orders candidates by generic minimum water requirement.
-  Soil-health exploration brings legumes first. Other priorities use stable name order.
-  These are transparent exploration policies, not verified crop rankings.
-- Form distinct three-crop exploratory sequences with a legume, without adjacent
-  broad-group repetition and without a maize-to-wheat/barley transition.
-- Apply regional disease cautions as review prompts, not local disease predictions.
-- Preserve unknown crops in the current sequence and mark unassessed requirements.
-- Do not parse unstructured history or equipment constraints into invented facts.
-- If fewer compatible reference crops remain, withhold alternatives rather than invent them.
-- Planting dates are user assumptions. Adding generic durations creates hypothetical
-  harvest ranges, not locally validated sowing/harvesting windows.
-- Later sequence dates assume immediate succession and carry duration uncertainty forward;
-  actual seasonal gaps and turnaround remain unknown.
-- Historical context uses equally weighted complete monthly aggregates for calendar
-  months touched by the maximum duration. It is not a climate-suitability test or forecast.
-- Multi-crop water totals span multiple crop cycles, not one season's irrigation demand.
+The rotation rules preserve unknown farmer-entered crops, warn about adjacent
+repeats of the same species or botanical family, and link diversity/legume
+considerations to FAO or USDA NRCS references. Alternative ordering avoids
+available temperature/pH conflict flags where possible, avoids adjacent family
+repetition, and uses the stated priority transparently. The water-conservation
+priority orders only crops with a comparable FAO crop-water range; an entered
+seasonal water amount only screens species with that comparable range. If that
+leaves too few supported crops, alternatives are withheld rather than inventing
+requirements.
 
-## API and persistence
+Priority rules are not suitability scores:
 
-- `GET /api/knowledge`
-- `GET /api/farms/{id}/plans`
-- `POST /api/farms/{id}/plans`
-- `GET /api/farms/{id}/plans/{planId}`
+- **Conserve water:** order comparable FAO crop-water ranges from lower to higher.
+- **Support soil health:** prefer legume inclusion and family diversity as
+  reference-based design considerations; no soil-health outcome is quantified.
+- **Reduce rotation risk:** prefer family diversity and no same-family adjacency;
+  this is not a pest/disease model.
+- **Productivity:** record the priority, but do not optimize without verified
+  yield or market evidence.
 
-Reuses existing crop definitions, crop requirements, source registry and recommendation
-results. No schema migration or production schema change is required. Startup performs
-idempotent reference-data inserts; no destructive updates to user farm/draft records.
+## How location and soil evidence are used
 
-Reports preserve input/profile snapshots, NASA provenance, source-sensitive soil inputs,
-library/engine versions, limitations and references. Browser-session ownership remains
-the existing access mechanism; this release does not add accounts or recovery.
+NASA POWER daily observations remain tied to the exact farm coordinates and
+2019–2025 reference period. If a farmer supplies a hypothetical sowing date, the
+engine presents complete-month historical context across the months touched by
+the maximum ECOCROP cycle. It compares monthly means of daily minimum and maximum
+air temperature with ECOCROP broad thresholds and reports possible mismatches for
+human review. This is deliberately not a daily exceedance count, crop-stage
+simulation, planting-window detector, forecast or suitability prediction.
 
-## Explicitly not complete
+NASA rainfall and modeled `GWETTOP`/`GWETROOT` appear as provenance/context only.
+They are not treated as effective rainfall, irrigation supply, farm soil moisture
+or SMAP data. ECOCROP's annual precipitation estimates are not directly compared
+with NASA rainfall because their crop-cycle interpretation depends on method.
 
-This is the initial, deliberately limited Phase 3 release, not a claim that all agricultural
-planning knowledge has been curated:
+Soil pH screening prefers the existing latest matching 0–5 cm farmer-entered
+measurement; if none exists, it can use the farmer profile's self-reported pH.
+Both remain unverified inputs. A SoilGrids proxy is explicitly marked and never
+filters a crop. A pH-range conflict is a review flag, not a rejection, and
+topsoil may not represent the crop root zone. Soil texture, salinity, drainage,
+root depth and other farm soil constraints are not comprehensively screened.
 
-- No globally verified local calendars, cultivar adaptation, crop-specific temperature,
-  soil-pH, salinity, drainage, photoperiod or vernalization requirements.
-- No automated interpretation of free-text operational constraints.
-- No yield/economic/soil-health outcome estimates or quantified water savings.
-- No supervised training, FAO GAEZ label dataset, suitability confidence or similar-region inference.
-- No PDF export or downloadable generated report file; saved reports reopen in the app.
-- Earlier Phase 2 dashboard gaps remain outside this release.
+The report distinguishes source facts, NASA historical estimates, farmer inputs,
+proxy values, saved farmer drafts, and missing evidence. It explains risk and
+benefit findings, includes source links and preserves a versioned report snapshot.
+No prediction confidence, yield, savings or unsupported agronomic measurement is
+produced; `modelStatus` remains `not_trained`.
+
+## References checked on 2026-11-15
+
+- [FAO ECOCROP via GAEZ](https://gaez.fao.org/pages/ecocrop): database scope and
+  environmental descriptor definitions.
+- [CGIAR Climate Action Data Hub ECOCROP catalog](https://cgiar-climate-data-hub.github.io/catalog/ecocrop/):
+  data export, processing, attribution, license and quality limitations.
+- [Pinned OpenCLIM EcoCrop database](https://github.com/OpenCLIM/ecocrop/blob/ea43ecd418fd1a1ea08d32c7dce64b7fae02dec4/EcoCrop_DB.csv):
+  source records used for the selected crop subset.
+- [FAO Crop Water Needs, Chapter 3](https://www.fao.org/4/s2022e/s2022e07.htm):
+  generic crop-cycle and total crop-water ranges where available.
+- [USDA NRCS Conservation Crop Rotation, Practice Code 328](https://www.nrcs.usda.gov/publications/nhcp-notice-179/328-cps-conservation-crop-rotation-2026.pdf):
+  U.S. national planning criteria; local/state Field Office Technical Guide
+  requirements still apply.
+- [USDA NRCS Cover Crop, Practice Code 340](https://www.nrcs.usda.gov/resources/guides-and-instructions/cover-crop-ac-340-conservation-practice-standard):
+  conservation purposes and need for local/state practice criteria.
+- [FAO Conservation Agriculture](https://www.fao.org/conservation-agriculture/en)
+  and [species diversification](https://www.fao.org/conservation-agriculture/in-practice/species-diversification/en/):
+  general conservation and diversity principles.
+- [NASA POWER](https://power.larc.nasa.gov/): existing exact-coordinate historical
+  climate and modeled wetness source.
+
+## Still needed before Phase 3 can be called locally validated
+
+- Region- and cultivar-specific planting/harvest windows and local extension
+  validation for Irbid, Al Ain, Colusa and Stuttgart.
+- Wider authoritative crop coverage and review of each species' ECOCROP record
+  against locally relevant sources.
+- Root-zone soil evidence and explicit salinity, texture, drainage and depth checks.
+- Irrigation delivery/capacity and a crop-stage water-balance method. The current
+  farmer-entered total water estimate is not an irrigation schedule.
+- Structured pest, disease, cultivar, market, equipment and labor constraints;
+  free text remains for human review.
+- Independent agronomist review of the rules and generated scenarios.
+
+## Phase 4 boundary
+
+Phase 4 remains unimplemented. It still needs a reproducible supervised model
+trained against verified FAO GAEZ crop-suitability labels, documented crop/feature
+mapping, reproducible preprocessing and splits, independent validation, and
+calibrated evidence/coverage limits. Farmer reports, profile inputs, NASA
+observations and proxy soil values must not be converted into suitability labels.
+No Phase 4 model is trained or claimed operational here.
+
+Earlier Phase 2 dashboard and source-coverage gaps remain outside this work.
 
 ## Verification
 
-Automated rule tests and rollback-isolated API tests cover reference values, aliases,
-water conflicts, exclusions, missing data, harvest arithmetic, unknown crops, distinct
-alternatives, provenance, immutable save/reopen, owner separation, draft preservation
-and idempotent reference seeding. Run:
+`PYTHONPATH=artifacts/api-server uv run --no-sync python -B -m unittest discover
+-s artifacts/api-server/tests -v` passed all 80 tests, including source facts,
+priority validation, reference conflict flags, proxy-versus-farmer soil handling,
+zero-water behavior, alternatives, saved-report ownership, idempotent data seeding
+and farmer-draft preservation.
 
-```sh
-PYTHONPATH=artifacts/api-server uv run python -m unittest discover -s artifacts/api-server/tests -v
-pnpm run typecheck
-```
-
-Delivery verification: all 75 existing and new Python tests passed, including 23
-planning-specific tests. Root TypeScript checking passed. Browser checks confirmed
-generation, saving, reload/reopening, visible invalid-exclusion errors without
-extra records, unchanged farmer drafts, zero-water withheld alternatives, and the
-six-crop reference library. A recursive provenance overflow was fixed and rechecked:
-no horizontal overflow at 390px or 1280px, and the report button is reachable.
+`pnpm run typecheck` passed. After restarting both app workflows, the public
+Reference library rendered in a full-page desktop capture and at a mobile viewport.
+API tests exercised report generation, saving, re-opening, ownership checks and
+preservation of manual drafts.

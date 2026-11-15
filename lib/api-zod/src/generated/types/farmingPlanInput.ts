@@ -5,10 +5,13 @@
  * Field Shift farm intelligence foundation
  * OpenAPI spec version: 0.1.0
  */
+import type { FarmingPlanInputPriority } from './farmingPlanInputPriority';
 
 export interface FarmingPlanInput {
   /** @nullable */
   plantingDate?: Date | null;
+  /** @nullable */
+  priority?: FarmingPlanInputPriority;
   /**
      * @maxItems 6
      * @items.maxLength 100

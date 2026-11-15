@@ -2,19 +2,23 @@
 
 A functional foundation for worldwide farm profiling and evidence-aware crop rotation planning, created for the requested NASA Space Apps 2026 concept. This is an independent prototype, not a NASA-endorsed agronomic advisory service.
 
-## Phase 3: initial reference-based planning
+## Phase 3: evidence-based agricultural planning foundation
 
-The **Reference library** (`/knowledge`) now contains six crops with cited FAO
-duration and total crop-water ranges. Each farm's **Rotation planner** can generate,
-save and reopen a report comparing the current sequence with two conditional
-reference-based alternatives when enough non-excluded crops remain.
+The **Reference library** (`/knowledge`) includes 13 selected species from a
+pinned, attributed FAO ECOCROP export, FAO crop-water references where available,
+and USDA NRCS rotation/cover-crop standards. Each farm's **Rotation planner**
+compares the farmer-reported rotation with two rule-based alternatives when enough
+reference crops and water evidence are available.
 
-Reports retain NASA provenance, source-sensitive soil inputs, farmer assumptions,
-source-linked management considerations and missing information. Generic durations
-give hypothetical harvest ranges only; local planting calendars and crop suitability
-are not established. Free-text equipment constraints require human review.
-No model has been trained, no GAEZ labels are imported, and no suitability score,
-yield estimate or similar-region prediction is produced.
+Plans use exact-location NASA POWER historical monthly temperature, rainfall and
+modeled wetness as context; farmer-entered crop history, priority, soil pH,
+irrigation category and seasonal water are retained with source limits. Screening
+flags possible EcoCrop temperature/pH/water conflicts for review. It is not a crop
+suitability prediction. Generic cycle ranges support hypothetical dates only;
+local planting windows, crop-stage water balances and free-text constraint
+interpretation are not implemented. EcoCrop facts are expert estimates, not farm
+measurements. No model has been trained, no GAEZ labels are imported, and no yield,
+profitability or similar-region prediction is produced.
 
 See [Phase 3 scope, references and limitations](docs/PHASE_3_REFERENCE_PLANNING.md).
 

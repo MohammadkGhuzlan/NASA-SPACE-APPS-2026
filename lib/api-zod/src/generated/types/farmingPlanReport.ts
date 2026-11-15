@@ -19,6 +19,7 @@ export interface FarmingPlanReport {
   engineVersion: string;
   status: string;
   modelStatus: string;
+  priorityApplied?: string;
   inputs: JsonRecord;
   candidates: PlanningCandidate[];
   scenarios: RotationScenario[];

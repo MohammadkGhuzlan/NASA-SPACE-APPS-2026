@@ -111,7 +111,7 @@ export default function Planner() {
                 </>
               )}
             </div>
-            <PlanReports farmId={id} defaultCrop={farm.data.currentCrop} />
+            <PlanReports farmId={id} defaultCrop={farm.data.currentCrop} defaultPriority={farm.data.goal} />
             <div className="mt-8 grid md:grid-cols-[1.4fr_1fr] gap-5">
               <div className="rounded-3xl border-2 border-dashed border-input p-6 flex gap-4">
                 <Bot className="h-8 w-8 text-muted-foreground shrink-0" />

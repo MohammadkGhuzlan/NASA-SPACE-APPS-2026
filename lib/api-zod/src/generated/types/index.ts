@@ -23,6 +23,7 @@ export * from './environmentStatus';
 export * from './farm';
 export * from './farmerMeasurement';
 export * from './farmingPlanInput';
+export * from './farmingPlanInputPriority';
 export * from './farmingPlanReport';
 export * from './farmingPlanSummary';
 export * from './farmInput';

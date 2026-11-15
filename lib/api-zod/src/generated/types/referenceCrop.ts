@@ -5,6 +5,7 @@
  * Field Shift farm intelligence foundation
  * OpenAPI spec version: 0.1.0
  */
+import type { JsonRecord } from './jsonRecord';
 
 export interface ReferenceCrop {
   id: string;
@@ -12,8 +13,8 @@ export interface ReferenceCrop {
   group: string;
   season: string;
   growingDays: number[];
-  waterMm: number[];
-  droughtSensitivity: string;
+  waterMm?: number[];
   sourceIds: string[];
   limitations: string[];
+  ecologicalRequirements: JsonRecord;
 }

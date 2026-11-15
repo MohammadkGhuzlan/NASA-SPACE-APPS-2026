@@ -16,4 +16,5 @@ export interface PlanningCandidate {
   risks: PlanningFinding[];
   calendar: JsonRecord;
   environmentalContext: JsonRecord;
+  screen?: JsonRecord;
 }
