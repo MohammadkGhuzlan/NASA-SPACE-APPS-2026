@@ -213,3 +213,5 @@ from .recommendation.routes import router as planning_router
 app.include_router(planning_router)
 from .gaez.routes import router as gaez_router
 app.include_router(gaez_router)
+from .experimental.routes import router as experimental_router
+app.include_router(experimental_router)

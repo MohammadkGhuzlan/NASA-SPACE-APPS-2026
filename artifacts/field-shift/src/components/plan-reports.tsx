@@ -1,5 +1,6 @@
 import { useState, type FormEvent, type ReactNode } from "react";
 import { AnalysisStatus } from "@/components/analysis-status";
+import { ExperimentalMl } from "@/components/experimental-ml";
 import { GaezEvidence, GaezReport } from "@/components/gaez-evidence";
 import { useQueryClient } from "@tanstack/react-query";
 import { Link } from "wouter";
@@ -214,7 +215,7 @@ export function PlanReports({ farmId, defaultCrop, defaultPriority }: { farmId: 
         <h2 id="reports-heading" className="font-display text-3xl md:text-4xl text-primary mt-2">Saved farming <span className="italic">reports</span></h2>
         <p className="text-muted-foreground mt-2 max-w-3xl">Limited rules applied to the <Link href="/knowledge" className="text-accent hover:underline" data-testid="link-planner-knowledge">reference library</Link> and this farm's evidence. Every finding links to a source. No accepted Field Shift ML predictions or yield forecasts. Published FAO GAEZ classes are shown separately as cited evidence.</p>
       </div>
-      <div className="mb-5 space-y-5"><AnalysisStatus /><GaezEvidence farmId={farmId} defaultCrop={defaultCrop} /></div>
+      <div className="mb-5 space-y-5"><AnalysisStatus /><GaezEvidence farmId={farmId} defaultCrop={defaultCrop} /><ExperimentalMl key={farmId} farmId={farmId} /></div>
       <div className="grid lg:grid-cols-[22rem_1fr] gap-5 items-start">
         <div className="space-y-5 min-w-0">
           <ReportForm farmId={farmId} defaultCrop={defaultCrop} defaultPriority={defaultPriority} onCreated={setPicked} />

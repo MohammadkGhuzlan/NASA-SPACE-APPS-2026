@@ -39,3 +39,16 @@ under the stated loss. This does not justify returning zeros as live predictions
 **How to apply:** Fit baselines only on training folds; report mean and median
 comparisons, continuous distributions and source-cell counts rather than
 pretending repeated crop rows or zeros are independent classes.
+
+Rejected models may run only in a visibly separate experimental research lane
+when explicitly requested; this is not a production acceptance override.
+
+**Why:** The experimental-mode brief explicitly requests genuine numerical
+inference from failed candidates while preserving every validation threshold
+and the untouched final test.
+
+**How to apply:** Keep production readiness disabled, require complete authentic
+training-contract features, display failed-validation and out-of-domain warnings,
+and never feed experimental results into agricultural recommendations or normal
+saved reports. Operator changes to development access must not expose another
+browser workspace's farms or enable production.

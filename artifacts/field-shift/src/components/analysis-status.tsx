@@ -28,7 +28,7 @@ export function AnalysisStatus({ evidence }: { evidence?: AnalysisIntegration })
             ? "Research candidates were trained but did not pass validation."
             : "No reviewed, accepted model is active."}{" "}
           Historical NASA data and agricultural reference rules remain available.
-          No Field Shift model suitability value, yield forecast, confidence percentage, or similar-region estimate is being supplied. Trained AI crop-suitability predictions are not currently available; published FAO GAEZ classes, where shown, come from FAO data and documented requirements.
+          No Field Shift model suitability value, yield forecast, confidence percentage, or similar-region estimate is being supplied. Validated production crop-suitability predictions are not available, and saved reports never use the separate Experimental ML research outputs; published FAO GAEZ classes, where shown, come from FAO data and documented requirements.
         </p>
         {evidence && <>
           <p className="text-xs text-muted-foreground">Saved evidence snapshot: {new Date(evidence.generatedAt).toLocaleString()}.

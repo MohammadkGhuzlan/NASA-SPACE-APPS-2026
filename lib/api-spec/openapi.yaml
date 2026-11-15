@@ -6,6 +6,44 @@ info:
 servers:
   - url: /api
 paths:
+  /farms/{id}/experimental-ml:
+    get:
+      operationId: getExperimentalStatus
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200":
+          description: Owner-scoped development authorization and verified experimental model metadata
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ExperimentalStatus" }
+    post:
+      operationId: runExperimentalPrediction
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ExperimentalPredictionInput" }
+      responses:
+        "200":
+          description: Bounded research job or cached actual experimental output; never used by planner
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ExperimentalJob" }
+  /farms/{id}/experimental-ml/jobs/{jobId}:
+    get:
+      operationId: getExperimentalJob
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+        - { name: jobId, in: path, required: true, schema: { type: string } }
+      responses:
+        "200":
+          description: Authorized owner-only research job progress and result
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ExperimentalJob" }
   /gaez/catalog:
     get:
       operationId: getGaezCatalog
@@ -325,6 +363,71 @@ components:
     Latitude: { name: latitude, in: query, required: true, schema: { type: number, minimum: -90, maximum: 90 } }
     Longitude: { name: longitude, in: query, required: true, schema: { type: number, minimum: -180, maximum: 180 } }
   schemas:
+    ExperimentalPredictionInput:
+      type: object
+      additionalProperties: false
+      required: [cropCode, acknowledgeWarning]
+      properties:
+        cropCode: { type: string, enum: [WHE, BRL, MZE, RCD, RCW] }
+        acknowledgeWarning: { type: boolean, const: true }
+        retry: { type: boolean, default: false }
+    ExperimentalModel:
+      type: object
+      required: [cropCode, name, selected, validationMae, validationR2, meanBaselineMae, medianBaselineMae, validationStatus, rejectionReasons, geographicLimitations, trainedCells, validationCells]
+      properties:
+        cropCode: { type: string }
+        name: { type: string }
+        selected: { type: string }
+        validationMae: { type: number }
+        validationR2: { type: [number, "null"] }
+        meanBaselineMae: { type: number }
+        medianBaselineMae: { type: number }
+        validationStatus: { type: string }
+        rejectionReasons: { type: array, items: { type: string } }
+        geographicLimitations: { type: string }
+        trainedCells: { type: integer }
+        validationCells: { type: integer }
+    ExperimentalStatus:
+      type: object
+      required: [authorized, available, warning, models, productionPredictionsEnabled, reason]
+      properties:
+        authorized: { type: boolean }
+        available: { type: boolean }
+        warning: { type: string }
+        productionPredictionsEnabled: { type: boolean }
+        reason: { type: string }
+        models: { type: array, items: { $ref: "#/components/schemas/ExperimentalModel" } }
+    ExperimentalJob:
+      type: object
+      required: [jobId, status, cropCode, warning, value, unit, reasons, estimatorExecuted, productionAccepted]
+      properties:
+        jobId: { type: string }
+        status: { type: string, enum: [preparing, experimental_output, missing_inputs, unavailable, interrupted] }
+        cropCode: { type: string }
+        warning: { type: string }
+        value: { type: [number, "null"] }
+        unit: { type: string }
+        reasons: { type: array, items: { type: string } }
+        estimatorExecuted: { type: boolean }
+        productionAccepted: { type: boolean }
+        target: { type: string }
+        modelVersion: { type: string }
+        datasetHash: { type: string }
+        artifactSha256: { type: string }
+        geographicSupport: { type: string }
+        supportReasons: { type: array, items: { type: string } }
+        warnings: { type: array, items: { type: string } }
+        validation:
+          type: object
+          additionalProperties: true
+        inputSummary:
+          type: object
+          additionalProperties: true
+        requestedCoordinates:
+          type: object
+          additionalProperties: true
+        createdAt: { type: string }
+        completedAt: { type: string }
     GaezAssessmentInput:
       type: object
       required: [cropCode, scenario]

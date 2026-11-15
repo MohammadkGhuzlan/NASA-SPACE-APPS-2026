@@ -32,6 +32,9 @@ import type {
   Environment,
   EnvironmentalHistory,
   EnvironmentalSummary,
+  ExperimentalJob,
+  ExperimentalPredictionInput,
+  ExperimentalStatus,
   Farm,
   FarmInput,
   FarmerMeasurement,
@@ -83,6 +86,287 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
   }
   return result;
 };
+
+export const getGetExperimentalStatusUrl = (id: number,) => {
+
+
+
+
+  return `/api/farms/${id}/experimental-ml`
+}
+
+export const getExperimentalStatus = async (id: number, options?: Parameters<typeof customFetch>[1]): Promise<ExperimentalStatus> => {
+
+  return customFetch<ExperimentalStatus>(getGetExperimentalStatusUrl(id),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetExperimentalStatusQueryKey = (id: number,) => {
+    return [
+    `/api/farms/${id}/experimental-ml`
+    ] as const;
+    }
+
+
+export const getGetExperimentalStatusQueryOptions = <TData = Awaited<ReturnType<typeof getExperimentalStatus>>, TError = ErrorType<unknown>>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getExperimentalStatus>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetExperimentalStatusQueryKey(id);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getExperimentalStatus>>> = ({ signal }) => getExperimentalStatus(id, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getExperimentalStatus>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetExperimentalStatusQueryResult = NonNullable<Awaited<ReturnType<typeof getExperimentalStatus>>>
+export type GetExperimentalStatusQueryError = ErrorType<unknown>
+
+
+export function useGetExperimentalStatus<TData = Awaited<ReturnType<typeof getExperimentalStatus>>, TError = ErrorType<unknown>>(
+ id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getExperimentalStatus>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getExperimentalStatus>>,
+          TError,
+          Awaited<ReturnType<typeof getExperimentalStatus>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetExperimentalStatus<TData = Awaited<ReturnType<typeof getExperimentalStatus>>, TError = ErrorType<unknown>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getExperimentalStatus>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getExperimentalStatus>>,
+          TError,
+          Awaited<ReturnType<typeof getExperimentalStatus>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetExperimentalStatus<TData = Awaited<ReturnType<typeof getExperimentalStatus>>, TError = ErrorType<unknown>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getExperimentalStatus>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetExperimentalStatus<TData = Awaited<ReturnType<typeof getExperimentalStatus>>, TError = ErrorType<unknown>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getExperimentalStatus>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetExperimentalStatusQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getRunExperimentalPredictionUrl = (id: number,) => {
+
+
+
+
+  return `/api/farms/${id}/experimental-ml`
+}
+
+export const runExperimentalPrediction = async (id: number,
+    experimentalPredictionInput: ExperimentalPredictionInput, options?: Parameters<typeof customFetch>[1]): Promise<ExperimentalJob> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<ExperimentalJob>(getRunExperimentalPredictionUrl(id),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(experimentalPredictionInput)
+  }
+);}
+
+
+
+
+
+export const getRunExperimentalPredictionMutationKey = () => ['runExperimentalPrediction'] as const;
+
+export const getRunExperimentalPredictionMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof runExperimentalPrediction>>, TError,RunExperimentalPredictionMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof runExperimentalPrediction>>, TError,RunExperimentalPredictionMutationVariables, TContext> => {
+
+const mutationKey = getRunExperimentalPredictionMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof runExperimentalPrediction>>, RunExperimentalPredictionMutationVariables> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  runExperimentalPrediction(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type RunExperimentalPredictionMutationResult = NonNullable<Awaited<ReturnType<typeof runExperimentalPrediction>>>
+    export type RunExperimentalPredictionMutationBody = BodyType<ExperimentalPredictionInput>
+    export type RunExperimentalPredictionMutationError = ErrorType<unknown>
+    export type RunExperimentalPredictionMutationVariables = {id: number;data: BodyType<ExperimentalPredictionInput>}
+
+    export const useRunExperimentalPrediction = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof runExperimentalPrediction>>, TError,RunExperimentalPredictionMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof runExperimentalPrediction>>,
+        TError,
+        RunExperimentalPredictionMutationVariables,
+        TContext
+      > => {
+      return useMutation(getRunExperimentalPredictionMutationOptions(options), queryClient);
+    }
+
+export const getGetExperimentalJobUrl = (id: number,
+    jobId: string,) => {
+
+
+
+
+  return `/api/farms/${id}/experimental-ml/jobs/${jobId}`
+}
+
+export const getExperimentalJob = async (id: number,
+    jobId: string, options?: Parameters<typeof customFetch>[1]): Promise<ExperimentalJob> => {
+
+  return customFetch<ExperimentalJob>(getGetExperimentalJobUrl(id,jobId),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetExperimentalJobQueryKey = (id: number,
+    jobId: string,) => {
+    return [
+    `/api/farms/${id}/experimental-ml/jobs/${jobId}`
+    ] as const;
+    }
+
+
+export const getGetExperimentalJobQueryOptions = <TData = Awaited<ReturnType<typeof getExperimentalJob>>, TError = ErrorType<unknown>>(id: number,
+    jobId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getExperimentalJob>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetExperimentalJobQueryKey(id,jobId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getExperimentalJob>>> = ({ signal }) => getExperimentalJob(id,jobId, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: id !== null && id !== undefined && jobId !== null && jobId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getExperimentalJob>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetExperimentalJobQueryResult = NonNullable<Awaited<ReturnType<typeof getExperimentalJob>>>
+export type GetExperimentalJobQueryError = ErrorType<unknown>
+
+
+export function useGetExperimentalJob<TData = Awaited<ReturnType<typeof getExperimentalJob>>, TError = ErrorType<unknown>>(
+ id: number,
+    jobId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getExperimentalJob>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getExperimentalJob>>,
+          TError,
+          Awaited<ReturnType<typeof getExperimentalJob>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetExperimentalJob<TData = Awaited<ReturnType<typeof getExperimentalJob>>, TError = ErrorType<unknown>>(
+ id: number,
+    jobId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getExperimentalJob>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getExperimentalJob>>,
+          TError,
+          Awaited<ReturnType<typeof getExperimentalJob>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetExperimentalJob<TData = Awaited<ReturnType<typeof getExperimentalJob>>, TError = ErrorType<unknown>>(
+ id: number,
+    jobId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getExperimentalJob>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetExperimentalJob<TData = Awaited<ReturnType<typeof getExperimentalJob>>, TError = ErrorType<unknown>>(
+ id: number,
+    jobId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getExperimentalJob>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetExperimentalJobQueryOptions(id,jobId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
 
 export const getGetGaezCatalogUrl = () => {
 

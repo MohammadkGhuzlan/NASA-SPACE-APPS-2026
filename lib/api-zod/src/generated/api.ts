@@ -8,6 +8,100 @@
 import * as zod from 'zod';
 
 
+export const GetExperimentalStatusParams = zod.object({
+  "id": zod.coerce.number().int()
+})
+
+export const GetExperimentalStatusResponse = zod.object({
+  "authorized": zod.boolean(),
+  "available": zod.boolean(),
+  "warning": zod.string(),
+  "productionPredictionsEnabled": zod.boolean(),
+  "reason": zod.string(),
+  "models": zod.array(zod.object({
+  "cropCode": zod.string(),
+  "name": zod.string(),
+  "selected": zod.string(),
+  "validationMae": zod.number(),
+  "validationR2": zod.number().nullable(),
+  "meanBaselineMae": zod.number(),
+  "medianBaselineMae": zod.number(),
+  "validationStatus": zod.string(),
+  "rejectionReasons": zod.array(zod.string()),
+  "geographicLimitations": zod.string(),
+  "trainedCells": zod.number().int(),
+  "validationCells": zod.number().int()
+}))
+})
+
+
+export const RunExperimentalPredictionParams = zod.object({
+  "id": zod.coerce.number().int()
+})
+
+export const runExperimentalPredictionBodyRetryDefault = false;
+
+export const RunExperimentalPredictionBody = zod.object({
+  "cropCode": zod.enum(['WHE', 'BRL', 'MZE', 'RCD', 'RCW']),
+  "acknowledgeWarning": zod.literal(true),
+  "retry": zod.boolean().default(runExperimentalPredictionBodyRetryDefault)
+})
+
+export const RunExperimentalPredictionResponse = zod.object({
+  "jobId": zod.string(),
+  "status": zod.enum(['preparing', 'experimental_output', 'missing_inputs', 'unavailable', 'interrupted']),
+  "cropCode": zod.string(),
+  "warning": zod.string(),
+  "value": zod.number().nullable(),
+  "unit": zod.string(),
+  "reasons": zod.array(zod.string()),
+  "estimatorExecuted": zod.boolean(),
+  "productionAccepted": zod.boolean(),
+  "target": zod.string().optional(),
+  "modelVersion": zod.string().optional(),
+  "datasetHash": zod.string().optional(),
+  "artifactSha256": zod.string().optional(),
+  "geographicSupport": zod.string().optional(),
+  "supportReasons": zod.array(zod.string()).optional(),
+  "warnings": zod.array(zod.string()).optional(),
+  "validation": zod.record(zod.string(), zod.unknown()).optional(),
+  "inputSummary": zod.record(zod.string(), zod.unknown()).optional(),
+  "requestedCoordinates": zod.record(zod.string(), zod.unknown()).optional(),
+  "createdAt": zod.string().optional(),
+  "completedAt": zod.string().optional()
+})
+
+
+export const GetExperimentalJobParams = zod.object({
+  "id": zod.coerce.number().int(),
+  "jobId": zod.coerce.string()
+})
+
+export const GetExperimentalJobResponse = zod.object({
+  "jobId": zod.string(),
+  "status": zod.enum(['preparing', 'experimental_output', 'missing_inputs', 'unavailable', 'interrupted']),
+  "cropCode": zod.string(),
+  "warning": zod.string(),
+  "value": zod.number().nullable(),
+  "unit": zod.string(),
+  "reasons": zod.array(zod.string()),
+  "estimatorExecuted": zod.boolean(),
+  "productionAccepted": zod.boolean(),
+  "target": zod.string().optional(),
+  "modelVersion": zod.string().optional(),
+  "datasetHash": zod.string().optional(),
+  "artifactSha256": zod.string().optional(),
+  "geographicSupport": zod.string().optional(),
+  "supportReasons": zod.array(zod.string()).optional(),
+  "warnings": zod.array(zod.string()).optional(),
+  "validation": zod.record(zod.string(), zod.unknown()).optional(),
+  "inputSummary": zod.record(zod.string(), zod.unknown()).optional(),
+  "requestedCoordinates": zod.record(zod.string(), zod.unknown()).optional(),
+  "createdAt": zod.string().optional(),
+  "completedAt": zod.string().optional()
+})
+
+
 export const GetGaezCatalogResponse = zod.object({
   "status": zod.enum(['available', 'unavailable']),
   "dataset": zod.object({

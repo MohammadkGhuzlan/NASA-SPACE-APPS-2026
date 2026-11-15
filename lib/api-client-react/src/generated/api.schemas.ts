@@ -5,6 +5,90 @@
  * Field Shift farm intelligence foundation
  * OpenAPI spec version: 0.1.0
  */
+export type ExperimentalPredictionInputCropCode = typeof ExperimentalPredictionInputCropCode[keyof typeof ExperimentalPredictionInputCropCode];
+
+
+export const ExperimentalPredictionInputCropCode = {
+  WHE: 'WHE',
+  BRL: 'BRL',
+  MZE: 'MZE',
+  RCD: 'RCD',
+  RCW: 'RCW',
+} as const;
+
+export interface ExperimentalPredictionInput {
+  cropCode: ExperimentalPredictionInputCropCode;
+  acknowledgeWarning: true;
+  retry?: boolean;
+}
+
+export interface ExperimentalModel {
+  cropCode: string;
+  name: string;
+  selected: string;
+  validationMae: number;
+  /** @nullable */
+  validationR2: number | null;
+  meanBaselineMae: number;
+  medianBaselineMae: number;
+  validationStatus: string;
+  rejectionReasons: string[];
+  geographicLimitations: string;
+  trainedCells: number;
+  validationCells: number;
+}
+
+export interface ExperimentalStatus {
+  authorized: boolean;
+  available: boolean;
+  warning: string;
+  productionPredictionsEnabled: boolean;
+  reason: string;
+  models: ExperimentalModel[];
+}
+
+export type ExperimentalJobStatus = typeof ExperimentalJobStatus[keyof typeof ExperimentalJobStatus];
+
+
+export const ExperimentalJobStatus = {
+  preparing: 'preparing',
+  experimental_output: 'experimental_output',
+  missing_inputs: 'missing_inputs',
+  unavailable: 'unavailable',
+  interrupted: 'interrupted',
+} as const;
+
+export type ExperimentalJobValidation = { [key: string]: unknown };
+
+export type ExperimentalJobInputSummary = { [key: string]: unknown };
+
+export type ExperimentalJobRequestedCoordinates = { [key: string]: unknown };
+
+export interface ExperimentalJob {
+  jobId: string;
+  status: ExperimentalJobStatus;
+  cropCode: string;
+  warning: string;
+  /** @nullable */
+  value: number | null;
+  unit: string;
+  reasons: string[];
+  estimatorExecuted: boolean;
+  productionAccepted: boolean;
+  target?: string;
+  modelVersion?: string;
+  datasetHash?: string;
+  artifactSha256?: string;
+  geographicSupport?: string;
+  supportReasons?: string[];
+  warnings?: string[];
+  validation?: ExperimentalJobValidation;
+  inputSummary?: ExperimentalJobInputSummary;
+  requestedCoordinates?: ExperimentalJobRequestedCoordinates;
+  createdAt?: string;
+  completedAt?: string;
+}
+
 export interface GaezAssessmentInput {
   /** @maxLength 10 */
   cropCode: string;
