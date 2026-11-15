@@ -1,0 +1,486 @@
+{
+  "access_diagnostics": {
+    "clay-description.xml": {
+      "bytes": 2531,
+      "file": "clay-description.xml",
+      "sha256": "1f2f2709707cd02b0663ee2719711c6fa55efeb93efc9d94109f7092b3096ff1"
+    },
+    "power-probe.json": {
+      "bytes": 30935,
+      "file": "power-probe.json",
+      "sha256": "7cf0a7abe5e188861e448ea043123ce6b2956ed61655db77097dc390fe9870c4"
+    },
+    "res05.ipynb": {
+      "bytes": 40019,
+      "file": "res05.ipynb",
+      "sha256": "0e5eec1bb1c9a8b8cd604ff4e490e737849a2a955783478fdf77a9ce9426053b"
+    },
+    "soil-probe.json": {
+      "bytes": 360,
+      "file": "soil-probe.json",
+      "returned_geometry": {
+        "coordinates": [
+          35.875,
+          32.541667
+        ],
+        "type": "Point"
+      },
+      "returned_mean_values": {
+        "clay": null
+      },
+      "sha256": "9e87aeacea50642bafb7925f4f6437e8eb72eab96393f9b271599ea7ce2941b9"
+    },
+    "soil-probe2.json": {
+      "bytes": 1248,
+      "file": "soil-probe2.json",
+      "returned_geometry": {
+        "coordinates": [
+          -91.5526,
+          34.5004
+        ],
+        "type": "Point"
+      },
+      "returned_mean_values": {
+        "clay": null,
+        "phh2o": null,
+        "sand": null,
+        "silt": null,
+        "soc": null
+      },
+      "sha256": "096aaf4d24b07ed14361f35a9be8a4372ec59fbe8e578b2eb21e656addbf822d"
+    },
+    "wcs-clay.tif": {
+      "bytes": 2896,
+      "crs": "EPSG:4326",
+      "file": "wcs-clay.tif",
+      "nodata": null,
+      "sha256": "ddf7b2a3a6f59894414460c1b0545e73a1775c8fe6b9c7269aadb4a1350ab96f",
+      "shape": [
+        42,
+        44
+      ]
+    },
+    "wcs-native.tif": {
+      "bytes": 3497,
+      "crs": "PROJCS[\"unknown\",GEOGCS[\"unknown\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Interrupted_Goode_Homolosine\"],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+      "file": "wcs-native.tif",
+      "nodata": null,
+      "sha256": "5c8ed2cb9750501a855302ec99e019a34bc630aa6abbf04b3d7dce99bc00bf95",
+      "shape": [
+        42,
+        44
+      ]
+    },
+    "wcs.xml": {
+      "bytes": 12503,
+      "file": "wcs.xml",
+      "sha256": "ebb673cd78ce4373441c835d5e7fe79f7d8173e244bcaee9645316851e6116f4"
+    }
+  },
+  "archive_sha256": "4ca55ffa0e124b9a232cff046c55d39c356fc86948c2c947ca6e7ac8dd13b0d7",
+  "historical_files": [
+    {
+      "archive_bytes_match": true,
+      "columns": [
+        "location_id",
+        "date",
+        "T2M",
+        "T2M_MAX",
+        "T2M_MIN",
+        "PRECTOTCORR",
+        "RH2M"
+      ],
+      "file": "data/imports/nasa_daily.csv",
+      "locations": {
+        "al_ain": 2557,
+        "colusa": 2557,
+        "irbid": 2557,
+        "stuttgart": 2557
+      },
+      "period": [
+        "2019-01-01",
+        "2025-12-31"
+      ],
+      "reason": "2019\u20132025 demo inputs without suitability labels; soil proxies ineligible",
+      "records": 10228,
+      "sha256": "31db7d62a8c2b9a6ca48ebebb3e4e820471a545f656ac06c9ea639e32d2231f8",
+      "training_eligible": false
+    },
+    {
+      "archive_bytes_match": true,
+      "columns": [
+        "location_id",
+        "month",
+        "temp_mean_c",
+        "rain_total_mm",
+        "humidity_mean_pct",
+        "days_max_over_35c",
+        "temp_valid_days",
+        "rain_valid_days",
+        "days_in_month"
+      ],
+      "file": "data/imports/nasa_monthly.csv",
+      "locations": {
+        "al_ain": 84,
+        "colusa": 84,
+        "irbid": 84,
+        "stuttgart": 84
+      },
+      "period": [
+        "2019-01",
+        "2025-12"
+      ],
+      "reason": "2019\u20132025 demo inputs without suitability labels; soil proxies ineligible",
+      "records": 336,
+      "sha256": "a7d1ef739eb203d4d597c7a842cb8f19e8da88733c17c813dc5e45ac89d0020c",
+      "training_eligible": false
+    },
+    {
+      "archive_bytes_match": true,
+      "columns": [
+        "location_id",
+        "date",
+        "data_classification",
+        "units",
+        "SFMC",
+        "RZMC",
+        "GWETTOP",
+        "GWETROOT",
+        "source_url"
+      ],
+      "file": "data/imports/nasa_soil_moisture_daily.csv",
+      "locations": {
+        "al_ain": 2557,
+        "colusa": 2557,
+        "irbid": 2557,
+        "stuttgart": 2557
+      },
+      "period": [
+        "2019-01-01",
+        "2025-12-31"
+      ],
+      "reason": "2019\u20132025 demo inputs without suitability labels; soil proxies ineligible",
+      "records": 10228,
+      "sha256": "9cbe5c6f14612642ce989688157fb36e17bf2c428ca95e350f41ff3b7e6c1668",
+      "training_eligible": false
+    },
+    {
+      "archive_bytes_match": true,
+      "columns": [
+        "location_id",
+        "original_latitude",
+        "original_longitude",
+        "sample_latitude",
+        "sample_longitude",
+        "offset_km",
+        "sample_status",
+        "status",
+        "depth_cm",
+        "source",
+        "classification",
+        "clay_pct",
+        "sand_pct",
+        "silt_pct",
+        "ph",
+        "soc_g_kg",
+        "texture_sum_pct",
+        "texture_quality",
+        "error"
+      ],
+      "file": "data/imports/soilgrids_0_5cm_aligned.csv",
+      "locations": {
+        "al_ain": 1,
+        "colusa": 1,
+        "irbid": 1,
+        "stuttgart": 1
+      },
+      "period": null,
+      "reason": "2019\u20132025 demo inputs without suitability labels; soil proxies ineligible",
+      "records": 4,
+      "sha256": "3626c203147f8c490a5acb13398f0d0806d199a4bb322e5a90ffa98930df22fb",
+      "training_eligible": false
+    }
+  ],
+  "labels": {
+    "attribution": "FAO and IIASA (2025), GAEZ v5 suitability index; subset/processing by Field Shift",
+    "catalog": {
+      "bytes": 4046932,
+      "etag": "\"1772115279.52-4046932\"",
+      "retrieved_at": "2026-11-15T11:04:57.724592+00:00",
+      "sha256": "8e9bb91f901724bbc7aadcf7e65154d3b9b4b34b0ae081c90a729c4766757b22",
+      "url": "https://data.apps.fao.org/catalog/dataset/514c92d5-9e01-4c70-814a-80ea1ca9fe6a/resource/768b08ad-be9c-427a-84be-3a3d6dd7835a/download/_readme_res05.xlsx"
+    },
+    "license": "CC-BY-4.0",
+    "mapset": "RES05-SXX",
+    "metadata": {
+      "bytes": 19542,
+      "etag": null,
+      "retrieved_at": "2026-11-15T11:04:58.869183+00:00",
+      "sha256": "5fb912a04c7d96d58e22b7169c87734abfca697471d72a8be660eef06187cd7e",
+      "url": "https://data.apps.fao.org/catalog/api/3/action/package_show?id=d666d360-0e3c-467c-beb0-29ad55df5855"
+    },
+    "period": [
+      2001,
+      2020
+    ],
+    "publisher": "FAO / IIASA",
+    "rasters": [
+      {
+        "bytes": 3131682,
+        "catalog_row": {
+          "CLIMATE_DATA_SOURCE": "AGERA5",
+          "CROP": "BRL",
+          "FILE_NAME": "GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.BRL.LRLM",
+          "INPUT": "LRLM",
+          "MAPSET_CODE": "RES05-SXX",
+          "PERIOD": "HP0120",
+          "SSP": "HIST"
+        },
+        "crop": "BRL",
+        "crs": "EPSG:4326",
+        "etag": "\"42322be5ede32736a00e16a7f9d877ac\"",
+        "nodata": -9.0,
+        "path": "generated-artifacts/phase4/labels/GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.BRL.LRLM.tif",
+        "resolution_degrees": [
+          0.08333333333333333,
+          0.08333333333333333
+        ],
+        "retrieved_at": "2026-11-15T11:05:14.201697+00:00",
+        "sha256": "7253476c84bccdb271ed3bbca1525fa7ef5d6cb56782382da2b02645a60eaff9",
+        "shape": [
+          2160,
+          4320
+        ],
+        "transform": [
+          0.08333333333333333,
+          0.0,
+          -180.0,
+          0.0,
+          -0.08333333333333333,
+          90.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "url": "https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SXX/GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.BRL.LRLM.tif",
+        "valid_cells": 3259820
+      },
+      {
+        "bytes": 3047341,
+        "catalog_row": {
+          "CLIMATE_DATA_SOURCE": "AGERA5",
+          "CROP": "MZE",
+          "FILE_NAME": "GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.MZE.LRLM",
+          "INPUT": "LRLM",
+          "MAPSET_CODE": "RES05-SXX",
+          "PERIOD": "HP0120",
+          "SSP": "HIST"
+        },
+        "crop": "MZE",
+        "crs": "EPSG:4326",
+        "etag": "\"9f2b15ab60fae5b2022a47eda66ebf85\"",
+        "nodata": -9.0,
+        "path": "generated-artifacts/phase4/labels/GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.MZE.LRLM.tif",
+        "resolution_degrees": [
+          0.08333333333333333,
+          0.08333333333333333
+        ],
+        "retrieved_at": "2026-11-15T11:05:19.950219+00:00",
+        "sha256": "6e2acc7d7d0bebb2d11405fe76c3526fafd747da9850408e9c68cc270edd577c",
+        "shape": [
+          2160,
+          4320
+        ],
+        "transform": [
+          0.08333333333333333,
+          0.0,
+          -180.0,
+          0.0,
+          -0.08333333333333333,
+          90.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "url": "https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SXX/GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.MZE.LRLM.tif",
+        "valid_cells": 3259820
+      },
+      {
+        "bytes": 1800936,
+        "catalog_row": {
+          "CLIMATE_DATA_SOURCE": "AGERA5",
+          "CROP": "RCD",
+          "FILE_NAME": "GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.RCD.LRLM",
+          "INPUT": "LRLM",
+          "MAPSET_CODE": "RES05-SXX",
+          "PERIOD": "HP0120",
+          "SSP": "HIST"
+        },
+        "crop": "RCD",
+        "crs": "EPSG:4326",
+        "etag": "\"722e18eafde5e6d5f79817892b2065b2\"",
+        "nodata": -9.0,
+        "path": "generated-artifacts/phase4/labels/GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.RCD.LRLM.tif",
+        "resolution_degrees": [
+          0.08333333333333333,
+          0.08333333333333333
+        ],
+        "retrieved_at": "2026-11-15T11:05:25.256845+00:00",
+        "sha256": "c60c08ae1470ee6d3746247267bd6df6ae94302b56ae4e211f8446b1561b1a73",
+        "shape": [
+          2160,
+          4320
+        ],
+        "transform": [
+          0.08333333333333333,
+          0.0,
+          -180.0,
+          0.0,
+          -0.08333333333333333,
+          90.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "url": "https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SXX/GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.RCD.LRLM.tif",
+        "valid_cells": 3259820
+      },
+      {
+        "bytes": 1906274,
+        "catalog_row": {
+          "CLIMATE_DATA_SOURCE": "AGERA5",
+          "CROP": "RCW",
+          "FILE_NAME": "GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.RCW.LRLM",
+          "INPUT": "LRLM",
+          "MAPSET_CODE": "RES05-SXX",
+          "PERIOD": "HP0120",
+          "SSP": "HIST"
+        },
+        "crop": "RCW",
+        "crs": "EPSG:4326",
+        "etag": "\"986b31ab8d0c2436b205fd0adbd3b9b0\"",
+        "nodata": -9.0,
+        "path": "generated-artifacts/phase4/labels/GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.RCW.LRLM.tif",
+        "resolution_degrees": [
+          0.08333333333333333,
+          0.08333333333333333
+        ],
+        "retrieved_at": "2026-11-15T11:05:30.814487+00:00",
+        "sha256": "28f68bce2567e20a1dd80823168d19ec5163119c4bf438e2890dbc2920000187",
+        "shape": [
+          2160,
+          4320
+        ],
+        "transform": [
+          0.08333333333333333,
+          0.0,
+          -180.0,
+          0.0,
+          -0.08333333333333333,
+          90.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "url": "https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SXX/GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.RCW.LRLM.tif",
+        "valid_cells": 3259820
+      },
+      {
+        "bytes": 3171669,
+        "catalog_row": {
+          "CLIMATE_DATA_SOURCE": "AGERA5",
+          "CROP": "WHE",
+          "FILE_NAME": "GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.WHE.LRLM",
+          "INPUT": "LRLM",
+          "MAPSET_CODE": "RES05-SXX",
+          "PERIOD": "HP0120",
+          "SSP": "HIST"
+        },
+        "crop": "WHE",
+        "crs": "EPSG:4326",
+        "etag": "\"f41f59f1372ef671851517c115cd4997\"",
+        "nodata": -9.0,
+        "path": "generated-artifacts/phase4/labels/GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.WHE.LRLM.tif",
+        "resolution_degrees": [
+          0.08333333333333333,
+          0.08333333333333333
+        ],
+        "retrieved_at": "2026-11-15T11:05:36.951142+00:00",
+        "sha256": "6624b23a90a27c694e9cc621305e0330ba5f656f7787e03413cd177f9c253427",
+        "shape": [
+          2160,
+          4320
+        ],
+        "transform": [
+          0.08333333333333333,
+          0.0,
+          -180.0,
+          0.0,
+          -0.08333333333333333,
+          90.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "url": "https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SXX/GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.WHE.LRLM.tif",
+        "valid_cells": 3259820
+      }
+    ],
+    "scenario": "LRLM",
+    "version": "GAEZ v5"
+  },
+  "sampled_cells": 180,
+  "sampled_label_rows": 900,
+  "selected_catalog_rows": [
+    {
+      "CLIMATE_DATA_SOURCE": "AGERA5",
+      "CROP": "BRL",
+      "FILE_NAME": "GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.BRL.LRLM",
+      "INPUT": "LRLM",
+      "MAPSET_CODE": "RES05-SXX",
+      "PERIOD": "HP0120",
+      "SSP": "HIST"
+    },
+    {
+      "CLIMATE_DATA_SOURCE": "AGERA5",
+      "CROP": "MZE",
+      "FILE_NAME": "GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.MZE.LRLM",
+      "INPUT": "LRLM",
+      "MAPSET_CODE": "RES05-SXX",
+      "PERIOD": "HP0120",
+      "SSP": "HIST"
+    },
+    {
+      "CLIMATE_DATA_SOURCE": "AGERA5",
+      "CROP": "RCD",
+      "FILE_NAME": "GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.RCD.LRLM",
+      "INPUT": "LRLM",
+      "MAPSET_CODE": "RES05-SXX",
+      "PERIOD": "HP0120",
+      "SSP": "HIST"
+    },
+    {
+      "CLIMATE_DATA_SOURCE": "AGERA5",
+      "CROP": "RCW",
+      "FILE_NAME": "GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.RCW.LRLM",
+      "INPUT": "LRLM",
+      "MAPSET_CODE": "RES05-SXX",
+      "PERIOD": "HP0120",
+      "SSP": "HIST"
+    },
+    {
+      "CLIMATE_DATA_SOURCE": "AGERA5",
+      "CROP": "WHE",
+      "FILE_NAME": "GAEZ-V5.RES05-SXX.HP0120.AGERA5.HIST.WHE.LRLM",
+      "INPUT": "LRLM",
+      "MAPSET_CODE": "RES05-SXX",
+      "PERIOD": "HP0120",
+      "SSP": "HIST"
+    }
+  ],
+  "soil_access_findings": {
+    "REST": "Two demo point probes returned null, not transferable verified soil",
+    "WCS": "GeoTIFF nodata=None; DescribeCoverage empty nilValues. Rejected instead of guessing zero mask.",
+    "WebDAV": "Native VRT explicitly declares -32768; native tile subset implementation retains masks"
+  }
+}

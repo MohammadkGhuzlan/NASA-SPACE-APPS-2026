@@ -1,0 +1,75 @@
+{
+  "activated": false,
+  "aligned_cells": 124,
+  "aligned_rows": 620,
+  "dataset_hash": "423cdb72a3163195ef9b955a4caa985cef2a45f3dc2ebd94b9c0e8329ea0b61d",
+  "deployable_model_saved": false,
+  "environment_cache": {
+    "complete_power_responses": 300,
+    "native_soil_tiles": 870,
+    "native_soil_vrts": 5
+  },
+  "example_is_real_model_prediction": false,
+  "example_response_status": "unavailable",
+  "excluded_rows": 880,
+  "executed_checks": {
+    "all-tests.log": {
+      "final_lines": [
+        "test_zero_budget_not_missing (test_planning.PlanningRulesTests.test_zero_budget_not_missing) ... ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 120 tests in 28.297s",
+        "",
+        "OK"
+      ],
+      "sha256": "a20fabc49d38f1a8abba8cd7b05d657019cf89874d8ea0e4bf62dd38019e87c6"
+    },
+    "ml-tests-final.log": {
+      "final_lines": [
+        "test_success_has_target_not_confidence (test_machine_learning.InferenceTests.test_success_has_target_not_confidence) ... ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 40 tests in 3.409s",
+        "",
+        "OK"
+      ],
+      "sha256": "a1cd3151dbb908b6b8b72e7a7d266448ff9b48e2b0d9ad2ea26040f06a317686"
+    },
+    "typecheck.log": {
+      "final_lines": [
+        "artifacts/mockup-sandbox typecheck$ tsc -p tsconfig.json --noEmit",
+        "scripts typecheck$ tsc -p tsconfig.json --noEmit",
+        "scripts typecheck: Done",
+        "artifacts/api-server typecheck: Done",
+        "artifacts/field-shift typecheck: Done",
+        "artifacts/mockup-sandbox typecheck: Done"
+      ],
+      "sha256": "d8f60de1143793692b3f2a8be7b41a5e21c6fd0a3134f756444396bfa0cb74ed"
+    }
+  },
+  "final_holdout_evaluated": false,
+  "genuine_baseline_and_candidates_trained": true,
+  "live_routes_added": false,
+  "local_dataset_path": "generated-artifacts/phase4/supplemented/dataset.json",
+  "outcome": "rejected_on_validation",
+  "phase4_complete": false,
+  "production_writes": false,
+  "readiness_or_rejection_reasons": [
+    "validation_mae"
+  ],
+  "reproducibility_notice": "Large source/cache files remain in ignored local research storage; use recorded URLs/hashes to reacquire",
+  "sampled_cells": 300,
+  "source_layer_crops": [
+    "BRL",
+    "MZE",
+    "RCD",
+    "RCW",
+    "WHE"
+  ],
+  "split_cells": {
+    "test": 26,
+    "train": 74,
+    "validation": 24
+  },
+  "supported_prediction_crops": []
+}

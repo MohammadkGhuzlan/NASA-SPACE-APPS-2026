@@ -28,3 +28,17 @@ mtime_ms = 1794740270363
 storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:99c0b8d5-1681-405c-9948-7d284359ce38/f82e5a96-9da7-4bd5-b17a-4aaa5a0b47f4/52b3c7fc-b47e-45ac-b9ce-bef5bd863c93"
 storage_version_token = "1794740355946887"
 content_type = "text/markdown"
+
+[[outputs]]
+id = "zw8LQih00syRy7xkwuK6d"
+uri = "file://docs/phase4/REPORT.md"
+type = "text"
+title = "Phase 4 report with genuine training results"
+description = "Updated A–J report: 124 aligned cells; four real candidates trained; best validation MAE 1,672.8 exceeded the 1,500 gate. No final-test use or deployable model."
+logical_id = "f60caa07-6a3d-4b80-95d8-fa8c69d371dd"
+content_hash = "sha256:d01023a5656c25a5f097a01d0d97a96ad26f5d652c5853670ecb347959165339"
+size = 15281
+mtime_ms = 1794743108201
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:99c0b8d5-1681-405c-9948-7d284359ce38/f60caa07-6a3d-4b80-95d8-fa8c69d371dd/6f0c366f-3d94-442f-b9d1-fa5194e23364"
+storage_version_token = "1794743158444781"
+content_type = "text/markdown"

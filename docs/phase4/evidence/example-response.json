@@ -1,0 +1,51 @@
+{
+  "available": false,
+  "coverage_status": "not_assessed",
+  "crop": "BRL",
+  "input_quality": "verified_source_estimates",
+  "limitations": [
+    "Approximates a modeled GAEZ assessment, not observed farm success.",
+    "POWER and GAEZ AgERA5 are different climate products despite aligned years.",
+    "Coarse regional climate and ~10 km labels do not establish field precision.",
+    "0\u20135 cm modeled soil is not a laboratory test or a full root-zone profile.",
+    "Coverage screening is conservative and is not a complete Phase 5 reliability system.",
+    "No confidence percentage, yield, management benefit or rotation advice is provided."
+  ],
+  "missing_features": [],
+  "model_version": null,
+  "reasons": [
+    "missing_accepted_model"
+  ],
+  "reference_period": [
+    2001,
+    2020
+  ],
+  "schema_version": "gaez-approximation-1",
+  "source_versions": {
+    "climate": "NASA POWER",
+    "labels": "FAO/IIASA GAEZ v5",
+    "soil": "ISRIC SoilGrids (acquisition hashes in model manifest)"
+  },
+  "status": "unavailable",
+  "target": {
+    "label_climate": "AgERA5",
+    "mapset": "RES05-SXX",
+    "meaning": "Approximation of FAO/IIASA GAEZ v5 modeled all-land suitability index",
+    "not": [
+      "observed yield",
+      "profit",
+      "rotation benefit",
+      "real-time forecast"
+    ],
+    "period": [
+      2001,
+      2020
+    ],
+    "range": [
+      0,
+      10000
+    ],
+    "scale_factor": 1,
+    "unit": "Index"
+  }
+}

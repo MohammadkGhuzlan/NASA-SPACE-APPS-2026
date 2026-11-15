@@ -1,0 +1,28 @@
+{
+  "buffer_km": 150,
+  "forest_min_samples_leaf": [
+    3,
+    8
+  ],
+  "forest_trees": 150,
+  "maximum_crop_mae": 1800,
+  "maximum_mae": 1500,
+  "maximum_region_mae": 2000,
+  "minimum_blocks_per_partition": 6,
+  "minimum_cells": 120,
+  "minimum_label_span": 3000,
+  "minimum_r2": 0.2,
+  "minimum_relative_mae_gain": 0.1,
+  "minimum_test_cells": 20,
+  "minimum_test_cells_per_crop": 20,
+  "minimum_test_cells_per_region": 5,
+  "minimum_train_cells": 60,
+  "minimum_validation_cells": 20,
+  "ridge_alpha": [
+    1.0,
+    10.0
+  ],
+  "seed": 42,
+  "validation_distance_quantile": 0.95,
+  "version": "preregistered-1"
+}

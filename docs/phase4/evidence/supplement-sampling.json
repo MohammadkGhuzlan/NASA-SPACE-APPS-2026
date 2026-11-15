@@ -1,0 +1,20 @@
+{
+  "planned_cells": 300,
+  "planned_label_rows": 1500,
+  "samples_sha256": "5cf4f94b9319563ccc09ff656a0919a2e90aee9e9d52e176858b393e906c5b33",
+  "protocol": {
+    "candidate_cells": 1200,
+    "candidate_seed": 43,
+    "minimum_separation_km": 150,
+    "original_samples_sha256": "f74a4a1d87f80525f640162132ef148dc37e1fbaee47e7265e101af892adf078",
+    "partition_quotas": {
+      "test": 60,
+      "train": 40,
+      "validation": 20
+    },
+    "partition_seed": 42,
+    "protocol": "docs/phase4/SUPPLEMENT_PROTOCOL.md"
+  },
+  "source_manifest_hash": "c803523d5fa42f35d3bf36e521cc256ff1724044c25db707823865cb11a64292",
+  "sampling": "Uniform seeded valid-cell sample, round-robin 20\u00b0 strata; no target balancing.\n\n    Retains zero suitability. One candidate per conservative 1.5\u00b0 footprint\n    reduces redundant climate requests; counts are not independence claims.\n    \nPreregistered supplement: independent candidate seed 43, pool 1200; test/train/validation quotas 60/40/20 using split seed 42; 150 km and coarse-footprint spacing from all original/chosen cells; no selection on label magnitude, soil availability or model error."
+}

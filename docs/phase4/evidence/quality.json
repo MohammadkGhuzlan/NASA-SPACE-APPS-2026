@@ -1,0 +1,1065 @@
+{
+  "crop_counts": {
+    "BRL": 124,
+    "MZE": 124,
+    "RCD": 124,
+    "RCW": 124,
+    "WHE": 124
+  },
+  "dataset_hash": "423cdb72a3163195ef9b955a4caa985cef2a45f3dc2ebd94b9c0e8329ea0b61d",
+  "effective_coarse_environment_groups": 124,
+  "effective_label_cells": 124,
+  "excluded_rows": 880,
+  "exclusions": [
+    {
+      "cell_id": "RES05-SXX:788:1241",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.030"
+    },
+    {
+      "cell_id": "RES05-SXX:943:4107",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:1597:1287",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.801"
+    },
+    {
+      "cell_id": "RES05-SXX:228:11",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.516"
+    },
+    {
+      "cell_id": "RES05-SXX:1189:1736",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.615"
+    },
+    {
+      "cell_id": "RES05-SXX:850:288",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.000"
+    },
+    {
+      "cell_id": "RES05-SXX:202:1518",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:1642:4178",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.023"
+    },
+    {
+      "cell_id": "RES05-SXX:1193:4318",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:183:1937",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.383"
+    },
+    {
+      "cell_id": "RES05-SXX:344:1582",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.375"
+    },
+    {
+      "cell_id": "RES05-SXX:276:613",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.671"
+    },
+    {
+      "cell_id": "RES05-SXX:552:2771",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.300"
+    },
+    {
+      "cell_id": "RES05-SXX:227:4314",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:238:1790",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.000"
+    },
+    {
+      "cell_id": "RES05-SXX:1289:9",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.049"
+    },
+    {
+      "cell_id": "RES05-SXX:961:3075",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.112"
+    },
+    {
+      "cell_id": "RES05-SXX:1357:539",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.043"
+    },
+    {
+      "cell_id": "RES05-SXX:240:2542",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.057"
+    },
+    {
+      "cell_id": "RES05-SXX:859:782",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:230:306",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.399"
+    },
+    {
+      "cell_id": "RES05-SXX:1300:4298",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.002"
+    },
+    {
+      "cell_id": "RES05-SXX:191:2821",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.919"
+    },
+    {
+      "cell_id": "RES05-SXX:1184:472",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:1674:3004",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:900:1866",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.837"
+    },
+    {
+      "cell_id": "RES05-SXX:1309:472",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:232:3309",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.731"
+    },
+    {
+      "cell_id": "RES05-SXX:961:1417",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.067"
+    },
+    {
+      "cell_id": "RES05-SXX:1149:3755",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.300"
+    },
+    {
+      "cell_id": "RES05-SXX:1197:491",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.809"
+    },
+    {
+      "cell_id": "RES05-SXX:1093:3343",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.259"
+    },
+    {
+      "cell_id": "RES05-SXX:1296:1686",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.001"
+    },
+    {
+      "cell_id": "RES05-SXX:899:3907",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.557"
+    },
+    {
+      "cell_id": "RES05-SXX:183:1169",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.501"
+    },
+    {
+      "cell_id": "RES05-SXX:1682:1337",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.627"
+    },
+    {
+      "cell_id": "RES05-SXX:1736:1728",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.268"
+    },
+    {
+      "cell_id": "RES05-SXX:871:1106",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.094"
+    },
+    {
+      "cell_id": "RES05-SXX:1181:3972",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.647"
+    },
+    {
+      "cell_id": "RES05-SXX:227:4024",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.266"
+    },
+    {
+      "cell_id": "RES05-SXX:574:2336",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.548"
+    },
+    {
+      "cell_id": "RES05-SXX:319:4306",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.283"
+    },
+    {
+      "cell_id": "RES05-SXX:652:3760",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.000"
+    },
+    {
+      "cell_id": "RES05-SXX:200:1214",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.056"
+    },
+    {
+      "cell_id": "RES05-SXX:1476:3978",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.768"
+    },
+    {
+      "cell_id": "RES05-SXX:342:1032",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.430"
+    },
+    {
+      "cell_id": "RES05-SXX:229:2476",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.434"
+    },
+    {
+      "cell_id": "RES05-SXX:865:1304",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.788"
+    },
+    {
+      "cell_id": "RES05-SXX:955:3533",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:825:1955",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.552"
+    },
+    {
+      "cell_id": "RES05-SXX:232:239",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.075"
+    },
+    {
+      "cell_id": "RES05-SXX:221:1506",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.874"
+    },
+    {
+      "cell_id": "RES05-SXX:1580:4221",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.908"
+    },
+    {
+      "cell_id": "RES05-SXX:644:2479",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.000"
+    },
+    {
+      "cell_id": "RES05-SXX:1086:4162",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.014"
+    },
+    {
+      "cell_id": "RES05-SXX:320:1660",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.452"
+    },
+    {
+      "cell_id": "RES05-SXX:209:1687",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:1248:96",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.000"
+    },
+    {
+      "cell_id": "RES05-SXX:231:881",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.517"
+    },
+    {
+      "cell_id": "RES05-SXX:492:1254",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.826"
+    },
+    {
+      "cell_id": "RES05-SXX:979:3096",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.461"
+    },
+    {
+      "cell_id": "RES05-SXX:301:2611",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.937"
+    },
+    {
+      "cell_id": "RES05-SXX:369:843",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.004"
+    },
+    {
+      "cell_id": "RES05-SXX:1229:3801",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.630"
+    },
+    {
+      "cell_id": "RES05-SXX:835:920",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.921"
+    },
+    {
+      "cell_id": "RES05-SXX:226:293",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.227"
+    },
+    {
+      "cell_id": "RES05-SXX:1236:2758",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.904"
+    },
+    {
+      "cell_id": "RES05-SXX:266:2312",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.000"
+    },
+    {
+      "cell_id": "RES05-SXX:1294:4312",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.009"
+    },
+    {
+      "cell_id": "RES05-SXX:201:2801",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.719"
+    },
+    {
+      "cell_id": "RES05-SXX:1310:3924",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.214"
+    },
+    {
+      "cell_id": "RES05-SXX:931:3664",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.000"
+    },
+    {
+      "cell_id": "RES05-SXX:1670:2998",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:1269:424",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.014"
+    },
+    {
+      "cell_id": "RES05-SXX:191:3166",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.081"
+    },
+    {
+      "cell_id": "RES05-SXX:1094:3792",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.016"
+    },
+    {
+      "cell_id": "RES05-SXX:528:1442",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.115"
+    },
+    {
+      "cell_id": "RES05-SXX:965:3126",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.143"
+    },
+    {
+      "cell_id": "RES05-SXX:1492:2391",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.884"
+    },
+    {
+      "cell_id": "RES05-SXX:881:3292",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.932"
+    },
+    {
+      "cell_id": "RES05-SXX:185:1082",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.626"
+    },
+    {
+      "cell_id": "RES05-SXX:1744:1357",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.042"
+    },
+    {
+      "cell_id": "RES05-SXX:929:1156",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.427"
+    },
+    {
+      "cell_id": "RES05-SXX:901:3048",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.015"
+    },
+    {
+      "cell_id": "RES05-SXX:180:3878",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.042"
+    },
+    {
+      "cell_id": "RES05-SXX:1212:106",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:1190:97",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:234:2846",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.002"
+    },
+    {
+      "cell_id": "RES05-SXX:961:3394",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:1527:2008",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:811:3531",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.459"
+    },
+    {
+      "cell_id": "RES05-SXX:410:291",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.499"
+    },
+    {
+      "cell_id": "RES05-SXX:1259:4177",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.164"
+    },
+    {
+      "cell_id": "RES05-SXX:1075:1073",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.187"
+    },
+    {
+      "cell_id": "RES05-SXX:396:3824",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.130"
+    },
+    {
+      "cell_id": "RES05-SXX:431:159",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.098"
+    },
+    {
+      "cell_id": "RES05-SXX:1305:494",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:197:3581",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.769"
+    },
+    {
+      "cell_id": "RES05-SXX:958:3027",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:1209:3986",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.000"
+    },
+    {
+      "cell_id": "RES05-SXX:1086:4250",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.001"
+    },
+    {
+      "cell_id": "RES05-SXX:562:2048",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.000"
+    },
+    {
+      "cell_id": "RES05-SXX:1734:4066",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:249:2590",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.029"
+    },
+    {
+      "cell_id": "RES05-SXX:1007:1491",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:1717:3046",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:761:3866",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.007"
+    },
+    {
+      "cell_id": "RES05-SXX:461:1494",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.480"
+    },
+    {
+      "cell_id": "RES05-SXX:185:2388",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:592:2376",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.206"
+    },
+    {
+      "cell_id": "RES05-SXX:191:1663",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:1483:1213",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.311"
+    },
+    {
+      "cell_id": "RES05-SXX:274:1757",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.122"
+    },
+    {
+      "cell_id": "RES05-SXX:419:4152",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.022"
+    },
+    {
+      "cell_id": "RES05-SXX:483:4013",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.081"
+    },
+    {
+      "cell_id": "RES05-SXX:1028:2234",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.324"
+    },
+    {
+      "cell_id": "RES05-SXX:1330:3555",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.536"
+    },
+    {
+      "cell_id": "RES05-SXX:1209:3615",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:902:2757",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.381"
+    },
+    {
+      "cell_id": "RES05-SXX:250:2949",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.125"
+    },
+    {
+      "cell_id": "RES05-SXX:455:2031",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:826:279",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.181"
+    },
+    {
+      "cell_id": "RES05-SXX:1642:2612",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:1446:17",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:250:960",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.000"
+    },
+    {
+      "cell_id": "RES05-SXX:625:1855",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.055"
+    },
+    {
+      "cell_id": "RES05-SXX:396:534",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.001"
+    },
+    {
+      "cell_id": "RES05-SXX:1429:2539",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.252"
+    },
+    {
+      "cell_id": "RES05-SXX:1015:3040",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:1458:3736",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.543"
+    },
+    {
+      "cell_id": "RES05-SXX:198:1908",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.533"
+    },
+    {
+      "cell_id": "RES05-SXX:1317:2920",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:1732:2201",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:922:1445",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.937"
+    },
+    {
+      "cell_id": "RES05-SXX:1008:3618",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.107"
+    },
+    {
+      "cell_id": "RES05-SXX:673:718",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.096"
+    },
+    {
+      "cell_id": "RES05-SXX:1636:2764",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.008"
+    },
+    {
+      "cell_id": "RES05-SXX:1084:2671",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.000"
+    },
+    {
+      "cell_id": "RES05-SXX:1497:1493",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.442"
+    },
+    {
+      "cell_id": "RES05-SXX:1271:2092",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:1423:2357",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.501"
+    },
+    {
+      "cell_id": "RES05-SXX:956:4198",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:1368:1612",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.000"
+    },
+    {
+      "cell_id": "RES05-SXX:1225:3321",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:968:3581",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.497"
+    },
+    {
+      "cell_id": "RES05-SXX:269:57",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.228"
+    },
+    {
+      "cell_id": "RES05-SXX:361:2422",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.000"
+    },
+    {
+      "cell_id": "RES05-SXX:918:3897",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.795"
+    },
+    {
+      "cell_id": "RES05-SXX:650:2332",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.000"
+    },
+    {
+      "cell_id": "RES05-SXX:1143:3027",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:1075:3732",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:1349:343",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.265"
+    },
+    {
+      "cell_id": "RES05-SXX:301:1222",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.228"
+    },
+    {
+      "cell_id": "RES05-SXX:941:4142",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:1350:1656",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.286"
+    },
+    {
+      "cell_id": "RES05-SXX:1147:3438",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:234:1124",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.763"
+    },
+    {
+      "cell_id": "RES05-SXX:881:1130",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.006"
+    },
+    {
+      "cell_id": "RES05-SXX:503:2102",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.000"
+    },
+    {
+      "cell_id": "RES05-SXX:1157:3014",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:1097:3815",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.064"
+    },
+    {
+      "cell_id": "RES05-SXX:991:3982",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.131"
+    },
+    {
+      "cell_id": "RES05-SXX:1318:2315",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.385"
+    },
+    {
+      "cell_id": "RES05-SXX:314:1386",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.190"
+    },
+    {
+      "cell_id": "RES05-SXX:1116:3362",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.239"
+    },
+    {
+      "cell_id": "RES05-SXX:847:1182",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.000"
+    },
+    {
+      "cell_id": "RES05-SXX:360:382",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.317"
+    },
+    {
+      "cell_id": "RES05-SXX:454:83",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.133"
+    },
+    {
+      "cell_id": "RES05-SXX:480:2084",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.069"
+    },
+    {
+      "cell_id": "RES05-SXX:865:1365",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.000"
+    },
+    {
+      "cell_id": "RES05-SXX:1478:3775",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.173"
+    },
+    {
+      "cell_id": "RES05-SXX:1164:3738",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.000"
+    },
+    {
+      "cell_id": "RES05-SXX:974:3964",
+      "excluded_rows": 5,
+      "reason": "Soil_no_intersecting_tiles"
+    },
+    {
+      "cell_id": "RES05-SXX:288:1409",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.827"
+    },
+    {
+      "cell_id": "RES05-SXX:955:3441",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.393"
+    },
+    {
+      "cell_id": "RES05-SXX:775:2929",
+      "excluded_rows": 5,
+      "reason": "Soil_insufficient_valid_area:0.575"
+    }
+  ],
+  "extent": {
+    "latitude": [
+      -45.29166666666666,
+      74.95833333333333
+    ],
+    "longitude": [
+      -160.79166666666666,
+      175.95833333333331
+    ]
+  },
+  "final_examples": 620,
+  "geographic_20deg_counts": {
+    "2:10": 2,
+    "2:14": 2,
+    "2:15": 2,
+    "2:16": 1,
+    "2:17": 1,
+    "2:5": 1,
+    "2:6": 1,
+    "2:9": 1,
+    "3:10": 2,
+    "3:11": 1,
+    "3:14": 1,
+    "3:15": 1,
+    "3:16": 1,
+    "3:5": 5,
+    "3:6": 2,
+    "3:7": 1,
+    "3:9": 2,
+    "4:10": 2,
+    "4:11": 1,
+    "4:14": 1,
+    "4:16": 1,
+    "4:4": 4,
+    "4:5": 2,
+    "4:6": 2,
+    "4:7": 1,
+    "4:8": 3,
+    "4:9": 2,
+    "5:1": 1,
+    "5:10": 3,
+    "5:11": 1,
+    "5:12": 1,
+    "5:13": 1,
+    "5:14": 1,
+    "5:15": 1,
+    "5:4": 1,
+    "5:5": 1,
+    "5:8": 1,
+    "5:9": 2,
+    "6:10": 1,
+    "6:11": 1,
+    "6:12": 3,
+    "6:13": 2,
+    "6:14": 3,
+    "6:15": 1,
+    "6:16": 2,
+    "6:2": 2,
+    "6:3": 2,
+    "6:4": 3,
+    "6:5": 1,
+    "6:6": 1,
+    "6:8": 1,
+    "7:0": 1,
+    "7:1": 3,
+    "7:11": 2,
+    "7:12": 4,
+    "7:13": 4,
+    "7:14": 3,
+    "7:15": 2,
+    "7:16": 2,
+    "7:2": 1,
+    "7:3": 1,
+    "7:4": 1,
+    "7:5": 2,
+    "7:7": 1,
+    "7:8": 2,
+    "7:9": 1,
+    "8:12": 1,
+    "8:14": 2,
+    "8:15": 2,
+    "8:16": 1,
+    "8:2": 2,
+    "8:3": 2,
+    "8:4": 1
+  },
+  "independence_notice": "Rows repeated across crops are not independent environmental observations",
+  "label_distribution": {
+    "BRL": {
+      "count": 124,
+      "max": 9998.0,
+      "mean": 1255.7016129032259,
+      "min": 0.0,
+      "zero_count": 79
+    },
+    "MZE": {
+      "count": 124,
+      "max": 9624.0,
+      "mean": 1087.3870967741937,
+      "min": 0.0,
+      "zero_count": 77
+    },
+    "RCD": {
+      "count": 124,
+      "max": 7865.0,
+      "mean": 903.5,
+      "min": 0.0,
+      "zero_count": 94
+    },
+    "RCW": {
+      "count": 124,
+      "max": 6517.0,
+      "mean": 695.3629032258065,
+      "min": 0.0,
+      "zero_count": 92
+    },
+    "WHE": {
+      "count": 124,
+      "max": 10000.0,
+      "mean": 1265.1693548387098,
+      "min": 0.0,
+      "zero_count": 80
+    }
+  },
+  "missing_policy": "complete-case rejection, no imputation",
+  "missing_rates": {
+    "clay_pct": 0.0,
+    "crop": 0.0,
+    "ph": 0.0,
+    "rain_m01": 0.0,
+    "rain_m02": 0.0,
+    "rain_m03": 0.0,
+    "rain_m04": 0.0,
+    "rain_m05": 0.0,
+    "rain_m06": 0.0,
+    "rain_m07": 0.0,
+    "rain_m08": 0.0,
+    "rain_m09": 0.0,
+    "rain_m10": 0.0,
+    "rain_m11": 0.0,
+    "rain_m12": 0.0,
+    "sand_pct": 0.0,
+    "scenario": 0.0,
+    "silt_pct": 0.0,
+    "soc_g_kg": 0.0,
+    "tmean_m01": 0.0,
+    "tmean_m02": 0.0,
+    "tmean_m03": 0.0,
+    "tmean_m04": 0.0,
+    "tmean_m05": 0.0,
+    "tmean_m06": 0.0,
+    "tmean_m07": 0.0,
+    "tmean_m08": 0.0,
+    "tmean_m09": 0.0,
+    "tmean_m10": 0.0,
+    "tmean_m11": 0.0,
+    "tmean_m12": 0.0
+  },
+  "period": [
+    2001,
+    2020
+  ],
+  "source_hashes": [
+    "7253476c84bccdb271ed3bbca1525fa7ef5d6cb56782382da2b02645a60eaff9",
+    "6e2acc7d7d0bebb2d11405fe76c3526fafd747da9850408e9c68cc270edd577c",
+    "c60c08ae1470ee6d3746247267bd6df6ae94302b56ae4e211f8446b1561b1a73",
+    "28f68bce2567e20a1dd80823168d19ec5163119c4bf438e2890dbc2920000187",
+    "6624b23a90a27c694e9cc621305e0330ba5f656f7787e03413cd177f9c253427"
+  ],
+  "source_records": 1500
+}
