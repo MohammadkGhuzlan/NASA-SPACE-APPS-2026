@@ -19,7 +19,8 @@ router = APIRouter(prefix="/api")
 
 @router.get("/analysis/model-status")
 def analysis_model_status():
-    return model_status()
+    from ..experimental.policy import operational_status
+    return operational_status()
 
 
 @router.get("/knowledge")
@@ -68,6 +69,8 @@ def generate(id: int, data: FarmingPlanInput, request: Request, db: Session = De
     result = integrate_report(farm, data, summary, features, result)
     result = integrate_evidence(farm, data, summary, features, result,
                                 soil_provenance=soil_context(db, farm, location))
+    from ..experimental.reporting import attach_predictions
+    result = attach_predictions(farm, result)
     row = RecommendationResult(farm_id=id, model_id=None, strategy_id=None, result=result)
     db.add(row)
     db.commit()

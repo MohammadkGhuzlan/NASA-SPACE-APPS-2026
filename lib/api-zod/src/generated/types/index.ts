@@ -85,4 +85,5 @@ export * from './source';
 export * from './strategy';
 export * from './strategyInput';
 export * from './strategyInputSlot';
+export * from './unvalidatedPredictionEvidence';
 export * from './wetnessHistory';

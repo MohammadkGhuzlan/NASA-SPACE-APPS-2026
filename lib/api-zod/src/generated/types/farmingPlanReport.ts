@@ -12,8 +12,10 @@ import type { JsonRecord } from './jsonRecord';
 import type { PlanningCandidate } from './planningCandidate';
 import type { PlanningFinding } from './planningFinding';
 import type { RotationScenario } from './rotationScenario';
+import type { UnvalidatedPredictionEvidence } from './unvalidatedPredictionEvidence';
 
 export interface FarmingPlanReport {
+  mlPredictions?: UnvalidatedPredictionEvidence;
   gaezEvidence?: GaezReportEvidence;
   id: number;
   farmId: number;

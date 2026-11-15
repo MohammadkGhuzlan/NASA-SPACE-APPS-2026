@@ -10,8 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ML_WARNING as WARNING, MlJobView } from "@/components/ml-job-view";
 
-const WARNING = "Experimental model — failed validation. Predictions may be inaccurate and should not be used for real farming decisions.";
 const CROPS: { code: ExperimentalPredictionInputCropCode; label: string }[] = [
   { code: "WHE", label: "Wheat (WHE)" },
   { code: "BRL", label: "Barley (BRL)" },
@@ -43,61 +43,9 @@ function errText(e: unknown): string {
   if (s === 409) return "The farm location changed since this job was requested. The old result was cleared; run again for the current location.";
   return msg || "The experimental request could not be completed. Try again.";
 }
-const num = (n: number | null | undefined) => (n === null || n === undefined ? "not reported" : String(n));
-
-function Kv({ k, v, testid }: { k: string; v: string; testid?: string }) {
-  return <div className="min-w-0"><dt className="text-[10.5px] uppercase tracking-wider text-muted-foreground">{k}</dt><dd className="font-mono text-xs break-all [overflow-wrap:anywhere]" data-testid={testid}>{v}</dd></div>;
-}
-
-function JobView({ job }: { job: ExperimentalJob }) {
-  const ood = job.geographicSupport === "out_of_domain";
-  const coords = job.requestedCoordinates ? Object.entries(job.requestedCoordinates) : [];
-  return (
-    <div className="min-w-0 max-w-full rounded-2xl border border-[hsl(38_70%_50%/.45)] bg-[hsl(38_70%_50%/.08)] p-4 space-y-3" data-testid={`experimental-job-${job.jobId}`} aria-live="polite">
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="rounded-full border border-[hsl(38_70%_50%/.5)] px-2.5 py-0.5 font-mono text-[10.5px] uppercase tracking-wider">Experimental · {job.status.replaceAll("_", " ")}</span>
-        <span className="font-mono text-xs">Crop {job.cropCode}</span>
-        <span className="font-mono text-xs">estimatorExecuted: {String(job.estimatorExecuted)}</span>
-        <span className="font-mono text-xs">productionAccepted: {String(job.productionAccepted)}</span>
-      </div>
-      <p className="text-sm font-semibold" role="note">{job.warning || WARNING}</p>
-      {job.status === "preparing" && <p className="text-sm flex items-center gap-2"><Loader2 className="h-4 w-4 animate-spin" />Preparing inputs. Checking job status...</p>}
-      {job.status === "experimental_output" && job.value !== null && (
-        <div>
-          {ood && <p role="alert" className="mb-2 rounded-xl bg-destructive/90 text-destructive-foreground px-3 py-2 text-sm">Out of domain: this location falls outside the development support screen for geography and/or environmental features. No geographic domain passed validation. The value below is especially unreliable and is not ranked or recommended.</p>}
-          <p className="text-xs uppercase tracking-wider text-muted-foreground">Experimental model output{job.target ? ` (${job.target})` : ""}</p>
-          <p className="min-w-0 max-w-full font-display text-3xl sm:text-4xl text-primary [overflow-wrap:anywhere]" data-testid="text-experimental-value">{job.value} <span className="text-base font-sans">{job.unit}</span></p>
-          <p className="text-xs text-muted-foreground mt-1">A raw research estimate. Not a confidence, probability, ranking or recommendation, and never used by saved reports.</p>
-        </div>
-      )}
-      {(job.status === "missing_inputs" || job.status === "unavailable" || job.status === "interrupted" || (job.status === "experimental_output" && job.value === null)) && (
-        <div className="text-sm space-y-1">
-          <p className="font-semibold">No prediction was produced for {job.cropCode}.</p>
-          <p className="text-muted-foreground">The research model requires 2001–2020 climate inputs and SoilGrids soil inputs for this exact location. Planner data from other periods are not substituted.</p>
-        </div>
-      )}
-      {job.reasons.length > 0 && <ul className="list-disc pl-5 text-sm space-y-0.5">{job.reasons.map((r) => <li key={r}>{r.replaceAll("_", " ")}</li>)}</ul>}
-      {job.supportReasons && job.supportReasons.length > 0 && <ul className="list-disc pl-5 text-sm space-y-0.5">{job.supportReasons.map((r) => <li key={r}>{r.replaceAll("_", " ")}</li>)}</ul>}
-      {job.warnings && job.warnings.length > 0 && <ul className="list-disc pl-5 text-sm space-y-0.5">{job.warnings.map((r) => <li key={r}>{r}</li>)}</ul>}
-      <p className="text-xs text-muted-foreground">Model inputs use 2001–2020 NASA POWER climate at the containing five-arc-minute label-cell center and native SoilGrids area means over that cell. These are not farm soil tests or farm-boundary averages.</p>
-      {job.inputSummary && <details className="text-xs">
-        <summary className="cursor-pointer font-semibold">Model input provenance</summary>
-        <pre className="mt-2 max-w-full overflow-x-auto whitespace-pre-wrap break-all">{JSON.stringify(job.inputSummary, null, 2)}</pre>
-      </details>}
-      <dl className="grid sm:grid-cols-2 gap-2">
-        <Kv k="Job" v={job.jobId} />
-        {job.geographicSupport && <Kv k="Geographic support" v={job.geographicSupport} />}
-        {coords.map(([k, v]) => <Kv key={k} k={`Requested ${k}`} v={String(v)} testid={`text-requested-${k}`} />)}
-        {job.status === "experimental_output" && <>
-          <Kv k="modelVersion" v={job.modelVersion ?? "not reported"} />
-          <Kv k="datasetHash" v={job.datasetHash ?? "not reported"} />
-          <Kv k="artifactSha256" v={job.artifactSha256 ?? "not reported"} />
-        </>}
-        {job.createdAt && <Kv k="Created" v={job.createdAt} />}
-        {job.completedAt && <Kv k="Completed" v={job.completedAt} />}
-      </dl>
-    </div>
-  );
+const num = (n: number | null | undefined) => (n === null || n === undefined ? "not reported" : Number.isInteger(n) ? String(n) : n.toFixed(3));
+function Kv({ k, v }: { k: string; v: string }) {
+  return <div className="min-w-0"><dt className="text-[10.5px] uppercase tracking-wider text-muted-foreground">{k}</dt><dd className="font-mono text-xs break-all [overflow-wrap:anywhere]">{v}</dd></div>;
 }
 
 export function ExperimentalMl({ farmId }: { farmId: number }) {
@@ -107,6 +55,7 @@ export function ExperimentalMl({ farmId }: { farmId: number }) {
   const selection = useRef({ farmId, crop });
   selection.current = { farmId, crop };
   const [ack, setAck] = useState(false);
+  const [allowEst, setAllowEst] = useState(true);
   const [jobId, setJobId] = useState("");
   const [initial, setInitial] = useState<ExperimentalJob | null>(null);
   const [error, setError] = useState("");
@@ -131,9 +80,9 @@ export function ExperimentalMl({ farmId }: { farmId: number }) {
 
   useEffect(() => {
     if (!job.isError) return;
-    const s = errStatus(job.error);
+    const st = errStatus(job.error);
     setError(errText(job.error));
-    if (s !== undefined && TERMINAL_STOP.has(s)) {
+    if (st !== undefined && TERMINAL_STOP.has(st)) {
       setStopped(true); setInitial(null);
       if (crop) sessionStorage.removeItem(storeKey(farmId, crop));
       setJobId("");
@@ -149,7 +98,7 @@ export function ExperimentalMl({ farmId }: { farmId: number }) {
     const forFarm = farmId;
     const isActive = () => selection.current.farmId === forFarm && selection.current.crop === forCrop;
     setError("");
-    run.mutate({ id: farmId, data: { cropCode: forCrop, acknowledgeWarning: true, ...(retry ? { retry: true } : {}) } }, {
+    run.mutate({ id: farmId, data: { cropCode: forCrop, acknowledgeWarning: true, allowEstimatedInputs: allowEst, ...(retry ? { retry: true } : {}) } }, {
       onSuccess: (j) => {
         sessionStorage.setItem(storeKey(forFarm, forCrop), j.jobId);
         // Seed cache so a reused jobId's old terminal data cannot override the fresh response.
@@ -165,12 +114,16 @@ export function ExperimentalMl({ farmId }: { farmId: number }) {
   return (
     <section className="min-w-0 max-w-full rounded-3xl border-2 border-dashed border-[hsl(38_70%_50%/.55)] bg-card p-5 md:p-6 space-y-4" aria-labelledby="experimental-ml-heading" data-testid="experimental-ml">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <div className="flex items-center gap-2"><FlaskConical className="h-5 w-5 text-accent" aria-hidden /><h3 id="experimental-ml-heading" className="font-display text-xl text-primary">Experimental ML predictions</h3></div>
+        <div className="flex items-center gap-2"><FlaskConical className="h-5 w-5 text-accent" aria-hidden /><h3 id="experimental-ml-heading" className="font-display text-xl text-primary">Unvalidated ML predictions</h3></div>
         <Button type="button" size="sm" variant="outline" className="rounded-full" onClick={() => status.refetch()} disabled={status.isFetching} data-testid="button-refresh-experimental">
           {status.isFetching ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RotateCcw className="h-3.5 w-3.5" />}Refresh status
         </Button>
       </div>
-      <p className="text-sm text-muted-foreground">Separate research surface. Results here are never used by saved reports, reference planning, or any recommendation.</p>
+      <ol className="rounded-2xl bg-secondary/60 px-4 py-3 text-sm space-y-1 list-decimal pl-8" data-testid="text-ml-workflow">
+        <li>Choose a crop, confirm the warning and run the model here. Repeat for each crop you want.</li>
+        <li>Wait until each run finishes, then use <span className="font-semibold">Generate and save report</span> below. Completed outputs for this farm location are snapshotted into that new report with their warnings.</li>
+      </ol>
+      <p className="text-xs text-muted-foreground">Nothing runs automatically: a report only contains model outputs you ran first. Agronomic reference rules still choose the three rotation strategies; the models do not rank rotations.</p>
       <p className="text-xs text-muted-foreground">Target: historical GAEZ-style suitability, 0–10,000 index points, rain-fed low-input management (LRLM). MAE uses index points; the metrics below describe development validation before the failed geographic-support screen, not final-test or local-farm accuracy.</p>
       <p role="note" className="rounded-xl bg-[hsl(38_70%_50%/.14)] px-3 py-2 text-sm font-semibold" data-testid="text-experimental-warning">{WARNING}</p>
 
@@ -185,7 +138,8 @@ export function ExperimentalMl({ farmId }: { farmId: number }) {
           <div className="text-sm" role="status" data-testid="text-experimental-unavailable"><p className="font-semibold">Experimental models are unavailable.</p><p className="text-muted-foreground">{s.reason}</p><p className="text-muted-foreground mt-1">Use Refresh status to check again.</p></div>
         ) : (
           <>
-            <p className="text-xs font-mono text-muted-foreground">productionPredictionsEnabled: {String(s.productionPredictionsEnabled)} · {s.reason}</p>
+            <p className="text-sm" data-testid="text-ml-status">{s.productionPredictionsEnabled ? "Unvalidated ML predictions are enabled in the planner." : "ML predictions are currently not enabled."}{" "}{s.scientificallyValidated ? "" : "Scientific acceptance failed: not safe for farming decisions, no calibrated confidence."}</p>
+            <p className="text-xs font-mono text-muted-foreground break-all">{s.reason.replaceAll("_", " ")}</p>
             <div className="grid md:grid-cols-2 gap-3">
               {s.models.map((m) => (
                 <div key={m.cropCode} className="rounded-2xl border border-border p-3 space-y-2" data-testid={`experimental-model-${m.cropCode}`}>
@@ -219,13 +173,17 @@ export function ExperimentalMl({ farmId }: { farmId: number }) {
               <Checkbox id="exp-ack" checked={ack} onCheckedChange={(v) => setAck(v === true)} disabled={!crop} data-testid="checkbox-experimental-ack" />
               <Label htmlFor="exp-ack" className="text-sm font-normal leading-snug">I understand this model failed validation and its output must not be used for real farming decisions.</Label>
             </div>
+            <div className="flex items-start gap-2 rounded-xl border border-border p-3">
+              <Checkbox id="exp-est" checked={allowEst} onCheckedChange={(v) => setAllowEst(v === true)} data-testid="checkbox-allow-estimated" />
+              <Label htmlFor="exp-est" className="text-sm font-normal leading-snug"><span className="font-semibold">Allow estimated soil inputs.</span> If SoilGrids does not fully cover this cell, use partial coverage or the nearest recorded training cell. Results are flagged as estimated. Untick to require original inputs only.</Label>
+            </div>
             {error && (
               <div role="alert" className="rounded-xl bg-destructive/10 text-destructive px-3 py-2 text-sm flex flex-wrap items-center justify-between gap-2" data-testid="text-experimental-error">
                 <span>{error}</span>
                 {crop && ack && <Button type="button" size="sm" variant="outline" className="rounded-full" onClick={() => submit(true)} disabled={run.isPending} data-testid="button-retry-experimental">Retry</Button>}
               </div>
             )}
-            {shown && <JobView job={shown} />}
+            {shown && <MlJobView job={shown} />}
             {shown && shown.status === "interrupted" && ack && <Button type="button" size="sm" variant="outline" className="rounded-full" onClick={() => submit(true)} disabled={run.isPending} data-testid="button-rerun-experimental">Retry interrupted job</Button>}
           </>
         )}

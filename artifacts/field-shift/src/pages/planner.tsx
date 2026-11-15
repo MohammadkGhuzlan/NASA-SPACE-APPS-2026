@@ -90,7 +90,7 @@ export default function Planner() {
             <div className="rise pb-8">
               <Link href={`/farms/${id}`} className="font-mono text-xs uppercase tracking-[0.18em] text-accent hover:underline">{farm.data.name} /</Link>
               <h1 className="font-display text-4xl md:text-6xl text-primary mt-2">Rotation <span className="italic">bench</span></h1>
-              <p className="text-muted-foreground mt-3 max-w-2xl">Sketch two alternatives beside what you grow today. These are your drafts, not recommendations. Separately, the reports section applies limited reference-based rules; there is no validated ML model, suitability score or yield prediction.</p>
+              <p className="text-muted-foreground mt-3 max-w-2xl">Sketch two alternatives beside what you grow today. These are your drafts, not recommendations. Separately, the reports section applies limited reference-based rules; unvalidated ML predictions (failed scientific acceptance, not safe for farming decisions) can be run and saved with clear warnings. No yield prediction.</p>
             </div>
             <div className="grid lg:grid-cols-3 gap-5">
               <div className="rounded-3xl bg-primary text-primary-foreground p-6 furrows flex flex-col gap-4">
@@ -116,8 +116,8 @@ export default function Planner() {
               <div className="rounded-3xl border-2 border-dashed border-input p-6 flex gap-4">
                 <Bot className="h-8 w-8 text-muted-foreground shrink-0" />
                 <div>
-                  <div className="flex flex-wrap items-center gap-2"><h2 className="font-display text-2xl text-primary">AI explanation</h2><Tag kind="unassessed">Not operational</Tag></div>
-                  <p className="text-sm text-muted-foreground mt-2 leading-relaxed">No accepted Field Shift model is running. Research candidates failed validation. Saved reports use reference-based rules and, where recorded, published FAO assessments—not trained Field Shift predictions. Future prediction statuses are not operational. A separate Experimental ML section may show research outputs from failed-validation models for development access only; they never feed reports or recommendations.</p>
+                  <div className="flex flex-wrap items-center gap-2"><h2 className="font-display text-2xl text-primary">AI explanation</h2><Tag kind="unassessed">Unvalidated</Tag></div>
+                  <p className="text-sm text-muted-foreground mt-2 leading-relaxed">Unvalidated ML predictions are enabled for five crops (wheat, barley, maize, dryland and wetland rice) on a 0–10,000 index. Scientific acceptance failed and there is no calibrated confidence, so they are not safe for farming decisions. Outputs you run are saved in new reports with warnings; rotation strategies still come from reference rules and, where recorded, published FAO assessments.</p>
                 </div>
               </div>
               <div className="rounded-3xl border border-card-border bg-card p-6">

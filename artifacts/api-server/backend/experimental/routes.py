@@ -1,4 +1,4 @@
-"""Bounded, owner-scoped, operator-authorized development research jobs."""
+"""Bounded, owner-scoped unvalidated inference in the normal planner."""
 from concurrent.futures import ThreadPoolExecutor
 import logging
 import os
@@ -18,6 +18,8 @@ from ..recommendation.routes import owned_farm
 from ..machine_learning.common import read_json, write_json, digest, now
 from .models import ROOT, WARNING, manifest, crop_metadata, infer
 from .operator import owner_hash
+from .policy import WORKFLOW_ENABLED, INPUT_POLICY
+from .inputs import public_sources
 
 router = APIRouter(prefix="/api")
 logger = logging.getLogger(__name__)
@@ -32,9 +34,12 @@ class ExperimentalInput(BaseModel):
     cropCode: Literal["WHE", "BRL", "MZE", "RCD", "RCW"]
     acknowledgeWarning: Literal[True]
     retry: bool = False
+    allowEstimatedInputs: bool = True
 
 
 def authorized(farm):
+    if WORKFLOW_ENABLED:
+        return True
     if os.environ.get("NODE_ENV") != "development":
         return False
     try:
@@ -53,11 +58,13 @@ def require_access(farm):
 def status(farm):
     access = authorized(farm)
     result = {"authorized": access, "available": False, "warning": WARNING, "models": [],
-              "productionPredictionsEnabled": False, "reason": "operator_authorization_required"}
+              "productionPredictionsEnabled": False, "reason": "operator_authorization_required",
+              "scientificallyValidated": False}
     if access:
         try:
             data = manifest()
-            result.update(available=True, models=crop_metadata(data), reason="experimental_only")
+            result.update(available=True, models=crop_metadata(data), reason="unvalidated_predictions_enabled",
+                          productionPredictionsEnabled=WORKFLOW_ENABLED)
         except (OSError, ValueError, KeyError, TypeError):
             result["reason"] = "verified_experimental_artifacts_unavailable"
     return result
@@ -85,7 +92,8 @@ def run_job(path, record, latitude, longitude, crop):
         prepared_path = path.with_suffix(".inputs.json")
         subprocess.run([sys.executable, "-B", "-m", "backend.experimental.prepare",
                         "--latitude", str(latitude), "--longitude", str(longitude),
-                        "--crop", crop, "--output", str(prepared_path)],
+                        "--crop", crop, "--output", str(prepared_path),
+                        *(["--allow-estimated-inputs"] if record.get("allowEstimatedInputs") else [])],
                        check=True, timeout=300, capture_output=True, cwd=ROOT.parents[1],
                        env={**os.environ, "PYTHONPATH": os.pathsep.join([
                             str(ROOT.parents[1] / "artifacts/api-server"), os.environ.get("PYTHONPATH", "")]),
@@ -94,10 +102,17 @@ def run_job(path, record, latitude, longitude, crop):
         record["inputSummary"] = {
             "selectedCoordinates": prep["selected_coordinates"],
             "labelCell": prep.get("label_cell"), "period": [2001, 2020],
-            "climateSource": "NASA POWER/MERRA2", "soilSource": "ISRIC SoilGrids native mean",
+            "climateSource": "NASA POWER/MERRA2",
+            "climateProvenance": public_sources(prep.get("provenance", {}).get("climate")),
+            "soilSource": ("ISRIC SoilGrids estimated soil inputs" if prep.get("estimated_inputs")
+                           else "ISRIC SoilGrids native mean"),
             "soilDepthCm": [0, 5], "scenario": "LRLM", "compatible": prep["compatible"],
+            "estimatedInputs": prep.get("estimated_inputs", False),
+            "soilEstimation": prep.get("soil_estimation"),
+            "originalInputRefusals": [r for r in prep.get("reasons", []) if r.startswith("ValueError:Soil_")],
+            "experimentalUsable": prep.get("experimental_usable", prep["compatible"]),
             "climateRetrieved": bool(prep.get("climate_features"))}
-        if not prep["compatible"]:
+        if not prep.get("experimental_usable", prep["compatible"]):
             reasons = prep.get("reasons", [])
             # Only explicitly safe scientific refusal details leave the server.
             safe = [r for r in reasons if r.startswith("ValueError:Soil_")]
@@ -105,6 +120,8 @@ def run_job(path, record, latitude, longitude, crop):
         else:
             request = prep["model_request"]
             output = infer(request["features"], request["latitude"], request["longitude"])
+            output.setdefault("warnings", []).extend(prep.get("input_warnings", []))
+            output["inputQuality"] = "estimated_soil" if prep.get("estimated_inputs") else "original_inputs"
             record.update(status="experimental_output", **output, reasons=[])
     except Exception:
         logger.exception("Experimental inference job failed; output withheld")
@@ -133,7 +150,8 @@ def experimental_prediction(id: int, data: ExperimentalInput, request: Request, 
     info = manifest()
     latitude, longitude = farm.profile["latitude"], farm.profile["longitude"]
     fingerprint = digest({"farm": id, "owner": owner_hash(farm.owner), "latitude": latitude,
-                           "longitude": longitude, "crop": data.cropCode, "model": info["modelVersion"]})
+                           "longitude": longitude, "crop": data.cropCode, "model": info["modelVersion"],
+                           "inputPolicy": INPUT_POLICY, "allowEstimatedInputs": data.allowEstimatedInputs})
     path = ROOT / "jobs" / f"{fingerprint}.json"
     with lock:
         prior = read_json(path) if path.exists() else None
@@ -157,6 +175,7 @@ def experimental_prediction(id: int, data: ExperimentalInput, request: Request, 
         record = {"jobId": fingerprint, "status": "preparing", "cropCode": data.cropCode,
                   "warning": WARNING, "value": None, "unit": "Index", "reasons": [],
                   "estimatorExecuted": False, "productionAccepted": False,
+                  "inputPolicy": INPUT_POLICY, "allowEstimatedInputs": data.allowEstimatedInputs,
                   "ownerHash": key, "farmId": id, "fingerprint": fingerprint,
                   "requestedCoordinates": {"latitude": latitude, "longitude": longitude},
                   "createdAt": now()}

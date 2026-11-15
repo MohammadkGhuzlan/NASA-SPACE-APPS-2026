@@ -229,7 +229,7 @@ class AnalysisApiTests(unittest.TestCase):
     def test_readiness_endpoint(self):
         r = self.client.get("/api/analysis/model-status")
         self.assertEqual(r.status_code, 200)
-        self.assertFalse(r.json()["predictionsEnabled"])
+        self.assertFalse(r.json()["scientificallyValidated"])
         self.assertNotIn("directory", r.json())
 
     def test_shared_report_limit_survives_owner_rotation(self):
@@ -368,8 +368,8 @@ class AnalysisApiTests(unittest.TestCase):
         self.assertNotEqual(r1["scenarios"], r2["scenarios"])
         self.assertEqual(r1["environmentalEvidence"]["soilInputs"]["ph"]["value"], 5.5)
         self.assertEqual(r2["environmentalEvidence"]["soilInputs"]["ph"]["value"], 9.5)
-        self.assertFalse(r1["aiIntegration"]["model"]["predictionsEnabled"])
-        self.assertFalse(r2["aiIntegration"]["model"]["predictionsEnabled"])
+        self.assertFalse(r1["aiIntegration"]["model"]["scientificallyValidated"])
+        self.assertFalse(r2["aiIntegration"]["model"]["scientificallyValidated"])
 
     def test_excessive_reports_limited_before_nasa(self):
         farm_id = self.farm()

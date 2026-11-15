@@ -16,7 +16,7 @@ export function AnalysisStatus({ evidence }: { evidence?: AnalysisIntegration })
       {!status ? (
         <div role="status">
           <p className="text-sm text-muted-foreground">{query.isError
-            ? "Model availability could not be checked. No prediction is enabled; reference planning remains available."
+            ? "Model availability could not be checked. Reference planning remains available."
             : "Checking model availability. This does not run a prediction."}</p>
           {query.isError && <Button type="button" variant="outline" className="mt-2"
             onClick={() => query.refetch()}>Retry availability check</Button>}
@@ -24,18 +24,22 @@ export function AnalysisStatus({ evidence }: { evidence?: AnalysisIntegration })
       ) : <>
         <p className="text-sm font-semibold">{status.message}</p>
         <p className="text-sm text-muted-foreground">
-          Stage A only. {status.state === "insufficiently_validated"
-            ? "Research candidates were trained but did not pass validation."
-            : "No reviewed, accepted model is active."}{" "}
-          Historical NASA data and agricultural reference rules remain available.
-          No Field Shift model suitability value, yield forecast, confidence percentage, or similar-region estimate is being supplied. Validated production crop-suitability predictions are not available, and saved reports never use the separate Experimental ML research outputs; published FAO GAEZ classes, where shown, come from FAO data and documented requirements.
+          {status.state === "unvalidated_enabled"
+            ? "Unvalidated ML predictions are enabled. Scientific acceptance failed: they are not safe for farming decisions and have no calibrated confidence. Completed runs are saved into new reports with warnings; reference rules still select rotation strategies."
+            : status.state === "insufficiently_validated"
+              ? "Research candidates were trained but did not pass validation."
+              : status.state === "validated_ready" ? "A reviewed model is reported as ready."
+              : status.state === "temporarily_unavailable" ? "Model predictions are temporarily unavailable."
+              : status.state === "incompatible" ? "The installed model is incompatible with current inputs."
+              : "No model is installed."}{" "}
+          Historical NASA data, agricultural reference rules and published FAO GAEZ classes remain available. No yield forecast or percentage is supplied.
         </p>
         {evidence && <>
           <p className="text-xs text-muted-foreground">Saved evidence snapshot: {new Date(evidence.generatedAt).toLocaleString()}.
             {" "}Reopened reports keep the inputs and availability recorded when generated.</p>
           <p className="text-sm">{evidence.plannerUse}</p>
           <details className="text-sm">
-            <summary className="cursor-pointer font-semibold">Why predictions were withheld</summary>
+            <summary className="cursor-pointer font-semibold">Model status reasons</summary>
             <p className="mt-2 text-muted-foreground">Environmental data access:{" "}
               {String((evidence.featurePreparation.environmentRetrieval as Record<string, unknown> | undefined)?.mode ?? "recorded in environmental provenance").replaceAll("_", " ")}.
               {" "}Original source timestamps remain in the environmental dashboard.</p>
@@ -51,7 +55,7 @@ export function AnalysisStatus({ evidence }: { evidence?: AnalysisIntegration })
             </p>
             <ul className="mt-3 space-y-1">
               {evidence.coverage.map((c) => <li key={c.crop}>
-                <span className="font-semibold">{c.crop}:</span> insufficient evidence — no Field Shift model prediction
+                <span className="font-semibold">{c.crop}:</span> {c.status.replaceAll("_", " ")}{c.available ? "" : " (no prediction in this lane)"}
               </li>)}
             </ul>
           </details>

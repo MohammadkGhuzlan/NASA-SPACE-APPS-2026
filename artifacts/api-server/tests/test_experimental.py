@@ -20,6 +20,7 @@ class ExperimentalTests(unittest.TestCase):
         self.root = Path(self.temp.name)
         self.patches = [patch.object(models, "ROOT", self.root),
                         patch.object(routes, "ROOT", self.root),
+                        patch.object(routes, "WORKFLOW_ENABLED", False),
                         patch.dict(os.environ, {"NODE_ENV": "development"})]
         for p in self.patches:
             p.start()

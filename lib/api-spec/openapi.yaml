@@ -371,6 +371,7 @@ components:
         cropCode: { type: string, enum: [WHE, BRL, MZE, RCD, RCW] }
         acknowledgeWarning: { type: boolean, const: true }
         retry: { type: boolean, default: false }
+        allowEstimatedInputs: { type: boolean, default: true }
     ExperimentalModel:
       type: object
       required: [cropCode, name, selected, validationMae, validationR2, meanBaselineMae, medianBaselineMae, validationStatus, rejectionReasons, geographicLimitations, trainedCells, validationCells]
@@ -396,6 +397,7 @@ components:
         warning: { type: string }
         productionPredictionsEnabled: { type: boolean }
         reason: { type: string }
+        scientificallyValidated: { type: boolean }
         models: { type: array, items: { $ref: "#/components/schemas/ExperimentalModel" } }
     ExperimentalJob:
       type: object
@@ -428,6 +430,9 @@ components:
           additionalProperties: true
         createdAt: { type: string }
         completedAt: { type: string }
+        inputQuality: { type: string }
+        inputPolicy: { type: string }
+        allowEstimatedInputs: { type: boolean }
     GaezAssessmentInput:
       type: object
       required: [cropCode, scenario]
@@ -509,8 +514,10 @@ components:
       properties:
         adapterVersion: { type: string }
         stage: { type: string, enum: [stage_a] }
-        state: { type: string, enum: [not_installed, incompatible, insufficiently_validated, validated_ready, temporarily_unavailable] }
+        state: { type: string, enum: [not_installed, incompatible, insufficiently_validated, validated_ready, temporarily_unavailable, unvalidated_enabled] }
         predictionsEnabled: { type: boolean }
+        scientificallyValidated: { type: boolean }
+        estimatedInputsAllowed: { type: boolean }
         message: { type: string }
         reasons: { type: array, items: { type: string } }
         contract: { $ref: "#/components/schemas/JsonRecord" }
@@ -588,6 +595,7 @@ components:
       type: object
       required: [crop, status, reasons, risks, calendar, environmentalContext]
       properties:
+        modelEstimates: { type: array, items: { $ref: "#/components/schemas/ExperimentalJob" } }
         crop: { $ref: "#/components/schemas/ReferenceCrop" }
         status: { type: string }
         reasons: { type: array, items: { $ref: "#/components/schemas/PlanningFinding" } }
@@ -612,6 +620,7 @@ components:
       type: object
       required: [id, farmId, createdAt, knowledgeVersion, engineVersion, status, modelStatus, inputs, candidates, scenarios, management, missingInformation, warnings, references, environmentalEvidence]
       properties:
+        mlPredictions: { $ref: "#/components/schemas/UnvalidatedPredictionEvidence" }
         gaezEvidence: { $ref: "#/components/schemas/GaezReportEvidence" }
         id: { type: integer }
         farmId: { type: integer }
@@ -630,6 +639,16 @@ components:
         references: { type: array, items: { $ref: "#/components/schemas/AgriculturalReference" } }
         environmentalEvidence: { $ref: "#/components/schemas/JsonRecord" }
         aiIntegration: { $ref: "#/components/schemas/AnalysisIntegration" }
+    UnvalidatedPredictionEvidence:
+      type: object
+      required: [status, warning, jobs, generatedAt, scope]
+      properties:
+        status: { type: string }
+        warning: { type: string }
+        jobs: { type: array, items: { $ref: "#/components/schemas/ExperimentalJob" } }
+        generatedAt: { type: string }
+        scope: { type: string }
+        plannerUse: { type: string }
     FarmingPlanSummary:
       type: object
       required: [id, farmId, createdAt, status, knowledgeVersion]

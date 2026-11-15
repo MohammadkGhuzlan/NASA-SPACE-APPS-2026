@@ -1,6 +1,7 @@
 import { useState, type FormEvent, type ReactNode } from "react";
 import { AnalysisStatus } from "@/components/analysis-status";
 import { ExperimentalMl } from "@/components/experimental-ml";
+import { ML_WARNING, MlJobView } from "@/components/ml-job-view";
 import { GaezEvidence, GaezReport } from "@/components/gaez-evidence";
 import { useQueryClient } from "@tanstack/react-query";
 import { Link } from "wouter";
@@ -88,7 +89,7 @@ function ReportForm({ farmId, defaultCrop, defaultPriority, onCreated }: { farmI
 
   return (
     <form onSubmit={submit} className="rounded-3xl bg-primary text-primary-foreground furrows p-6 flex flex-col gap-4" data-testid="form-generate-report">
-      <div><h3 className="font-display text-2xl">New report</h3><p className="text-sm opacity-80 mt-1">Saved as an immutable snapshot. Manual drafts stay untouched.</p></div>
+      <div><h3 className="font-display text-2xl">New report</h3><p className="text-sm opacity-80 mt-1">Saved as an immutable snapshot, including completed unvalidated ML runs from above. Manual drafts stay untouched.</p></div>
       {[
         { id: "rotation", l: "Current rotation (in order, comma separated)", v: rotation, s: setRotation, p: "e.g. Wheat, Pea" },
         { id: "previous", l: "Previous crops, oldest first", v: previous, s: setPrevious, p: "e.g. Barley, Potato" },
@@ -128,12 +129,12 @@ function ReportView({ r }: { r: FarmingPlanReport }) {
   return (
     <div className="space-y-4 rise" data-testid={`report-${r.id}`}>
       <div className="rounded-3xl border border-card-border bg-card p-6">
-        <div className="flex flex-wrap items-center gap-2"><StatusTag s={r.status} /><Tag kind="unassessed">Reference planner · no model used</Tag></div>
+        <div className="flex flex-wrap items-center gap-2"><StatusTag s={r.status} /><Tag kind="unassessed">{r.mlPredictions ? "Reference rules + unvalidated ML snapshot" : "Reference planner · no model used"}</Tag></div>
         <h3 className="font-display text-3xl text-primary mt-3">Report #{r.id}</h3>
         <p className="font-mono text-xs text-muted-foreground mt-1">{fmt(r.createdAt)} / knowledge {r.knowledgeVersion} / engine {r.engineVersion}</p>
         <p className="text-sm text-muted-foreground mt-3 max-w-3xl">
           {r.status === "insufficient_evidence" ? "There was not enough evidence to build a reference-based plan. Nothing has been guessed in its place." : "Conditional findings from limited reference-based rules."}
-          {" "}No accepted Field Shift ML prediction is used: no model suitability score, no yield forecast, no similar-region comparison.
+          {" "}{r.mlPredictions ? "Rotation strategies come from reference rules. Unvalidated ML outputs are saved alongside as a warning-labelled snapshot and did not rank rotations." : "This report has no ML snapshot (historical report or no completed runs). No yield forecast or similar-region comparison."}
         </p>
         <p className="text-sm mt-2"><span className="font-semibold">Priority applied:</span> {humanize(r.priorityApplied ?? "not recorded")}. NASA temperature and farmer-reported soil/water inputs can flag conflicts; they cannot establish crop suitability on their own.</p>
         {r.warnings.length > 0 && <ul className="mt-4 space-y-1.5">{r.warnings.map((w, i) => <li key={i} className="rounded-xl bg-[hsl(38_70%_50%/.12)] px-3 py-2 text-sm">{w}</li>)}</ul>}
@@ -141,6 +142,14 @@ function ReportView({ r }: { r: FarmingPlanReport }) {
 
       {r.aiIntegration && <AnalysisStatus evidence={r.aiIntegration} />}
       {r.gaezEvidence && <GaezReport evidence={r.gaezEvidence} />}
+      {r.mlPredictions && <Section title="Unvalidated ML predictions" aside={<span className="font-mono text-[10.5px] text-muted-foreground">snapshot {fmt(r.mlPredictions.generatedAt)}</span>}>
+        <div className="space-y-3" data-testid="report-ml-predictions">
+          <p role="note" className="rounded-xl bg-[hsl(38_70%_50%/.14)] px-3 py-2 text-sm font-semibold">{r.mlPredictions.warning || ML_WARNING}</p>
+          <p className="text-xs text-muted-foreground">Status: {humanize(r.mlPredictions.status)} / scope: {humanize(r.mlPredictions.scope)} {r.mlPredictions.plannerUse}</p>
+          {r.mlPredictions.jobs.length === 0 ? <p className="text-sm italic text-muted-foreground">No completed model runs were available when this report was saved.</p>
+            : <div className="grid xl:grid-cols-2 gap-3">{r.mlPredictions.jobs.map((j) => <MlJobView key={j.jobId} job={j} saved />)}</div>}
+        </div>
+      </Section>}
       <Section title="Rotation scenarios">
         {r.scenarios.length === 0 ? <p className="text-sm text-muted-foreground italic">No scenarios in this report.</p> : (
           <div className="grid xl:grid-cols-3 gap-4">
@@ -174,6 +183,8 @@ function ReportView({ r }: { r: FarmingPlanReport }) {
                 <div className="flex items-center justify-between gap-2"><span className="font-display text-xl">{c.crop.name} <span className="text-sm text-muted-foreground font-sans">{humanize(c.crop.group)}</span></span><StatusTag s={c.status} /></div>
                 <Findings items={c.reasons} refs={refs} empty="No reasons recorded." testid={`reason-${c.crop.id}`} />
                 <Findings items={c.risks} refs={refs} tone="risk" empty="No risks recorded." testid={`crisk-${c.crop.id}`} />
+                {c.modelEstimates && c.modelEstimates.length > 0 && <details><summary className="cursor-pointer text-sm font-semibold text-accent">Unvalidated ML estimates ({c.modelEstimates.length})</summary>
+                  <div className="mt-2 space-y-2">{c.modelEstimates.map((j) => <MlJobView key={j.jobId} job={j} saved />)}</div></details>}
                 {c.screen && <div className="rounded-xl bg-muted/60 p-3"><p className="text-xs font-semibold uppercase tracking-wider mb-2">Reference screening details</p><RecordView record={c.screen as Record<string, unknown>} /></div>}
                 <details><summary className="cursor-pointer text-sm font-semibold text-accent">Calendar and context</summary>
                   <div className="mt-2 space-y-3"><RecordView record={c.calendar} /><RecordView record={c.environmentalContext} /></div>
@@ -213,9 +224,9 @@ export function PlanReports({ farmId, defaultCrop, defaultPriority }: { farmId: 
       <div className="pb-6">
         <p className="font-mono text-xs uppercase tracking-[0.18em] text-accent">Reference-based reports</p>
         <h2 id="reports-heading" className="font-display text-3xl md:text-4xl text-primary mt-2">Saved farming <span className="italic">reports</span></h2>
-        <p className="text-muted-foreground mt-2 max-w-3xl">Limited rules applied to the <Link href="/knowledge" className="text-accent hover:underline" data-testid="link-planner-knowledge">reference library</Link> and this farm's evidence. Every finding links to a source. No accepted Field Shift ML predictions or yield forecasts. Published FAO GAEZ classes are shown separately as cited evidence.</p>
+        <p className="text-muted-foreground mt-2 max-w-3xl">Limited rules applied to the <Link href="/knowledge" className="text-accent hover:underline" data-testid="link-planner-knowledge">reference library</Link> and this farm's evidence. Every finding links to a source. Unvalidated ML outputs you run below are saved into new reports with warnings; they failed scientific acceptance and do not rank rotations. Published FAO GAEZ classes are shown separately as cited evidence.</p>
       </div>
-      <div className="mb-5 space-y-5"><AnalysisStatus /><GaezEvidence farmId={farmId} defaultCrop={defaultCrop} /><ExperimentalMl key={farmId} farmId={farmId} /></div>
+      <div className="mb-5 space-y-5"><AnalysisStatus /><GaezEvidence farmId={farmId} defaultCrop={defaultCrop} /><ExperimentalMl key={farmId} farmId={farmId} /><p className="text-sm font-semibold text-primary px-1">Step 2: once your ML runs above have finished, generate a report below to save them.</p></div>
       <div className="grid lg:grid-cols-[22rem_1fr] gap-5 items-start">
         <div className="space-y-5 min-w-0">
           <ReportForm farmId={farmId} defaultCrop={defaultCrop} defaultPriority={defaultPriority} onCreated={setPicked} />

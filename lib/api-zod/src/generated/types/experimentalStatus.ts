@@ -13,5 +13,6 @@ export interface ExperimentalStatus {
   warning: string;
   productionPredictionsEnabled: boolean;
   reason: string;
+  scientificallyValidated?: boolean;
   models: ExperimentalModel[];
 }

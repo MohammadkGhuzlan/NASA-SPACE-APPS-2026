@@ -14,6 +14,8 @@ export interface AnalysisModelStatus {
   stage: AnalysisModelStatusStage;
   state: AnalysisModelStatusState;
   predictionsEnabled: boolean;
+  scientificallyValidated?: boolean;
+  estimatedInputsAllowed?: boolean;
   message: string;
   reasons: string[];
   contract: JsonRecord;

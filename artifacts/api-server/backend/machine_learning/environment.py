@@ -135,7 +135,7 @@ def acquire_soil_wcs(lat, lon, root):
     return output, sources
 
 
-def native_soil_mean(vrt_path, lat, lon, root):
+def native_soil_mean(vrt_path, lat, lon, root, *, minimum_valid_area=.95):
     """Subset documented native tiles, preserving explicit -32768 masks.
 
     A densified label-cell polygon is transformed with always_xy and matched to
@@ -204,7 +204,7 @@ def native_soil_mean(vrt_path, lat, lon, root):
             raise ValueError("Soil_empty_polygon")
         valid = inside & (data[0] != nodata)
         fraction = float(valid.sum()/inside.sum())
-        if fraction < .95:
+        if fraction < minimum_valid_area:
             raise ValueError(f"Soil_insufficient_valid_area:{fraction:.3f}")
         # Validate native integer values before averaging, not just the mean.
         upper = 140 if Path(vrt_path).name.startswith("phh2o_") else 10000 if Path(vrt_path).name.startswith("soc_") else 1000

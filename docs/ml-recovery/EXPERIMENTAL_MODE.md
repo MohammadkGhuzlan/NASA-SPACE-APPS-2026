@@ -1,3 +1,11 @@
+# Current policy
+
+This document records the earlier experimental-only delivery. The user later
+explicitly approved estimated soil inputs, normal workflow activation and saving
+unvalidated outputs in normal reports. Those earlier access/input/report
+restrictions are superseded by [Unvalidated workflow](UNVALIDATED_WORKFLOW.md).
+Scientific validation has **not** been passed; no publication was authorized.
+
 # Field Shift — experimental ML mode
 
 ## Scope and safety

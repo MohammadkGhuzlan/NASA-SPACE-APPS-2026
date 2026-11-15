@@ -5,11 +5,13 @@
  * Field Shift farm intelligence foundation
  * OpenAPI spec version: 0.1.0
  */
+import type { ExperimentalJob } from './experimentalJob';
 import type { JsonRecord } from './jsonRecord';
 import type { PlanningFinding } from './planningFinding';
 import type { ReferenceCrop } from './referenceCrop';
 
 export interface PlanningCandidate {
+  modelEstimates?: ExperimentalJob[];
   crop: ReferenceCrop;
   status: string;
   reasons: PlanningFinding[];

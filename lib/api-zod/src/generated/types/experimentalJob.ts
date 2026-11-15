@@ -33,4 +33,7 @@ export interface ExperimentalJob {
   requestedCoordinates?: ExperimentalJobRequestedCoordinates;
   createdAt?: string;
   completedAt?: string;
+  inputQuality?: string;
+  inputPolicy?: string;
+  allowEstimatedInputs?: boolean;
 }

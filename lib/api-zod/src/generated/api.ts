@@ -18,6 +18,7 @@ export const GetExperimentalStatusResponse = zod.object({
   "warning": zod.string(),
   "productionPredictionsEnabled": zod.boolean(),
   "reason": zod.string(),
+  "scientificallyValidated": zod.boolean().optional(),
   "models": zod.array(zod.object({
   "cropCode": zod.string(),
   "name": zod.string(),
@@ -40,11 +41,13 @@ export const RunExperimentalPredictionParams = zod.object({
 })
 
 export const runExperimentalPredictionBodyRetryDefault = false;
+export const runExperimentalPredictionBodyAllowEstimatedInputsDefault = true;
 
 export const RunExperimentalPredictionBody = zod.object({
   "cropCode": zod.enum(['WHE', 'BRL', 'MZE', 'RCD', 'RCW']),
   "acknowledgeWarning": zod.literal(true),
-  "retry": zod.boolean().default(runExperimentalPredictionBodyRetryDefault)
+  "retry": zod.boolean().default(runExperimentalPredictionBodyRetryDefault),
+  "allowEstimatedInputs": zod.boolean().default(runExperimentalPredictionBodyAllowEstimatedInputsDefault)
 })
 
 export const RunExperimentalPredictionResponse = zod.object({
@@ -68,7 +71,10 @@ export const RunExperimentalPredictionResponse = zod.object({
   "inputSummary": zod.record(zod.string(), zod.unknown()).optional(),
   "requestedCoordinates": zod.record(zod.string(), zod.unknown()).optional(),
   "createdAt": zod.string().optional(),
-  "completedAt": zod.string().optional()
+  "completedAt": zod.string().optional(),
+  "inputQuality": zod.string().optional(),
+  "inputPolicy": zod.string().optional(),
+  "allowEstimatedInputs": zod.boolean().optional()
 })
 
 
@@ -98,7 +104,10 @@ export const GetExperimentalJobResponse = zod.object({
   "inputSummary": zod.record(zod.string(), zod.unknown()).optional(),
   "requestedCoordinates": zod.record(zod.string(), zod.unknown()).optional(),
   "createdAt": zod.string().optional(),
-  "completedAt": zod.string().optional()
+  "completedAt": zod.string().optional(),
+  "inputQuality": zod.string().optional(),
+  "inputPolicy": zod.string().optional(),
+  "allowEstimatedInputs": zod.boolean().optional()
 })
 
 
@@ -190,8 +199,10 @@ export const AssessFarmGaezResponse = zod.object({
 export const GetAnalysisModelStatusResponse = zod.object({
   "adapterVersion": zod.string(),
   "stage": zod.enum(['stage_a']),
-  "state": zod.enum(['not_installed', 'incompatible', 'insufficiently_validated', 'validated_ready', 'temporarily_unavailable']),
+  "state": zod.enum(['not_installed', 'incompatible', 'insufficiently_validated', 'validated_ready', 'temporarily_unavailable', 'unvalidated_enabled']),
   "predictionsEnabled": zod.boolean(),
+  "scientificallyValidated": zod.boolean().optional(),
+  "estimatedInputsAllowed": zod.boolean().optional(),
   "message": zod.string(),
   "reasons": zod.array(zod.string()),
   "contract": zod.record(zod.string(), zod.unknown()),
@@ -272,6 +283,39 @@ export const GenerateFarmingPlanBody = zod.object({
 })
 
 export const GenerateFarmingPlanResponse = zod.object({
+  "mlPredictions": zod.object({
+  "status": zod.string(),
+  "warning": zod.string(),
+  "jobs": zod.array(zod.object({
+  "jobId": zod.string(),
+  "status": zod.enum(['preparing', 'experimental_output', 'missing_inputs', 'unavailable', 'interrupted']),
+  "cropCode": zod.string(),
+  "warning": zod.string(),
+  "value": zod.number().nullable(),
+  "unit": zod.string(),
+  "reasons": zod.array(zod.string()),
+  "estimatorExecuted": zod.boolean(),
+  "productionAccepted": zod.boolean(),
+  "target": zod.string().optional(),
+  "modelVersion": zod.string().optional(),
+  "datasetHash": zod.string().optional(),
+  "artifactSha256": zod.string().optional(),
+  "geographicSupport": zod.string().optional(),
+  "supportReasons": zod.array(zod.string()).optional(),
+  "warnings": zod.array(zod.string()).optional(),
+  "validation": zod.record(zod.string(), zod.unknown()).optional(),
+  "inputSummary": zod.record(zod.string(), zod.unknown()).optional(),
+  "requestedCoordinates": zod.record(zod.string(), zod.unknown()).optional(),
+  "createdAt": zod.string().optional(),
+  "completedAt": zod.string().optional(),
+  "inputQuality": zod.string().optional(),
+  "inputPolicy": zod.string().optional(),
+  "allowEstimatedInputs": zod.boolean().optional()
+})),
+  "generatedAt": zod.string(),
+  "scope": zod.string(),
+  "plannerUse": zod.string().optional()
+}).optional(),
   "gaezEvidence": zod.object({
   "status": zod.enum(['available', 'partial', 'unavailable']),
   "dataset": zod.object({
@@ -330,6 +374,32 @@ export const GenerateFarmingPlanResponse = zod.object({
   "priorityApplied": zod.string().optional(),
   "inputs": zod.record(zod.string(), zod.unknown()),
   "candidates": zod.array(zod.object({
+  "modelEstimates": zod.array(zod.object({
+  "jobId": zod.string(),
+  "status": zod.enum(['preparing', 'experimental_output', 'missing_inputs', 'unavailable', 'interrupted']),
+  "cropCode": zod.string(),
+  "warning": zod.string(),
+  "value": zod.number().nullable(),
+  "unit": zod.string(),
+  "reasons": zod.array(zod.string()),
+  "estimatorExecuted": zod.boolean(),
+  "productionAccepted": zod.boolean(),
+  "target": zod.string().optional(),
+  "modelVersion": zod.string().optional(),
+  "datasetHash": zod.string().optional(),
+  "artifactSha256": zod.string().optional(),
+  "geographicSupport": zod.string().optional(),
+  "supportReasons": zod.array(zod.string()).optional(),
+  "warnings": zod.array(zod.string()).optional(),
+  "validation": zod.record(zod.string(), zod.unknown()).optional(),
+  "inputSummary": zod.record(zod.string(), zod.unknown()).optional(),
+  "requestedCoordinates": zod.record(zod.string(), zod.unknown()).optional(),
+  "createdAt": zod.string().optional(),
+  "completedAt": zod.string().optional(),
+  "inputQuality": zod.string().optional(),
+  "inputPolicy": zod.string().optional(),
+  "allowEstimatedInputs": zod.boolean().optional()
+})).optional(),
   "crop": zod.object({
   "id": zod.string(),
   "name": zod.string(),
@@ -397,8 +467,10 @@ export const GenerateFarmingPlanResponse = zod.object({
   "model": zod.object({
   "adapterVersion": zod.string(),
   "stage": zod.enum(['stage_a']),
-  "state": zod.enum(['not_installed', 'incompatible', 'insufficiently_validated', 'validated_ready', 'temporarily_unavailable']),
+  "state": zod.enum(['not_installed', 'incompatible', 'insufficiently_validated', 'validated_ready', 'temporarily_unavailable', 'unvalidated_enabled']),
   "predictionsEnabled": zod.boolean(),
+  "scientificallyValidated": zod.boolean().optional(),
+  "estimatedInputsAllowed": zod.boolean().optional(),
   "message": zod.string(),
   "reasons": zod.array(zod.string()),
   "contract": zod.record(zod.string(), zod.unknown()),
@@ -424,6 +496,39 @@ export const GetFarmingPlanParams = zod.object({
 })
 
 export const GetFarmingPlanResponse = zod.object({
+  "mlPredictions": zod.object({
+  "status": zod.string(),
+  "warning": zod.string(),
+  "jobs": zod.array(zod.object({
+  "jobId": zod.string(),
+  "status": zod.enum(['preparing', 'experimental_output', 'missing_inputs', 'unavailable', 'interrupted']),
+  "cropCode": zod.string(),
+  "warning": zod.string(),
+  "value": zod.number().nullable(),
+  "unit": zod.string(),
+  "reasons": zod.array(zod.string()),
+  "estimatorExecuted": zod.boolean(),
+  "productionAccepted": zod.boolean(),
+  "target": zod.string().optional(),
+  "modelVersion": zod.string().optional(),
+  "datasetHash": zod.string().optional(),
+  "artifactSha256": zod.string().optional(),
+  "geographicSupport": zod.string().optional(),
+  "supportReasons": zod.array(zod.string()).optional(),
+  "warnings": zod.array(zod.string()).optional(),
+  "validation": zod.record(zod.string(), zod.unknown()).optional(),
+  "inputSummary": zod.record(zod.string(), zod.unknown()).optional(),
+  "requestedCoordinates": zod.record(zod.string(), zod.unknown()).optional(),
+  "createdAt": zod.string().optional(),
+  "completedAt": zod.string().optional(),
+  "inputQuality": zod.string().optional(),
+  "inputPolicy": zod.string().optional(),
+  "allowEstimatedInputs": zod.boolean().optional()
+})),
+  "generatedAt": zod.string(),
+  "scope": zod.string(),
+  "plannerUse": zod.string().optional()
+}).optional(),
   "gaezEvidence": zod.object({
   "status": zod.enum(['available', 'partial', 'unavailable']),
   "dataset": zod.object({
@@ -482,6 +587,32 @@ export const GetFarmingPlanResponse = zod.object({
   "priorityApplied": zod.string().optional(),
   "inputs": zod.record(zod.string(), zod.unknown()),
   "candidates": zod.array(zod.object({
+  "modelEstimates": zod.array(zod.object({
+  "jobId": zod.string(),
+  "status": zod.enum(['preparing', 'experimental_output', 'missing_inputs', 'unavailable', 'interrupted']),
+  "cropCode": zod.string(),
+  "warning": zod.string(),
+  "value": zod.number().nullable(),
+  "unit": zod.string(),
+  "reasons": zod.array(zod.string()),
+  "estimatorExecuted": zod.boolean(),
+  "productionAccepted": zod.boolean(),
+  "target": zod.string().optional(),
+  "modelVersion": zod.string().optional(),
+  "datasetHash": zod.string().optional(),
+  "artifactSha256": zod.string().optional(),
+  "geographicSupport": zod.string().optional(),
+  "supportReasons": zod.array(zod.string()).optional(),
+  "warnings": zod.array(zod.string()).optional(),
+  "validation": zod.record(zod.string(), zod.unknown()).optional(),
+  "inputSummary": zod.record(zod.string(), zod.unknown()).optional(),
+  "requestedCoordinates": zod.record(zod.string(), zod.unknown()).optional(),
+  "createdAt": zod.string().optional(),
+  "completedAt": zod.string().optional(),
+  "inputQuality": zod.string().optional(),
+  "inputPolicy": zod.string().optional(),
+  "allowEstimatedInputs": zod.boolean().optional()
+})).optional(),
   "crop": zod.object({
   "id": zod.string(),
   "name": zod.string(),
@@ -549,8 +680,10 @@ export const GetFarmingPlanResponse = zod.object({
   "model": zod.object({
   "adapterVersion": zod.string(),
   "stage": zod.enum(['stage_a']),
-  "state": zod.enum(['not_installed', 'incompatible', 'insufficiently_validated', 'validated_ready', 'temporarily_unavailable']),
+  "state": zod.enum(['not_installed', 'incompatible', 'insufficiently_validated', 'validated_ready', 'temporarily_unavailable', 'unvalidated_enabled']),
   "predictionsEnabled": zod.boolean(),
+  "scientificallyValidated": zod.boolean().optional(),
+  "estimatedInputsAllowed": zod.boolean().optional(),
   "message": zod.string(),
   "reasons": zod.array(zod.string()),
   "contract": zod.record(zod.string(), zod.unknown()),

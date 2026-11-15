@@ -40,15 +40,20 @@ under the stated loss. This does not justify returning zeros as live predictions
 comparisons, continuous distributions and source-cell counts rather than
 pretending repeated crop rows or zeros are independent classes.
 
-Rejected models may run only in a visibly separate experimental research lane
-when explicitly requested; this is not a production acceptance override.
+Rejected models may run in the normal planner and be saved as prominently
+labelled unvalidated evidence. Source-backed estimated soil inputs are allowed
+with provenance and warnings when original inputs are missing. This is an
+operational enablement, not a scientific acceptance override.
 
-**Why:** The experimental-mode brief explicitly requests genuine numerical
-inference from failed candidates while preserving every validation threshold
-and the untouched final test.
+**Why:** After the original experimental-only implementation, the user explicitly
+requested enabling predictions despite inaccuracy and approved “Allow estimated
+inputs with warnings.” This supersedes the earlier research-lane-only and
+complete-original-input restrictions.
 
-**How to apply:** Keep production readiness disabled, require complete authentic
-training-contract features, display failed-validation and out-of-domain warnings,
-and never feed experimental results into agricultural recommendations or normal
-saved reports. Operator changes to development access must not expose another
-browser workspace's farms or enable production.
+**How to apply:** Distinguish operationally enabled inference from independently
+validated/accepted models. Preserve failed-validation metrics and the final
+holdout; never claim scientific acceptance. Label estimated inputs, their source,
+spatial distance/coverage and training-contract mismatch. Do not invent values
+or hide missing climate data. Saved reports must preserve these disclosures
+as immutable evidence, not retroactively rewrite older reports. Keep farm
+ownership isolation. Do not publish without separate approval.

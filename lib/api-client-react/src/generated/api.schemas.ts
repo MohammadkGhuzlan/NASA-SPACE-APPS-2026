@@ -20,6 +20,7 @@ export interface ExperimentalPredictionInput {
   cropCode: ExperimentalPredictionInputCropCode;
   acknowledgeWarning: true;
   retry?: boolean;
+  allowEstimatedInputs?: boolean;
 }
 
 export interface ExperimentalModel {
@@ -44,6 +45,7 @@ export interface ExperimentalStatus {
   warning: string;
   productionPredictionsEnabled: boolean;
   reason: string;
+  scientificallyValidated?: boolean;
   models: ExperimentalModel[];
 }
 
@@ -87,6 +89,9 @@ export interface ExperimentalJob {
   requestedCoordinates?: ExperimentalJobRequestedCoordinates;
   createdAt?: string;
   completedAt?: string;
+  inputQuality?: string;
+  inputPolicy?: string;
+  allowEstimatedInputs?: boolean;
 }
 
 export interface GaezAssessmentInput {
@@ -214,6 +219,7 @@ export const AnalysisModelStatusState = {
   insufficiently_validated: 'insufficiently_validated',
   validated_ready: 'validated_ready',
   temporarily_unavailable: 'temporarily_unavailable',
+  unvalidated_enabled: 'unvalidated_enabled',
 } as const;
 
 export interface AnalysisModelStatus {
@@ -221,6 +227,8 @@ export interface AnalysisModelStatus {
   stage: AnalysisModelStatusStage;
   state: AnalysisModelStatusState;
   predictionsEnabled: boolean;
+  scientificallyValidated?: boolean;
+  estimatedInputsAllowed?: boolean;
   message: string;
   reasons: string[];
   contract: JsonRecord;
@@ -339,6 +347,7 @@ export interface PlanningFinding {
 }
 
 export interface PlanningCandidate {
+  modelEstimates?: ExperimentalJob[];
   crop: ReferenceCrop;
   status: string;
   reasons: PlanningFinding[];
@@ -361,7 +370,17 @@ export interface RotationScenario {
   schedule: JsonRecord[];
 }
 
+export interface UnvalidatedPredictionEvidence {
+  status: string;
+  warning: string;
+  jobs: ExperimentalJob[];
+  generatedAt: string;
+  scope: string;
+  plannerUse?: string;
+}
+
 export interface FarmingPlanReport {
+  mlPredictions?: UnvalidatedPredictionEvidence;
   gaezEvidence?: GaezReportEvidence;
   id: number;
   farmId: number;

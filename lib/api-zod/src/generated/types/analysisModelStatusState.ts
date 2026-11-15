@@ -15,4 +15,5 @@ export const AnalysisModelStatusState = {
   insufficiently_validated: 'insufficiently_validated',
   validated_ready: 'validated_ready',
   temporarily_unavailable: 'temporarily_unavailable',
+  unvalidated_enabled: 'unvalidated_enabled',
 } as const;

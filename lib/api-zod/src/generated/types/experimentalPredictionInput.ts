@@ -11,4 +11,5 @@ export interface ExperimentalPredictionInput {
   cropCode: ExperimentalPredictionInputCropCode;
   acknowledgeWarning: true;
   retry?: boolean;
+  allowEstimatedInputs?: boolean;
 }

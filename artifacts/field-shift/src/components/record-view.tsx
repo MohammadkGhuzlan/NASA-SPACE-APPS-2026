@@ -35,7 +35,7 @@ export function RecordView({ record, depth = 0 }: { record: Record<string, unkno
   return (
     <dl className={depth > 0 ? "min-w-0 max-w-full space-y-1.5 border-l-2 border-secondary pl-3" : "min-w-0 max-w-full space-y-2"}>
       {entries.map(([k, v]) => (
-        <div key={k} className="min-w-0 max-w-full grid sm:grid-cols-[minmax(0,10rem)_minmax(0,1fr)] gap-x-4 gap-y-0.5 text-sm">
+        <div key={k} className={`min-w-0 max-w-full grid ${depth === 0 ? "sm:grid-cols-[minmax(0,10rem)_minmax(0,1fr)]" : ""} gap-x-4 gap-y-0.5 text-sm`}>
           <dt className="min-w-0 [overflow-wrap:anywhere] font-mono text-[11px] uppercase tracking-wider text-muted-foreground pt-0.5">{humanize(k)}</dt>
           <dd className="min-w-0 max-w-full [overflow-wrap:anywhere]"><Value v={v} depth={depth} /></dd>
         </div>
