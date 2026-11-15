@@ -70,3 +70,45 @@ mtime_ms = 1794748087708
 storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:99c0b8d5-1681-405c-9948-7d284359ce38/c5e09165-6292-4e4a-9581-beab33a5dbe8/9461c6ce-5dd9-48fa-aeb0-e2d6edf3d530"
 storage_version_token = "1794748192017243"
 content_type = "text/markdown"
+
+[[outputs]]
+id = "e7kr8ikA9NJpQjBkL_ITy"
+uri = "file://docs/gaez/ENGINEERING_REPORT.md"
+type = "text"
+title = "GAEZ evidence engine — engineering review"
+description = "Implementation stages, exact tests, browser findings and correction, data preservation, limitations, branch integration plan and deployment status."
+logical_id = "82f3ef7d-9285-4def-8444-a1e4023acbbd"
+content_hash = "sha256:270a1f34fc6c59b2f3990f71ba1e3b129851c6dca7066ffd7379550fd142b889"
+size = 13590
+mtime_ms = 1794751173355
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:99c0b8d5-1681-405c-9948-7d284359ce38/82f3ef7d-9285-4def-8444-a1e4023acbbd/572df9a1-3399-4f0c-bbfe-868d75f30050"
+storage_version_token = "1794751282131347"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "ssq2vRjgdr9-o8PZp9Ru4"
+uri = "file://docs/gaez/DATA_ACCESS.md"
+type = "text"
+title = "FAO GAEZ source verification"
+description = "Official source and license verification, all 28 exact asset identifiers, categorical definitions and reproducible acquisition commands."
+logical_id = "5a7823dc-b59e-48da-b4fe-320b26e8df03"
+content_hash = "sha256:d8731c03c08915f4ab6fab3e66f3b477f656f2b6714d9bad19ec6c490f45aca1"
+size = 9011
+mtime_ms = 1794750854547
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:99c0b8d5-1681-405c-9948-7d284359ce38/5a7823dc-b59e-48da-b4fe-320b26e8df03/21035c9b-5529-45c3-b282-f5d3564d0476"
+storage_version_token = "1794751283457214"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "-2adxsThKr8ReaNMfic4k"
+uri = "file://generated-artifacts/gaez-evidence/real-lookups.json"
+type = "unspecified"
+title = "140 genuine GAEZ raster lookups"
+description = "Actual values, classes, source identifiers, hashes and sampled cell geometry for the five requested locations, seven crop types and four management scenarios."
+logical_id = "6b109855-5ee5-4711-8bca-e8bb20cd359a"
+content_hash = "sha256:3dd6fff32913434c1660f8c00ceeb1b38929e28b7d32603da6d52ab4c2c11f3b"
+size = 112351
+mtime_ms = 1794751000483
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:99c0b8d5-1681-405c-9948-7d284359ce38/6b109855-5ee5-4711-8bca-e8bb20cd359a/349323d7-5fca-453d-9021-e206ef1fafac"
+storage_version_token = "1794751284754679"
+content_type = "application/octet-stream"
