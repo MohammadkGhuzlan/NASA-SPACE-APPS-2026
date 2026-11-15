@@ -20,3 +20,9 @@ Published FAO GAEZ evidence is a separate decision-support workstream that may o
 **Why:** The user's GAEZ brief explicitly rejects using failed model candidates just to appear AI-powered, while requiring useful source-backed assessments now. Suitability assessments are not observed farm outcomes.
 
 **How to apply:** Keep published FAO assessments and Field Shift model predictions in distinct source lanes. Do not treat agreement as independent validation if a future model learned from the same FAO data. Show scenario and source-period differences rather than inventing corrections, and leave yield/forecast work on its separate roadmap.
+
+Current product status: Field Shift is being used as a testing prototype. Make that status visible, keep experimental predictions clearly labeled, and never substitute fabricated measurements for missing environmental inputs.
+
+**Why:** The user explicitly said the app is for testing and asked that inaccurate test outputs not be presented as farming advice.
+
+**How to apply:** Testing may use disclosed, source-backed estimates when enabled, but preserve provenance, warnings, and the distinction between farmer-entered profile data and model features.

@@ -135,7 +135,7 @@ export function FarmForm({ initial, submitLabel, pending, onSubmit, locationActi
       <section className={section}>
         <p className="font-mono text-xs text-accent tracking-widest">03 / SOIL & WATER</p>
         <h2 className="font-display text-2xl text-primary -mt-3">Your own measurements</h2>
-        <p className="text-sm text-muted-foreground -mt-2">Leave blank anything you have not measured. Blanks are saved as unknown, never estimated.</p>
+        <p className="text-sm text-muted-foreground -mt-2">Leave blank anything you have not measured. Blanks are saved as unknown, never estimated. These farmer-reported soil and irrigation values are saved to the farm profile; the experimental ML run does not use them as model features.</p>
         <div className="grid md:grid-cols-3 gap-5">
           <Field id="soilType" label="Soil type" hint="Optional.">
             <Input id="soilType" value={soilType} maxLength={100} onChange={(e) => setSoilType(e.target.value)} placeholder="e.g. clay loam" data-testid="input-soil-type" />

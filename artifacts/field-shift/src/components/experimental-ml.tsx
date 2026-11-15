@@ -126,6 +126,9 @@ export function ExperimentalMl({ farmId }: { farmId: number }) {
       <p className="text-xs text-muted-foreground">Nothing runs automatically: a report only contains model outputs you ran first. Agronomic reference rules still choose the three rotation strategies; the models do not rank rotations.</p>
       <p className="text-xs text-muted-foreground">Target: historical GAEZ-style suitability, 0–10,000 index points, rain-fed low-input management (LRLM). MAE uses index points; the metrics below describe development validation before the failed geographic-support screen, not final-test or local-farm accuracy.</p>
       <p role="note" className="rounded-xl bg-[hsl(38_70%_50%/.14)] px-3 py-2 text-sm font-semibold" data-testid="text-experimental-warning">{WARNING}</p>
+      <div role="note" className="rounded-xl border border-border bg-secondary/50 px-3 py-2 text-sm" data-testid="text-ml-input-contract">
+        <span className="font-semibold">Inputs used for this test:</span> selected farm coordinates, the chosen crop, authentic 2001–2020 NASA POWER climate, and 0–5 cm ISRIC SoilGrids soil features. “Allow estimated soil inputs” starts on for testing; estimates are source-backed proxies with warnings, not measurements. Farm-entered soil values, crop history, irrigation, and priorities are stored separately and are not model inputs.
+      </div>
 
       {status.isLoading ? <Skeleton className="h-24 rounded-2xl" />
         : status.isError || !s ? (

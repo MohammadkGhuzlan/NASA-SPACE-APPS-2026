@@ -49,6 +49,12 @@ export function Shell({ children }: { children: ReactNode }) {
           </nav>
         )}
       </header>
+      <div role="note" className="border-b border-[hsl(38_70%_50%/.4)] bg-[hsl(38_70%_50%/.12)] px-5 py-2.5 text-sm text-foreground" data-testid="banner-testing-only">
+        <div className="mx-auto max-w-7xl">
+          <span className="font-semibold uppercase tracking-wide">Testing build:</span>{" "}
+          Field Shift is being tested. Data and experimental predictions may be incomplete or inaccurate; do not use them to make farming decisions.
+        </div>
+      </div>
       <main className="flex-1">{children}</main>
       <footer className="border-t border-border/70 mt-16">
         <div className="mx-auto max-w-7xl px-5 py-8 flex flex-col md:flex-row gap-4 justify-between text-sm text-muted-foreground">
