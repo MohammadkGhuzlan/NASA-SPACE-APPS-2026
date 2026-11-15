@@ -25,6 +25,7 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  AgriculturalKnowledge,
   CaseStudy,
   DataStatus,
   Environment,
@@ -33,6 +34,9 @@ import type {
   Farm,
   FarmInput,
   FarmerMeasurement,
+  FarmingPlanInput,
+  FarmingPlanReport,
+  FarmingPlanSummary,
   GetEnvironmentalHistoryParams,
   GetEnvironmentalSummaryParams,
   GetSoilPropertiesParams,
@@ -75,6 +79,382 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
   }
   return result;
 };
+
+export const getGetAgriculturalKnowledgeUrl = () => {
+
+
+
+
+  return `/api/knowledge`
+}
+
+export const getAgriculturalKnowledge = async ( options?: Parameters<typeof customFetch>[1]): Promise<AgriculturalKnowledge> => {
+
+  return customFetch<AgriculturalKnowledge>(getGetAgriculturalKnowledgeUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetAgriculturalKnowledgeQueryKey = () => {
+    return [
+    `/api/knowledge`
+    ] as const;
+    }
+
+
+export const getGetAgriculturalKnowledgeQueryOptions = <TData = Awaited<ReturnType<typeof getAgriculturalKnowledge>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAgriculturalKnowledge>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAgriculturalKnowledgeQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAgriculturalKnowledge>>> = ({ signal }) => getAgriculturalKnowledge({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAgriculturalKnowledge>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetAgriculturalKnowledgeQueryResult = NonNullable<Awaited<ReturnType<typeof getAgriculturalKnowledge>>>
+export type GetAgriculturalKnowledgeQueryError = ErrorType<unknown>
+
+
+export function useGetAgriculturalKnowledge<TData = Awaited<ReturnType<typeof getAgriculturalKnowledge>>, TError = ErrorType<unknown>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAgriculturalKnowledge>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAgriculturalKnowledge>>,
+          TError,
+          Awaited<ReturnType<typeof getAgriculturalKnowledge>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAgriculturalKnowledge<TData = Awaited<ReturnType<typeof getAgriculturalKnowledge>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAgriculturalKnowledge>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAgriculturalKnowledge>>,
+          TError,
+          Awaited<ReturnType<typeof getAgriculturalKnowledge>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAgriculturalKnowledge<TData = Awaited<ReturnType<typeof getAgriculturalKnowledge>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAgriculturalKnowledge>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetAgriculturalKnowledge<TData = Awaited<ReturnType<typeof getAgriculturalKnowledge>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAgriculturalKnowledge>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetAgriculturalKnowledgeQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getListFarmingPlansUrl = (id: number,) => {
+
+
+
+
+  return `/api/farms/${id}/plans`
+}
+
+export const listFarmingPlans = async (id: number, options?: Parameters<typeof customFetch>[1]): Promise<FarmingPlanSummary[]> => {
+
+  return customFetch<FarmingPlanSummary[]>(getListFarmingPlansUrl(id),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListFarmingPlansQueryKey = (id: number,) => {
+    return [
+    `/api/farms/${id}/plans`
+    ] as const;
+    }
+
+
+export const getListFarmingPlansQueryOptions = <TData = Awaited<ReturnType<typeof listFarmingPlans>>, TError = ErrorType<unknown>>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listFarmingPlans>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListFarmingPlansQueryKey(id);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listFarmingPlans>>> = ({ signal }) => listFarmingPlans(id, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listFarmingPlans>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListFarmingPlansQueryResult = NonNullable<Awaited<ReturnType<typeof listFarmingPlans>>>
+export type ListFarmingPlansQueryError = ErrorType<unknown>
+
+
+export function useListFarmingPlans<TData = Awaited<ReturnType<typeof listFarmingPlans>>, TError = ErrorType<unknown>>(
+ id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listFarmingPlans>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listFarmingPlans>>,
+          TError,
+          Awaited<ReturnType<typeof listFarmingPlans>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListFarmingPlans<TData = Awaited<ReturnType<typeof listFarmingPlans>>, TError = ErrorType<unknown>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listFarmingPlans>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listFarmingPlans>>,
+          TError,
+          Awaited<ReturnType<typeof listFarmingPlans>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListFarmingPlans<TData = Awaited<ReturnType<typeof listFarmingPlans>>, TError = ErrorType<unknown>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listFarmingPlans>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useListFarmingPlans<TData = Awaited<ReturnType<typeof listFarmingPlans>>, TError = ErrorType<unknown>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listFarmingPlans>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListFarmingPlansQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getGenerateFarmingPlanUrl = (id: number,) => {
+
+
+
+
+  return `/api/farms/${id}/plans`
+}
+
+export const generateFarmingPlan = async (id: number,
+    farmingPlanInput: FarmingPlanInput, options?: Parameters<typeof customFetch>[1]): Promise<FarmingPlanReport> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<FarmingPlanReport>(getGenerateFarmingPlanUrl(id),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(farmingPlanInput)
+  }
+);}
+
+
+
+
+
+export const getGenerateFarmingPlanMutationKey = () => ['generateFarmingPlan'] as const;
+
+export const getGenerateFarmingPlanMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof generateFarmingPlan>>, TError,GenerateFarmingPlanMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof generateFarmingPlan>>, TError,GenerateFarmingPlanMutationVariables, TContext> => {
+
+const mutationKey = getGenerateFarmingPlanMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof generateFarmingPlan>>, GenerateFarmingPlanMutationVariables> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  generateFarmingPlan(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type GenerateFarmingPlanMutationResult = NonNullable<Awaited<ReturnType<typeof generateFarmingPlan>>>
+    export type GenerateFarmingPlanMutationBody = BodyType<FarmingPlanInput>
+    export type GenerateFarmingPlanMutationError = ErrorType<void>
+    export type GenerateFarmingPlanMutationVariables = {id: number;data: BodyType<FarmingPlanInput>}
+
+    export const useGenerateFarmingPlan = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof generateFarmingPlan>>, TError,GenerateFarmingPlanMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof generateFarmingPlan>>,
+        TError,
+        GenerateFarmingPlanMutationVariables,
+        TContext
+      > => {
+      return useMutation(getGenerateFarmingPlanMutationOptions(options), queryClient);
+    }
+
+export const getGetFarmingPlanUrl = (id: number,
+    planId: number,) => {
+
+
+
+
+  return `/api/farms/${id}/plans/${planId}`
+}
+
+export const getFarmingPlan = async (id: number,
+    planId: number, options?: Parameters<typeof customFetch>[1]): Promise<FarmingPlanReport> => {
+
+  return customFetch<FarmingPlanReport>(getGetFarmingPlanUrl(id,planId),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetFarmingPlanQueryKey = (id: number,
+    planId: number,) => {
+    return [
+    `/api/farms/${id}/plans/${planId}`
+    ] as const;
+    }
+
+
+export const getGetFarmingPlanQueryOptions = <TData = Awaited<ReturnType<typeof getFarmingPlan>>, TError = ErrorType<unknown>>(id: number,
+    planId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFarmingPlan>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetFarmingPlanQueryKey(id,planId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getFarmingPlan>>> = ({ signal }) => getFarmingPlan(id,planId, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: id !== null && id !== undefined && planId !== null && planId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getFarmingPlan>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetFarmingPlanQueryResult = NonNullable<Awaited<ReturnType<typeof getFarmingPlan>>>
+export type GetFarmingPlanQueryError = ErrorType<unknown>
+
+
+export function useGetFarmingPlan<TData = Awaited<ReturnType<typeof getFarmingPlan>>, TError = ErrorType<unknown>>(
+ id: number,
+    planId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFarmingPlan>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getFarmingPlan>>,
+          TError,
+          Awaited<ReturnType<typeof getFarmingPlan>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetFarmingPlan<TData = Awaited<ReturnType<typeof getFarmingPlan>>, TError = ErrorType<unknown>>(
+ id: number,
+    planId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFarmingPlan>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getFarmingPlan>>,
+          TError,
+          Awaited<ReturnType<typeof getFarmingPlan>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetFarmingPlan<TData = Awaited<ReturnType<typeof getFarmingPlan>>, TError = ErrorType<unknown>>(
+ id: number,
+    planId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFarmingPlan>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetFarmingPlan<TData = Awaited<ReturnType<typeof getFarmingPlan>>, TError = ErrorType<unknown>>(
+ id: number,
+    planId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFarmingPlan>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetFarmingPlanQueryOptions(id,planId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
 
 export const getGetEnvironmentalSummaryUrl = (params: GetEnvironmentalSummaryParams,) => {
   const normalizedParams = new URLSearchParams();

@@ -10,7 +10,7 @@ SOURCES = [
     {"id": "farmer", "name": "Farmer-provided information", "url": "", "status": "user_provided", "description": "Unverified user entries. Soil moisture is volumetric water content (%), area is hectares, pH is dimensionless."},
     {"id": "nasa_smap", "name": "NASA SMAP soil moisture", "url": "https://smap.jpl.nasa.gov/", "status": "not_connected", "description": "Planned soil moisture integration. No SMAP measurements are displayed."},
     {"id": "nasa_modis", "name": "NASA MODIS vegetation", "url": "https://modis.gsfc.nasa.gov/", "status": "not_connected", "description": "Planned vegetation integration. No vegetation index or crop-health score is inferred."},
-    {"id": "crop_requirements", "name": "Verified crop requirements", "url": "https://www.fao.org/land-water/databases-and-software/crop-information/en/", "status": "not_imported", "description": "Future curation reference, not an imported dataset. No crop suitability, rules-based recommendations or trained model is operational."},
+    {"id": "crop_requirements", "name": "Curated agricultural reference facts", "url": "https://www.fao.org/4/s2022e/s2022e07.htm", "status": "limited_reference_library", "description": "Six crops with generic FAO duration and total crop-water ranges plus scoped rotation principles. Conditional rule-based plans, not local suitability, GAEZ training labels or a trained model. Local calendars and crop-specific soil limits remain unavailable."},
 ]
 
 

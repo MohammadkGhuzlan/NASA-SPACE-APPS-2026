@@ -2,6 +2,22 @@
 
 A functional foundation for worldwide farm profiling and evidence-aware crop rotation planning, created for the requested NASA Space Apps 2026 concept. This is an independent prototype, not a NASA-endorsed agronomic advisory service.
 
+## Phase 3: initial reference-based planning
+
+The **Reference library** (`/knowledge`) now contains six crops with cited FAO
+duration and total crop-water ranges. Each farm's **Rotation planner** can generate,
+save and reopen a report comparing the current sequence with two conditional
+reference-based alternatives when enough non-excluded crops remain.
+
+Reports retain NASA provenance, source-sensitive soil inputs, farmer assumptions,
+source-linked management considerations and missing information. Generic durations
+give hypothetical harvest ranges only; local planting calendars and crop suitability
+are not established. Free-text equipment constraints require human review.
+No model has been trained, no GAEZ labels are imported, and no suitability score,
+yield estimate or similar-region prediction is produced.
+
+See [Phase 3 scope, references and limitations](docs/PHASE_3_REFERENCE_PLANNING.md).
+
 ## Stack
 
 - React / TypeScript / Tailwind / Vite
@@ -33,7 +49,7 @@ For managed production PostgreSQL, Replit Publish applies the development-to-pro
 - `artifacts/field-shift/src/`: user-facing pages, map, forms and visualizations
 - `artifacts/api-server/backend/`: FastAPI routes, validation and database models
 - `backend/environment/`: validated CSV ingestion, NASA POWER, aggregates, provenance and feature inputs
-- `backend/recommendation/`: reserved verified rules engine
+- `backend/recommendation/`: versioned reference library and deterministic conditional planning engine
 - `backend/machine_learning/`: reserved future model integration
 - `artifacts/api-server/migrations/`: Alembic schema history
 - `lib/api-spec/openapi.yaml`: frontend API contract; regenerate after changes
@@ -81,7 +97,7 @@ OpenStreetMap tiles and Nominatim require network availability. Nominatim reques
 
 ## Deliberate placeholders
 
-No SMAP moisture or MODIS vegetation products are connected. Crop definitions/verified requirements, model versions and recommendation results have database models but no invented seed values. Water suitability, soil health impact, crop-specific environmental risks, rules-based rankings, ML predictions and AI explanations are **not implemented**. Rotation alternatives are user drafts, not agricultural advice. No model has been trained or claimed operational.
+No SMAP moisture or MODIS vegetation products are connected. Six crop definitions and versioned reference facts are now curated from the sources listed above; they are not farm observations or training labels. Reference-based reports are saved only on user request. Local crop suitability, quantified soil-health impact, statistical crop rankings, ML predictions and AI explanations are **not implemented**. Manual rotation alternatives remain unassessed farmer drafts; generated scenarios are explicitly conditional reference explorations. No model has been trained or claimed operational.
 
 ## Privacy and scope
 

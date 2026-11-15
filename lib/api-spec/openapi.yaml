@@ -6,6 +6,52 @@ info:
 servers:
   - url: /api
 paths:
+  /knowledge:
+    get:
+      operationId: getAgriculturalKnowledge
+      responses:
+        "200":
+          description: Curated reference facts, limitations and version
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AgriculturalKnowledge" }
+  /farms/{id}/plans:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: integer } }
+    get:
+      operationId: listFarmingPlans
+      responses:
+        "200":
+          description: Owner-scoped saved report summaries
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: "#/components/schemas/FarmingPlanSummary" } }
+    post:
+      operationId: generateFarmingPlan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/FarmingPlanInput" }
+      responses:
+        "201":
+          description: Persisted reference-based report; no trained predictions
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FarmingPlanReport" }
+        "422": { description: Invalid planning inputs }
+  /farms/{id}/plans/{planId}:
+    get:
+      operationId: getFarmingPlan
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+        - { name: planId, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200":
+          description: Immutable saved report snapshot
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FarmingPlanReport" }
   /environment/summary:
     get:
       operationId: getEnvironmentalSummary
@@ -244,6 +290,102 @@ components:
     Latitude: { name: latitude, in: query, required: true, schema: { type: number, minimum: -90, maximum: 90 } }
     Longitude: { name: longitude, in: query, required: true, schema: { type: number, minimum: -180, maximum: 180 } }
   schemas:
+    FarmingPlanInput:
+      type: object
+      properties:
+        plantingDate: { type: ["string", "null"], format: date }
+        currentRotation: { type: array, maxItems: 6, items: { type: string, maxLength: 100 } }
+        previousCrops: { type: array, maxItems: 12, items: { type: string, maxLength: 100 } }
+        excludedCrops: { type: array, maxItems: 20, items: { type: string, maxLength: 100 } }
+        operationalLimitations: { type: string, maxLength: 2000 }
+        availableSeasonalWaterMm: { type: ["number", "null"], minimum: 0, maximum: 10000 }
+    AgriculturalReference:
+      type: object
+      required: [id, title, url, scope, checkedOn]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        url: { type: string }
+        scope: { type: string }
+        checkedOn: { type: string }
+    ReferenceCrop:
+      type: object
+      required: [id, name, group, season, growingDays, waterMm, droughtSensitivity, sourceIds, limitations]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        group: { type: string }
+        season: { type: string }
+        growingDays: { type: array, items: { type: integer } }
+        waterMm: { type: array, items: { type: number } }
+        droughtSensitivity: { type: string }
+        sourceIds: { type: array, items: { type: string } }
+        limitations: { type: array, items: { type: string } }
+    AgriculturalKnowledge:
+      type: object
+      required: [version, crops, references, limitations]
+      properties:
+        version: { type: string }
+        crops: { type: array, items: { $ref: "#/components/schemas/ReferenceCrop" } }
+        references: { type: array, items: { $ref: "#/components/schemas/AgriculturalReference" } }
+        limitations: { type: array, items: { type: string } }
+    PlanningFinding:
+      type: object
+      required: [code, message, sourceIds]
+      properties:
+        code: { type: string }
+        message: { type: string }
+        sourceIds: { type: array, items: { type: string } }
+    PlanningCandidate:
+      type: object
+      required: [crop, status, reasons, risks, calendar, environmentalContext]
+      properties:
+        crop: { $ref: "#/components/schemas/ReferenceCrop" }
+        status: { type: string }
+        reasons: { type: array, items: { $ref: "#/components/schemas/PlanningFinding" } }
+        risks: { type: array, items: { $ref: "#/components/schemas/PlanningFinding" } }
+        calendar: { $ref: "#/components/schemas/JsonRecord" }
+        environmentalContext: { $ref: "#/components/schemas/JsonRecord" }
+    RotationScenario:
+      type: object
+      required: [slot, title, crops, status, benefits, risks, waterRequirementMm, schedule]
+      properties:
+        slot: { type: string }
+        title: { type: string }
+        crops: { type: array, items: { type: string } }
+        status: { type: string }
+        benefits: { type: array, items: { $ref: "#/components/schemas/PlanningFinding" } }
+        risks: { type: array, items: { $ref: "#/components/schemas/PlanningFinding" } }
+        waterRequirementMm: { type: ["array", "null"], items: { type: number } }
+        schedule: { type: array, items: { $ref: "#/components/schemas/JsonRecord" } }
+    FarmingPlanReport:
+      type: object
+      required: [id, farmId, createdAt, knowledgeVersion, engineVersion, status, modelStatus, inputs, candidates, scenarios, management, missingInformation, warnings, references, environmentalEvidence]
+      properties:
+        id: { type: integer }
+        farmId: { type: integer }
+        createdAt: { type: string }
+        knowledgeVersion: { type: string }
+        engineVersion: { type: string }
+        status: { type: string }
+        modelStatus: { type: string }
+        inputs: { $ref: "#/components/schemas/JsonRecord" }
+        candidates: { type: array, items: { $ref: "#/components/schemas/PlanningCandidate" } }
+        scenarios: { type: array, items: { $ref: "#/components/schemas/RotationScenario" } }
+        management: { type: array, items: { $ref: "#/components/schemas/PlanningFinding" } }
+        missingInformation: { type: array, items: { type: string } }
+        warnings: { type: array, items: { type: string } }
+        references: { type: array, items: { $ref: "#/components/schemas/AgriculturalReference" } }
+        environmentalEvidence: { $ref: "#/components/schemas/JsonRecord" }
+    FarmingPlanSummary:
+      type: object
+      required: [id, farmId, createdAt, status, knowledgeVersion]
+      properties:
+        id: { type: integer }
+        farmId: { type: integer }
+        createdAt: { type: string }
+        status: { type: string }
+        knowledgeVersion: { type: string }
     JsonRecord:
       type: object
       additionalProperties: true

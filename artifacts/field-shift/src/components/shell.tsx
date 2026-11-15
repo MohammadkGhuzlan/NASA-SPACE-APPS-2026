@@ -10,6 +10,7 @@ const nav = [
   { href: "/select", label: "Analyze a location" },
   { href: "/environment", label: "Explore" },
   { href: "/compare", label: "Compare regions" },
+  { href: "/knowledge", label: "Reference library" },
   { href: "/sources", label: "Sources & limits" },
 ];
 

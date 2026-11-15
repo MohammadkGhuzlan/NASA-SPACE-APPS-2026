@@ -49,7 +49,7 @@ export default function Landing() {
             {[
               { icon: Satellite, t: "Observed", d: "Monthly rainfall and temperature aggregated from NASA POWER daily records, 2019 to 2025, with modeled soil wetness. If the request fails, you see that, not a guess." },
               { icon: NotebookPen, t: "Farmer reported", d: "Soil moisture, pH, crop history and water limits come from you, stored as you entered them. Blank stays blank." },
-              { icon: Sprout, t: "Draft ideas", d: "Two rotation alternatives you write yourself. Field Shift never ranks or recommends them; suitability is explicitly unassessed." },
+              { icon: Sprout, t: "Draft ideas", d: "Two rotation alternatives you write yourself, plus saved reports from limited reference-based rules that cite their sources. No suitability score, no ranking." },
             ].map((x, i) => (
               <div key={x.t} className="flex gap-5 border-t border-primary-foreground/15 pt-6">
                 <span className="font-mono text-sm text-[hsl(92_24%_66%)]">0{i + 1}</span>
@@ -73,7 +73,7 @@ export default function Landing() {
           <ShieldCheck className="h-8 w-8 text-accent" />
           <h3 className="font-display text-2xl text-primary mt-4">What this prototype will not do</h3>
           <ul className="mt-4 space-y-3 text-foreground/80">
-            <li>It does not recommend crops or predict yields.</li>
+            <li>It does not score suitability or predict yields. Its reference-based rules give conditional, source-linked findings only.</li>
             <li>It does not invent crop water or soil requirements.</li>
             <li>It does not run a trained AI model. That section is a labelled placeholder.</li>
           </ul>

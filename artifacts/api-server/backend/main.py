@@ -25,6 +25,8 @@ async def lifespan(app):
     # Data-only, idempotent reference seed. Schema is NEVER changed at startup.
     with SessionLocal() as db:
         ensure_source_registry(db)
+        from .recommendation.knowledge import ensure_knowledge
+        ensure_knowledge(db)
     yield
 
 
@@ -207,3 +209,5 @@ def sources(db: Session = Depends(get_db)):
 
 from .environment.routes import router as environmental_router
 app.include_router(environmental_router)
+from .recommendation.routes import router as planning_router
+app.include_router(planning_router)

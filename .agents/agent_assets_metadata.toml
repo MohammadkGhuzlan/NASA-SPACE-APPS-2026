@@ -14,3 +14,17 @@ mtime_ms = 1794681876332
 storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:99c0b8d5-1681-405c-9948-7d284359ce38/8b8b43a3-5f28-473a-9480-55a3bac8309e/9cecfab2-9b24-45b9-a63e-224e21785c91"
 storage_version_token = "1794682057614233"
 content_type = "text/markdown"
+
+[[outputs]]
+id = "6El1I_msQ7pCkdOEnlEYr"
+uri = "file://docs/PHASE_3_REFERENCE_PLANNING.md"
+type = "text"
+title = "Phase 3 reference-planning scope and evidence"
+description = "Implemented features, verified sources, planning rules, tests and remaining limitations."
+logical_id = "f82e5a96-9da7-4bd5-b17a-4aaa5a0b47f4"
+content_hash = "sha256:3d1f0d1efa5153f416a14ccfdfe3194e232375d011eb8e6081534b061c606b11"
+size = 5861
+mtime_ms = 1794739029580
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:99c0b8d5-1681-405c-9948-7d284359ce38/f82e5a96-9da7-4bd5-b17a-4aaa5a0b47f4/bb7ef519-15d3-4b5d-910c-0195e51f9334"
+storage_version_token = "1794739042201017"
+content_type = "text/markdown"

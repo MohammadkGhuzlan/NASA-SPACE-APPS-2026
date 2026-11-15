@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { FarmMissing } from "@/pages/farm-overview";
+import { PlanReports } from "@/components/plan-reports";
 
 function DraftEditor({ farmId, slot, label, existing }: { farmId: number; slot: StrategyInputSlot; label: string; existing?: Strategy }) {
   const [name, setName] = useState(existing?.name ?? `Alternative ${label}`);
@@ -65,7 +66,7 @@ function DraftEditor({ farmId, slot, label, existing }: { farmId: number; slot: 
         {["Water suitability", "Soil health effect", "Risks"].map((k) => (
           <div key={k} className="flex items-center justify-between gap-3"><span>{k}</span><Tag kind="unassessed">Unassessed</Tag></div>
         ))}
-        <p className="text-xs text-muted-foreground pt-1">Pending verified crop requirement data and an assessment engine. No score is computed.</p>
+        <p className="text-xs text-muted-foreground pt-1">Manual drafts are not assessed. Generate a reference-based report below for conditional, source-linked findings. No score is computed.</p>
       </div>
       {error && <p className="text-sm text-destructive">{error}</p>}
       <Button onClick={submit} disabled={save.isPending} className="rounded-full" data-testid={`button-save-${slot}`}>
@@ -89,7 +90,7 @@ export default function Planner() {
             <div className="rise pb-8">
               <Link href={`/farms/${id}`} className="font-mono text-xs uppercase tracking-[0.18em] text-accent hover:underline">{farm.data.name} /</Link>
               <h1 className="font-display text-4xl md:text-6xl text-primary mt-2">Rotation <span className="italic">bench</span></h1>
-              <p className="text-muted-foreground mt-3 max-w-2xl">Sketch two alternatives beside what you grow today. These are your drafts, not recommendations. Field Shift does not judge them.</p>
+              <p className="text-muted-foreground mt-3 max-w-2xl">Sketch two alternatives beside what you grow today. These are your drafts, not recommendations. Separately, the reports section applies limited reference-based rules; there is no ML model, suitability score or yield prediction.</p>
             </div>
             <div className="grid lg:grid-cols-3 gap-5">
               <div className="rounded-3xl bg-primary text-primary-foreground p-6 furrows flex flex-col gap-4">
@@ -110,12 +111,13 @@ export default function Planner() {
                 </>
               )}
             </div>
+            <PlanReports farmId={id} defaultCrop={farm.data.currentCrop} />
             <div className="mt-8 grid md:grid-cols-[1.4fr_1fr] gap-5">
               <div className="rounded-3xl border-2 border-dashed border-input p-6 flex gap-4">
                 <Bot className="h-8 w-8 text-muted-foreground shrink-0" />
                 <div>
                   <div className="flex flex-wrap items-center gap-2"><h2 className="font-display text-2xl text-primary">AI explanation</h2><Tag kind="unassessed">Not operational</Tag></div>
-                  <p className="text-sm text-muted-foreground mt-2 leading-relaxed">No model has been trained and none is running. This space is reserved for a future explanation layer that would cite verified crop requirements and the observations above. Until then, Field Shift generates no explanatory text about your drafts.</p>
+                  <p className="text-sm text-muted-foreground mt-2 leading-relaxed">No model has been trained and none is running. Saved reports come from limited reference-based rules, not AI. Prediction statuses reserved for a future model are not operational.</p>
                 </div>
               </div>
               <div className="rounded-3xl border border-card-border bg-card p-6">

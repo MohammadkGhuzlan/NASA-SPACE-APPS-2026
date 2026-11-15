@@ -5,7 +5,115 @@
  * Field Shift farm intelligence foundation
  * OpenAPI spec version: 0.1.0
  */
+export interface FarmingPlanInput {
+  /** @nullable */
+  plantingDate?: string | null;
+  /**
+     * @maxItems 6
+     * @items.maxLength 100
+     */
+  currentRotation?: string[];
+  /**
+     * @maxItems 12
+     * @items.maxLength 100
+     */
+  previousCrops?: string[];
+  /**
+     * @maxItems 20
+     * @items.maxLength 100
+     */
+  excludedCrops?: string[];
+  /** @maxLength 2000 */
+  operationalLimitations?: string;
+  /**
+     * @minimum 0
+     * @maximum 10000
+     * @nullable
+     */
+  availableSeasonalWaterMm?: number | null;
+}
+
+export interface AgriculturalReference {
+  id: string;
+  title: string;
+  url: string;
+  scope: string;
+  checkedOn: string;
+}
+
+export interface ReferenceCrop {
+  id: string;
+  name: string;
+  group: string;
+  season: string;
+  growingDays: number[];
+  waterMm: number[];
+  droughtSensitivity: string;
+  sourceIds: string[];
+  limitations: string[];
+}
+
+export interface AgriculturalKnowledge {
+  version: string;
+  crops: ReferenceCrop[];
+  references: AgriculturalReference[];
+  limitations: string[];
+}
+
+export interface PlanningFinding {
+  code: string;
+  message: string;
+  sourceIds: string[];
+}
+
 export interface JsonRecord { [key: string]: unknown }
+
+export interface PlanningCandidate {
+  crop: ReferenceCrop;
+  status: string;
+  reasons: PlanningFinding[];
+  risks: PlanningFinding[];
+  calendar: JsonRecord;
+  environmentalContext: JsonRecord;
+}
+
+export interface RotationScenario {
+  slot: string;
+  title: string;
+  crops: string[];
+  status: string;
+  benefits: PlanningFinding[];
+  risks: PlanningFinding[];
+  /** @nullable */
+  waterRequirementMm: number[] | null;
+  schedule: JsonRecord[];
+}
+
+export interface FarmingPlanReport {
+  id: number;
+  farmId: number;
+  createdAt: string;
+  knowledgeVersion: string;
+  engineVersion: string;
+  status: string;
+  modelStatus: string;
+  inputs: JsonRecord;
+  candidates: PlanningCandidate[];
+  scenarios: RotationScenario[];
+  management: PlanningFinding[];
+  missingInformation: string[];
+  warnings: string[];
+  references: AgriculturalReference[];
+  environmentalEvidence: JsonRecord;
+}
+
+export interface FarmingPlanSummary {
+  id: number;
+  farmId: number;
+  createdAt: string;
+  status: string;
+  knowledgeVersion: string;
+}
 
 export interface EnvironmentLocation {
   key: string;

@@ -6,6 +6,8 @@
  * OpenAPI spec version: 0.1.0
  */
 
+export * from './agriculturalKnowledge';
+export * from './agriculturalReference';
 export * from './caseStudy';
 export * from './climateAggregate';
 export * from './climateAggregateValidDays';
@@ -20,6 +22,9 @@ export * from './environmentProvenance';
 export * from './environmentStatus';
 export * from './farm';
 export * from './farmerMeasurement';
+export * from './farmingPlanInput';
+export * from './farmingPlanReport';
+export * from './farmingPlanSummary';
 export * from './farmInput';
 export * from './farmInputGoal';
 export * from './farmInputIrrigation';
@@ -37,9 +42,13 @@ export * from './measurementInputParameter';
 export * from './measurementInputSource';
 export * from './measurementInputUnit';
 export * from './monthlyObservation';
+export * from './planningCandidate';
+export * from './planningFinding';
 export * from './polygon';
 export * from './polygonType';
+export * from './referenceCrop';
 export * from './regionalComparison';
+export * from './rotationScenario';
 export * from './searchLocationsParams';
 export * from './soilEstimate';
 export * from './soilEstimateProperties';

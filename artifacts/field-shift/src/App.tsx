@@ -14,6 +14,7 @@ import Planner from '@/pages/planner';
 import Sources from '@/pages/sources';
 import Explore from '@/pages/environment';
 import Compare from '@/pages/compare';
+import Knowledge from '@/pages/knowledge';
 import { Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
 
 const queryClient = new QueryClient({ defaultOptions: { queries: { retry: 1, refetchOnWindowFocus: false } } });
@@ -25,10 +26,11 @@ function Router() {
       : location === '/select' ? ['Select a farm location', 'Search worldwide, enter coordinates, or draw your field boundary.']
       : location === '/sources' ? ['Sources and limitations', 'Understand the provenance, coverage and limitations of Field Shift data.']
       : location === '/farms/new' ? ['Create a farm profile', 'Add your crop history, soil measurements and water constraints.']
-      : location.endsWith('/planner') ? ['Crop rotation drafts', 'Compare two farmer-authored alternatives without unverified suitability claims.']
+      : location.endsWith('/planner') ? ['Crop rotation drafts', 'Farmer drafts and saved reference-based farming reports. No suitability score or yield prediction.']
       : location.endsWith('/edit') ? ['Edit farm profile', 'Update your farmer-reported field information.']
       : location === '/environment' ? ['Explore a location', 'NASA POWER climate, modeled wetness and soil proxy context for a map selection.']
       : location === '/compare' ? ['Compare study regions', 'Four case-study regions side by side, 2019 to 2025.']
+      : location === '/knowledge' ? ['Reference library', 'Source-linked crop reference facts used by the limited rules engine.']
       : location === '/farms' ? ['My farms', 'Open your saved farms and explore their environmental context.']
       : ['Farm environmental overview', 'View available climate records, provenance and missing-data warnings.'];
     document.title = `${page[0]} | Field Shift`;
@@ -52,6 +54,7 @@ function Router() {
         <Route path="/sources" component={Sources} />
         <Route path="/environment" component={Explore} />
         <Route path="/compare" component={Compare} />
+        <Route path="/knowledge" component={Knowledge} />
         <Route component={NotFound} />
       </Switch>
     </RoutedErrorBoundary>

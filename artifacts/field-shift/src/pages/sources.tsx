@@ -12,7 +12,8 @@ const limits = [
   "Soil properties are SoilGrids 0-5 cm proxies sampled near study regions only. They are demonstration proxies, never substituted across regions.",
   "Climate CSV time standard is unknown while wetness is UTC, so daily comparisons between them may be offset by a day.",
   "Soil moisture, pH and crop history are farmer reported and are not verified.",
-  "Rotation alternatives are farmer drafts. No crop requirement database or assessment engine is in use.",
+  "Manual rotation alternatives remain farmer drafts. Saved farming reports use a limited, versioned set of reference-based rules over six crops (see the reference library). There is no machine-learning model, no suitability score and no yield prediction.",
+  "Cool or warm season labels come from University of Minnesota Extension material and are not a global local-adaptation assessment. A farmer-entered planting date is a scenario assumption, not validated local planting advice.",
   "No AI model has been trained or deployed in this prototype.",
   "Case-study locations are starting points only, not measured farms.",
 ];

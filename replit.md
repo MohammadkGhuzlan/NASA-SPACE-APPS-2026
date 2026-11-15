@@ -36,7 +36,7 @@ _Describe the high-level user-facing capabilities of this app once they exist._
 
 ## User preferences
 
-Never invent NASA measurements, crop recommendations or suitability percentages. No model training at this stage. Missing observations must be explicit, not fabricated.
+Never invent NASA measurements, crop recommendations or suitability percentages. Phase 3 permits explicitly conditional, cited rule-based planning; it does not permit model training or trained-prediction claims. Missing observations must be explicit, not fabricated.
 
 ## Gotchas
 
