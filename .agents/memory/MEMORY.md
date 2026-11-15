@@ -1,1 +1,2 @@
 - [Scientific source boundaries](scientific-source-boundaries.md) — preserve source identity and uncertainty when expanding environmental analyses.
+- [Agricultural intelligence scope](agricultural-intelligence-scope.md) — evidence-based farming decisions are the goal; rules, supervised models and coverage checks are separate stages.
