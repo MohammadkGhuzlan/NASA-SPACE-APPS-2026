@@ -13,11 +13,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ML_WARNING as WARNING, MlJobView } from "@/components/ml-job-view";
 
 const CROPS: { code: ExperimentalPredictionInputCropCode; label: string }[] = [
-  { code: "WHE", label: "Wheat (WHE)" },
-  { code: "BRL", label: "Barley (BRL)" },
-  { code: "MZE", label: "Maize (MZE)" },
-  { code: "RCD", label: "Rice, dryland (RCD)" },
-  { code: "RCW", label: "Rice, wetland (RCW)" },
+  { code: "WHE", label: "Wheat" },
+  { code: "BRL", label: "Barley" },
+  { code: "MZE", label: "Maize" },
+  { code: "RCD", label: "Rice · dryland" },
+  { code: "RCW", label: "Rice · wetland" },
 ];
 const TERMINAL_STOP = new Set([401, 403, 404, 409]);
 const storeKey = (farmId: number, crop: string) => `fieldshift:expml:${farmId}:${crop}`;
@@ -124,10 +124,10 @@ export function ExperimentalMl({ farmId }: { farmId: number }) {
         <li>Wait until each run finishes, then use <span className="font-semibold">Generate and save report</span> below. Completed outputs for this farm location are snapshotted into that new report with their warnings.</li>
       </ol>
       <p className="text-xs text-muted-foreground">Nothing runs automatically: a report only contains model outputs you ran first. Agronomic reference rules still choose the three rotation strategies; the models do not rank rotations.</p>
-      <p className="text-xs text-muted-foreground">Target: historical GAEZ-style suitability, 0–10,000 index points, rain-fed low-input management (LRLM). MAE uses index points; the metrics below describe development validation before the failed geographic-support screen, not final-test or local-farm accuracy.</p>
+      <p className="text-sm text-muted-foreground">This experiment estimates a historical crop-suitability index for rain-fed, low-input conditions. It is not a percentage, yield, probability, or assessment of this farm. The model did not pass scientific acceptance.</p>
       <p role="note" className="rounded-xl bg-[hsl(38_70%_50%/.14)] px-3 py-2 text-sm font-semibold" data-testid="text-experimental-warning">{WARNING}</p>
       <div role="note" className="rounded-xl border border-border bg-secondary/50 px-3 py-2 text-sm" data-testid="text-ml-input-contract">
-        <span className="font-semibold">Inputs used for this test:</span> selected farm coordinates, the chosen crop, authentic 2001–2020 NASA POWER climate, and 0–5 cm ISRIC SoilGrids soil features. “Allow estimated soil inputs” starts on for testing; estimates are source-backed proxies with warnings, not measurements. Farm-entered soil values, crop history, irrigation, and priorities are stored separately and are not model inputs.
+        <span className="font-semibold">Inputs used in this experiment:</span> the selected farm point, chosen crop, observed historical NASA POWER climate data (2001–2020), and topsoil estimates from ISRIC SoilGrids (0–5 cm). SoilGrids values are regional proxies, not measurements at this farm. Farm-entered soil values, crop history, irrigation, and priorities are stored separately and are not inputs to this model.
       </div>
 
       {status.isLoading ? <Skeleton className="h-24 rounded-2xl" />
@@ -141,24 +141,29 @@ export function ExperimentalMl({ farmId }: { farmId: number }) {
           <div className="text-sm" role="status" data-testid="text-experimental-unavailable"><p className="font-semibold">Experimental models are unavailable.</p><p className="text-muted-foreground">{s.reason}</p><p className="text-muted-foreground mt-1">Use Refresh status to check again.</p></div>
         ) : (
           <>
-            <p className="text-sm" data-testid="text-ml-status">{s.productionPredictionsEnabled ? "Unvalidated ML predictions are enabled in the planner." : "ML predictions are currently not enabled."}{" "}{s.scientificallyValidated ? "" : "Scientific acceptance failed: not safe for farming decisions, no calibrated confidence."}</p>
-            <p className="text-xs font-mono text-muted-foreground break-all">{s.reason.replaceAll("_", " ")}</p>
+            <p className="text-sm" data-testid="text-ml-status">{s.productionPredictionsEnabled ? "Experimental predictions are enabled for testing." : "Experimental predictions are not currently enabled."}{" "}{s.scientificallyValidated ? "" : "They are not validated for farming decisions and have no calibrated confidence."}</p>
+            <details className="text-xs" data-testid="details-experimental-availability"><summary className="cursor-pointer text-accent">Availability details</summary><p className="mt-1 font-mono text-muted-foreground break-all">{s.reason.replaceAll("_", " ")}</p></details>
             <div className="grid md:grid-cols-2 gap-3">
               {s.models.map((m) => (
                 <div key={m.cropCode} className="rounded-2xl border border-border p-3 space-y-2" data-testid={`experimental-model-${m.cropCode}`}>
-                  <div className="flex flex-wrap items-center justify-between gap-2"><span className="font-semibold text-sm">{m.name} ({m.cropCode})</span><span className="rounded-full bg-destructive/10 text-destructive px-2 py-0.5 font-mono text-[10.5px] uppercase">{m.validationStatus.replaceAll("_", " ")}</span></div>
-                  <dl className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                    <Kv k="Selected" v={m.selected} /><Kv k="Validation MAE" v={num(m.validationMae)} /><Kv k="Validation R²" v={num(m.validationR2)} />
-                    <Kv k="Mean baseline MAE" v={num(m.meanBaselineMae)} /><Kv k="Median baseline MAE" v={num(m.medianBaselineMae)} /><Kv k="Cells train / valid" v={`${m.trainedCells} / ${m.validationCells}`} />
-                  </dl>
-                  {m.rejectionReasons.length > 0 && <ul className="list-disc pl-5 text-xs space-y-0.5">{m.rejectionReasons.map((r) => <li key={r}>{r.replaceAll("_", " ")}</li>)}</ul>}
-                  <p className="text-xs text-muted-foreground"><span className="font-semibold">Geographic limits:</span> {m.geographicLimitations}</p>
+                  <div className="flex flex-wrap items-center justify-between gap-2"><span className="font-semibold text-sm">{m.name}</span><span className="rounded-full bg-destructive/10 text-destructive px-2 py-0.5 text-[10.5px] font-semibold uppercase">Not validated</span></div>
+                  <details className="text-xs" data-testid={`details-model-metrics-${m.cropCode}`}><summary className="cursor-pointer font-semibold text-accent">Validation metrics and limits</summary>
+                    <p className="mt-2 text-muted-foreground">MAE is the average size of prediction errors, measured in index points. R² describes fit to the development data. These are not local-farm accuracy estimates.</p>
+                    <dl className="mt-2 grid grid-cols-2 sm:grid-cols-3 gap-2">
+                      <Kv k="Model variant" v={m.selected} /><Kv k="Validation MAE" v={num(m.validationMae)} /><Kv k="Validation R²" v={num(m.validationR2)} />
+                      <Kv k="Mean baseline MAE" v={num(m.meanBaselineMae)} /><Kv k="Median baseline MAE" v={num(m.medianBaselineMae)} /><Kv k="Training / validation cells" v={`${m.trainedCells} / ${m.validationCells}`} />
+                    </dl>
+                    <p className="mt-2 text-muted-foreground">These development metrics are not estimates of accuracy for a local farm. The model also failed its geographic-support screen.</p>
+                    {m.rejectionReasons.length > 0 && <ul className="mt-2 list-disc pl-5 space-y-0.5">{m.rejectionReasons.map((reason) => <li key={reason}>{reason.replaceAll("_", " ")}</li>)}</ul>}
+                    <p className="mt-2 text-muted-foreground"><span className="font-semibold">Geographic limits:</span> {m.geographicLimitations}</p>
+                    <p className="mt-2 font-mono text-muted-foreground">Crop code: {m.cropCode} · Validation status: {m.validationStatus.replaceAll("_", " ")}</p>
+                  </details>
                 </div>
               ))}
             </div>
             <div className="grid sm:grid-cols-[1fr_auto] gap-3 items-end">
               <div className="space-y-1.5">
-                <Label htmlFor="exp-crop" className="text-xs uppercase tracking-wider">Crop (explicit selection required)</Label>
+                <Label htmlFor="exp-crop" className="text-xs uppercase tracking-wider">Choose a crop for the test</Label>
                 <select id="exp-crop" value={crop} onChange={(e) => {
                   const v = e.target.value as ExperimentalPredictionInputCropCode | "";
                   if (v) sessionStorage.setItem(cropKey(farmId), v); else sessionStorage.removeItem(cropKey(farmId));

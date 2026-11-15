@@ -39,10 +39,11 @@ function FarmerFacts({ farm }: { farm: Farm }) {
   ];
   return (
     <div className="rounded-3xl border border-card-border bg-card p-6">
-      <div className="flex items-center justify-between"><h2 className="font-display text-2xl text-primary">Profile values</h2><Tag kind="farmer">Legacy profile</Tag></div>
+      <div className="flex flex-wrap items-center justify-between gap-2"><h2 className="font-display text-2xl text-primary">Farm profile</h2><Tag kind="farmer">Farmer reported</Tag></div>
+      <p className="mt-1 text-xs text-muted-foreground">Blank fields are shown as not provided or not measured. Profile values are not independently verified.</p>
       <dl className="mt-4 divide-y divide-border">
         {rows.map(([k, v]) => (
-          <div key={k} className="py-2.5 grid grid-cols-[130px_1fr] gap-3 text-sm">
+          <div key={k} className="py-2.5 grid grid-cols-[minmax(0,7rem)_minmax(0,1fr)] gap-3 text-sm">
             <dt className="text-muted-foreground">{k}</dt><dd className="font-medium break-words">{v}</dd>
           </div>
         ))}

@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Bot, Loader2, Plus, X } from "lucide-react";
 import {
   getListStrategiesQueryKey, useGetFarm, useListStrategies, useSaveStrategy,
-  type Strategy, type StrategyInputSlot,
+  type Farm, type Strategy, type StrategyInputSlot,
 } from "@workspace/api-client-react";
 import { Shell, Tag } from "@/components/shell";
 import { Input } from "@/components/ui/input";
@@ -14,6 +14,60 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { FarmMissing } from "@/pages/farm-overview";
 import { PlanReports } from "@/components/plan-reports";
+import { goalLabel, irrigationLabel } from "@/lib/field";
+
+function FarmContextSummary({ farm }: { farm: Farm }) {
+  const missing = [
+    !farm.cropHistory?.trim() && "Crop history",
+    !farm.soilType?.trim() && "Soil type",
+    farm.soilMoisture == null && "Soil moisture",
+    farm.soilPh == null && "Soil pH",
+    farm.farmSize == null && "Farm size",
+    !farm.waterResources?.trim() && "Water resources",
+    !farm.waterConstraints?.trim() && "Water constraints",
+    !farm.agriculturalConstraints?.trim() && "Other farming constraints",
+  ].filter((value): value is string => typeof value === "string");
+  const checks = [
+    (!farm.waterResources?.trim() || !farm.waterConstraints?.trim())
+      ? "Confirm the water actually available for the season and any limits on its use."
+      : null,
+    (!farm.soilType?.trim() || farm.soilPh == null || farm.soilMoisture == null)
+      ? "If soil condition matters to a choice, use current field-specific information; blank profile fields are not measurements."
+      : null,
+    /rice/i.test(farm.currentCrop)
+      ? "If this is rice, confirm whether it is dryland or wetland rice before comparing rice evidence."
+      : null,
+    "Review crop timing, rotation breaks, equipment, and local conditions with a local extension adviser before making changes.",
+  ].filter((value): value is string => typeof value === "string");
+
+  return (
+    <section className="mb-6 rounded-3xl border border-card-border bg-card p-5 md:p-6" aria-labelledby="farm-context-heading" data-testid="farm-context-summary">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h2 id="farm-context-heading" className="font-display text-2xl text-primary">Farm context</h2>
+        <Tag kind="farmer">Farmer reported</Tag>
+      </div>
+      <p className="mt-1 text-sm text-muted-foreground">This is the information currently in the farm profile. Blank fields stay blank; nothing has been estimated for this summary.</p>
+      <dl className="mt-4 grid gap-x-6 gap-y-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div><dt className="text-xs text-muted-foreground">Current crop</dt><dd className="font-semibold">{farm.currentCrop}</dd></div>
+        <div><dt className="text-xs text-muted-foreground">Rotation history</dt><dd className="font-semibold">{farm.cropHistory?.trim() || "Not provided"}</dd></div>
+        <div><dt className="text-xs text-muted-foreground">Main priority</dt><dd className="font-semibold">{goalLabel[farm.goal] ?? farm.goal}</dd></div>
+        <div><dt className="text-xs text-muted-foreground">Irrigation</dt><dd className="font-semibold">{irrigationLabel[farm.irrigation] ?? farm.irrigation}</dd></div>
+      </dl>
+      <div className="mt-5 grid gap-5 border-t border-border pt-4 md:grid-cols-2">
+        <div>
+          <h3 className="text-sm font-semibold">Important details not in the profile</h3>
+          {missing.length
+            ? <ul className="mt-2 flex flex-wrap gap-2">{missing.map((item) => <li key={item} className="rounded-full bg-muted px-3 py-1 text-xs">{item}: not provided</li>)}</ul>
+            : <p className="mt-2 text-sm text-muted-foreground">No blank profile fields were found. This does not mean the details were independently measured or verified.</p>}
+        </div>
+        <div>
+          <h3 className="text-sm font-semibold">Useful local checks</h3>
+          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-muted-foreground">{checks.map((item) => <li key={item}>{item}</li>)}</ul>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 function DraftEditor({ farmId, slot, label, existing }: { farmId: number; slot: StrategyInputSlot; label: string; existing?: Strategy }) {
   const [name, setName] = useState(existing?.name ?? `Alternative ${label}`);
@@ -90,8 +144,9 @@ export default function Planner() {
             <div className="rise pb-8">
               <Link href={`/farms/${id}`} className="font-mono text-xs uppercase tracking-[0.18em] text-accent hover:underline">{farm.data.name} /</Link>
               <h1 className="font-display text-4xl md:text-6xl text-primary mt-2">Rotation <span className="italic">bench</span></h1>
-              <p className="text-muted-foreground mt-3 max-w-2xl">Sketch two alternatives beside what you grow today. These are your drafts, not recommendations. Separately, the reports section applies limited reference-based rules; unvalidated ML predictions (failed scientific acceptance, not safe for farming decisions) can be run and saved with clear warnings. No yield prediction.</p>
+              <p className="text-muted-foreground mt-3 max-w-2xl">Write two alternatives beside the crop sequence you reported. Your drafts are not scored or assessed. Saved reports show limited source-based checks; experimental model results are separate and not safe for farming decisions.</p>
             </div>
+            <FarmContextSummary farm={farm.data} />
             <div className="grid lg:grid-cols-3 gap-5">
               <div className="rounded-3xl bg-primary text-primary-foreground p-6 furrows flex flex-col gap-4">
                 <div className="flex items-center justify-between"><span className="font-display text-2xl">Today</span><Tag kind="farmer">Reported</Tag></div>

@@ -37,8 +37,17 @@ function classTone(code: number | null | undefined) {
 }
 
 function classText(a: GaezAssessment) {
-  if (a.status !== "available" || a.rawValue == null) return humanize(a.status);
-  return a.category ?? CLASS_LABELS[a.rawValue] ?? FIXED_LABELS[a.rawValue] ?? "Unlisted code";
+  if (a.status !== "available" || a.rawValue == null) {
+    const labels: Record<string, string> = {
+      nodata: "No data",
+      not_land: "Not land",
+      outside_coverage: "Outside coverage",
+      unsupported: "Not assessed",
+      unavailable: "Source unavailable",
+    };
+    return labels[a.status] ?? humanize(a.status);
+  }
+  return a.category?.split(":").pop()?.trim() || CLASS_LABELS[a.rawValue] || FIXED_LABELS[a.rawValue] || "Unlisted class";
 }
 
 function ClassChip({ a, compact }: { a: GaezAssessment; compact?: boolean }) {
@@ -75,7 +84,7 @@ function ClassLegend({ classes }: { classes?: { code: number; label: string }[] 
       <summary className="cursor-pointer font-semibold text-accent">Class definitions</summary>
       <ul className="mt-2 grid grid-cols-2 sm:grid-cols-5 gap-1.5">
         {[...list].sort((a, b) => a.code - b.code).map((c) => (
-          <li key={c.code} className={cn("rounded-lg border px-2 py-1 text-xs", classTone(c.code))}><span className="font-mono mr-1">{c.code}</span>{c.label}</li>
+          <li key={c.code} className={cn("rounded-lg border px-2 py-1 text-xs", classTone(c.code))}><span className="font-mono mr-1">{c.code}</span>{CLASS_LABELS[c.code] ?? FIXED_LABELS[c.code] ?? c.label.split(":").pop()?.trim() ?? c.label}</li>
         ))}
       </ul>
     </details>
@@ -118,7 +127,6 @@ function ResultCard({ a, onRetry, retrying }: { a: GaezAssessment; onRetry?: () 
     <div className={cn("rounded-2xl p-4 md:p-5 space-y-3", ok ? "border border-border" : "border-2 border-dashed border-input furrows")} data-testid="gaez-result" data-status={a.status}>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">{a.cropCode} · {a.scenario}</p>
           <p className="font-display text-2xl text-primary">{a.cropName}</p>
           <p className="text-sm text-muted-foreground">{a.scenarioLabel}</p>
         </div>
@@ -162,11 +170,11 @@ export function GaezEvidence({ farmId, defaultCrop }: { farmId: number; defaultC
     <section className="rounded-3xl border border-card-border bg-card p-5 md:p-6 space-y-5" aria-labelledby="gaez-heading" data-testid="gaez-evidence">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0 max-w-3xl">
-          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">Published FAO evidence · not a Field Shift model</p>
-          <h3 id="gaez-heading" className="font-display text-2xl md:text-3xl text-primary mt-1">FAO GAEZ crop suitability class</h3>
-          <p className="text-sm text-muted-foreground mt-2">Trained AI crop-suitability predictions are not currently available. This assessment uses published FAO data and documented requirements: it reads one GAEZ v5 suitability class (RES05-SIX) for the cell under your farm point.</p>
+          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">Published evidence · separate from experimental models</p>
+          <h3 id="gaez-heading" className="font-display text-2xl md:text-3xl text-primary mt-1">FAO crop suitability classes</h3>
+          <p className="text-sm text-muted-foreground mt-2">GAEZ means Global Agro-Ecological Zones, a published FAO and IIASA assessment. This reads a modeled class for one roughly 10 km grid cell at the farm point; it is not a Field Shift prediction, soil test, harvest result, or farm-wide assessment.</p>
         </div>
-        <Tag kind="observed">FAO GAEZ v5 · 2001–2020</Tag>
+        <Tag kind="observed">Published FAO data · 2001–2020</Tag>
       </div>
 
       {catalog.isLoading ? (
@@ -187,21 +195,21 @@ export function GaezEvidence({ farmId, defaultCrop }: { farmId: number; defaultC
               <select id="gaez-crop" value={crop} onChange={(e) => { setCropPick(e.target.value); assess.reset(); }}
                 className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm" data-testid="gaez-crop">
                 <option value="" disabled>Select a crop</option>
-                {crops.map((c) => <option key={c.code} value={c.code}>{c.name} ({c.code})</option>)}
+                {crops.map((c) => <option key={c.code} value={c.code}>{c.name}</option>)}
               </select>
             </div>
             <div className="space-y-1.5 min-w-0">
               <Label htmlFor="gaez-scenario" className="text-xs uppercase tracking-wider text-muted-foreground">Input and water scenario</Label>
               <select id="gaez-scenario" value={scenario} onChange={(e) => { setScenarioPick(e.target.value); assess.reset(); }}
                 className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm" data-testid="gaez-scenario">
-                {scenarios.map((s) => <option key={s.code} value={s.code}>{s.name} ({s.code})</option>)}
+                {scenarios.map((s) => <option key={s.code} value={s.code}>{s.name}</option>)}
               </select>
             </div>
             <Button type="button" onClick={run} disabled={!crop || !scenario || assess.isPending} className="rounded-full" data-testid="gaez-assess">
               {assess.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}Look up class
             </Button>
           </div>
-          {riceHint && <p className="text-xs text-muted-foreground -mt-2">Your crop is listed as rice. FAO separates dryland rice (RCD) and wetland rice (RCW); choose the type you actually grow.</p>}
+          {riceHint && <p className="text-xs text-muted-foreground -mt-2">Your crop is listed as rice. FAO separates dryland rice and wetland rice; choose the type you actually grow.</p>}
           <p className="text-xs text-muted-foreground -mt-2">Both irrigated low-input and high-input assessments assume irrigation, not water availability at your farm. Your water access, priorities and costs decide what is feasible.</p>
 
           {assess.isPending ? <Skeleton className="h-40 rounded-2xl" />
@@ -219,10 +227,13 @@ export function GaezEvidence({ farmId, defaultCrop }: { farmId: number; defaultC
               </div>
             )}
           <ClassLegend classes={catalog.data.classes} />
-          <ScopeNotes dataset={catalog.data.dataset} />
+          <details className="text-sm" data-testid="details-gaez-class-meaning">
+            <summary className="cursor-pointer font-semibold text-accent">How to read these classes</summary>
+            <div className="mt-2"><ScopeNotes dataset={catalog.data.dataset} /></div>
+          </details>
           <div className="flex flex-wrap items-end justify-between gap-2">
             <Citation dataset={catalog.data.dataset} />
-            <span className="font-mono text-[10.5px] uppercase text-muted-foreground">{catalog.data.dataset.variable} · {catalog.data.cachedLayers} layers cached</span>
+            <details className="text-xs" data-testid="details-gaez-dataset"><summary className="cursor-pointer text-accent">Dataset details</summary><p className="mt-1 text-muted-foreground">{catalog.data.dataset.variable} · {catalog.data.cachedLayers} layers available</p></details>
           </div>
         </>
       )}
@@ -250,12 +261,12 @@ export function GaezReport({ evidence }: { evidence: GaezReportEvidence }) {
     <section className="rounded-3xl border border-card-border bg-card p-5 md:p-6 space-y-5" data-testid="gaez-snapshot" data-status={evidence.status}>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0 max-w-3xl">
-          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">Saved FAO GAEZ snapshot</p>
-          <h3 className="font-display text-2xl text-primary mt-1">Published suitability classes at this point</h3>
-          <p className="text-sm text-muted-foreground mt-2">Recorded {fmt(evidence.generatedAt)}. {available} of {evidence.results.length} crop and scenario lookups returned a class. This is published FAO data, not a Field Shift ML prediction or yield forecast. Compare scenarios within a crop; do not rank crops against each other.</p>
+          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">Saved published evidence snapshot</p>
+          <h3 className="font-display text-2xl text-primary mt-1">FAO comparison at the farm point</h3>
+          <p className="text-sm text-muted-foreground mt-2">Recorded {fmt(evidence.generatedAt)}. {available} of {evidence.results.length} lookups returned a class. These are published modeled results, not a Field Shift prediction, yield forecast, or whole-farm assessment. Compare input scenarios within the same crop; do not rank different crops by class number.</p>
         </div>
         <span className={cn("inline-flex rounded-full border px-2.5 py-0.5 font-mono text-[10.5px] uppercase tracking-wider",
-          evidence.status === "available" ? "bg-secondary border-[hsl(92_20%_70%)] text-secondary-foreground" : "bg-[hsl(38_70%_50%/.14)] text-[hsl(30_60%_30%)] border-[hsl(38_70%_50%/.35)]")}>{humanize(evidence.status)}</span>
+          evidence.status === "available" ? "bg-secondary border-[hsl(92_20%_70%)] text-secondary-foreground" : "bg-[hsl(38_70%_50%/.14)] text-[hsl(30_60%_30%)] border-[hsl(38_70%_50%/.35)]")}>{evidence.status === "available" ? "Classes available" : evidence.status === "partial" ? "Some classes missing" : "No classes available"}</span>
       </div>
       <Warnings items={evidence.warnings} />
 
@@ -267,11 +278,11 @@ export function GaezReport({ evidence }: { evidence: GaezReportEvidence }) {
             <table className="w-full text-sm border-separate border-spacing-0">
               <thead><tr>
                 <th className="text-left text-xs uppercase tracking-wider text-muted-foreground font-normal pb-2 pr-3">Crop</th>
-                {scenOrder.map((s) => <th key={s} className="text-left text-xs text-muted-foreground font-normal pb-2 px-2"><span className="font-mono">{s}</span><span className="block normal-case">{scenLabel[s]}</span></th>)}
+                {scenOrder.map((s) => <th key={s} className="text-left text-xs text-muted-foreground font-normal pb-2 px-2"><span className="block normal-case">{scenLabel[s]}</span></th>)}
               </tr></thead>
               <tbody>{cropOrder.map((c) => (
                 <tr key={c} className="border-t border-border">
-                  <td className="py-2 pr-3 border-t border-border"><span className="font-semibold">{cropName[c]}</span> <span className="font-mono text-[10.5px] text-muted-foreground">{c}</span></td>
+                  <td className="py-2 pr-3 border-t border-border"><span className="font-semibold">{cropName[c]}</span></td>
                   {scenOrder.map((s) => { const a = grid[`${c}|${s}`]; return (
                     <td key={s} className="py-2 px-2 border-t border-border" data-testid={`gaez-cell-${c}-${s}`}>{a ? <ClassChip a={a} compact /> : <span className="text-xs text-muted-foreground">not run</span>}</td>
                   ); })}
@@ -282,7 +293,7 @@ export function GaezReport({ evidence }: { evidence: GaezReportEvidence }) {
           <div className="md:hidden space-y-3">
             {cropOrder.map((c) => (
               <div key={c} className="rounded-2xl border border-border p-3">
-                <p className="font-semibold">{cropName[c]} <span className="font-mono text-[10.5px] text-muted-foreground">{c}</span></p>
+                <p className="font-semibold">{cropName[c]}</p>
                 <ul className="mt-2 space-y-1.5">{scenOrder.map((s) => { const a = grid[`${c}|${s}`]; return (
                   <li key={s} className="flex items-center justify-between gap-2 text-xs"><span className="text-muted-foreground">{scenLabel[s]}</span>{a ? <ClassChip a={a} compact /> : <span className="text-muted-foreground">not run</span>}</li>
                 ); })}</ul>
@@ -294,17 +305,20 @@ export function GaezReport({ evidence }: { evidence: GaezReportEvidence }) {
 
       {evidence.planningNotes.length > 0 && (
         <div><p className="text-xs uppercase tracking-wider text-muted-foreground mb-1.5">Planning notes</p>
-          <ul className="list-disc pl-5 space-y-1 text-sm">{evidence.planningNotes.map((n, i) => <li key={i}>{n}</li>)}</ul></div>
+          <ul className="list-disc pl-5 space-y-1 text-sm">{evidence.planningNotes.map((n, i) => <li key={i}>{n.replaceAll("LRLM", "rain-fed, low-input management").replaceAll("HRLM", "rain-fed, high-input management").replaceAll("LILM", "irrigated, low-input management").replaceAll("HILM", "irrigated, high-input management")}</li>)}</ul></div>
       )}
       <p className="text-sm">Your priorities and irrigation access constrain how these classes apply. An irrigated high-input class is not automatically feasible or preferred. The baseline and two alternatives above remain the planning scenarios.</p>
       <ClassLegend />
-      <ScopeNotes dataset={evidence.dataset} />
-      <details className="text-sm">
-        <summary className="cursor-pointer font-semibold text-accent">Per-lookup provenance ({evidence.results.length})</summary>
+      <details className="text-sm" data-testid="details-gaez-saved-meaning">
+        <summary className="cursor-pointer font-semibold text-accent">Scale, period, soil, and class meaning</summary>
+        <div className="mt-2"><ScopeNotes dataset={evidence.dataset} /></div>
+      </details>
+      <details className="text-sm" data-testid="details-gaez-source-details">
+        <summary className="cursor-pointer font-semibold text-accent">Per-result source and sampling details ({evidence.results.length})</summary>
         <div className="mt-2 grid lg:grid-cols-2 gap-3">{evidence.results.map((a) => <ResultCard key={`${a.cropCode}-${a.scenario}`} a={a} />)}</div>
       </details>
       {Object.keys(ctx).length > 0 && (
-        <details className="text-sm"><summary className="cursor-pointer font-semibold text-accent">Context recorded with this snapshot</summary>
+        <details className="text-sm" data-testid="details-gaez-snapshot-context"><summary className="cursor-pointer font-semibold text-accent">Technical context saved with this snapshot</summary>
           <div className="mt-2 rounded-xl bg-muted/60 p-3"><RecordView record={ctx} /></div></details>
       )}
       <Citation dataset={evidence.dataset} />

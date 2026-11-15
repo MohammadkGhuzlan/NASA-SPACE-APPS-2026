@@ -3,6 +3,14 @@ import { ExternalLink } from "lucide-react";
 import type { AgriculturalReference, PlanningFinding } from "@workspace/api-client-react";
 
 export function humanize(key: string) {
+  const labels: Record<string, string> = {
+    same_botanical_family: "Same plant family",
+    local_rotation_review: "Local rotation review",
+    fao_rainfed_comparator_review: "FAO rain-fed comparison",
+    fao_diversification: "FAO crop diversity reference",
+    usda_nrcs_rotation: "USDA crop rotation reference",
+  };
+  if (labels[key]) return labels[key]!;
   return key
     .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
     .replace(/[_-]+/g, " ")
@@ -53,14 +61,20 @@ export function Findings({ items, refs, tone = "neutral", empty, testid }: { ite
         <li key={`${f.code}-${i}`} className="flex gap-3 text-sm" data-testid={`${testid}-${i}`}>
           <span className={`mt-1.5 h-3 w-1 shrink-0 rounded-full ${bar}`} />
           <div className="min-w-0">
-            <p className="leading-relaxed">{f.message}</p>
-            <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 font-mono text-[10.5px] uppercase tracking-wider text-muted-foreground">
-              <span>{humanize(f.code)}</span>
-              {f.sourceIds.map((sid) => {
-                const r = refs.find((x) => x.id === sid);
-                return r ? <a key={sid} href={r.url} target="_blank" rel="noreferrer" className="text-accent hover:underline" title={r.title}>{sid}</a> : <span key={sid}>{sid}</span>;
-              })}
-            </div>
+            <p className="leading-relaxed">{f.message.replace(/botanical family/gi, "plant family")}</p>
+            {f.code === "same_botanical_family" && <p className="mt-1 text-xs text-muted-foreground">A plant family is a broad grouping of related crops; sharing one does not prove a local pest or disease problem.</p>}
+            {(f.code || f.sourceIds.length > 0) && (
+              <details className="mt-1 text-xs" data-testid={`details-finding-sources-${testid}-${i}`}>
+                <summary className="cursor-pointer text-accent">Rule and sources</summary>
+                <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-muted-foreground">
+                  {f.code && <span>Check: {humanize(f.code)}</span>}
+                  {f.sourceIds.map((sid) => {
+                    const r = refs.find((x) => x.id === sid);
+                    return r ? <a key={sid} href={r.url} target="_blank" rel="noreferrer" className="text-accent hover:underline" title={r.title}>{r.title}</a> : <span key={sid}>{sid}</span>;
+                  })}
+                </div>
+              </details>
+            )}
           </div>
         </li>
       ))}
