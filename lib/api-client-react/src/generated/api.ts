@@ -32,6 +32,7 @@ import type {
   Environment,
   EnvironmentalHistory,
   EnvironmentalSummary,
+  EstimateAdmissionError,
   ExperimentalJob,
   ExperimentalPredictionInput,
   ExperimentalStatus,
@@ -222,7 +223,7 @@ return customFetch<ExperimentalJob>(getRunExperimentalPredictionUrl(id),
 
 export const getRunExperimentalPredictionMutationKey = () => ['runExperimentalPrediction'] as const;
 
-export const getRunExperimentalPredictionMutationOptions = <TError = ErrorType<unknown>,
+export const getRunExperimentalPredictionMutationOptions = <TError = ErrorType<EstimateAdmissionError>,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof runExperimentalPrediction>>, TError,RunExperimentalPredictionMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof runExperimentalPrediction>>, TError,RunExperimentalPredictionMutationVariables, TContext> => {
 
@@ -251,10 +252,10 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
     export type RunExperimentalPredictionMutationResult = NonNullable<Awaited<ReturnType<typeof runExperimentalPrediction>>>
     export type RunExperimentalPredictionMutationBody = BodyType<ExperimentalPredictionInput>
-    export type RunExperimentalPredictionMutationError = ErrorType<unknown>
+    export type RunExperimentalPredictionMutationError = ErrorType<EstimateAdmissionError>
     export type RunExperimentalPredictionMutationVariables = {id: number;data: BodyType<ExperimentalPredictionInput>}
 
-    export const useRunExperimentalPrediction = <TError = ErrorType<unknown>,
+    export const useRunExperimentalPrediction = <TError = ErrorType<EstimateAdmissionError>,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof runExperimentalPrediction>>, TError,RunExperimentalPredictionMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof runExperimentalPrediction>>,

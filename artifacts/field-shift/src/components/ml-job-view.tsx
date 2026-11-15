@@ -75,7 +75,7 @@ function Provenance({ job }: { job: ExperimentalJob }) {
           </div>
         </details>
       )}
-      <p>Climate inputs are authentic 2001–2020 NASA POWER data; no climate was synthesised.</p>
+      <p>{s?.climateRetrieved === true ? "Climate inputs are authentic 2001–2020 NASA POWER data; no climate was synthesised." : "No complete historical climate retrieval was recorded for this run; no climate was synthesised."}</p>
     </div>
   );
 }
@@ -104,7 +104,10 @@ export function MlJobView({ job, saved = false }: { job: ExperimentalJob; saved?
         </div>
       )}
       {(job.status === "missing_inputs" || job.status === "unavailable" || job.status === "interrupted" || (job.status === "experimental_output" && job.value === null)) && (
-        <p className="text-sm font-semibold">No prediction was produced for {cropName(job.cropCode)}.</p>
+        <div className="text-sm space-y-1">
+          <p className="font-semibold">No prediction was produced for {cropName(job.cropCode)}.</p>
+          {job.reasons.map((reason) => <p key={reason}>{reason.replaceAll("_", " ")}</p>)}
+        </div>
       )}
       {job.status !== "preparing" && <Provenance job={job} />}
       {(job.reasons.length > 0 || (job.supportReasons?.length ?? 0) > 0) && <details className="text-sm" data-testid={`details-ml-input-checks-${job.jobId}`}>

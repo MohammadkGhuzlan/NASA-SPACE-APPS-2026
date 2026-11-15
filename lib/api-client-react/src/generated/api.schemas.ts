@@ -23,6 +23,25 @@ export interface ExperimentalPredictionInput {
   allowEstimatedInputs?: boolean;
 }
 
+export type EstimateAdmissionErrorDetailCode = typeof EstimateAdmissionErrorDetailCode[keyof typeof EstimateAdmissionErrorDetailCode];
+
+
+export const EstimateAdmissionErrorDetailCode = {
+  estimate_busy: 'estimate_busy',
+  estimate_cooldown: 'estimate_cooldown',
+} as const;
+
+export type EstimateAdmissionErrorDetail = {
+  code: EstimateAdmissionErrorDetailCode;
+  message: string;
+  /** @minimum 1 */
+  retryAfterSeconds: number;
+};
+
+export interface EstimateAdmissionError {
+  detail: EstimateAdmissionErrorDetail;
+}
+
 export interface ExperimentalModel {
   cropCode: string;
   name: string;

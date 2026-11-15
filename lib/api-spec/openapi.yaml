@@ -28,10 +28,19 @@ paths:
             schema: { $ref: "#/components/schemas/ExperimentalPredictionInput" }
       responses:
         "200":
-          description: Bounded research job or cached actual experimental output; never used by planner
+          description: Owner-scoped unvalidated job or cached experimental output, saved as separate evidence only
           content:
             application/json:
               schema: { $ref: "#/components/schemas/ExperimentalJob" }
+        "429":
+          description: Temporary admission limit, not a source-preparation failure; retry explicitly after the indicated delay
+          headers:
+            Retry-After:
+              schema: { type: integer, minimum: 1 }
+              description: Seconds to wait before an explicit retry
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EstimateAdmissionError" }
   /farms/{id}/experimental-ml/jobs/{jobId}:
     get:
       operationId: getExperimentalJob
@@ -372,6 +381,17 @@ components:
         acknowledgeWarning: { type: boolean, const: true }
         retry: { type: boolean, default: false }
         allowEstimatedInputs: { type: boolean, default: true }
+    EstimateAdmissionError:
+      type: object
+      required: [detail]
+      properties:
+        detail:
+          type: object
+          required: [code, message, retryAfterSeconds]
+          properties:
+            code: { type: string, enum: [estimate_busy, estimate_cooldown] }
+            message: { type: string }
+            retryAfterSeconds: { type: integer, minimum: 1 }
     ExperimentalModel:
       type: object
       required: [cropCode, name, selected, validationMae, validationR2, meanBaselineMae, medianBaselineMae, validationStatus, rejectionReasons, geographicLimitations, trainedCells, validationCells]

@@ -166,7 +166,32 @@ class ExperimentalTests(unittest.TestCase):
                                json={**data, "cropCode": "BRL"})
             self.assertEqual(first.json()["jobId"], again.json()["jobId"])
             self.assertEqual(other.status_code, 429)
+            self.assertEqual(other.json()["detail"]["code"], "estimate_busy")
+            self.assertEqual(other.headers["Retry-After"], "3")
             self.assertEqual(submit.call_count, 1)
+
+    def test_cooldown_is_a_temporary_admission_state_and_expires(self):
+        self.grant()
+        data = {"cropCode": "WHE", "acknowledgeWarning": True}
+        with patch.object(routes, "owned_farm", return_value=self.farm), \
+             patch.object(routes, "status", return_value={"available": True}), \
+             patch.object(routes, "manifest", return_value={"modelVersion": "unit-fixture"}), \
+             patch.object(routes.pool, "submit") as submit, \
+             patch.object(routes.time, "monotonic", return_value=100) as clock:
+            client = self.client()
+            self.assertEqual(client.post("/api/farms/9001/experimental-ml", json=data).status_code, 200)
+            routes.active = None  # First job completed; the owner admission limit still applies.
+            clock.return_value = 112.2
+            blocked = client.post("/api/farms/9001/experimental-ml", json={**data, "cropCode": "BRL"})
+            self.assertEqual(blocked.status_code, 429)
+            self.assertEqual(blocked.json()["detail"]["code"], "estimate_cooldown")
+            self.assertEqual(blocked.json()["detail"]["retryAfterSeconds"], 18)
+            self.assertEqual(blocked.headers["Retry-After"], "18")
+            self.assertEqual(submit.call_count, 1)
+            clock.return_value = 130
+            self.assertEqual(client.post("/api/farms/9001/experimental-ml",
+                                        json={**data, "cropCode": "BRL"}).status_code, 200)
+            self.assertEqual(submit.call_count, 2)
 
     def test_missing_features_not_substituted(self):
         with self.assertRaises((ValueError, KeyError)):

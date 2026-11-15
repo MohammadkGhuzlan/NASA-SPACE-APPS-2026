@@ -6,6 +6,7 @@ from tempfile import TemporaryDirectory
 from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
+import httpx
 
 from backend.experimental import inputs, policy, reporting, routes
 from backend.experimental.models import WARNING
@@ -26,6 +27,12 @@ def prepared():
 
 
 class EstimatedInputTests(unittest.TestCase):
+    def setUp(self):
+        # Software fixtures never request source data or populate the live cache.
+        source = patch.object(inputs, "download", return_value={})
+        source.start()
+        self.addCleanup(source.stop)
+
     def test_strict_native_default_stays_95_percent(self):
         self.assertEqual(inspect.signature(native_soil_mean).parameters["minimum_valid_area"].default, .95)
 
@@ -71,14 +78,46 @@ class EstimatedInputTests(unittest.TestCase):
     def test_invalid_proxy_not_filled_or_predicted(self):
         with patch.object(inputs, "native_soil_mean", side_effect=ValueError("unavailable")), \
                 patch.object(inputs, "nearest_training_soil", return_value=({**SOIL, "ph": None}, {"distanceKm": 1})):
-            with self.assertRaises(ValueError):
-                inputs.allow_soil_estimates(prepared(), Path("/unused"))
+            r = inputs.allow_soil_estimates(prepared(), Path("/unused"))
+        self.assertFalse(r["experimental_usable"])
+        self.assertIsNone(r["model_request"])
+        self.assertEqual(r["operational_refusal"], "verified_soil_proxy_unavailable_or_invalid")
 
     def test_proxy_failure_does_not_produce_fallback_numbers(self):
         with patch.object(inputs, "native_soil_mean", side_effect=ValueError("unavailable")), \
                 patch.object(inputs, "nearest_training_soil", side_effect=ValueError("no verified proxy")):
-            with self.assertRaises(ValueError):
-                inputs.allow_soil_estimates(prepared(), Path("/unused"))
+            r = inputs.allow_soil_estimates(prepared(), Path("/unused"))
+        self.assertFalse(r["experimental_usable"])
+        self.assertIsNone(r["model_request"])
+        self.assertEqual(r["operational_refusal"], "verified_soil_proxy_unavailable_or_invalid")
+
+    def test_http_source_failure_uses_verified_training_proxy(self):
+        error = httpx.ConnectError("fixture source unavailable")
+        with patch.object(inputs, "native_soil_mean", side_effect=error), \
+                patch.object(inputs, "nearest_training_soil", return_value=(
+                    SOIL, {"distanceKm": 20, "sourceCellId": "verified-training-cell"})):
+            r = inputs.allow_soil_estimates(prepared(), Path("/unused"))
+        self.assertTrue(r["experimental_usable"])
+        self.assertEqual(r["soil_estimation"]["sourceCellId"], "verified-training-cell")
+
+    def test_invalid_climate_never_attempts_soil_substitution(self):
+        for change in [{"rain_m01": None}, {"rain_m01": float("nan")}, {"rain_m01": -1}]:
+            with patch.object(inputs, "native_soil_mean") as source, \
+                    patch.object(inputs, "nearest_training_soil") as proxy:
+                r = inputs.allow_soil_estimates(
+                    {**prepared(), "climate_features": {**CLIMATE, **change}}, Path("/unused"))
+            source.assert_not_called()
+            proxy.assert_not_called()
+            self.assertEqual(r["operational_refusal"], "invalid_historical_climate")
+            self.assertIsNone(r["model_request"])
+
+    def test_budget_refusal_does_not_attempt_proxy(self):
+        from backend.machine_learning.budget import BudgetExceeded
+        budget = SimpleNamespace(check=lambda: (_ for _ in ()).throw(BudgetExceeded("fixture")))
+        with patch.object(inputs, "nearest_training_soil") as proxy:
+            r = inputs.allow_soil_estimates(prepared(), Path("/unused"), budget=budget)
+        proxy.assert_not_called()
+        self.assertEqual(r["operational_refusal"], "source_preparation_budget_exceeded")
 
     def test_antimeridian_distance(self):
         self.assertAlmostEqual(inputs.distance_km(0, 179, 0, -179), 222.39, places=1)

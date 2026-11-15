@@ -11,6 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ML_WARNING as WARNING, MlJobView } from "@/components/ml-job-view";
+import { estimateAdmission, secondsUntil } from "@/lib/estimate-admission";
 
 const CROPS: { code: ExperimentalPredictionInputCropCode; label: string }[] = [
   { code: "WHE", label: "Wheat" },
@@ -60,7 +61,17 @@ export function ExperimentalMl({ farmId }: { farmId: number }) {
   const [initial, setInitial] = useState<ExperimentalJob | null>(null);
   const [error, setError] = useState("");
   const [stopped, setStopped] = useState(false);
+  const [wait, setWait] = useState<{ deadline: number; message: string } | null>(null);
+  const [clock, setClock] = useState(Date.now);
+  const waitSeconds = wait ? secondsUntil(wait.deadline, clock) : 0;
   const run = useRunExperimentalPrediction();
+
+  useEffect(() => {
+    if (!wait) return;
+    const timer = window.setInterval(() => setClock(Date.now()), 250);
+    return () => window.clearInterval(timer);
+  }, [wait]);
+  useEffect(() => { setWait(null); }, [farmId]);
 
   // Reset on farm/crop change; rehydrate only the stored jobId for this exact farm+crop.
   useEffect(() => {
@@ -91,13 +102,16 @@ export function ExperimentalMl({ farmId }: { farmId: number }) {
 
   const current = (job.data && job.data.jobId === jobId ? job.data : null) ?? (initial && initial.jobId === jobId ? initial : null);
   const shown = current && current.cropCode === crop ? current : null;
+  const preparing = shown?.status === "preparing";
+  const failed = !!shown && ["missing_inputs", "unavailable", "interrupted"].includes(shown.status);
 
   function submit(retry = false) {
-    if (!crop || !ack) return;
+    if (!crop || !ack || run.isPending || preparing || (wait && secondsUntil(wait.deadline, Date.now()) > 0)) return;
     const forCrop = crop;
     const forFarm = farmId;
     const isActive = () => selection.current.farmId === forFarm && selection.current.crop === forCrop;
     setError("");
+    setWait(null);
     run.mutate({ id: farmId, data: { cropCode: forCrop, acknowledgeWarning: true, allowEstimatedInputs: allowEst, ...(retry ? { retry: true } : {}) } }, {
       onSuccess: (j) => {
         sessionStorage.setItem(storeKey(forFarm, forCrop), j.jobId);
@@ -106,7 +120,16 @@ export function ExperimentalMl({ farmId }: { farmId: number }) {
         if (!isActive()) return;
         setStopped(false); setInitial(j); setJobId(j.jobId);
       },
-      onError: (e) => { if (isActive()) setError(errText(e)); },
+      onError: (e) => {
+        // Admission is per workspace, not crop. Preserve the wait when the
+        // user changes crop while the request is in flight.
+        const admission = estimateAdmission(e);
+        if (admission && selection.current.farmId === forFarm) {
+          const now = Date.now();
+          setClock(now);
+          setWait({ deadline: now + admission.retryAfterSeconds * 1000, message: admission.message });
+        } else if (isActive()) setError(errText(e));
+      },
     });
   }
 
@@ -173,10 +196,14 @@ export function ExperimentalMl({ farmId }: { farmId: number }) {
                   {CROPS.map((c) => <option key={c.code} value={c.code}>{c.label}</option>)}
                 </select>
               </div>
-              <Button type="button" onClick={() => submit(false)} disabled={!crop || !ack || run.isPending} className="rounded-full" data-testid="button-run-experimental">
-                {run.isPending && <Loader2 className="h-4 w-4 animate-spin" />}Run experimental model
+              <Button type="button" onClick={() => submit(failed)} disabled={!crop || !ack || run.isPending || preparing || waitSeconds > 0} className="rounded-full" data-testid="button-run-experimental">
+                {run.isPending && <Loader2 className="h-4 w-4 animate-spin" />}{waitSeconds > 0 ? `Retry in ${waitSeconds}s` : preparing ? "Estimate running" : failed ? "Retry experimental model" : "Run experimental model"}
               </Button>
             </div>
+            {wait && <div role="status" className="rounded-xl border border-border bg-secondary/60 px-3 py-2 text-sm" data-testid="text-estimate-admission">
+              <p>{wait.message}</p>
+              <p className="font-semibold">{waitSeconds > 0 ? `Retry in ${waitSeconds} second${waitSeconds === 1 ? "" : "s"}.` : "You can retry now. No run has been started automatically."}</p>
+            </div>}
             <div className="flex items-start gap-2">
               <Checkbox id="exp-ack" checked={ack} onCheckedChange={(v) => setAck(v === true)} disabled={!crop} data-testid="checkbox-experimental-ack" />
               <Label htmlFor="exp-ack" className="text-sm font-normal leading-snug">I understand this model failed validation and its output must not be used for real farming decisions.</Label>
@@ -188,11 +215,12 @@ export function ExperimentalMl({ farmId }: { farmId: number }) {
             {error && (
               <div role="alert" className="rounded-xl bg-destructive/10 text-destructive px-3 py-2 text-sm flex flex-wrap items-center justify-between gap-2" data-testid="text-experimental-error">
                 <span>{error}</span>
-                {crop && ack && <Button type="button" size="sm" variant="outline" className="rounded-full" onClick={() => submit(true)} disabled={run.isPending} data-testid="button-retry-experimental">Retry</Button>}
+                {crop && ack && <Button type="button" size="sm" variant="outline" className="rounded-full" onClick={() => submit(true)} disabled={run.isPending || preparing || waitSeconds > 0} data-testid="button-retry-experimental">Retry</Button>}
               </div>
             )}
             {shown && <MlJobView job={shown} />}
-            {shown && shown.status === "interrupted" && ack && <Button type="button" size="sm" variant="outline" className="rounded-full" onClick={() => submit(true)} disabled={run.isPending} data-testid="button-rerun-experimental">Retry interrupted job</Button>}
+            {shown && shown.allowEstimatedInputs !== allowEst && <p className="text-sm text-muted-foreground" data-testid="text-estimate-inputs-changed">The displayed run used a different estimated-soil setting. Run again to apply the current setting; the previous result has not been changed.</p>}
+            {failed && ack && <Button type="button" size="sm" variant="outline" className="rounded-full" onClick={() => submit(true)} disabled={run.isPending || waitSeconds > 0} data-testid="button-rerun-experimental">Retry with current input settings</Button>}
           </>
         )}
     </section>

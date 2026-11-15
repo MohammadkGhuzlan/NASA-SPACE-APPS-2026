@@ -1,6 +1,7 @@
 """Bounded, owner-scoped unvalidated inference in the normal planner."""
 from concurrent.futures import ThreadPoolExecutor
 import logging
+import math
 import os
 import re
 import subprocess
@@ -27,6 +28,15 @@ pool = ThreadPoolExecutor(max_workers=1, thread_name_prefix="experimental-ml")
 lock = threading.Lock()
 active = None
 recent = {}
+
+INPUT_REFUSALS = {
+    "missing_historical_climate": "Authentic, complete 2001–2020 NASA POWER climate is unavailable. No estimate was produced; climate is never fabricated.",
+    "invalid_historical_climate": "Historical climate features failed completeness or validity checks. No estimate was produced.",
+    "estimated_soil_disabled": "Local SoilGrids inputs do not meet the original 95% coverage contract. Enable estimated soil inputs and run again to try approved source-backed proxies.",
+    "unsupported_source_location": "This location could not be mapped to the source grid. No estimate was produced.",
+    "verified_soil_proxy_unavailable_or_invalid": "Neither eligible partial local SoilGrids coverage nor a valid verified training-cell soil proxy was available. No estimate was produced.",
+    "source_preparation_budget_exceeded": "Source preparation reached its time or cache-size limit. No estimate was produced. Retry can reuse verified cached sources.",
+}
 
 
 class ExperimentalInput(BaseModel):
@@ -108,7 +118,8 @@ def run_job(path, record, latitude, longitude, crop):
                            else "ISRIC SoilGrids native mean"),
             "soilDepthCm": [0, 5], "scenario": "LRLM", "compatible": prep["compatible"],
             "estimatedInputs": prep.get("estimated_inputs", False),
-            "soilEstimation": prep.get("soil_estimation"),
+            "soilEstimation": public_sources(prep.get("soil_estimation")),
+            "operationalRefusal": prep.get("operational_refusal"),
             "originalInputRefusals": [r for r in prep.get("reasons", []) if r.startswith("ValueError:Soil_")],
             "experimentalUsable": prep.get("experimental_usable", prep["compatible"]),
             "climateRetrieved": bool(prep.get("climate_features"))}
@@ -116,13 +127,17 @@ def run_job(path, record, latitude, longitude, crop):
             reasons = prep.get("reasons", [])
             # Only explicitly safe scientific refusal details leave the server.
             safe = [r for r in reasons if r.startswith("ValueError:Soil_")]
-            record.update(status="missing_inputs", reasons=["Required authentic historical climate and native soil features are incomplete.", *safe])
+            code = prep.get("operational_refusal")
+            reason = INPUT_REFUSALS.get(code, "Required authentic historical climate or eligible source-backed soil inputs are incomplete. No estimate was produced.")
+            record.update(status="missing_inputs", reasons=[reason, *safe])
         else:
             request = prep["model_request"]
             output = infer(request["features"], request["latitude"], request["longitude"])
             output.setdefault("warnings", []).extend(prep.get("input_warnings", []))
             output["inputQuality"] = "estimated_soil" if prep.get("estimated_inputs") else "original_inputs"
             record.update(status="experimental_output", **output, reasons=[])
+    except subprocess.TimeoutExpired:
+        record.update(status="unavailable", reasons=["Source preparation timed out. No estimate was produced. Retry can reuse verified cached sources."])
     except Exception:
         logger.exception("Experimental inference job failed; output withheld")
         record.update(status="unavailable", reasons=["Experimental artifact or input preparation failed; no prediction was fabricated."])
@@ -160,10 +175,16 @@ def experimental_prediction(id: int, data: ExperimentalInput, request: Request, 
         if active is not None:
             if prior and active == fingerprint:
                 return public_job(prior)
-            raise HTTPException(429, "Another experimental lookup is running. Please wait.")
+            raise HTTPException(429, {"code": "estimate_busy", "retryAfterSeconds": 3,
+                                     "message": "Another estimate is still running. Wait for it to finish, then retry."},
+                                headers={"Retry-After": "3"})
         key = owner_hash(farm.owner)
-        if time.monotonic() - recent.get(key, -1e9) < 30:
-            raise HTTPException(429, "Wait 30 seconds before starting another experimental lookup.")
+        remaining = 30 - (time.monotonic() - recent.get(key, -1e9))
+        if remaining > 0:
+            seconds = math.ceil(remaining)
+            raise HTTPException(429, {"code": "estimate_cooldown", "retryAfterSeconds": seconds,
+                                     "message": "The 30-second run cooldown is active. Your source inputs have not failed."},
+                                headers={"Retry-After": str(seconds)})
         # Bound the admission ledger; it contains no scientific inputs.
         if len(recent) >= 256:
             cutoff = time.monotonic()-30
